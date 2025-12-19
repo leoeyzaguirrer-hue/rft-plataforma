@@ -1,15 +1,14 @@
 // ============================================
-// RED RELACIONAL ANIMADA (CANVAS)
+// RED RELACIONAL MEJORADA - MÁS VISIBLE
 // ============================================
 
-class NetworkAnimation {
+class EnhancedNetwork {
     constructor() {
         this.canvas = document.getElementById('networkCanvas');
         this.ctx = this.canvas.getContext('2d');
         this.nodes = [];
-        this.connections = [];
         this.mouse = { x: null, y: null };
-        this.numNodes = 40;
+        this.numNodes = 50; // Más nodos
         
         this.colors = {
             azulOscuro: '#0A3D5C',
@@ -39,10 +38,10 @@ class NetworkAnimation {
             this.nodes.push({
                 x: Math.random() * this.canvas.width,
                 y: Math.random() * this.canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                radius: Math.random() * 3 + 2,
-                isHighlight: Math.random() > 0.85 // 15% serán amarillos
+                vx: (Math.random() - 0.5) * 0.8,
+                vy: (Math.random() - 0.5) * 0.8,
+                radius: Math.random() * 5 + 3, // Más grandes (3-8px)
+                isHighlight: Math.random() > 0.7 // 30% amarillos
             });
         }
     }
@@ -52,35 +51,35 @@ class NetworkAnimation {
             this.ctx.beginPath();
             this.ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
             
-            // Gradiente para los nodos
+            // Gradiente más intenso
             const gradient = this.ctx.createRadialGradient(
                 node.x, node.y, 0,
-                node.x, node.y, node.radius
+                node.x, node.y, node.radius * 2
             );
             
             if (node.isHighlight) {
                 gradient.addColorStop(0, this.colors.amarillo);
-                gradient.addColorStop(1, 'rgba(255, 193, 7, 0.1)');
+                gradient.addColorStop(1, 'rgba(255, 193, 7, 0)');
+                
+                // Glow amarillo intenso
+                this.ctx.shadowBlur = 30;
+                this.ctx.shadowColor = this.colors.amarillo;
             } else {
-                gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
-                gradient.addColorStop(1, 'rgba(255, 255, 255, 0.1)');
+                gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                
+                this.ctx.shadowBlur = 15;
+                this.ctx.shadowColor = this.colors.blanco;
             }
             
             this.ctx.fillStyle = gradient;
             this.ctx.fill();
-
-            // Glow effect para nodos destacados
-            if (node.isHighlight) {
-                this.ctx.shadowBlur = 20;
-                this.ctx.shadowColor = this.colors.amarillo;
-                this.ctx.fill();
-                this.ctx.shadowBlur = 0;
-            }
+            this.ctx.shadowBlur = 0;
         });
     }
 
     drawConnections() {
-        const maxDistance = 150;
+        const maxDistance = 180; // Más conexiones
         
         for (let i = 0; i < this.nodes.length; i++) {
             for (let j = i + 1; j < this.nodes.length; j++) {
@@ -89,19 +88,19 @@ class NetworkAnimation {
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 
                 if (distance < maxDistance) {
-                    const opacity = (1 - distance / maxDistance) * 0.3;
+                    const opacity = (1 - distance / maxDistance) * 0.6; // Más visible
                     
                     this.ctx.beginPath();
                     this.ctx.moveTo(this.nodes[i].x, this.nodes[i].y);
                     this.ctx.lineTo(this.nodes[j].x, this.nodes[j].y);
                     
-                    // Si alguno de los nodos es highlight, la línea será amarilla
+                    // Líneas más gruesas
                     if (this.nodes[i].isHighlight || this.nodes[j].isHighlight) {
-                        this.ctx.strokeStyle = `rgba(255, 193, 7, ${opacity * 0.8})`;
-                        this.ctx.lineWidth = 1.5;
+                        this.ctx.strokeStyle = `rgba(255, 193, 7, ${opacity})`;
+                        this.ctx.lineWidth = 2.5;
                     } else {
-                        this.ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
-                        this.ctx.lineWidth = 1;
+                        this.ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.8})`;
+                        this.ctx.lineWidth = 1.5;
                     }
                     
                     this.ctx.stroke();
@@ -121,7 +120,7 @@ class NetworkAnimation {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < maxDistance) {
-                const opacity = (1 - distance / maxDistance) * 0.5;
+                const opacity = (1 - distance / maxDistance) * 0.6;
 
                 this.ctx.beginPath();
                 this.ctx.moveTo(node.x, node.y);
@@ -173,7 +172,6 @@ class NetworkAnimation {
             this.resizeCanvas();
         });
 
-        // Limpiar mouse cuando sale de la ventana
         document.addEventListener('mouseleave', () => {
             this.mouse.x = null;
             this.mouse.y = null;
@@ -232,8 +230,8 @@ function setupModuleClicks() {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar red de conexiones
-    new NetworkAnimation();
+    // Inicializar red de conexiones mejorada
+    new EnhancedNetwork();
     
     // Observar cards para animación
     observeModuleCards();
