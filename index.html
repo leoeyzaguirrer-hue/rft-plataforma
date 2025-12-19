@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teoría del Marco Relacional - Plataforma de Aprendizaje</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Red de conexiones de fondo -->
+    <canvas id="networkCanvas"></canvas>
+    
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Header con logo -->
+        <header class="main-header">
+            <div class="logo-container">
+                <img src="logo.png" alt="Leo Eyzaguirre" class="logo">
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="main-title">
+                    <span class="title-line">Teoría del</span>
+                    <span class="title-line highlight">Marco Relacional</span>
+                </h1>
+                <p class="subtitle">Un viaje al corazón del lenguaje y la cognición humana</p>
+                <button class="cta-button" onclick="scrollToModules()">
+                    <span>Comenzar Aprendizaje</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- Módulos Section -->
+        <section class="modules-section" id="modules">
+            <h2 class="section-title">Explora los Módulos</h2>
+            <div class="modules-grid">
+                <!-- Bloque 1: Fundamentos -->
+                <div class="module-block">
+                    <h3 class="block-title">Fundamentos</h3>
+                    <div class="module-card" data-module="1">
+                        <div class="module-number">01</div>
+                        <h4 class="module-title">Fundamentos Filosóficos</h4>
+                        <p class="module-description">Bases epistemológicas del contextualismo funcional</p>
+                    </div>
+                    <div class="module-card" data-module="2">
+                        <div class="module-number">02</div>
+                        <h4 class="module-title">Equivalencia de Estímulos</h4>
+                        <p class="module-description">Del Conductismo Radical a la RFT</p>
+                    </div>
+                    <div class="module-card" data-module="3">
+                        <div class="module-number">03</div>
+                        <h4 class="module-title">Propiedades de las RRAA</h4>
+                        <p class="module-description">Relaciones de Arbitrariamente Aplicables</p>
+                    </div>
+                </div>
+
+                <!-- Bloque 2: Teoría Central -->
+                <div class="module-block">
+                    <h3 class="block-title">Teoría Central</h3>
+                    <div class="module-card" data-module="4">
+                        <div class="module-number">04</div>
+                        <h4 class="module-title">Control Contextual</h4>
+                        <p class="module-description">Funciones de estímulo y contexto</p>
+                    </div>
+                    <div class="module-card" data-module="5">
+                        <div class="module-number">05</div>
+                        <h4 class="module-title">Reglas Verbales</h4>
+                        <p class="module-description">Pliance, Tracking y Augmenting</p>
+                    </div>
+                    <div class="module-card" data-module="6">
+                        <div class="module-number">06</div>
+                        <h4 class="module-title">Selfing y Perspectiva</h4>
+                        <p class="module-description">El self como repertorio relacional</p>
+                    </div>
+                </div>
+
+                <!-- Bloque 3: Aplicación Clínica -->
+                <div class="module-block">
+                    <h3 class="block-title">Aplicación Clínica</h3>
+                    <div class="module-card" data-module="7">
+                        <div class="module-number">07</div>
+                        <h4 class="module-title">Flexibilidad Psicológica</h4>
+                        <p class="module-description">Los 3 pasos fundamentales</p>
+                    </div>
+                    <div class="module-card" data-module="8">
+                        <div class="module-number">08</div>
+                        <h4 class="module-title">Aplicación en Terapia</h4>
+                        <p class="module-description">De la teoría a la práctica clínica</p>
+                    </div>
+                    <div class="module-card" data-module="9">
+                        <div class="module-number">09</div>
+                        <h4 class="module-title">Metáforas y Analogías</h4>
+                        <p class="module-description">Herramientas relacionales en ACT</p>
+                    </div>
+                </div>
+
+                <!-- Bloque 4: Práctica -->
+                <div class="module-block">
+                    <h3 class="block-title">Práctica</h3>
+                    <div class="module-card" data-module="10">
+                        <div class="module-number">10</div>
+                        <h4 class="module-title">Laboratorio Virtual</h4>
+                        <p class="module-description">Ejercicios prácticos interactivos</p>
+                    </div>
+                    <div class="module-card" data-module="11">
+                        <div class="module-number">11</div>
+                        <h4 class="module-title">Recursos Complementarios</h4>
+                        <p class="module-description">Lecturas y materiales adicionales</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p>© 2024 Leo Eyzaguirre - Psicoterapeuta | Plataforma RFT</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
