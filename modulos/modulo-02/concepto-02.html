@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concepto 2: Propiedades Formales | Módulo 2 - RFT</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="concepto-01.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="modulo-equivalencia">
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="lab-container">
+        
+        <header class="lab-header">
+            <button class="btn-back" onclick="window.location.href='concepto-01.html'">← Volver a Concepto 1</button>
+            <div class="lab-info">
+                <span class="modulo-badge">🔬 Módulo 2: Equivalencia de Estímulos</span>
+                <h1>Concepto 2: Propiedades Formales</h1>
+            </div>
+            <div class="contador-global">
+                <span class="contador-label">Casos:</span>
+                <span class="contador-numero" id="casoActual">0</span>
+                <span class="contador-label">/12</span>
+            </div>
+        </header>
+
+        <!-- BLOQUE 1: Reflexividad -->
+        <section class="teoria-seccion activa" id="teoria1">
+            <div class="teoria-card">
+                <div class="teoria-numero">1</div>
+                <h2 class="teoria-titulo">🔄 Reflexividad: A = A</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        La <strong>reflexividad</strong> es la propiedad más básica de la equivalencia: 
+                        cada estímulo es equivalente a sí mismo. Parece obvio, pero es fundamental. 
+                        Sin reflexividad, no podríamos reconocer que diferentes presentaciones del 
+                        mismo estímulo son, de hecho, el mismo estímulo.
+                    </p>
+                    
+                    <p>
+                        En términos conductuales, la reflexividad se demuestra cuando un organismo 
+                        puede emparejar un estímulo consigo mismo sin entrenamiento explícito. Por 
+                        ejemplo, cuando un niño ve su nombre escrito en diferentes tipografías y 
+                        reconoce que todas son "su nombre", está demostrando reflexividad.
+                    </p>
+                    
+                    <p>
+                        La reflexividad es la base de la <strong>identidad</strong> y el 
+                        <strong>auto-reconocimiento</strong>. En contextos clínicos, problemas con 
+                        la reflexividad pueden manifestarse como dificultades para reconocer que 
+                        diferentes versiones de uno mismo (pasado, presente, futuro) son la misma 
+                        persona.
+                    </p>
+                    
+                    <p>
+                        Aunque parezca simple, la reflexividad no es automática en todas las especies. 
+                        Se requiere un nivel de desarrollo cognitivo que permite la abstracción y 
+                        generalización necesarias para reconocer identidad a través de variaciones 
+                        en la forma.
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="irATeoria(2)">
+                    Continuar a Simetría →
+                </button>
+            </div>
+        </section>
+
+        <!-- BLOQUE 2: Simetría -->
+        <section class="teoria-seccion" id="teoria2">
+            <div class="teoria-card">
+                <div class="teoria-numero">2</div>
+                <h2 class="teoria-titulo">🔁 Simetría: Si A = B, entonces B = A</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        La <strong>simetría</strong> es la propiedad que hace que las relaciones sean 
+                        bidireccionales automáticamente. Si entrenamos A→B, emerge B→A sin 
+                        entrenamiento adicional. Esta es una característica única del comportamiento 
+                        simbólico humano que NO ocurre en el condicionamiento pavloviano simple.
+                    </p>
+                    
+                    <p>
+                        En el condicionamiento clásico, si un perro aprende que campana→comida, no 
+                        emerge automáticamente comida→campana. Sin embargo, en humanos verbales, si 
+                        aprendemos que la palabra "perro"→imagen de perro, automáticamente emerge 
+                        imagen→palabra "perro". Esto es simetría.
+                    </p>
+                    
+                    <p>
+                        La simetría explica por qué las <strong>palabras funcionan bidireccionalmente</strong>. 
+                        No solo el nombre evoca la cosa, sino que la cosa evoca el nombre. Esto es 
+                        crucial en terapia: si un cliente asocia "situación social"→ansiedad, también 
+                        emergerá ansiedad→"situación social" (pensar en la situación produce ansiedad).
+                    </p>
+                    
+                    <p>
+                        En contextos clínicos, la simetría explica cómo las palabras adquieren 
+                        funciones emocionales. Si trauma→miedo, entonces hablar del trauma→miedo. 
+                        Esto fundamenta técnicas como la defusión cognitiva en ACT: romper la simetría 
+                        entre palabra y referente.
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="irATeoria(3)">
+                    Continuar a Transitividad →
+                </button>
+            </div>
+        </section>
+
+        <!-- BLOQUE 3: Transitividad -->
+        <section class="teoria-seccion" id="teoria3">
+            <div class="teoria-card">
+                <div class="teoria-numero">3</div>
+                <h2 class="teoria-titulo">🔗 Transitividad: Si A = B y B = C, entonces A = C</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        La <strong>transitividad</strong> es la propiedad que permite la derivación 
+                        de relaciones indirectas. Si A=B y B=C, entonces emerge A=C sin entrenamiento 
+                        directo. Esta es la propiedad más poderosa porque permite la <strong>expansión 
+                        exponencial del repertorio</strong> con entrenamiento mínimo.
+                    </p>
+                    
+                    <p>
+                        En educación, la transitividad es revolucionaria: enseñas letra→sonido y 
+                        sonido→palabra, y el niño deriva letra→palabra sin entrenamiento adicional. 
+                        Esto explica cómo los niños aprenden a leer miles de palabras entrenando solo 
+                        relaciones básicas. <strong>Enseñar poco, derivar mucho</strong>.
+                    </p>
+                    
+                    <p>
+                        En contextos clínicos, la transitividad explica la <strong>transferencia de 
+                        funciones a través de cadenas</strong>. Si "araña"→imagen de araña→miedo, 
+                        entonces "araña"→miedo, aunque nunca hayamos tenido contacto directo con 
+                        una araña real. Las fobias pueden desarrollarse completamente a través de 
+                        lenguaje vía transitividad.
+                    </p>
+                    
+                    <p>
+                        La transitividad es la base del razonamiento, la generalización y la 
+                        resolución de problemas. Permite conectar información de diferentes fuentes 
+                        para generar conclusiones nuevas. Sin transitividad, cada relación tendría 
+                        que ser entrenada explícitamente, haciendo imposible el aprendizaje complejo.
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="iniciarEjercicio()">
+                    Iniciar ejercicio: Detective de Propiedades →
+                </button>
+            </div>
+        </section>
+
+        <!-- EJERCICIO: Detective de Propiedades -->
+        <section class="teoria-seccion" id="ejercicio">
+            <div class="ejercicio-card">
+                <h2 class="ejercicio-titulo">🔍 Detective de Propiedades</h2>
+                <p class="ejercicio-descripcion">
+                    Lee cada escenario e identifica qué propiedad de la equivalencia se está demostrando.
+                </p>
+                
+                <div class="progreso-ejercicio">
+                    <div class="progreso-barra">
+                        <div class="progreso-fill" id="progresoFill"></div>
+                    </div>
+                    <div class="progreso-info">
+                        <span>Caso <strong id="casoNumero">1</strong> de 12</span>
+                        <span>Aciertos: <strong id="aciertos">0</strong>/12 (<strong id="porcentaje">0</strong>%)</span>
+                    </div>
+                </div>
+
+                <div class="caso-card" id="casoCard">
+                    <div class="caso-escenario" id="casoEscenario"></div>
+                    
+                    <div class="caso-pregunta">¿Qué propiedad se demostró?</div>
+                    
+                    <div class="caso-opciones" id="casoOpciones"></div>
+                    
+                    <div class="caso-feedback" id="casoFeedback"></div>
+                </div>
+
+                <div class="resultado-final" id="resultadoFinal" style="display: none;">
+                    <h3>🎉 Ejercicio Completado</h3>
+                    <div class="resultado-stats">
+                        <div class="resultado-stat">
+                            <span class="resultado-numero" id="finalAciertos">0</span>
+                            <span class="resultado-label">Aciertos</span>
+                        </div>
+                        <div class="resultado-stat">
+                            <span class="resultado-numero" id="finalPorcentaje">0</span>
+                            <span class="resultado-label">% Correcto</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resultado-mensaje" id="resultadoMensaje"></div>
+                    
+                    <div class="resultado-acciones">
+                        <button class="btn-lab-secondary" onclick="reiniciarEjercicio()">🔄 Repetir ejercicio</button>
+                        <button class="btn-lab-primary" onclick="window.location.href='concepto-03.html'">Continuar al Concepto 3 →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="concepto-02.js"></script>
+</body>
+</html>
