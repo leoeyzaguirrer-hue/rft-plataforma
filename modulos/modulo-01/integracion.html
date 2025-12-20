@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integración Final | Módulo 1 - RFT</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="concepto-01.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="modulo-filosofia">
+    <!-- Fondo animado de partículas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Contenedor principal -->
+    <div class="concepto-container">
+        
+        <!-- Header con navegación -->
+        <header class="concepto-header">
+            <button class="btn-back" onclick="window.location.href='../../index.html'">
+                ← Volver al inicio
+            </button>
+            <div class="concepto-info">
+                <span class="modulo-badge">📚 Módulo 1: Fundamentos Filosóficos</span>
+                <h1 class="concepto-numero">🎯 Integración Final</h1>
+            </div>
+            <div class="progreso-badge">
+                <span class="progreso-texto">Progreso del Módulo</span>
+                <div class="progreso-bar">
+                    <div class="progreso-fill" style="width: 80%"></div>
+                </div>
+                <span class="progreso-numeros">4/5 completados</span>
+            </div>
+        </header>
+
+        <!-- Pantalla de inicio -->
+        <div class="integracion-inicio" id="integracionInicio">
+            <div class="inicio-card">
+                <div class="inicio-header">
+                    <h2>🎭 Caso Clínico Interactivo</h2>
+                    <p class="inicio-subtitle">Aplica todo lo aprendido en un caso real</p>
+                </div>
+                
+                <div class="inicio-contenido">
+                    <div class="inicio-seccion">
+                        <h3>📋 Sobre este ejercicio:</h3>
+                        <p>Vas a ser el terapeuta de <strong>Valentina</strong>, una consultante de 28 años con ansiedad social y evitación. A lo largo de la sesión, tomarás <strong>12 decisiones terapéuticas</strong> que pondrán a prueba tu comprensión de los fundamentos filosóficos de RFT.</p>
+                    </div>
+
+                    <div class="inicio-seccion">
+                        <h3>🎯 Qué evaluaremos:</h3>
+                        <div class="conceptos-grid">
+                            <div class="concepto-badge">
+                                <span class="concepto-emoji">🏛️</span>
+                                <span class="concepto-nombre">Cosmovisiones</span>
+                            </div>
+                            <div class="concepto-badge">
+                                <span class="concepto-emoji">🔗</span>
+                                <span class="concepto-nombre">Ontología Relacional</span>
+                            </div>
+                            <div class="concepto-badge">
+                                <span class="concepto-emoji">⚖️</span>
+                                <span class="concepto-nombre">Criterio Pragmático</span>
+                            </div>
+                            <div class="concepto-badge">
+                                <span class="concepto-emoji">🔬</span>
+                                <span class="concepto-nombre">Análisis Funcional</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="inicio-seccion">
+                        <h3>⚡ Sistema de puntuación:</h3>
+                        <div class="puntuacion-info">
+                            <div class="punto-tipo optima">
+                                <div class="punto-icono">✅</div>
+                                <div class="punto-texto">
+                                    <strong>Óptima (CF puro)</strong>
+                                    <span>10 puntos</span>
+                                </div>
+                            </div>
+                            <div class="punto-tipo aceptable">
+                                <div class="punto-icono">⭐</div>
+                                <div class="punto-texto">
+                                    <strong>Aceptable</strong>
+                                    <span>5 puntos</span>
+                                </div>
+                            </div>
+                            <div class="punto-tipo problematica">
+                                <div class="punto-icono">❌</div>
+                                <div class="punto-texto">
+                                    <strong>Problemática</strong>
+                                    <span>0 puntos</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="puntuacion-total">Puntuación máxima: <strong>120 puntos</strong></p>
+                    </div>
+
+                    <div class="inicio-seccion">
+                        <h3>🏆 Resultados posibles:</h3>
+                        <ul class="resultados-lista">
+                            <li><strong>100-120 puntos:</strong> Excelente - Cliente hace cambios significativos 🏆</li>
+                            <li><strong>80-99 puntos:</strong> Bueno - Cliente mejora moderadamente ⭐</li>
+                            <li><strong>0-79 puntos:</strong> Mejorable - Cliente estancado o abandona 📚</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button class="btn-comenzar" id="btnComenzar">
+                    Comenzar caso clínico →
+                </button>
+            </div>
+        </div>
+
+        <!-- Contenido principal - Caso interactivo -->
+        <main class="caso-interactivo" id="casoInteractivo" style="display: none;">
+            
+            <!-- COLUMNA IZQUIERDA: NARRATIVA DEL CASO -->
+            <section class="narrativa-panel">
+                
+                <!-- Info del cliente -->
+                <div class="cliente-info">
+                    <div class="cliente-avatar">👩</div>
+                    <div class="cliente-datos">
+                        <h3>Valentina, 28 años</h3>
+                        <p>Ingeniera de software | Soltera | Primera sesión</p>
+                    </div>
+                    <div class="cliente-estado" id="clienteEstado">
+                        <span class="estado-emoji">😟</span>
+                        <span class="estado-texto">Ansiosa</span>
+                    </div>
+                </div>
+
+                <!-- Progreso de la sesión -->
+                <div class="sesion-progreso">
+                    <div class="progreso-header">
+                        <span>Decisión <strong id="decisionActual">1</strong> de <strong>12</strong></span>
+                        <span class="puntos-actuales">Puntos: <strong id="puntosActuales">0</strong>/120</span>
+                    </div>
+                    <div class="progreso-barra-sesion">
+                        <div class="progreso-fill-sesion" id="progresoSesion"></div>
+                    </div>
+                    <div class="coherencia-cf">
+                        <span class="coherencia-label">Coherencia CF:</span>
+                        <div class="coherencia-medidor">
+                            <div class="coherencia-fill" id="coherenciaFill"></div>
+                        </div>
+                        <span class="coherencia-valor" id="coherenciaValor">0%</span>
+                    </div>
+                </div>
+
+                <!-- Narrativa -->
+                <div class="narrativa-contenido">
+                    <div class="narrativa-texto" id="narrativaTexto">
+                        <!-- Se insertará dinámicamente -->
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- COLUMNA DERECHA: DECISIONES -->
+            <section class="decision-panel">
+                
+                <!-- Contexto de la decisión -->
+                <div class="decision-contexto" id="decisionContexto">
+                    <!-- Se insertará dinámicamente -->
+                </div>
+
+                <!-- Opciones de respuesta -->
+                <div class="decision-opciones" id="decisionOpciones">
+                    <!-- Se insertarán dinámicamente -->
+                </div>
+
+                <!-- Feedback -->
+                <div class="decision-feedback" id="decisionFeedback" style="display: none;">
+                    <!-- Se insertará dinámicamente -->
+                </div>
+
+            </section>
+
+        </main>
+
+        <!-- Pantalla de resultados finales -->
+        <div class="resultados-finales" id="resultadosFinales" style="display: none;">
+            <div class="resultados-card">
+                <div class="resultados-header">
+                    <h2 id="resultadoTitulo">🎉 ¡Módulo 1 Completado!</h2>
+                    <p id="resultadoSubtitulo"></p>
+                </div>
+
+                <div class="resultados-stats">
+                    <div class="stat-grande">
+                        <span class="stat-numero-grande" id="puntosTotales">0</span>
+                        <span class="stat-label-grande">Puntos Totales</span>
+                    </div>
+                    <div class="stat-porcentaje">
+                        <span class="stat-numero" id="porcentajeFinal">0%</span>
+                        <span class="stat-label">Precisión</span>
+                    </div>
+                </div>
+
+                <div class="desglose-conceptos" id="desgloseConceptos">
+                    <!-- Se insertará dinámicamente -->
+                </div>
+
+                <div class="resultado-caso">
+                    <h3>📊 Resultado del Caso Clínico:</h3>
+                    <div class="caso-final" id="casoFinal">
+                        <!-- Se insertará dinámicamente -->
+                    </div>
+                </div>
+
+                <div class="areas-mejora" id="areasMejora" style="display: none;">
+                    <h3>💡 Áreas de Mejora:</h3>
+                    <div id="sugerenciasMejora"></div>
+                </div>
+
+                <div class="certificado-seccion">
+                    <div class="certificado-preview">
+                        <div class="cert-header">
+                            <span class="cert-emoji">🏆</span>
+                            <h4>Certificado de Finalización</h4>
+                        </div>
+                        <div class="cert-body">
+                            <p>Has completado exitosamente</p>
+                            <h3>MÓDULO 1: FUNDAMENTOS FILOSÓFICOS</h3>
+                            <p class="cert-rft">Teoría del Marco Relacional</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="acciones-finales">
+                    <button class="btn-secondary" onclick="location.reload()">
+                        🔄 Reintentar caso
+                    </button>
+                    <button class="btn-primary btn-grande" onclick="window.location.href='../../index.html'">
+                        Ir al Módulo 2 →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="integracion.js"></script>
+</body>
+</html>
