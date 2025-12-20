@@ -1,17 +1,17 @@
 // MÓDULO 2 - LABORATORIO ÉPICO DE EQUIVALENCIA
-// Sistema conductual completo con red interactiva
+// VERSIÓN CORREGIDA: Curvas transitivas + Símbolos abstractos + 4 conjuntos
 
 // ============= ESTADO GLOBAL =============
 let contadorGlobal = 0;
 let relacionesEntrenadas = 0, relacionesSimetria = 0, relacionesTransitividad = 0;
 let predicciones = {};
-let claseSeleccionada = null;
 
-// ============= CONJUNTOS =============
+// ============= CONJUNTOS (C con símbolos abstractos) =============
 const conjuntos = {
     A: [{id:'A1',texto:'犬'},{id:'A2',texto:'猫'},{id:'A3',texto:'鳥'}],
     B: [{id:'B1',texto:'PERRO'},{id:'B2',texto:'GATO'},{id:'B3',texto:'PÁJARO'}],
-    C: [{id:'C1',texto:'🐕'},{id:'C2',texto:'🐈'},{id:'C3',texto:'🐦'}]
+    C: [{id:'C1',texto:'◆'},{id:'C2',texto:'◉'},{id:'C3',texto:'▲'}],
+    D: [{id:'D1',texto:'🔵'},{id:'D2',texto:'🟥'},{id:'D3',texto:'🔺'}]
 };
 
 // ============= RELACIONES =============
@@ -19,19 +19,17 @@ let relaciones = [];
 
 function inicializarRelaciones() {
     relaciones = [
-        // A→B entrenadas
+        // A→B
         {from:'A1',to:'B1',tipo:'entrenada',activa:false},
         {from:'A2',to:'B2',tipo:'entrenada',activa:false},
         {from:'A3',to:'B3',tipo:'entrenada',activa:false},
-        // B→A simetría
         {from:'B1',to:'A1',tipo:'simetria',activa:false},
         {from:'B2',to:'A2',tipo:'simetria',activa:false},
         {from:'B3',to:'A3',tipo:'simetria',activa:false},
-        // B→C entrenadas
+        // B→C
         {from:'B1',to:'C1',tipo:'entrenada',activa:false},
         {from:'B2',to:'C2',tipo:'entrenada',activa:false},
         {from:'B3',to:'C3',tipo:'entrenada',activa:false},
-        // C→B simetría
         {from:'C1',to:'B1',tipo:'simetria',activa:false},
         {from:'C2',to:'B2',tipo:'simetria',activa:false},
         {from:'C3',to:'B3',tipo:'simetria',activa:false},
@@ -39,10 +37,29 @@ function inicializarRelaciones() {
         {from:'A1',to:'C1',tipo:'transitividad',activa:false},
         {from:'A2',to:'C2',tipo:'transitividad',activa:false},
         {from:'A3',to:'C3',tipo:'transitividad',activa:false},
-        // C→A transitividad
         {from:'C1',to:'A1',tipo:'transitividad',activa:false},
         {from:'C2',to:'A2',tipo:'transitividad',activa:false},
-        {from:'C3',to:'A3',tipo:'transitividad',activa:false}
+        {from:'C3',to:'A3',tipo:'transitividad',activa:false},
+        // C→D
+        {from:'C1',to:'D1',tipo:'entrenada',activa:false},
+        {from:'C2',to:'D2',tipo:'entrenada',activa:false},
+        {from:'C3',to:'D3',tipo:'entrenada',activa:false},
+        {from:'D1',to:'C1',tipo:'simetria',activa:false},
+        {from:'D2',to:'C2',tipo:'simetria',activa:false},
+        {from:'D3',to:'C3',tipo:'simetria',activa:false},
+        // A→D, B→D transitividad
+        {from:'A1',to:'D1',tipo:'transitividad',activa:false},
+        {from:'A2',to:'D2',tipo:'transitividad',activa:false},
+        {from:'A3',to:'D3',tipo:'transitividad',activa:false},
+        {from:'D1',to:'A1',tipo:'transitividad',activa:false},
+        {from:'D2',to:'A2',tipo:'transitividad',activa:false},
+        {from:'D3',to:'A3',tipo:'transitividad',activa:false},
+        {from:'B1',to:'D1',tipo:'transitividad',activa:false},
+        {from:'B2',to:'D2',tipo:'transitividad',activa:false},
+        {from:'B3',to:'D3',tipo:'transitividad',activa:false},
+        {from:'D1',to:'B1',tipo:'transitividad',activa:false},
+        {from:'D2',to:'B2',tipo:'transitividad',activa:false},
+        {from:'D3',to:'B3',tipo:'transitividad',activa:false}
     ];
 }
 
@@ -67,6 +84,16 @@ function activarRelacion(from, to) {
     }
 }
 
+function activarTransitividadesAutomaticas() {
+    // Activar A→D, B→D
+    ['A','B'].forEach(conj => {
+        for(let i=1; i<=3; i++) {
+            activarRelacion(`${conj}${i}`, `D${i}`);
+            activarRelacion(`D${i}`, `${conj}${i}`);
+        }
+    });
+}
+
 // ============= NAVEGACIÓN =============
 function irAFase(id) {
     document.querySelectorAll('.fase-lab').forEach(f => f.classList.remove('activa'));
@@ -80,7 +107,7 @@ function comenzarExperimento() {
     irAFase('fase1');
 }
 
-// ============= TOAST NOTIFICACIÓN =============
+// ============= TOAST =============
 function mostrarToast(msg) {
     const toast = document.getElementById('toastNotificacion');
     document.getElementById('toastMensaje').textContent = msg;
@@ -92,7 +119,7 @@ function mostrarToast(msg) {
     }, 2000);
 }
 
-// ============= MODAL RED =============
+// ============= MODAL =============
 function abrirModalRed() {
     document.getElementById('modalRed').style.display = 'flex';
     dibujarRedModal();
@@ -102,26 +129,53 @@ function cerrarModalRed() {
     document.getElementById('modalRed').style.display = 'none';
 }
 
-// ============= DIBUJAR RED =============
+// ============= DIBUJAR RED CON CURVAS TRANSITIVAS =============
 function dibujarRed(svgId = 'redSVG') {
     const svg = document.getElementById(svgId);
     if (!svg) return;
     
-    const width = svgId === 'redSVG' ? 1200 : 1400;
-    const height = svgId === 'redSVG' ? 600 : 700;
+    const width = svgId === 'redSVG' ? 1400 : 1600;
+    const height = svgId === 'redSVG' ? 500 : 650;
     
     svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
     svg.innerHTML = '';
     
+    // Posiciones compactas
     const pos = {
-        A1:{x:200,y:150}, A2:{x:200,y:300}, A3:{x:200,y:450},
-        B1:{x:600,y:150}, B2:{x:600,y:300}, B3:{x:600,y:450},
-        C1:{x:1000,y:150}, C2:{x:1000,y:300}, C3:{x:1000,y:450}
+        A1:{x:200,y:120}, A2:{x:200,y:250}, A3:{x:200,y:380},
+        B1:{x:550,y:120}, B2:{x:550,y:250}, B3:{x:550,y:380},
+        C1:{x:900,y:120}, C2:{x:900,y:250}, C3:{x:900,y:380},
+        D1:{x:1200,y:120}, D2:{x:1200,y:250}, D3:{x:1200,y:380}
     };
     
-    // Líneas
+    // PRIMERO: Líneas transitivas (CURVAS - atrás)
     relaciones.forEach(rel => {
-        if (rel.activa) {
+        if (rel.activa && rel.tipo === 'transitividad') {
+            const from = pos[rel.from], to = pos[rel.to];
+            
+            // Calcular punto medio para curva
+            const midX = (from.x + to.x) / 2;
+            const midY = (from.y + to.y) / 2;
+            
+            // Offset para curva (hacia abajo)
+            const offsetY = 80;
+            
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const d = `M ${from.x} ${from.y} Q ${midX} ${midY + offsetY} ${to.x} ${to.y}`;
+            path.setAttribute('d', d);
+            path.setAttribute('stroke', '#FFD600');
+            path.setAttribute('stroke-width', '3');
+            path.setAttribute('stroke-dasharray', '8,4');
+            path.setAttribute('fill', 'none');
+            path.setAttribute('opacity', '0.8');
+            
+            svg.appendChild(path);
+        }
+    });
+    
+    // SEGUNDO: Líneas directas (SÓLIDAS - adelante)
+    relaciones.forEach(rel => {
+        if (rel.activa && rel.tipo !== 'transitividad') {
             const from = pos[rel.from], to = pos[rel.to];
             const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
             line.setAttribute('x1', from.x);
@@ -130,10 +184,7 @@ function dibujarRed(svgId = 'redSVG') {
             line.setAttribute('y2', to.y);
             line.setAttribute('stroke-width', '4');
             
-            if (rel.tipo === 'transitividad') {
-                line.setAttribute('stroke-dasharray', '10,5');
-                line.setAttribute('stroke', '#FFD600');
-            } else if (rel.tipo === 'simetria') {
+            if (rel.tipo === 'simetria') {
                 line.setAttribute('stroke', '#00BCD4');
             } else {
                 line.setAttribute('stroke', '#00FF88');
@@ -143,7 +194,7 @@ function dibujarRed(svgId = 'redSVG') {
         }
     });
     
-    // Nodos
+    // TERCERO: Nodos (encima de todo)
     Object.keys(pos).forEach(nodeId => {
         const p = pos[nodeId];
         const conj = nodeId[0];
@@ -156,9 +207,11 @@ function dibujarRed(svgId = 'redSVG') {
         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         circle.setAttribute('cx', p.x);
         circle.setAttribute('cy', p.y);
-        circle.setAttribute('r', '45');
+        circle.setAttribute('r', '38');
         circle.setAttribute('fill', '#0A1929');
-        circle.setAttribute('stroke', conj==='A'?'#9C27B0':conj==='B'?'#00BCD4':'#4CAF50');
+        
+        const colores = {A:'#9C27B0', B:'#00BCD4', C:'#4CAF50', D:'#FF9800'};
+        circle.setAttribute('stroke', colores[conj]);
         circle.setAttribute('stroke-width', '4');
         
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -166,7 +219,7 @@ function dibujarRed(svgId = 'redSVG') {
         text.setAttribute('y', p.y + 12);
         text.setAttribute('text-anchor', 'middle');
         text.setAttribute('fill', '#FFF');
-        text.setAttribute('font-size', '32');
+        text.setAttribute('font-size', '30');
         text.setAttribute('font-weight', 'bold');
         text.textContent = conjuntos[conj][idx].texto;
         
@@ -180,14 +233,14 @@ function dibujarRed(svgId = 'redSVG') {
 
 function dibujarRedModal() {
     dibujarRed('redSVGModal');
-    const entrenadas = relaciones.filter(r => r.activa && r.tipo === 'entrenada').length;
-    const simetrias = relaciones.filter(r => r.activa && r.tipo === 'simetria').length;
-    const transitivas = relaciones.filter(r => r.activa && r.tipo === 'transitividad').length;
+    const e = relaciones.filter(r => r.activa && r.tipo === 'entrenada').length;
+    const s = relaciones.filter(r => r.activa && r.tipo === 'simetria').length;
+    const t = relaciones.filter(r => r.activa && r.tipo === 'transitividad').length;
     
-    document.getElementById('modalStatEntrenadas').textContent = entrenadas;
-    document.getElementById('modalStatSimetrias').textContent = simetrias;
-    document.getElementById('modalStatTransitividades').textContent = transitivas;
-    document.getElementById('modalStatTotal').textContent = entrenadas + simetrias + transitivas;
+    document.getElementById('modalStatEntrenadas').textContent = e;
+    document.getElementById('modalStatSimetrias').textContent = s;
+    document.getElementById('modalStatTransitividades').textContent = t;
+    document.getElementById('modalStatTotal').textContent = e + s + t;
 }
 
 function actualizarStats() {
@@ -213,10 +266,10 @@ function actualizarStats() {
 }
 
 function resaltarClase(nodeId) {
-    mostrarToast(`Nodo ${nodeId} - Clase de equivalencia resaltada`);
+    mostrarToast(`Clase: ${nodeId}`);
 }
 
-// ============= SISTEMA DE ENSAYOS =============
+// ============= ENSAYOS =============
 const ensayosConfig = {
     AB: {ensayos:[
         {muestra:'A1',correcto:'B1',opciones:['B1','B2','B3']},
@@ -257,6 +310,22 @@ const ensayosConfig = {
         {muestra:'A1',correcto:'C1',opciones:['C1','C2','C3']},
         {muestra:'A2',correcto:'C2',opciones:['C1','C2','C3']},
         {muestra:'A3',correcto:'C3',opciones:['C1','C2','C3']}
+    ]},
+    CD: {ensayos:[
+        {muestra:'C1',correcto:'D1',opciones:['D1','D2','D3']},
+        {muestra:'C2',correcto:'D2',opciones:['D1','D2','D3']},
+        {muestra:'C3',correcto:'D3',opciones:['D1','D2','D3']},
+        {muestra:'C1',correcto:'D1',opciones:['D1','D2','D3']},
+        {muestra:'C2',correcto:'D2',opciones:['D1','D2','D3']},
+        {muestra:'C3',correcto:'D3',opciones:['D1','D2','D3']}
+    ]},
+    DC: {ensayos:[
+        {muestra:'D1',correcto:'C1',opciones:['C1','C2','C3']},
+        {muestra:'D2',correcto:'C2',opciones:['C1','C2','C3']},
+        {muestra:'D3',correcto:'C3',opciones:['C1','C2','C3']},
+        {muestra:'D1',correcto:'C1',opciones:['C1','C2','C3']},
+        {muestra:'D2',correcto:'C2',opciones:['C1','C2','C3']},
+        {muestra:'D3',correcto:'C3',opciones:['C1','C2','C3']}
     ]}
 };
 
@@ -268,7 +337,9 @@ function iniciarFaseEntrenamiento(fase) {
     faseActual = fase;
     ensayoActual = 0;
     aciertos = 0;
-    irAFase(`fase${fase === 'AB' ? '1B' : fase === 'BC' ? '3B' : fase === 'CB' ? '4' : fase === 'AC' ? '5B' : '2B'}`);
+    
+    const faseIds = {AB:'1B', BA:'2B', BC:'3B', CB:'4', AC:'5B', CD:'6B', DC:'7'};
+    irAFase(`fase${faseIds[fase]}`);
     cargarEnsayo();
 }
 
@@ -319,12 +390,7 @@ function verificar(sel, correcto, muestra) {
             feedbackEl.className = 'feedback-ensayo correcto';
         }
         
-        if (['AB','BC'].includes(faseActual)) {
-            activarRelacion(muestra, correcto);
-        } else {
-            activarRelacion(muestra, correcto);
-        }
-        
+        activarRelacion(muestra, correcto);
         ensayoActual++;
         
         if (ensayoActual < ensayosConfig[faseActual].ensayos.length) {
@@ -341,22 +407,29 @@ function verificar(sel, correcto, muestra) {
 }
 
 function completarFase() {
-    if (faseActual === 'AB') {
-        mostrarToast('🎉 Entrenamiento A→B completado');
-        irAFase('fase2');
-    } else if (faseActual === 'BA') {
-        mostrarToast('🎉 Simetría B→A demostrada');
-        irAFase('fase3');
-    } else if (faseActual === 'BC') {
-        mostrarToast('🎉 Entrenamiento B→C completado');
-        iniciarFaseEntrenamiento('CB');
-    } else if (faseActual === 'CB') {
-        mostrarToast('🎉 Simetría C→B demostrada');
-        irAFase('fase5');
-    } else if (faseActual === 'AC') {
-        mostrarToast('🎉 Transitividad A→C demostrada');
-        irAFase('faseFinal');
-        mostrarResultados();
+    const siguienteFase = {
+        AB: {msg:'🎉 A→B completado', siguiente:'fase2'},
+        BA: {msg:'🎉 Simetría B→A', siguiente:'fase3'},
+        BC: {msg:'🎉 B→C completado', siguiente: () => iniciarFaseEntrenamiento('CB')},
+        CB: {msg:'🎉 Simetría C→B', siguiente:'fase5'},
+        AC: {msg:'🎉 Transitividad A→C', siguiente:'fase6'},
+        CD: {msg:'🎉 C→D completado', siguiente: () => iniciarFaseEntrenamiento('DC')},
+        DC: {msg:'💥 Expansión completa', siguiente: () => {
+            activarTransitividadesAutomaticas();
+            setTimeout(() => {
+                irAFase('faseFinal');
+                mostrarResultados();
+            }, 2000);
+        }}
+    };
+    
+    const accion = siguienteFase[faseActual];
+    mostrarToast(accion.msg);
+    
+    if (typeof accion.siguiente === 'function') {
+        accion.siguiente();
+    } else {
+        setTimeout(() => irAFase(accion.siguiente), 1500);
     }
 }
 
