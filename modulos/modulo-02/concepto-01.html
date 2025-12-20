@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concepto 1: Experimento de Equivalencia | Módulo 2 - RFT</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="concepto-01.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="modulo-equivalencia">
+    <!-- Fondo animado de partículas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Contenedor principal -->
+    <div class="lab-container">
+        
+        <!-- Header con navegación -->
+        <header class="lab-header">
+            <button class="btn-back" onclick="window.location.href='../../index.html'">
+                ← Volver al inicio
+            </button>
+            <div class="lab-info">
+                <span class="modulo-badge">🔬 Módulo 2: Equivalencia de Estímulos</span>
+                <h1 class="lab-numero">Concepto 1: Laboratorio Experimental</h1>
+            </div>
+            <div class="contador-global">
+                <span class="contador-label">Ensayos completados:</span>
+                <span class="contador-numero" id="contadorGlobal">0</span>
+            </div>
+        </header>
+
+        <!-- Visualización de la Red (siempre visible) -->
+        <div class="red-visualizacion" id="redVisualizacion">
+            <div class="red-header">
+                <h3>🌐 Red de Equivalencia en Construcción</h3>
+                <div class="red-leyenda">
+                    <span class="leyenda-item"><span class="dot entrenada"></span> Entrenada</span>
+                    <span class="leyenda-item"><span class="dot simetria"></span> Simetría</span>
+                    <span class="leyenda-item"><span class="dot transitividad"></span> Transitividad</span>
+                    <span class="leyenda-item"><span class="dot pendiente"></span> Pendiente</span>
+                </div>
+            </div>
+            <div class="red-canvas-container">
+                <svg id="redSVG" width="100%" height="400"></svg>
+            </div>
+            <div class="red-stats">
+                <div class="stat-red">
+                    <span class="stat-numero" id="statEntrenadas">0</span>
+                    <span class="stat-label">Entrenadas</span>
+                </div>
+                <div class="stat-red">
+                    <span class="stat-numero" id="statSimetrias">0</span>
+                    <span class="stat-label">Simetrías</span>
+                </div>
+                <div class="stat-red">
+                    <span class="stat-numero" id="statTransitividades">0</span>
+                    <span class="stat-label">Transitividades</span>
+                </div>
+                <div class="stat-red total">
+                    <span class="stat-numero" id="statTotal">0</span>
+                    <span class="stat-label">Total de relaciones</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FASE 0: Introducción -->
+        <section class="fase-lab activa" id="fase0">
+            <div class="fase-card intro">
+                <h2 class="fase-titulo">🔬 Bienvenido al Laboratorio de Equivalencia</h2>
+                <div class="intro-contenido">
+                    <p class="intro-texto">
+                        Estás a punto de participar en un experimento clásico de equivalencia de estímulos. 
+                        A lo largo de varias fases, entrenaremos relaciones arbitrarias entre estímulos y 
+                        observaremos cómo <strong>nuevas relaciones emergen sin entrenamiento directo</strong>.
+                    </p>
+                    <div class="intro-grid">
+                        <div class="intro-item">
+                            <span class="intro-emoji">📚</span>
+                            <h4>¿Qué aprenderás?</h4>
+                            <p>Reflexividad, Simetría y Transitividad - las tres propiedades de equivalencia</p>
+                        </div>
+                        <div class="intro-item">
+                            <span class="intro-emoji">🌐</span>
+                            <h4>Visualización en tiempo real</h4>
+                            <p>Verás cómo crece la red de relaciones con cada fase completada</p>
+                        </div>
+                        <div class="intro-item">
+                            <span class="intro-emoji">🎯</span>
+                            <h4>Predicciones</h4>
+                            <p>Antes de cada prueba, predecirás qué relaciones emergerán</p>
+                        </div>
+                        <div class="intro-item">
+                            <span class="intro-emoji">⚡</span>
+                            <h4>Expansión de red</h4>
+                            <p>Verás cómo la red se expande de 3 a 4 a 5 conjuntos de estímulos</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-lab-primary" onclick="irAFase(1)">
+                    Comenzar experimento →
+                </button>
+            </div>
+        </section>
+
+        <!-- FASE 1: Entrenamiento A-B -->
+        <section class="fase-lab" id="fase1">
+            <div class="fase-card">
+                <h2 class="fase-titulo">Fase 1: Entrenamiento A→B</h2>
+                <p class="fase-descripcion">
+                    En esta fase estableceremos las primeras relaciones arbitrarias. 
+                    Aprenderás a relacionar <strong>kanjis japoneses</strong> (Conjunto A) con 
+                    <strong>palabras en español</strong> (Conjunto B).
+                </p>
+                
+                <div class="conjuntos-display">
+                    <div class="conjunto-box">
+                        <h3>Conjunto A: Kanjis</h3>
+                        <div class="estimulos-lista">
+                            <div class="estimulo-item">犬 <span class="estimulo-desc">Kanji "perro"</span></div>
+                            <div class="estimulo-item">猫 <span class="estimulo-desc">Kanji "gato"</span></div>
+                            <div class="estimulo-item">鳥 <span class="estimulo-desc">Kanji "pájaro"</span></div>
+                        </div>
+                    </div>
+                    <div class="conjunto-box">
+                        <h3>Conjunto B: Palabras</h3>
+                        <div class="estimulos-lista">
+                            <div class="estimulo-item">PERRO</div>
+                            <div class="estimulo-item">GATO</div>
+                            <div class="estimulo-item">PÁJARO</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="emparejamientos-preview">
+                    <div class="emparejamiento">犬 → PERRO</div>
+                    <div class="emparejamiento">猫 → GATO</div>
+                    <div class="emparejamiento">鳥 → PÁJARO</div>
+                </div>
+
+                <button class="btn-lab-primary" onclick="iniciarEntrenamiento(1)">
+                    Iniciar entrenamiento A→B
+                </button>
+            </div>
+        </section>
+
+        <!-- FASE 2: Prueba de Simetría B-A -->
+        <section class="fase-lab" id="fase2">
+            <div class="fase-card">
+                <h2 class="fase-titulo">Fase 2: Prueba de Simetría B→A</h2>
+                
+                <!-- Predicción -->
+                <div class="prediccion-card" id="prediccionFase2">
+                    <h3>🔮 Predicción</h3>
+                    <p>
+                        Has aprendido las relaciones A→B (犬→PERRO, etc.). 
+                        Ahora te presentaremos las relaciones <strong>inversas B→A</strong> 
+                        que <strong>NUNCA fueron entrenadas</strong>.
+                    </p>
+                    <p class="prediccion-pregunta">
+                        ¿Qué crees que pasará cuando veas "PERRO" y tengas que elegir entre los kanjis?
+                    </p>
+                    <div class="prediccion-opciones">
+                        <button class="btn-prediccion" onclick="registrarPrediccion(2, 'no')">
+                            No debería saber responder
+                        </button>
+                        <button class="btn-prediccion" onclick="registrarPrediccion(2, 'si')">
+                            Creo que responderé correctamente
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ensayos (oculto hasta predicción) -->
+                <div class="ensayos-container" id="ensayosFase2" style="display: none;">
+                    <p class="fase-descripcion">
+                        Esta es una prueba de <strong>SIMETRÍA</strong>: si entrenamos A→B, 
+                        ¿emerge automáticamente B→A?
+                    </p>
+                    <div class="ensayo-display">
+                        <div class="muestra-card" id="muestraFase2">PERRO</div>
+                        <p class="ensayo-instruccion">Selecciona el estímulo correcto:</p>
+                        <div class="comparaciones-grid" id="comparacionesFase2"></div>
+                        <div class="feedback-ensayo" id="feedbackFase2"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FASE 3: Entrenamiento B-C -->
+        <section class="fase-lab" id="fase3">
+            <div class="fase-card">
+                <h2 class="fase-titulo">Fase 3: Entrenamiento B→C</h2>
+                <p class="fase-descripcion">
+                    Ahora agregaremos un TERCER conjunto de estímulos. Entrenaremos relaciones 
+                    entre las <strong>palabras</strong> (Conjunto B) y <strong>emojis</strong> (Conjunto C).
+                </p>
+                
+                <div class="conjuntos-display">
+                    <div class="conjunto-box">
+                        <h3>Conjunto B: Palabras</h3>
+                        <div class="estimulos-lista">
+                            <div class="estimulo-item">PERRO</div>
+                            <div class="estimulo-item">GATO</div>
+                            <div class="estimulo-item">PÁJARO</div>
+                        </div>
+                    </div>
+                    <div class="conjunto-box">
+                        <h3>Conjunto C: Emojis</h3>
+                        <div class="estimulos-lista">
+                            <div class="estimulo-item">🐕</div>
+                            <div class="estimulo-item">🐈</div>
+                            <div class="estimulo-item">🐦</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="emparejamientos-preview">
+                    <div class="emparejamiento">PERRO → 🐕</div>
+                    <div class="emparejamiento">GATO → 🐈</div>
+                    <div class="emparejamiento">PÁJARO → 🐦</div>
+                </div>
+
+                <button class="btn-lab-primary" onclick="iniciarEntrenamiento(3)">
+                    Iniciar entrenamiento B→C
+                </button>
+            </div>
+        </section>
+
+        <!-- FASE 4: Prueba de Transitividad A-C -->
+        <section class="fase-lab" id="fase4">
+            <div class="fase-card">
+                <h2 class="fase-titulo">Fase 4: Prueba de Transitividad A→C</h2>
+                
+                <div class="prediccion-card" id="prediccionFase4">
+                    <h3>🔮 Predicción Crítica</h3>
+                    <p>
+                        Has aprendido: <br>
+                        • A→B (犬→PERRO)<br>
+                        • B→C (PERRO→🐕)
+                    </p>
+                    <p>
+                        Pero <strong>NUNCA</strong> has visto directamente A→C (犬→🐕)
+                    </p>
+                    <p class="prediccion-pregunta">
+                        ¿Qué pasará cuando veas el kanji 犬 y tengas que elegir entre emojis?
+                    </p>
+                    <div class="prediccion-opciones">
+                        <button class="btn-prediccion" onclick="registrarPrediccion(4, 'no')">
+                            No debería saber (no hubo entrenamiento)
+                        </button>
+                        <button class="btn-prediccion" onclick="registrarPrediccion(4, 'si')">
+                            Derivaré la relación A→C
+                        </button>
+                    </div>
+                    <div class="prediccion-hint">
+                        💡 Esta es la prueba DEFINITIVA de equivalencia
+                    </div>
+                </div>
+
+                <div class="ensayos-container" id="ensayosFase4" style="display: none;">
+                    <p class="fase-descripcion">
+                        Prueba de <strong>TRANSITIVIDAD</strong>: Si A→B y B→C, ¿entonces A→C?
+                    </p>
+                    <div class="ensayo-display">
+                        <div class="muestra-card" id="muestraFase4">犬</div>
+                        <p class="ensayo-instruccion">Selecciona el estímulo correcto:</p>
+                        <div class="comparaciones-grid" id="comparacionesFase4"></div>
+                        <div class="feedback-ensayo" id="feedbackFase4"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FASE 5: Expansión - Agregar conjunto D -->
+        <section class="fase-lab" id="fase5">
+            <div class="fase-card expansion">
+                <h2 class="fase-titulo">⚡ Fase 5: Expansión de Red - Conjunto D</h2>
+                <div class="expansion-explicacion">
+                    <h3>🌟 Expandiendo la Red de Equivalencia</h3>
+                    <p>
+                        Hasta ahora has construido una clase de equivalencia con 3 conjuntos (A, B, C).
+                        Pero las redes de equivalencia pueden CRECER infinitamente.
+                    </p>
+                    <p>
+                        Ahora agregaremos un <strong>CUARTO conjunto</strong> (D: Figuras geométricas). 
+                        Observa cómo una red pequeña se convierte en una red MASIVA.
+                    </p>
+                </div>
+
+                <div class="conjuntos-display">
+                    <div class="conjunto-box">
+                        <h3>Conjunto C: Emojis</h3>
+                        <div class="estimulos-lista">
+                            <div class="estimulo-item">🐕</div>
+                            <div class="estimulo-item">🐈</div>
+                            <div class="estimulo-item">🐦</div>
+                        </div>
+                    </div>
+                    <div class="conjunto-box nuevo">
+                        <h3>Conjunto D: Figuras ✨ NUEVO</h3>
+                        <div class="estimulos-lista">
+                            <div class="estimulo-item">🔵 <span class="estimulo-desc">Círculo azul</span></div>
+                            <div class="estimulo-item">🟥 <span class="estimulo-desc">Cuadrado rojo</span></div>
+                            <div class="estimulo-item">🔺 <span class="estimulo-desc">Triángulo rojo</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="emparejamientos-preview">
+                    <div class="emparejamiento">🐕 → 🔵</div>
+                    <div class="emparejamiento">🐈 → 🟥</div>
+                    <div class="emparejamiento">🐦 → 🔺</div>
+                </div>
+
+                <div class="expansion-insight">
+                    <p>
+                        💡 <strong>Observa:</strong> Al entrenar solo C→D, automáticamente se derivarán:
+                    </p>
+                    <ul>
+                        <li>D→C (simetría)</li>
+                        <li>A→D y D→A (transitividad combinada)</li>
+                        <li>B→D y D→B (transitividad combinada)</li>
+                    </ul>
+                    <p>
+                        De <strong>3 entrenamientos</strong>, obtendremos <strong>¡más de 30 relaciones derivadas!</strong>
+                    </p>
+                </div>
+
+                <button class="btn-lab-primary" onclick="iniciarEntrenamiento(5)">
+                    Entrenar C→D y ver la explosión de red
+                </button>
+            </div>
+        </section>
+
+        <!-- FASE 6: Prueba derivaciones con D -->
+        <section class="fase-lab" id="fase6">
+            <div class="fase-card">
+                <h2 class="fase-titulo">Fase 6: Derivaciones con Conjunto D</h2>
+                
+                <div class="prediccion-card" id="prediccionFase6">
+                    <h3>🔮 Predicción Final</h3>
+                    <p>
+                        Ahora tienes 4 conjuntos conectados: A ↔ B ↔ C ↔ D
+                    </p>
+                    <p class="prediccion-pregunta">
+                        ¿Podrás relacionar directamente el kanji 犬 con la figura 🔵?
+                    </p>
+                    <div class="prediccion-opciones">
+                        <button class="btn-prediccion" onclick="registrarPrediccion(6, 'no')">
+                            No, están muy separados
+                        </button>
+                        <button class="btn-prediccion" onclick="registrarPrediccion(6, 'si')">
+                            Sí, son equivalentes por transitividad
+                        </button>
+                    </div>
+                </div>
+
+                <div class="ensayos-container" id="ensayosFase6" style="display: none;">
+                    <p class="fase-descripcion">
+                        Prueba FINAL: Relaciones entre conjuntos nunca conectados directamente
+                    </p>
+                    <div class="ensayo-display">
+                        <div class="muestra-card" id="muestraFase6">犬</div>
+                        <p class="ensayo-instruccion">Selecciona el estímulo correcto:</p>
+                        <div class="comparaciones-grid" id="comparacionesFase6"></div>
+                        <div class="feedback-ensayo" id="feedbackFase6"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FASE 7: Agregar QUINTO conjunto E -->
+        <section class="fase-lab" id="fase7">
+            <div class="fase-card expansion">
+                <h2 class="fase-titulo">🚀 Fase 7: Máxima Expansión - Conjunto E</h2>
+                <div class="expansion-explicacion">
+                    <h3>🌌 Red Masiva de Equivalencia</h3>
+                    <p>
+                        Para demostrar que las redes pueden crecer indefinidamente, 
+                        agregaremos un <strong>QUINTO conjunto</strong> (E: Números).
+                    </p>
+                    <p>
+                        Con 5 conjuntos, tendremos potencialmente <strong>más de 100 relaciones bidireccionales</strong>
+                        derivadas de solo <strong>12 entrenamientos directos</strong>.
+                    </p>
+                </div>
+
+                <div class="conjuntos-display">
+                    <div class="conjunto-box">
+                        <h3>Conjunto D: Figuras</h3>
+                        <div class="estimulos-lista">
+                            <div class="estimulo-item">🔵</div>
+                            <div class="estimulo-item">🟥</div>
+                            <div class="estimulo-item">🔺</div>
+                        </div>
+                    </div>
+                    <div class="conjunto-box nuevo">
+                        <h3>Conjunto E: Números ✨ NUEVO</h3>
+                        <div class="estimulos-lista">
+                            <div class="estimulo-item">① <span class="estimulo-desc">Uno</span></div>
+                            <div class="estimulo-item">② <span class="estimulo-desc">Dos</span></div>
+                            <div class="estimulo-item">③ <span class="estimulo-desc">Tres</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="red-explosion">
+                    <h4>💥 Explosión Combinatoria</h4>
+                    <div class="stats-explosion">
+                        <div class="stat-explosion">
+                            <span class="numero-grande">12</span>
+                            <span class="label-explosion">Relaciones entrenadas</span>
+                        </div>
+                        <div class="stat-explosion">
+                            <span class="numero-grande">→</span>
+                        </div>
+                        <div class="stat-explosion">
+                            <span class="numero-grande">100+</span>
+                            <span class="label-explosion">Relaciones derivadas</span>
+                        </div>
+                    </div>
+                    <p class="explosion-insight">
+                        Esto es el <strong>poder de la equivalencia</strong>: aprendizaje exponencial
+                    </p>
+                </div>
+
+                <button class="btn-lab-primary" onclick="iniciarEntrenamiento(7)">
+                    Completar la red masiva
+                </button>
+            </div>
+        </section>
+
+        <!-- FASE FINAL: Resultados -->
+        <section class="fase-lab" id="faseFinal">
+            <div class="fase-card resultados">
+                <h2 class="fase-titulo">🎉 Experimento Completado</h2>
+                
+                <div class="resultados-grid">
+                    <div class="resultado-stat">
+                        <span class="resultado-numero" id="resultadoEnsayos">0</span>
+                        <span class="resultado-label">Ensayos completados</span>
+                    </div>
+                    <div class="resultado-stat">
+                        <span class="resultado-numero" id="resultadoEntrenadas">0</span>
+                        <span class="resultado-label">Relaciones entrenadas</span>
+                    </div>
+                    <div class="resultado-stat">
+                        <span class="resultado-numero" id="resultadoDerivadas">0</span>
+                        <span class="resultado-label">Relaciones derivadas</span>
+                    </div>
+                    <div class="resultado-stat destacado">
+                        <span class="resultado-numero" id="resultadoTotal">0</span>
+                        <span class="resultado-label">Total en la clase</span>
+                    </div>
+                </div>
+
+                <div class="conclusiones-card">
+                    <h3>🧠 ¿Qué acabas de demostrar?</h3>
+                    <div class="conclusion-item">
+                        <span class="conclusion-emoji">🔄</span>
+                        <div>
+                            <h4>Reflexividad</h4>
+                            <p>Cada estímulo es equivalente a sí mismo</p>
+                        </div>
+                    </div>
+                    <div class="conclusion-item">
+                        <span class="conclusion-emoji">🔁</span>
+                        <div>
+                            <h4>Simetría</h4>
+                            <p>Si A=B, entonces B=A (bidireccionalidad)</p>
+                        </div>
+                    </div>
+                    <div class="conclusion-item">
+                        <span class="conclusion-emoji">🔗</span>
+                        <div>
+                            <h4>Transitividad</h4>
+                            <p>Si A=B y B=C, entonces A=C (cadenas relacionales)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-final">
+                    <h3>💡 Insight Crítico</h3>
+                    <p>
+                        Has construido una <strong>clase de equivalencia</strong> con 5 conjuntos y 
+                        3 miembros cada uno (15 estímulos totales). Todos estos estímulos son ahora 
+                        <strong>funcionalmente intercambiables</strong>.
+                    </p>
+                    <p>
+                        Esto es un <strong>modelo funcional del significado</strong>: el kanji 犬, 
+                        la palabra "PERRO", el emoji 🐕, la figura 🔵 y el número ① son ahora 
+                        miembros de la misma clase. Lo que ocurra con UNO afectará a TODOS.
+                    </p>
+                </div>
+
+                <div class="acciones-finales">
+                    <button class="btn-lab-secondary" onclick="verRedCompleta()">
+                        🌐 Ver red completa interactiva
+                    </button>
+                    <button class="btn-lab-primary" onclick="window.location.href='concepto-02.html'">
+                        Continuar al Concepto 2 →
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="concepto-01-mod2.js"></script>
+</body>
+</html>
