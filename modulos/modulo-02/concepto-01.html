@@ -267,7 +267,82 @@
                 </div>
             </div>
         </section>
+<!-- ============================================ -->
+<!-- AGREGAR DESPUÉS DE FASE 5B (antes de faseFinal) -->
+<!-- ============================================ -->
 
+        <!-- FASE 6: Presentación C-D -->
+        <section class="fase-lab" id="fase6">
+            <div class="fase-card expansion">
+                <h2>⚡ Fase 6: Expansión - Conjunto D</h2>
+                <div class="expansion-explicacion">
+                    <h3>🌟 Expandiendo la Red</h3>
+                    <p>Agregaremos un <strong>CUARTO conjunto</strong> (D: Figuras). La red se expande exponencialmente.</p>
+                </div>
+                <div class="conjuntos-display">
+                    <div class="conjunto-box">
+                        <h3>Conjunto C: Símbolos</h3>
+                        <div class="estimulos-lista">
+                            <div class="estimulo-item">◆</div>
+                            <div class="estimulo-item">◉</div>
+                            <div class="estimulo-item">▲</div>
+                        </div>
+                    </div>
+                    <div class="conjunto-box nuevo">
+                        <h3>Conjunto D: Figuras ✨</h3>
+                        <div class="estimulos-lista">
+                            <div class="estimulo-item">🔵 <span>Círculo</span></div>
+                            <div class="estimulo-item">🟥 <span>Cuadrado</span></div>
+                            <div class="estimulo-item">🔺 <span>Triángulo</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="expansion-insight">
+                    <p>💡 <strong>Al entrenar solo C→D, emergerán automáticamente:</strong></p>
+                    <p>• D→C (simetría)</p>
+                    <p>• A→D, D→A (transitividad)</p>
+                    <p>• B→D, D→B (transitividad)</p>
+                    <p><strong>De 3 entrenamientos → 30+ relaciones totales</strong></p>
+                </div>
+                <button class="btn-lab-primary" onclick="iniciarFaseEntrenamiento('CD')">Iniciar entrenamiento C→D (6 ensayos)</button>
+            </div>
+        </section>
+
+        <!-- FASE 6B: Ensayos C→D -->
+        <section class="fase-lab" id="fase6B">
+            <div class="fase-card">
+                <h2>Entrenamiento C→D</h2>
+                <div class="ensayo-progreso">
+                    <span>Ensayo <strong id="ensayoActualCD">1</strong> de <strong>6</strong></span>
+                    <span>Aciertos: <strong id="aciertosCD">0</strong>/6</span>
+                </div>
+                <div class="ensayo-display">
+                    <div class="muestra-card" id="muestraCD"></div>
+                    <p class="ensayo-instruccion">Selecciona la figura correcta:</p>
+                    <div class="comparaciones-grid" id="comparacionesCD"></div>
+                    <div class="feedback-ensayo" id="feedbackCD"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FASE 7: Prueba D→C (Simetría) -->
+        <section class="fase-lab" id="fase7">
+            <div class="fase-card">
+                <h2>Fase 7: Prueba D→C (Simetría Final)</h2>
+                <div class="ensayo-progreso">
+                    <span>Ensayo <strong id="ensayoActualDC">1</strong> de <strong>6</strong></span>
+                    <span>Aciertos: <strong id="aciertoDC">0</strong>/6</span>
+                </div>
+                <div class="ensayo-display">
+                    <div class="muestra-card" id="muestraDC"></div>
+                    <p class="ensayo-instruccion">Selecciona el símbolo correcto:</p>
+                    <div class="comparaciones-grid" id="comparacionesDC"></div>
+                    <div class="feedback-ensayo" id="feedbackDC"></div>
+                </div>
+            </div>
+        </section>
+
+<!-- FIN - Después va faseFinal -->
         <!-- FASE FINAL -->
         <section class="fase-lab" id="faseFinal">
             <div class="fase-card resultados">
