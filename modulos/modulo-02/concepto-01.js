@@ -1,6 +1,6 @@
 // ============================================
 // MÓDULO 2 - LABORATORIO DE EQUIVALENCIA
-// Con visualización de red SVG en tiempo real
+// VERSIÓN CORREGIDA
 // ============================================
 
 // ============================================
@@ -90,7 +90,7 @@ function inicializarRelaciones() {
         { from: 'D2', to: 'C2', tipo: 'simetria', activa: false, fase: 5 },
         { from: 'D3', to: 'C3', tipo: 'simetria', activa: false, fase: 5 },
         
-        // FASE 6: Transitividades con D (A↔D, B↔D)
+        // FASE 6: Transitividades con D
         { from: 'A1', to: 'D1', tipo: 'transitividad', activa: false, fase: 6 },
         { from: 'A2', to: 'D2', tipo: 'transitividad', activa: false, fase: 6 },
         { from: 'A3', to: 'D3', tipo: 'transitividad', activa: false, fase: 6 },
@@ -104,7 +104,7 @@ function inicializarRelaciones() {
         { from: 'D2', to: 'B2', tipo: 'transitividad', activa: false, fase: 6 },
         { from: 'D3', to: 'B3', tipo: 'transitividad', activa: false, fase: 6 },
         
-        // FASE 7: D→E + todas las transitividades
+        // FASE 7: D→E + transitividades
         { from: 'D1', to: 'E1', tipo: 'entrenada', activa: false, fase: 7 },
         { from: 'D2', to: 'E2', tipo: 'entrenada', activa: false, fase: 7 },
         { from: 'D3', to: 'E3', tipo: 'entrenada', activa: false, fase: 7 },
@@ -112,7 +112,7 @@ function inicializarRelaciones() {
         { from: 'E2', to: 'D2', tipo: 'simetria', activa: false, fase: 7 },
         { from: 'E3', to: 'D3', tipo: 'simetria', activa: false, fase: 7 },
         
-        // Transitividades E con todos los demás
+        // Transitividades E
         { from: 'A1', to: 'E1', tipo: 'transitividad', activa: false, fase: 7 },
         { from: 'A2', to: 'E2', tipo: 'transitividad', activa: false, fase: 7 },
         { from: 'A3', to: 'E3', tipo: 'transitividad', activa: false, fase: 7 },
@@ -140,6 +140,8 @@ function inicializarRelaciones() {
 
 function dibujarRed() {
     const svg = document.getElementById('redSVG');
+    if (!svg) return;
+    
     const width = svg.clientWidth || 1000;
     const height = 400;
     
@@ -155,7 +157,7 @@ function dibujarRed() {
         E1: { x: 900, y: 100 }, E2: { x: 900, y: 200 }, E3: { x: 900, y: 300 }
     };
     
-    // Dibujar conexiones (líneas)
+    // Dibujar conexiones
     relaciones.forEach(rel => {
         if (rel.activa) {
             const from = posiciones[rel.from];
@@ -169,7 +171,6 @@ function dibujarRed() {
             line.setAttribute('stroke-width', '3');
             line.setAttribute('opacity', '0.7');
             
-            // Color según tipo
             if (rel.tipo === 'entrenada') {
                 line.setAttribute('stroke', '#00FF88');
             } else if (rel.tipo === 'simetria') {
@@ -188,7 +189,6 @@ function dibujarRed() {
         const conjunto = nodeId[0];
         const index = parseInt(nodeId[1]) - 1;
         
-        // Círculo del nodo
         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         circle.setAttribute('cx', pos.x);
         circle.setAttribute('cy', pos.y);
@@ -196,12 +196,9 @@ function dibujarRed() {
         circle.setAttribute('fill', '#0A1929');
         circle.setAttribute('stroke', '#00BCD4');
         circle.setAttribute('stroke-width', '3');
-        circle.classList.add('nodo-svg');
-        circle.setAttribute('data-id', nodeId);
         
         svg.appendChild(circle);
         
-        // Texto del estímulo
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         text.setAttribute('x', pos.x);
         text.setAttribute('y', pos.y + 10);
@@ -222,10 +219,15 @@ function actualizarStats() {
     relacionesSimetria = relaciones.filter(r => r.activa && r.tipo === 'simetria').length;
     relacionesTransitividad = relaciones.filter(r => r.activa && r.tipo === 'transitividad').length;
     
-    document.getElementById('statEntrenadas').textContent = relacionesEntrenadas;
-    document.getElementById('statSimetrias').textContent = relacionesSimetria;
-    document.getElementById('statTransitividades').textContent = relacionesTransitividad;
-    document.getElementById('statTotal').textContent = relacionesEntrenadas + relacionesSimetria + relacionesTransitividad;
+    const statEntrenadas = document.getElementById('statEntrenadas');
+    const statSimetrias = document.getElementById('statSimetrias');
+    const statTransitividades = document.getElementById('statTransitividades');
+    const statTotal = document.getElementById('statTotal');
+    
+    if (statEntrenadas) statEntrenadas.textContent = relacionesEntrenadas;
+    if (statSimetrias) statSimetrias.textContent = relacionesSimetria;
+    if (statTransitividades) statTransitividades.textContent = relacionesTransitividad;
+    if (statTotal) statTotal.textContent = relacionesEntrenadas + relacionesSimetria + relacionesTransitividad;
 }
 
 function activarRelacion(from, to) {
@@ -237,13 +239,23 @@ function activarRelacion(from, to) {
 }
 
 // ============================================
-// NAVEGACIÓN ENTRE FASES
+// NAVEGACIÓN ENTRE FASES - CORREGIDA
 // ============================================
 
 function irAFase(numero) {
+    console.log('Ir a fase:', numero);
     document.querySelectorAll('.fase-lab').forEach(f => f.classList.remove('activa'));
-    document.getElementById(`fase${numero}`).classList.add('activa');
-    faseActual = numero;
+    
+    const faseId = typeof numero === 'number' ? `fase${numero}` : numero;
+    const faseElement = document.getElementById(faseId);
+    
+    if (faseElement) {
+        faseElement.classList.add('activa');
+        faseActual = numero;
+        console.log('Fase activada:', faseId);
+    } else {
+        console.error('No se encontró la fase:', faseId);
+    }
 }
 
 // ============================================
@@ -254,39 +266,29 @@ function registrarPrediccion(fase, respuesta) {
     predicciones[`fase${fase}`] = respuesta;
     console.log(`Predicción Fase ${fase}:`, respuesta);
     
-    // Ocultar predicción, mostrar ensayos
-    document.getElementById(`prediccionFase${fase}`).style.display = 'none';
-    document.getElementById(`ensayosFase${fase}`).style.display = 'block';
+    const prediccionEl = document.getElementById(`prediccionFase${fase}`);
+    const ensayosEl = document.getElementById(`ensayosFase${fase}`);
     
-    // Iniciar ensayos de esa fase
+    if (prediccionEl) prediccionEl.style.display = 'none';
+    if (ensayosEl) ensayosEl.style.display = 'block';
+    
     if (fase === 2) iniciarEnsayosFase2();
     if (fase === 4) iniciarEnsayosFase4();
     if (fase === 6) iniciarEnsayosFase6();
 }
 
 // ============================================
-// FASE 1: ENTRENAMIENTO A→B
+// ENTRENAMIENTO
 // ============================================
 
-const ensayosFase1 = [
-    { muestra: 'A1', correcto: 'B1', opciones: ['B1', 'B2', 'B3'] },
-    { muestra: 'A2', correcto: 'B2', opciones: ['B3', 'B2', 'B1'] },
-    { muestra: 'A3', correcto: 'B3', opciones: ['B2', 'B3', 'B1'] }
-];
-
-let ensayoActual = 0;
-
 function iniciarEntrenamiento(fase) {
+    console.log('Iniciar entrenamiento fase:', fase);
+    
     if (fase === 1) {
-        ensayoActual = 0;
         irAFase(2);
-        // Ya la fase 2 mostrará primero la predicción
     } else if (fase === 3) {
-        ensayoActual = 0;
         irAFase(4);
-        // Fase 4 mostrará predicción de transitividad
     } else if (fase === 5) {
-        // Entrenar C→D automáticamente
         activarRelacion('C1', 'D1');
         activarRelacion('C2', 'D2');
         activarRelacion('C3', 'D3');
@@ -296,7 +298,6 @@ function iniciarEntrenamiento(fase) {
         
         setTimeout(() => irAFase(6), 1500);
     } else if (fase === 7) {
-        // Entrenar D→E
         activarRelacion('D1', 'E1');
         activarRelacion('D2', 'E2');
         activarRelacion('D3', 'E3');
@@ -304,16 +305,15 @@ function iniciarEntrenamiento(fase) {
         activarRelacion('E2', 'D2');
         activarRelacion('E3', 'D3');
         
-        // Activar TODAS las transitividades con E
         setTimeout(() => {
-            ['A', 'B', 'C', 'E'].forEach(conj => {
+            ['A', 'B', 'C'].forEach(conj => {
                 for (let i = 1; i <= 3; i++) {
                     activarRelacion(`${conj}${i}`, `E${i}`);
                     activarRelacion(`E${i}`, `${conj}${i}`);
                 }
             });
             
-            setTimeout(() => irAFase('Final'), 2000);
+            setTimeout(() => irAFase('faseFinal'), 2000);
         }, 1500);
     }
 }
@@ -331,7 +331,6 @@ const ensayosFase2 = [
 let ensayoFase2 = 0;
 
 function iniciarEnsayosFase2() {
-    // Primero activar las relaciones A→B como "entrenadas"
     activarRelacion('A1', 'B1');
     activarRelacion('A2', 'B2');
     activarRelacion('A3', 'B3');
@@ -342,38 +341,45 @@ function iniciarEnsayosFase2() {
 
 function cargarEnsayoFase2() {
     const ensayo = ensayosFase2[ensayoFase2];
-    const muestraId = ensayo.muestra;
-    const muestraData = obtenerEstimulo(muestraId);
+    const muestraData = obtenerEstimulo(ensayo.muestra);
     
-    document.getElementById('muestraFase2').textContent = muestraData.texto;
+    const muestraEl = document.getElementById('muestraFase2');
+    if (muestraEl) muestraEl.textContent = muestraData.texto;
     
     const grid = document.getElementById('comparacionesFase2');
-    grid.innerHTML = '';
+    if (grid) {
+        grid.innerHTML = '';
+        
+        ensayo.opciones.forEach(opId => {
+            const opData = obtenerEstimulo(opId);
+            const btn = document.createElement('button');
+            btn.className = 'comparacion-btn';
+            btn.textContent = opData.texto;
+            btn.onclick = () => verificarFase2(opId, ensayo.correcto);
+            grid.appendChild(btn);
+        });
+    }
     
-    ensayo.opciones.forEach(opId => {
-        const opData = obtenerEstimulo(opId);
-        const btn = document.createElement('button');
-        btn.className = 'comparacion-btn';
-        btn.textContent = opData.texto;
-        btn.onclick = () => verificarFase2(opId, ensayo.correcto);
-        grid.appendChild(btn);
-    });
-    
-    document.getElementById('feedbackFase2').textContent = '';
-    document.getElementById('feedbackFase2').className = 'feedback-ensayo';
+    const feedbackEl = document.getElementById('feedbackFase2');
+    if (feedbackEl) {
+        feedbackEl.textContent = '';
+        feedbackEl.className = 'feedback-ensayo';
+    }
 }
 
 function verificarFase2(seleccion, correcto) {
     contadorGlobal++;
-    document.getElementById('contadorGlobal').textContent = contadorGlobal;
+    const contadorEl = document.getElementById('contadorGlobal');
+    if (contadorEl) contadorEl.textContent = contadorGlobal;
     
     const feedback = document.getElementById('feedbackFase2');
     
     if (seleccion === correcto) {
-        feedback.textContent = '✅ Correcto - Simetría emergente';
-        feedback.className = 'feedback-ensayo correcto';
+        if (feedback) {
+            feedback.textContent = '✅ Correcto - Simetría emergente';
+            feedback.className = 'feedback-ensayo correcto';
+        }
         
-        // Activar relación de simetría
         const ensayo = ensayosFase2[ensayoFase2];
         activarRelacion(ensayo.muestra, ensayo.correcto);
         
@@ -382,12 +388,14 @@ function verificarFase2(seleccion, correcto) {
         if (ensayoFase2 < ensayosFase2.length) {
             setTimeout(cargarEnsayoFase2, 1200);
         } else {
-            feedback.textContent = '🎉 ¡Excelente! Esto es SIMETRÍA';
+            if (feedback) feedback.textContent = '🎉 ¡Excelente! Esto es SIMETRÍA';
             setTimeout(() => irAFase(3), 2000);
         }
     } else {
-        feedback.textContent = '❌ Intenta de nuevo';
-        feedback.className = 'feedback-ensayo incorrecto';
+        if (feedback) {
+            feedback.textContent = '❌ Intenta de nuevo';
+            feedback.className = 'feedback-ensayo incorrecto';
+        }
     }
 }
 
@@ -404,7 +412,6 @@ const ensayosFase4 = [
 let ensayoFase4 = 0;
 
 function iniciarEnsayosFase4() {
-    // Activar B→C como entrenadas
     activarRelacion('B1', 'C1');
     activarRelacion('B2', 'C2');
     activarRelacion('B3', 'C3');
@@ -420,33 +427,42 @@ function cargarEnsayoFase4() {
     const ensayo = ensayosFase4[ensayoFase4];
     const muestraData = obtenerEstimulo(ensayo.muestra);
     
-    document.getElementById('muestraFase4').textContent = muestraData.texto;
+    const muestraEl = document.getElementById('muestraFase4');
+    if (muestraEl) muestraEl.textContent = muestraData.texto;
     
     const grid = document.getElementById('comparacionesFase4');
-    grid.innerHTML = '';
+    if (grid) {
+        grid.innerHTML = '';
+        
+        ensayo.opciones.forEach(opId => {
+            const opData = obtenerEstimulo(opId);
+            const btn = document.createElement('button');
+            btn.className = 'comparacion-btn';
+            btn.textContent = opData.texto;
+            btn.onclick = () => verificarFase4(opId, ensayo.correcto);
+            grid.appendChild(btn);
+        });
+    }
     
-    ensayo.opciones.forEach(opId => {
-        const opData = obtenerEstimulo(opId);
-        const btn = document.createElement('button');
-        btn.className = 'comparacion-btn';
-        btn.textContent = opData.texto;
-        btn.onclick = () => verificarFase4(opId, ensayo.correcto);
-        grid.appendChild(btn);
-    });
-    
-    document.getElementById('feedbackFase4').textContent = '';
-    document.getElementById('feedbackFase4').className = 'feedback-ensayo';
+    const feedbackEl = document.getElementById('feedbackFase4');
+    if (feedbackEl) {
+        feedbackEl.textContent = '';
+        feedbackEl.className = 'feedback-ensayo';
+    }
 }
 
 function verificarFase4(seleccion, correcto) {
     contadorGlobal++;
-    document.getElementById('contadorGlobal').textContent = contadorGlobal;
+    const contadorEl = document.getElementById('contadorGlobal');
+    if (contadorEl) contadorEl.textContent = contadorGlobal;
     
     const feedback = document.getElementById('feedbackFase4');
     
     if (seleccion === correcto) {
-        feedback.textContent = '✅ ¡Correcto! - Transitividad derivada';
-        feedback.className = 'feedback-ensayo correcto';
+        if (feedback) {
+            feedback.textContent = '✅ ¡Correcto! - Transitividad derivada';
+            feedback.className = 'feedback-ensayo correcto';
+        }
         
         const ensayo = ensayosFase4[ensayoFase4];
         activarRelacion(ensayo.muestra, ensayo.correcto);
@@ -456,9 +472,8 @@ function verificarFase4(seleccion, correcto) {
         if (ensayoFase4 < ensayosFase4.length) {
             setTimeout(cargarEnsayoFase4, 1200);
         } else {
-            feedback.textContent = '🎉 ¡TRANSITIVIDAD DEMOSTRADA!';
+            if (feedback) feedback.textContent = '🎉 ¡TRANSITIVIDAD DEMOSTRADA!';
             
-            // Activar todas las transitividades A↔C restantes
             setTimeout(() => {
                 activarRelacion('A3', 'C3');
                 activarRelacion('C1', 'A1');
@@ -468,8 +483,10 @@ function verificarFase4(seleccion, correcto) {
             }, 1000);
         }
     } else {
-        feedback.textContent = '❌ Intenta de nuevo';
-        feedback.className = 'feedback-ensayo incorrecto';
+        if (feedback) {
+            feedback.textContent = '❌ Intenta de nuevo';
+            feedback.className = 'feedback-ensayo incorrecto';
+        }
     }
 }
 
@@ -493,33 +510,42 @@ function cargarEnsayoFase6() {
     const ensayo = ensayosFase6[ensayoFase6];
     const muestraData = obtenerEstimulo(ensayo.muestra);
     
-    document.getElementById('muestraFase6').textContent = muestraData.texto;
+    const muestraEl = document.getElementById('muestraFase6');
+    if (muestraEl) muestraEl.textContent = muestraData.texto;
     
     const grid = document.getElementById('comparacionesFase6');
-    grid.innerHTML = '';
+    if (grid) {
+        grid.innerHTML = '';
+        
+        ensayo.opciones.forEach(opId => {
+            const opData = obtenerEstimulo(opId);
+            const btn = document.createElement('button');
+            btn.className = 'comparacion-btn';
+            btn.textContent = opData.texto;
+            btn.onclick = () => verificarFase6(opId, ensayo.correcto);
+            grid.appendChild(btn);
+        });
+    }
     
-    ensayo.opciones.forEach(opId => {
-        const opData = obtenerEstimulo(opId);
-        const btn = document.createElement('button');
-        btn.className = 'comparacion-btn';
-        btn.textContent = opData.texto;
-        btn.onclick = () => verificarFase6(opId, ensayo.correcto);
-        grid.appendChild(btn);
-    });
-    
-    document.getElementById('feedbackFase6').textContent = '';
-    document.getElementById('feedbackFase6').className = 'feedback-ensayo';
+    const feedbackEl = document.getElementById('feedbackFase6');
+    if (feedbackEl) {
+        feedbackEl.textContent = '';
+        feedbackEl.className = 'feedback-ensayo';
+    }
 }
 
 function verificarFase6(seleccion, correcto) {
     contadorGlobal++;
-    document.getElementById('contadorGlobal').textContent = contadorGlobal;
+    const contadorEl = document.getElementById('contadorGlobal');
+    if (contadorEl) contadorEl.textContent = contadorGlobal;
     
     const feedback = document.getElementById('feedbackFase6');
     
     if (seleccion === correcto) {
-        feedback.textContent = '✅ Derivación exitosa con 4 conjuntos';
-        feedback.className = 'feedback-ensayo correcto';
+        if (feedback) {
+            feedback.textContent = '✅ Derivación exitosa con 4 conjuntos';
+            feedback.className = 'feedback-ensayo correcto';
+        }
         
         const ensayo = ensayosFase6[ensayoFase6];
         activarRelacion(ensayo.muestra, ensayo.correcto);
@@ -529,9 +555,8 @@ function verificarFase6(seleccion, correcto) {
         if (ensayoFase6 < ensayosFase6.length) {
             setTimeout(cargarEnsayoFase6, 1200);
         } else {
-            feedback.textContent = '🎉 Red de 4 conjuntos completada';
+            if (feedback) feedback.textContent = '🎉 Red de 4 conjuntos completada';
             
-            // Activar todas transitividades con D
             setTimeout(() => {
                 ['A1', 'A2', 'A3', 'B1', 'B3'].forEach(id => {
                     const num = id[1];
@@ -543,8 +568,10 @@ function verificarFase6(seleccion, correcto) {
             }, 1000);
         }
     } else {
-        feedback.textContent = '❌ Intenta de nuevo';
-        feedback.className = 'feedback-ensayo incorrecto';
+        if (feedback) {
+            feedback.textContent = '❌ Intenta de nuevo';
+            feedback.className = 'feedback-ensayo incorrecto';
+        }
     }
 }
 
@@ -552,31 +579,26 @@ function verificarFase6(seleccion, correcto) {
 // RESULTADOS FINALES
 // ============================================
 
-function irAFase(fase) {
-    if (fase === 'Final') {
-        document.querySelectorAll('.fase-lab').forEach(f => f.classList.remove('activa'));
-        document.getElementById('faseFinal').classList.add('activa');
-        mostrarResultadosFinales();
-    } else {
-        irAFase(fase);
-    }
-}
-
 function mostrarResultadosFinales() {
-    document.getElementById('resultadoEnsayos').textContent = contadorGlobal;
-    document.getElementById('resultadoEntrenadas').textContent = relacionesEntrenadas;
-    document.getElementById('resultadoDerivadas').textContent = relacionesSimetria + relacionesTransitividad;
-    document.getElementById('resultadoTotal').textContent = relacionesEntrenadas + relacionesSimetria + relacionesTransitividad;
+    const resultadoEnsayos = document.getElementById('resultadoEnsayos');
+    const resultadoEntrenadas = document.getElementById('resultadoEntrenadas');
+    const resultadoDerivadas = document.getElementById('resultadoDerivadas');
+    const resultadoTotal = document.getElementById('resultadoTotal');
+    
+    if (resultadoEnsayos) resultadoEnsayos.textContent = contadorGlobal;
+    if (resultadoEntrenadas) resultadoEntrenadas.textContent = relacionesEntrenadas;
+    if (resultadoDerivadas) resultadoDerivadas.textContent = relacionesSimetria + relacionesTransitividad;
+    if (resultadoTotal) resultadoTotal.textContent = relacionesEntrenadas + relacionesSimetria + relacionesTransitividad;
 }
 
 function verRedCompleta() {
-    // Scroll a visualización de red
-    document.querySelector('.red-visualizacion').scrollIntoView({ behavior: 'smooth' });
-    
-    // Animar todas las relaciones activas
-    setTimeout(() => {
-        alert('💡 Haz click en cualquier nodo de la red para resaltar su clase de equivalencia completa');
-    }, 500);
+    const redViz = document.querySelector('.red-visualizacion');
+    if (redViz) {
+        redViz.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+            alert('💡 Observa cómo todos los estímulos están conectados en una clase de equivalencia');
+        }, 500);
+    }
 }
 
 // ============================================
@@ -679,7 +701,9 @@ class ParticleSystem {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Inicializando laboratorio de equivalencia...');
     inicializarRelaciones();
     dibujarRed();
     new ParticleSystem();
+    console.log('Laboratorio inicializado correctamente');
 });
