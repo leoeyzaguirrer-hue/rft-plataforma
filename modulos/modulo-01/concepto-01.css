@@ -1226,3 +1226,119 @@ body.modulo-filosofia {
         font-size: 1.05rem;
     }
 }
+/* ============================================
+   ESTILOS ADICIONALES PARA CONCEPTO 4
+   
+   INSTRUCCIONES:
+   Copia todo este contenido y pégalo AL FINAL
+   de tu archivo concepto-01.css en GitHub
+   (después de los estilos del Concepto 3)
+============================================ */
+
+/* Instrucciones Análisis Funcional */
+.instrucciones-card.analisis-funcional {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.05));
+    border-color: #4CAF50;
+}
+
+.af-esquema {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    gap: 0.5rem;
+}
+
+.af-paso {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 1.2rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.af-paso:hover {
+    transform: translateY(-5px);
+    border-color: var(--dorado);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.af-numero {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--dorado);
+    color: var(--purpura-oscuro);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 0 auto 0.8rem auto;
+}
+
+.af-titulo {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--blanco);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.af-desc {
+    font-size: 0.95rem;
+    color: var(--lavanda);
+    text-align: center;
+    line-height: 1.4;
+}
+
+.af-flecha {
+    font-size: 2rem;
+    color: var(--dorado);
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+/* Caso AF */
+.caso-af-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border: 3px solid #4CAF50;
+    box-shadow: 0 10px 40px rgba(76, 175, 80, 0.4);
+}
+
+.pregunta-af {
+    background: rgba(255, 193, 7, 0.15);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid var(--dorado);
+}
+
+.pregunta-texto-af {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--blanco);
+    text-align: center;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Responsive Concepto 4 */
+@media (max-width: 768px) {
+    .af-esquema {
+        flex-direction: column;
+    }
+    
+    .af-flecha {
+        transform: rotate(90deg);
+        margin: 0.5rem 0;
+    }
+    
+    .af-paso {
+        width: 100%;
+    }
+}
