@@ -1,0 +1,714 @@
+/* ============================================
+   MÓDULO 1 - FUNDAMENTOS FILOSÓFICOS
+   Paleta: Púrpura profundo, violeta, lavanda
+============================================ */
+
+:root {
+    --purpura-oscuro: #2D1B4E;
+    --purpura-principal: #4A2B7C;
+    --purpura-medio: #6B46C1;
+    --violeta: #8B5CF6;
+    --lavanda: #C4B5FD;
+    --lavanda-claro: #E9D5FF;
+    --dorado: #FFC107;
+    --dorado-claro: #FFD54F;
+    --blanco: #FFFFFF;
+    --negro: #1A1A1A;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.modulo-filosofia {
+    font-family: 'Comfortaa', sans-serif;
+    background: linear-gradient(135deg, var(--purpura-oscuro) 0%, var(--purpura-principal) 50%, var(--purpura-medio) 100%);
+    color: var(--blanco);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   CANVAS DE PARTÍCULAS
+============================================ */
+#particleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* ============================================
+   CONTENEDOR PRINCIPAL
+============================================ */
+.concepto-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* ============================================
+   HEADER
+============================================ */
+.concepto-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.btn-back {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: var(--blanco);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.btn-back:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--dorado);
+    transform: translateX(-5px);
+}
+
+.concepto-info {
+    flex: 1;
+    text-align: center;
+}
+
+.modulo-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--dorado), var(--dorado-claro));
+    color: var(--purpura-oscuro);
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+}
+
+.concepto-numero {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--lavanda-claro);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.progreso-badge {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    padding: 1rem 1.5rem;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    min-width: 200px;
+}
+
+.progreso-texto {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--lavanda);
+    margin-bottom: 0.5rem;
+}
+
+.progreso-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progreso-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--dorado), var(--dorado-claro));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.progreso-numeros {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--blanco);
+}
+
+/* ============================================
+   MAIN - DOS COLUMNAS
+============================================ */
+.concepto-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* ============================================
+   PANEL DE TEORÍA
+============================================ */
+.teoria-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 2.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.teoria-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.teoria-panel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.teoria-panel::-webkit-scrollbar-thumb {
+    background: var(--dorado);
+    border-radius: 10px;
+}
+
+.teoria-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.teoria-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--blanco), var(--lavanda-claro));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.teoria-subtitle {
+    font-size: 1.3rem;
+    color: var(--lavanda);
+    font-weight: 400;
+}
+
+/* Tarjetas de párrafos */
+.parrafo-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    border: 2px solid var(--dorado);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.parrafo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(255, 193, 7, 0.4);
+}
+
+.parrafo-numero {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--purpura-medio);
+    opacity: 0.3;
+    min-width: 60px;
+    text-align: center;
+}
+
+.parrafo-texto h3 {
+    font-size: 1.5rem;
+    color: var(--purpura-oscuro);
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+}
+
+.parrafo-texto p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--negro);
+    font-weight: 400;
+}
+
+.parrafo-texto strong {
+    color: var(--purpura-principal);
+    font-weight: 700;
+}
+
+.parrafo-texto em {
+    color: var(--purpura-medio);
+    font-style: italic;
+}
+
+/* ============================================
+   PANEL DE EJERCICIO
+============================================ */
+.ejercicio-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 2.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    position: sticky;
+    top: 2rem;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.ejercicio-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ejercicio-panel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.ejercicio-panel::-webkit-scrollbar-thumb {
+    background: var(--dorado);
+    border-radius: 10px;
+}
+
+.ejercicio-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.ejercicio-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--dorado), var(--dorado-claro));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.ejercicio-subtitle {
+    font-size: 1.2rem;
+    color: var(--lavanda);
+}
+
+/* Botones de ayuda */
+.ayuda-section {
+    margin-bottom: 2rem;
+}
+
+.ayuda-titulo {
+    font-size: 1.1rem;
+    color: var(--blanco);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.ayuda-botones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.ayuda-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 1rem;
+    cursor: help;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ayuda-btn .emoji {
+    font-size: 2rem;
+}
+
+.ayuda-btn .texto {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--blanco);
+}
+
+.ayuda-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: var(--dorado);
+    transform: scale(1.05);
+}
+
+.ayuda-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: var(--purpura-oscuro);
+    color: var(--blanco);
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    border: 2px solid var(--dorado);
+    z-index: 10;
+}
+
+.ayuda-btn:hover::after {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+}
+
+/* Progreso del ejercicio */
+.ejercicio-progreso {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.progreso-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+    color: var(--blanco);
+}
+
+.progreso-barra {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progreso-barra-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--dorado), var(--dorado-claro));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+/* Caso clínico */
+.caso-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border: 3px solid var(--violeta);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.caso-header {
+    margin-bottom: 1rem;
+}
+
+.caso-label {
+    display: inline-block;
+    background: var(--violeta);
+    color: var(--blanco);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.caso-texto {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: var(--negro);
+    font-weight: 500;
+}
+
+/* Pregunta */
+.pregunta-section {
+    margin-bottom: 1.5rem;
+}
+
+.pregunta-texto {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--blanco);
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+}
+
+/* Zona de drop */
+.drop-zone {
+    background: rgba(255, 255, 255, 0.15);
+    border: 3px dashed var(--dorado);
+    border-radius: 20px;
+    padding: 2rem;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.drop-zone.drag-over {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: var(--dorado-claro);
+    transform: scale(1.02);
+}
+
+.drop-placeholder {
+    text-align: center;
+    color: var(--lavanda);
+}
+
+.drop-icon {
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.drop-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.drop-answer {
+    width: 100%;
+}
+
+/* Opciones para arrastrar */
+.opciones-arrastrar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.opcion-drag {
+    background: rgba(255, 255, 255, 0.9);
+    border: 3px solid;
+    border-radius: 15px;
+    padding: 1.5rem 1rem;
+    cursor: grab;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.opcion-drag:active {
+    cursor: grabbing;
+    opacity: 0.5;
+}
+
+.opcion-drag .emoji {
+    font-size: 2.5rem;
+}
+
+.opcion-drag .texto {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.opcion-drag.formismo {
+    border-color: #8B4513;
+    color: #8B4513;
+}
+
+.opcion-drag.mecanicismo {
+    border-color: #607D8B;
+    color: #607D8B;
+}
+
+.opcion-drag.organicismo {
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+
+.opcion-drag.contextualismo {
+    border-color: var(--purpura-medio);
+    color: var(--purpura-medio);
+}
+
+.opcion-drag:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.opcion-drag.dragging {
+    opacity: 0.3;
+}
+
+/* Feedback */
+.feedback-section {
+    margin-top: 2rem;
+}
+
+.feedback-card {
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.feedback-card.correcto {
+    background: linear-gradient(135deg, #4CAF50, #81C784);
+    color: var(--blanco);
+    border: 3px solid #2E7D32;
+}
+
+.feedback-card.incorrecto {
+    background: linear-gradient(135deg, #F44336, #EF5350);
+    color: var(--blanco);
+    border: 3px solid #C62828;
+}
+
+.feedback-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+}
+
+.btn-siguiente {
+    width: 100%;
+    background: linear-gradient(135deg, var(--dorado), var(--dorado-claro));
+    color: var(--purpura-oscuro);
+    border: none;
+    border-radius: 50px;
+    padding: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 30px rgba(255, 193, 7, 0.5);
+}
+
+.btn-siguiente:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(255, 193, 7, 0.7);
+}
+
+/* Finalización */
+.finalizacion-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    border: 3px solid var(--dorado);
+}
+
+.finalizacion-card h3 {
+    font-size: 2.5rem;
+    color: var(--purpura-principal);
+    margin-bottom: 1rem;
+}
+
+.finalizacion-card p {
+    font-size: 1.3rem;
+    color: var(--negro);
+    margin-bottom: 2rem;
+}
+
+.resultado-final {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-numero {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--purpura-medio);
+}
+
+.stat-label {
+    font-size: 1.2rem;
+    color: var(--purpura-principal);
+    font-weight: 600;
+}
+
+.btn-primary.btn-grande {
+    width: 100%;
+    padding: 1.8rem;
+    font-size: 1.4rem;
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 1200px) {
+    .concepto-main {
+        grid-template-columns: 1fr;
+    }
+
+    .ejercicio-panel {
+        position: static;
+        max-height: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .concepto-container {
+        padding: 1rem;
+    }
+
+    .concepto-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .teoria-panel,
+    .ejercicio-panel {
+        padding: 1.5rem;
+    }
+
+    .teoria-title,
+    .ejercicio-title {
+        font-size: 1.8rem;
+    }
+
+    .parrafo-card {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .parrafo-numero {
+        font-size: 2rem;
+    }
+
+    .ayuda-botones,
+    .opciones-arrastrar {
+        grid-template-columns: 1fr;
+    }
+}
