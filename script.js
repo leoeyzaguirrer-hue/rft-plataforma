@@ -211,17 +211,19 @@ function observeModuleCards() {
     });
 }
 
-// Click en módulos (placeholder para futura navegación)
+// Click en módulos - Navegación real
 function setupModuleClicks() {
     const moduleCards = document.querySelectorAll('.module-card');
     
     moduleCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const moduleNum = this.getAttribute('data-module');
-            console.log(`Módulo ${moduleNum} seleccionado`);
-            // Aquí irá la navegación a cada módulo
-            alert(`Módulo ${moduleNum} - Próximamente disponible`);
-        });
+        // Solo agregar evento click si NO tiene onclick en el HTML
+        if (!card.hasAttribute('onclick')) {
+            card.addEventListener('click', function() {
+                const moduleNum = this.getAttribute('data-module');
+                console.log(`Módulo ${moduleNum} seleccionado`);
+                alert(`Módulo ${moduleNum} - Próximamente disponible`);
+            });
+        }
     });
 }
 
