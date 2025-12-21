@@ -1,6 +1,6 @@
 /* ===================================
    LABORATORIO DEL HUMOR - app.js
-   Controlador principal de la aplicación
+   Controlador principal - SIN SCROLL AUTOMÁTICO
    =================================== */
 
 class LaboratorioApp {
@@ -15,25 +15,15 @@ class LaboratorioApp {
     }
     
     init() {
-        // Inicializar elementos DOM
         this.progressBar = document.getElementById('progressBar');
         this.navDots = Array.from(document.querySelectorAll('.nav-dot'));
         this.modules = Array.from(document.querySelectorAll('.module'));
         
-        // Event listeners para navegación
         this.setupNavigation();
-        
-        // Inicializar módulos individuales
-        this.initializeModules();
-        
-        // Mostrar primer módulo
-        this.showModule(0);
-        
-        // Intersection Observer para animaciones
         this.setupIntersectionObserver();
-        
-        // Keyboard navigation
         this.setupKeyboardNavigation();
+        
+        this.showModule(0);
     }
     
     setupNavigation() {
@@ -53,36 +43,18 @@ class LaboratorioApp {
             });
         });
         
-        // Scroll wheel navigation (opcional)
-        let isScrolling = false;
-        window.addEventListener('wheel', (e) => {
-            if (isScrolling) return;
-            
-            if (e.deltaY > 50) {
-                // Scroll down
-                this.nextModule();
-                isScrolling = true;
-                setTimeout(() => isScrolling = false, 1000);
-            } else if (e.deltaY < -50) {
-                // Scroll up
-                this.prevModule();
-                isScrolling = true;
-                setTimeout(() => isScrolling = false, 1000);
-            }
-        }, { passive: true });
+        // NO HAY NAVEGACIÓN POR SCROLL - Eliminado completamente
     }
     
     setupKeyboardNavigation() {
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+            // Solo flechas para navegación manual
+            if (e.key === 'ArrowRight' && e.ctrlKey) {
                 e.preventDefault();
                 this.nextModule();
-            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+            } else if (e.key === 'ArrowLeft' && e.ctrlKey) {
                 e.preventDefault();
                 this.prevModule();
-            } else if (e.key >= '1' && e.key <= '7') {
-                e.preventDefault();
-                this.navigateToModule(parseInt(e.key) - 1);
             }
         });
     }
@@ -102,14 +74,8 @@ class LaboratorioApp {
             });
         }, observerOptions);
         
-        // Observar elementos con clase .observe-fade
         const observeElements = document.querySelectorAll('.observe-fade');
         observeElements.forEach(el => observer.observe(el));
-    }
-    
-    initializeModules() {
-        // Los módulos se inicializarán en sus respectivos archivos
-        console.log('Inicializando módulos del laboratorio...');
     }
     
     navigateToModule(index) {
@@ -275,7 +241,7 @@ const Utils = {
     }
 };
 
-// Inicializar aplicación cuando el DOM esté listo
+// Inicializar aplicación
 document.addEventListener('DOMContentLoaded', () => {
     window.laboratorioApp = new LaboratorioApp();
     console.log('🧪 Laboratorio del Humor inicializado');
