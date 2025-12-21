@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concepto 3: Transitividad y Equivalencia | Módulo 2 - RFT</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="concepto-01.css">
+    <link rel="stylesheet" href="concepto-03.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="modulo-equivalencia">
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="lab-container">
+        
+        <header class="lab-header">
+            <button class="btn-back" onclick="window.location.href='concepto-02.html'">← Volver a Concepto 2</button>
+            <div class="lab-info">
+                <span class="modulo-badge">🔬 Módulo 2: Equivalencia de Estímulos</span>
+                <h1>Concepto 3: Transitividad y Equivalencia - La Red Completa</h1>
+            </div>
+            <div class="contador-global">
+                <span class="contador-label">Casos:</span>
+                <span class="contador-numero" id="casoActual">0</span>
+                <span class="contador-label">/10</span>
+            </div>
+        </header>
+
+        <!-- BLOQUE 1: Transitividad -->
+        <section class="teoria-seccion activa" id="teoria1">
+            <div class="teoria-card">
+                <div class="teoria-numero">1</div>
+                <h2 class="teoria-titulo">🔗 Transitividad: Conectando a través de un Elemento Común</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        La <strong>transitividad</strong> aparece cuando entrenamos dos discriminaciones condicionales 
+                        mediadas por un elemento común. Matemáticamente se describe así: si A=B y B=C, entonces A=C. 
+                        En el contexto experimental, tras entrenar las relaciones A1→B1 y B1→C1, en una prueba el 
+                        sujeto debería elegir C1 como comparación cuando la muestra es A1, aunque A1 y C1 
+                        <strong>nunca fueron relacionados explícitamente</strong> durante el entrenamiento.
+                    </p>
+                    
+                    <p>
+                        Esta propiedad es fundamental porque permite expandir el repertorio conductual sin requerir 
+                        entrenamiento explícito de cada relación posible. El elemento común (B1) actúa como "puente" 
+                        que conecta A1 con C1. Cuando el organismo aprende A1→B1 y B1→C1, deriva automáticamente 
+                        A1→C1. Esta derivación espontánea demuestra que el sujeto no solo memorizó pares individuales, 
+                        sino que ha formado una <strong>red integrada de relaciones</strong>.
+                    </p>
+                    
+                    <!-- ANIMACIÓN 1: Cadena Transitiva Paso a Paso -->
+                    <div class="demo-transitiva">
+                        <div class="ejemplo-titulo">🎯 Observa Cómo Funciona la Transitividad</div>
+                        <p class="demo-instruccion">Entrena dos relaciones y ve cómo emerge la tercera:</p>
+                        
+                        <div class="cadena-visual" id="cadenaTransitiva">
+                            <div class="nodo-cadena" id="nodoA">
+                                <div class="nodo-circulo">A</div>
+                                <div class="nodo-label">Estímulo A</div>
+                            </div>
+                            
+                            <div class="flecha-cadena" id="flechaAB">
+                                <div class="linea-flecha"></div>
+                                <div class="etiqueta-flecha oculta">ENTRENADA 1</div>
+                            </div>
+                            
+                            <div class="nodo-cadena" id="nodoB">
+                                <div class="nodo-circulo">B</div>
+                                <div class="nodo-label">Elemento Común</div>
+                            </div>
+                            
+                            <div class="flecha-cadena" id="flechaBC">
+                                <div class="linea-flecha"></div>
+                                <div class="etiqueta-flecha oculta">ENTRENADA 2</div>
+                            </div>
+                            
+                            <div class="nodo-cadena" id="nodoC">
+                                <div class="nodo-circulo">C</div>
+                                <div class="nodo-label">Estímulo C</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flecha-transitiva" id="flechaAC">
+                            <div class="linea-transitiva"></div>
+                            <div class="etiqueta-transitiva">¿? DERIVADA POR TRANSITIVIDAD</div>
+                        </div>
+                        
+                        <div class="controles-demo">
+                            <button class="btn-demo" onclick="demostrarTransitiva()" id="btnDemo1">
+                                ▶ Paso 1: Entrenar A→B
+                            </button>
+                        </div>
+                        
+                        <div class="explicacion-demo" id="explicacionDemo1"></div>
+                    </div>
+                    
+                    <p>
+                        La transitividad ha sido documentada en múltiples especies incluyendo primates no humanos, 
+                        leones marinos, periquitos y palomas. Esto sugiere que la capacidad de conectar relaciones 
+                        a través de elementos comunes no es exclusiva de humanos. Sin embargo, la <strong>consistencia 
+                        y robustez</strong> de la transitividad varía considerablemente entre especies y condiciones 
+                        experimentales. En humanos verbales, la transitividad emerge de manera altamente predecible 
+                        y estable.
+                    </p>
+                    
+                    <p>
+                        La importancia práctica de la transitividad es enorme: cuanto más sepamos sobre equivalencia, 
+                        más comprenderemos sobre la creatividad conductual. Cuando se forma una clase de equivalencia, 
+                        las contingencias aplicadas a cualquier miembro afectan a todos los demás. Esto significa que 
+                        el organismo puede responder apropiadamente ante situaciones de control discriminativo que no 
+                        han sido <strong>directa y explícitamente entrenadas</strong>, multiplicando exponencialmente 
+                        el efecto del entrenamiento.
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="irATeoria(2)">
+                    Continuar: La Fórmula de Equivalencia →
+                </button>
+            </div>
+        </section>
+
+        <!-- BLOQUE 2: Equivalencia = Reflexividad + Simetría + Transitividad -->
+        <section class="teoria-seccion" id="teoria2">
+            <div class="teoria-card">
+                <div class="teoria-numero">2</div>
+                <h2 class="teoria-titulo">➕ Equivalencia: Cuando se Unen las Tres Propiedades</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        Una <strong>clase de equivalencia</strong> se forma cuando un conjunto de estímulos cumple 
+                        simultáneamente las tres propiedades matemáticas: reflexividad, simetría y transitividad 
+                        (Sidman, 1971; Sidman y Tailby, 1982). No basta con que los estímulos muestren una o dos 
+                        de estas propiedades; deben cumplir las tres para considerarse verdaderamente equivalentes. 
+                        Esta es una definición rigurosa que distingue las clases de equivalencia de otras formas de 
+                        aprendizaje asociativo.
+                    </p>
+                    
+                    <p>
+                        La prueba de equivalencia combina simetría y transitividad. Por ejemplo, si entrenamos A→B 
+                        y B→C, la prueba de equivalencia consiste en presentar C como muestra y verificar si el 
+                        sujeto selecciona A como comparación (C→A). Esta relación es doblemente derivada: primero 
+                        requiere la inversión de B→C para obtener C→B (simetría), y luego la conexión de C→B con 
+                        B→A (también por simetría de A→B) para llegar a C→A (transitividad). Es la <strong>prueba 
+                        más exigente</strong> de todas.
+                    </p>
+                    
+                    <!-- ANIMACIÓN 2: Checklist Interactivo de Propiedades -->
+                    <div class="checklist-equivalencia">
+                        <div class="ejemplo-titulo">✅ Verificador de Equivalencia</div>
+                        <p class="checklist-intro">
+                            Para que los estímulos {A, B, C} formen una clase de equivalencia, 
+                            deben cumplir las TRES propiedades:
+                        </p>
+                        
+                        <div class="propiedad-item" id="propReflexividad">
+                            <div class="propiedad-header" onclick="togglePropiedad('reflexividad')">
+                                <div class="propiedad-icono">⏸️</div>
+                                <div class="propiedad-info">
+                                    <h4>1. Reflexividad</h4>
+                                    <p>Cada estímulo es igual a sí mismo</p>
+                                </div>
+                                <div class="propiedad-status" id="statusReflexividad">❓</div>
+                            </div>
+                            <div class="propiedad-contenido" id="contenidoReflexividad">
+                                <div class="propiedad-demo">
+                                    <span class="estimulo-demo">A</span> = <span class="estimulo-demo">A</span>
+                                    <br>
+                                    <span class="estimulo-demo">B</span> = <span class="estimulo-demo">B</span>
+                                    <br>
+                                    <span class="estimulo-demo">C</span> = <span class="estimulo-demo">C</span>
+                                </div>
+                                <button class="btn-verificar" onclick="verificarPropiedad('reflexividad')">
+                                    ✓ Verificar Reflexividad
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="propiedad-item" id="propSimetria">
+                            <div class="propiedad-header" onclick="togglePropiedad('simetria')">
+                                <div class="propiedad-icono">🔄</div>
+                                <div class="propiedad-info">
+                                    <h4>2. Simetría</h4>
+                                    <p>Las relaciones son bidireccionales</p>
+                                </div>
+                                <div class="propiedad-status" id="statusSimetria">❓</div>
+                            </div>
+                            <div class="propiedad-contenido" id="contenidoSimetria">
+                                <div class="propiedad-demo">
+                                    Si <span class="estimulo-demo">A</span> → <span class="estimulo-demo">B</span>
+                                    entonces <span class="estimulo-demo">B</span> → <span class="estimulo-demo">A</span>
+                                    <br><br>
+                                    Si <span class="estimulo-demo">B</span> → <span class="estimulo-demo">C</span>
+                                    entonces <span class="estimulo-demo">C</span> → <span class="estimulo-demo">B</span>
+                                </div>
+                                <button class="btn-verificar" onclick="verificarPropiedad('simetria')">
+                                    ✓ Verificar Simetría
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="propiedad-item" id="propTransitividad">
+                            <div class="propiedad-header" onclick="togglePropiedad('transitividad')">
+                                <div class="propiedad-icono">🔗</div>
+                                <div class="propiedad-info">
+                                    <h4>3. Transitividad</h4>
+                                    <p>Las relaciones se conectan a través de elementos comunes</p>
+                                </div>
+                                <div class="propiedad-status" id="statusTransitividad">❓</div>
+                            </div>
+                            <div class="propiedad-contenido" id="contenidoTransitividad">
+                                <div class="propiedad-demo">
+                                    Si <span class="estimulo-demo">A</span> → <span class="estimulo-demo">B</span>
+                                    y <span class="estimulo-demo">B</span> → <span class="estimulo-demo">C</span>
+                                    <br>
+                                    entonces <span class="estimulo-demo">A</span> → <span class="estimulo-demo">C</span>
+                                    <br><br>
+                                    También: <span class="estimulo-demo">C</span> → <span class="estimulo-demo">A</span>
+                                    (simetría + transitividad)
+                                </div>
+                                <button class="btn-verificar" onclick="verificarPropiedad('transitividad')">
+                                    ✓ Verificar Transitividad
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="resultado-checklist" id="resultadoChecklist">
+                            <div class="resultado-icono">🎉</div>
+                            <div class="resultado-texto">
+                                <h3>¡CLASE DE EQUIVALENCIA CONFIRMADA!</h3>
+                                <p>Los estímulos {A, B, C} cumplen las tres propiedades y forman una clase de equivalencia.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p>
+                        Uno de los estudios más relevantes es el de McIntire, Cleary y Thompson (1987) con dos monos 
+                        rhesus. Los animales fueron entrenados para emitir respuestas topográficamente diferenciadas 
+                        en presencia de conjuntos de estímulos arbitrarios. Con este entrenamiento, los monos 
+                        realizaron correctamente las discriminaciones que evaluaban reflexividad, simetría y 
+                        transitividad. Además, una vez establecidas las clases de equivalencia, las nuevas relaciones 
+                        fueron <strong>estables en ausencia de reforzamiento</strong>, demostrando que eran genuinas 
+                        derivaciones y no producto de generalización simple.
+                    </p>
+                    
+                    <p>
+                        Schusterman y Kastak (1993) trabajaron con un león marino usando 30 potenciales clases de 
+                        tres miembros cada una. El león marino demostró la formación de clases de equivalencia al 
+                        verificarse la existencia de la relación derivada C→A después de entrenar A→B y B→C. Estos 
+                        hallazgos con no-humanos son importantes porque sugieren que, aunque la equivalencia es más 
+                        robusta en humanos verbales, las capacidades subyacentes pueden estar presentes en otras 
+                        especies bajo condiciones apropiadas de entrenamiento.
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="irATeoria(3)">
+                    Continuar: Investigación de Sidman →
+                </button>
+            </div>
+        </section>
+
+        <!-- BLOQUE 3: Investigación de Sidman -->
+        <section class="teoria-seccion" id="teoria3">
+            <div class="teoria-card">
+                <div class="teoria-numero">3</div>
+                <h2 class="teoria-titulo">📊 Murray Sidman: Del Laboratorio a la Teoría</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        Murray Sidman descubrió las clases de equivalencia casi por accidente en 1971, mientras 
+                        trabajaba con un adolescente con discapacidad intelectual. El objetivo inicial era enseñarle 
+                        a leer mediante el emparejamiento entre palabras habladas e impresas. Sidman entrenó la 
+                        relación entre palabra hablada → palabra impresa, y luego probó si el adolescente podía 
+                        seleccionar la imagen correcta al escuchar la palabra hablada, una relación que <strong>nunca 
+                        había sido entrenada</strong>. Para sorpresa de Sidman, el adolescente lo hizo perfectamente.
+                    </p>
+                    
+                    <p>
+                        Este hallazgo llevó a Sidman a formular la teoría de las clases de equivalencia. Propuso que 
+                        estas relaciones constituirían "primitivos conductuales" (funciones básicas no derivadas de 
+                        otras) que actuarían como soporte de la conducta simbólica. Aunque esta propuesta ha sido 
+                        criticada desde diferentes posiciones, Sidman (1994, 2000) mantiene que estamos ante una 
+                        <strong>función fundamental del estímulo</strong>. Su argumento es que la relación existente 
+                        entre los miembros de una discriminación condicional es esencialmente diferente de la relación 
+                        en una contingencia operante simple.
+                    </p>
+                    
+                    <!-- QUIZ INLINE: Experimento Original -->
+                    <div class="quiz-inline">
+                        <div class="quiz-pregunta">
+                            🧪 <strong>Reconstruye el Experimento de Sidman (1971):</strong><br>
+                            Sidman entrenó: Palabra hablada "CAR" → Palabra escrita CAR<br>
+                            SIN más entrenamiento, probó si el niño podía hacer algo nuevo. ¿Qué probó?
+                        </div>
+                        <div class="quiz-opciones">
+                            <button class="opcion-quiz" onclick="responderQuizSidman(1)">
+                                Palabra escrita CAR → Palabra hablada "CAR" (simetría)
+                            </button>
+                            <button class="opcion-quiz" onclick="responderQuizSidman(2)">
+                                Palabra hablada "CAR" → Imagen de carro (nueva relación derivada)
+                            </button>
+                            <button class="opcion-quiz" onclick="responderQuizSidman(3)">
+                                Palabra escrita CAR = Palabra escrita CAR (reflexividad)
+                            </button>
+                        </div>
+                        <div class="quiz-feedback" id="feedbackSidman"></div>
+                    </div>
+                    
+                    <p>
+                        Sidman envió el problema a la filogénesis: si los seres humanos somos capaces de formar 
+                        clases de equivalencia es porque las contingencias de supervivencia así lo han hecho posible. 
+                        Esto es lo que Dube, McIlvane, Callahan y Stoddard (1993) denominan una <strong>distinción 
+                        cualitativa</strong> entre la especie humana y el resto de los animales. Desde esta concepción, 
+                        la aparición de estas relaciones sería una capacidad exclusivamente humana, explicable por 
+                        nuestra historia evolutiva.
+                    </p>
+                    
+                    <p>
+                        Frente a esta posición, existe la <strong>distinción cuantitativa</strong> entre especies. 
+                        Desde esta perspectiva, serían necesarias ciertas capacidades conductuales previas a la 
+                        formación de clases de equivalencia. No estaríamos ante un primitivo exclusivo de nuestra 
+                        especie, sino ante una capacidad que requiere el desarrollo de habilidades básicas. Si un 
+                        animal no-humano recibiera entrenamiento en esas hipotéticas habilidades previas, también 
+                        podría superar las pruebas de equivalencia. Esta explicación ontogenética (desarrollo 
+                        individual) contrasta con la explicación filogenética (evolución de la especie).
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="irATeoria(4)">
+                    Continuar: Aplicaciones Educativas →
+                </button>
+            </div>
+        </section>
+
+        <!-- BLOQUE 4: Aplicaciones Educativas -->
+        <section class="teoria-seccion" id="teoria4">
+            <div class="teoria-card">
+                <div class="teoria-numero">4</div>
+                <h2 class="teoria-titulo">🎓 Aplicaciones Educativas: Enseñar Poco, Derivar Mucho</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        El principio fundamental de las aplicaciones educativas de equivalencia es la 
+                        <strong>explosión combinatoria</strong>: entrenar pocas relaciones produce muchas relaciones 
+                        derivadas. Por ejemplo, si formamos una clase de 5 estímulos {A, B, C, D, E}, entrenar solo 
+                        4 relaciones (A→B, A→C, A→D, A→E) produce automáticamente 20 relaciones totales. Esto 
+                        representa una eficiencia del 400% en el aprendizaje, donde cada relación entrenada genera 
+                        4 relaciones derivadas adicionales.
+                    </p>
+                    
+                    <p>
+                        En educación especial, la equivalencia permite enseñar vocabulario expresivo entrenando solo 
+                        comprensión receptiva. Si un niño con autismo aprende a seleccionar la imagen de "pelota" 
+                        al escuchar la palabra (comprensión), puede emerger la capacidad de nombrar la pelota al 
+                        verla (expresión), sin entrenamiento directo. Esta generalización no es mágica: requiere que 
+                        el niño tenga el repertorio verbal básico, pero cuando está presente, la equivalencia 
+                        <strong>multiplica el efecto del entrenamiento</strong>.
+                    </p>
+                    
+                    <!-- ANIMACIÓN: Calculadora de Eficiencia -->
+                    <div class="calculadora-eficiencia">
+                        <div class="ejemplo-titulo">🧮 Calculadora de Eficiencia de Equivalencia</div>
+                        <p class="calc-intro">
+                            Descubre cuántas relaciones obtienes GRATIS cuando formas clases de equivalencia:
+                        </p>
+                        
+                        <div class="calc-controles">
+                            <label class="calc-label">
+                                Número de estímulos en la clase:
+                                <div class="slider-container">
+                                    <input type="range" min="3" max="8" value="3" 
+                                           id="sliderEstimulos" 
+                                           oninput="calcularEficiencia()">
+                                    <span class="slider-valor" id="valorEstimulos">3</span>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="calc-resultados">
+                            <div class="calc-resultado entrenadas">
+                                <div class="calc-numero" id="numEntrenadas">2</div>
+                                <div class="calc-label-result">Relaciones Entrenadas</div>
+                                <div class="calc-detalle">(las mínimas necesarias)</div>
+                            </div>
+                            
+                            <div class="calc-operador">→</div>
+                            
+                            <div class="calc-resultado derivadas">
+                                <div class="calc-numero" id="numDerivadas">4</div>
+                                <div class="calc-label-result">Relaciones Derivadas</div>
+                                <div class="calc-detalle">(¡emergen gratis!)</div>
+                            </div>
+                            
+                            <div class="calc-operador">=</div>
+                            
+                            <div class="calc-resultado total">
+                                <div class="calc-numero" id="numTotal">6</div>
+                                <div class="calc-label-result">Total de Relaciones</div>
+                                <div class="calc-detalle">en la clase completa</div>
+                            </div>
+                        </div>
+                        
+                        <div class="calc-eficiencia">
+                            <div class="eficiencia-barra">
+                                <div class="eficiencia-fill" id="eficienciaFill"></div>
+                            </div>
+                            <p class="eficiencia-texto">
+                                <strong>Eficiencia: <span id="eficienciaPorcentaje">200</span>%</strong><br>
+                                Por cada relación entrenada, obtienes <strong><span id="relacionesPorEntrenada">2</span></strong> derivadas.
+                            </p>
+                        </div>
+                        
+                        <div class="calc-mensaje" id="calcMensaje">
+                            💡 Con 3 estímulos: entrenas 2, obtienes 6 totales (200% eficiencia)
+                        </div>
+                    </div>
+                    
+                    <p>
+                        En lectoescritura, la equivalencia explica cómo los niños aprenden a leer nuevas palabras. 
+                        Si un niño conoce la palabra hablada "gato", aprende a emparejarla con la palabra escrita 
+                        "GATO", y también la empareja con la imagen del gato, automáticamente puede: (1) leer la 
+                        palabra "GATO" en voz alta sin haberlo practicado, (2) escribir o señalar "GATO" al ver el 
+                        animal, y (3) imaginar el animal al leer la palabra. Todas estas son <strong>relaciones 
+                        emergentes</strong> derivadas del principio de equivalencia.
+                    </p>
+                    
+                    <p>
+                        En el ámbito clínico, la equivalencia tiene aplicaciones profundas. Si una persona desarrolla 
+                        fobia a las arañas reales y luego forma una clase de equivalencia entre {araña real, imagen 
+                        de araña, palabra "araña"}, la respuesta de miedo se transferirá a todos los miembros de la 
+                        clase. Esto explica cómo las fobias se generalizan más allá del estímulo original. En terapia, 
+                        intervenir sobre cualquier miembro de la clase (por ejemplo, modificar la respuesta ante la 
+                        palabra "araña") puede afectar a toda la clase. La equivalencia no solo explica problemas 
+                        clínicos, sino que también sugiere <strong>estrategias de intervención más eficientes</strong>.
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="iniciarEjercicio()">
+                    Iniciar Ejercicio: Construcción de Redes →
+                </button>
+            </div>
+        </section>
+
+        <!-- EJERCICIO: Construcción de Redes y Predicción -->
+        <section class="teoria-seccion" id="ejercicio">
+            <div class="ejercicio-card">
+                <h2 class="ejercicio-titulo">🌐 Constructor de Redes de Equivalencia</h2>
+                <p class="ejercicio-descripcion">
+                    Construye redes de equivalencia paso a paso y predice qué relaciones emergerán.
+                </p>
+                
+                <div class="progreso-ejercicio">
+                    <div class="progreso-barra">
+                        <div class="progreso-fill" id="progresoFill"></div>
+                    </div>
+                    <div class="progreso-info">
+                        <span>Caso <strong id="casoNumero">1</strong> de 10</span>
+                        <span>Aciertos: <strong id="aciertos">0</strong>/10 (<strong id="porcentaje">0</strong>%)</span>
+                    </div>
+                </div>
+
+                <div class="caso-card" id="casoCard">
+                    <div class="caso-instruccion" id="casoInstruccion"></div>
+                    
+                    <div class="red-visual" id="redVisual">
+                        <svg id="svgRed" width="100%" height="400" viewBox="0 0 600 400"></svg>
+                    </div>
+                    
+                    <div class="caso-pregunta" id="casoPregunta"></div>
+                    
+                    <div class="caso-opciones" id="casoOpciones"></div>
+                    
+                    <div class="caso-feedback" id="casoFeedback"></div>
+                </div>
+
+                <div class="resultado-final" id="resultadoFinal" style="display: none;">
+                    <h3>🎉 Ejercicio Completado</h3>
+                    <div class="resultado-stats">
+                        <div class="resultado-stat">
+                            <span class="resultado-numero" id="finalAciertos">0</span>
+                            <span class="resultado-label">Aciertos</span>
+                        </div>
+                        <div class="resultado-stat">
+                            <span class="resultado-numero" id="finalPorcentaje">0</span>
+                            <span class="resultado-label">% Correcto</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resultado-mensaje" id="resultadoMensaje"></div>
+                    
+                    <div class="resultado-acciones">
+                        <button class="btn-lab-secondary" onclick="reiniciarEjercicio()">🔄 Repetir ejercicio</button>
+                        <button class="btn-lab-primary" onclick="window.location.href='concepto-04.html'">Continuar al Concepto 4 →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="concepto-03.js"></script>
+</body>
+</html>
