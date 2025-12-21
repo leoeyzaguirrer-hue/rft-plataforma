@@ -63,7 +63,7 @@
 }
 
 .portada-label {
-    font-size: var(--text-sm);
+    font-size: var(--text-lg);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -99,7 +99,7 @@
 .dialogo {
     margin: var(--spacing-md) 0;
     line-height: 1.7;
-    font-size: var(--text-base);
+    font-size: var(--text-lg);
     color: var(--text-primary);
 }
 
@@ -117,7 +117,7 @@
 .protocolo-instruccion {
     margin: var(--spacing-xs) 0;
     line-height: 1.6;
-    font-size: var(--text-sm);
+    font-size: var(--text-lg);
     color: var(--text-secondary);
 }
 
