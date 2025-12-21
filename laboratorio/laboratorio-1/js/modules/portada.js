@@ -1,240 +1,210 @@
 /* ===================================
-   LABORATORIO DEL HUMOR - portada.js
-   Módulo 0: Portada - ARREGLADO COMPLETO
+   PORTADA - ARREGLADO DEFINITIVAMENTE
    =================================== */
 
 class PortadaModule {
     constructor() {
-        this.btnLeerChiste = null;
-        this.btnVivirSituacion = null;
-        this.btnExplorar = null;
-        this.heartbeatAudio = null;
         this.isProtocolActive = false;
         this.chisteNormalVisto = false;
-        
         this.init();
     }
     
     init() {
-        document.addEventListener('DOMContentLoaded', () => {
-            this.setupElements();
-            this.setupEventListeners();
-        });
+        // Esperar a que el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.setup());
+        } else {
+            this.setup();
+        }
         
+        // Listener para cuando se muestra el módulo
         document.addEventListener('moduleShown', (e) => {
             if (e.detail.moduleIndex === 0) {
-                this.onModuleShown();
+                this.resetPortada();
             }
         });
     }
     
-    setupElements() {
-        this.btnLeerChiste = document.getElementById('btn-leer-chiste');
-        this.btnVivirSituacion = document.getElementById('btn-vivir-situacion');
-        this.btnExplorar = document.getElementById('btn-explorar');
-        this.heartbeatAudio = document.getElementById('heartbeat-audio');
-    }
-    
-    setupEventListeners() {
-        if (this.btnLeerChiste) {
-            this.btnLeerChiste.addEventListener('click', () => {
-                this.mostrarChisteNormal();
+    setup() {
+        // Botón leer chiste
+        const btnLeer = document.getElementById('btn-leer-chiste');
+        if (btnLeer) {
+            btnLeer.addEventListener('click', () => this.leerChiste());
+        }
+        
+        // Botón vivir situación - MÚLTIPLES INTENTOS DE ENCONTRARLO
+        let btnVivir = document.getElementById('btn-vivir-situacion');
+        
+        if (!btnVivir) {
+            // Buscar por clase o texto
+            const botones = document.querySelectorAll('.btn-primary');
+            botones.forEach(btn => {
+                if (btn.textContent.includes('Vivir')) {
+                    btnVivir = btn;
+                }
             });
         }
         
-        if (this.btnVivirSituacion) {
-            this.btnVivirSituacion.addEventListener('click', () => {
-                console.log('Click en Vivir situación'); // Debug
-                this.iniciarProtocolo();
+        if (btnVivir) {
+            console.log('✅ Botón "Vivir situación" encontrado');
+            btnVivir.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('🔥 CLICK EN VIVIR SITUACIÓN');
+                this.vivirSituacion();
+            });
+        } else {
+            console.error('❌ NO se encontró botón "Vivir situación"');
+        }
+        
+        // Botón explorar
+        const btnExplorar = document.getElementById('btn-explorar');
+        if (btnExplorar) {
+            btnExplorar.addEventListener('click', () => {
+                if (window.laboratorioApp) {
+                    window.laboratorioApp.navigateToModule(1);
+                }
             });
         }
-        
-        if (this.btnExplorar) {
-            this.btnExplorar.addEventListener('click', () => {
-                window.laboratorioApp.navigateToModule(1);
-            });
-        }
     }
     
-    onModuleShown() {
-        this.resetPortada();
-    }
-    
-    async mostrarChisteNormal() {
-        const chisteTexto = document.getElementById('chiste-normal');
-        if (chisteTexto) {
-            chisteTexto.classList.add('fade-in-up');
+    async leerChiste() {
+        const btnLeer = document.getElementById('btn-leer-chiste');
+        if (btnLeer) {
+            btnLeer.textContent = '✓ Leído';
+            btnLeer.disabled = true;
+            btnLeer.style.opacity = '0.6';
+            this.chisteNormalVisto = true;
         }
         
-        this.btnLeerChiste.textContent = '✓ Leído';
-        this.btnLeerChiste.disabled = true;
-        this.btnLeerChiste.style.opacity = '0.6';
-        this.chisteNormalVisto = true;
-        
-        await Utils.delay(2000);
-        this.checkMostrarTransicion();
+        await this.delay(2000);
+        this.mostrarTransicion();
     }
     
-    async iniciarProtocolo() {
-        console.log('Iniciando protocolo...'); // Debug
+    async vivirSituacion() {
+        console.log('📍 Iniciando protocolo...');
         
         if (this.isProtocolActive) {
-            console.log('Protocolo ya activo'); // Debug
+            console.log('⚠️ Protocolo ya activo');
             return;
         }
         
         this.isProtocolActive = true;
         
-        const protocoloPreview = document.getElementById('protocolo-preview');
+        // Buscar elementos
         const protocoloTexto = document.querySelector('.protocolo-texto');
-        const heartbeatContainer = document.querySelector('.heartbeat-container');
-        const chisteProtocoloContainer = document.getElementById('chiste-protocolo-container');
+        const heartbeat = document.querySelector('.heartbeat-container');
+        const chisteContainer = document.getElementById('chiste-protocolo-container');
+        const btnVivir = document.getElementById('btn-vivir-situacion') || 
+                         Array.from(document.querySelectorAll('.btn-primary'))
+                             .find(b => b.textContent.includes('Vivir'));
         
         console.log('Elementos encontrados:', {
-            protocoloPreview: !!protocoloPreview,
-            protocoloTexto: !!protocoloTexto,
-            heartbeatContainer: !!heartbeatContainer,
-            chisteProtocoloContainer: !!chisteProtocoloContainer
-        }); // Debug
-        
-        const ladoProtocolo = document.querySelector('.portada-protocolo');
-        if (ladoProtocolo) {
-            ladoProtocolo.classList.add('active');
-        }
+            texto: !!protocoloTexto,
+            latido: !!heartbeat,
+            chiste: !!chisteContainer,
+            boton: !!btnVivir
+        });
         
         // Ocultar botón
-        this.btnVivirSituacion.style.display = 'none';
+        if (btnVivir) {
+            btnVivir.style.display = 'none';
+        }
         
-        // Mostrar instrucciones
+        // 1. Mostrar instrucciones
         if (protocoloTexto) {
             protocoloTexto.classList.remove('hidden');
             protocoloTexto.classList.add('fade-in-up');
-            console.log('Mostrando instrucciones'); // Debug
+            console.log('✅ Mostrando instrucciones');
         }
         
-        await Utils.delay(3000);
+        await this.delay(3000);
         
-        // Mostrar latido
-        if (heartbeatContainer) {
-            heartbeatContainer.classList.remove('hidden');
-            heartbeatContainer.classList.add('fade-in');
-            console.log('Mostrando latido'); // Debug
-        }
-        
-        if (this.heartbeatAudio) {
-            Utils.playAudio(this.heartbeatAudio, true);
-        }
-        
-        await Utils.delay(2000);
-        
-        // Mostrar chiste
-        if (chisteProtocoloContainer) {
-            chisteProtocoloContainer.classList.remove('hidden');
-            chisteProtocoloContainer.classList.add('fade-in-up');
-            console.log('Mostrando chiste'); // Debug
-        }
-        
-        await Utils.delay(3000);
-        
-        // Botón de confirmación
-        if (protocoloPreview) {
-            const btnConfirmar = Utils.createElement('button', ['btn-primary'], {});
-            btnConfirmar.textContent = '✓ Experimentado';
-            btnConfirmar.style.opacity = '0.6';
-            btnConfirmar.disabled = true;
-            btnConfirmar.style.marginTop = '1rem';
-            protocoloPreview.appendChild(btnConfirmar);
-        }
-        
-        // Detener latido después de un tiempo
-        setTimeout(() => {
-            if (this.heartbeatAudio) {
-                Utils.stopAudio(this.heartbeatAudio);
+        // 2. Mostrar latido
+        if (heartbeat) {
+            heartbeat.classList.remove('hidden');
+            heartbeat.classList.add('fade-in');
+            console.log('✅ Mostrando latido');
+            
+            // Intentar reproducir audio
+            const audio = document.getElementById('heartbeat-audio');
+            if (audio) {
+                audio.play().catch(e => console.log('Audio bloqueado:', e));
             }
-        }, 10000);
-        
-        await Utils.delay(2000);
-        this.checkMostrarTransicion();
-    }
-    
-    checkMostrarTransicion() {
-        console.log('Check transición:', {
-            chisteNormal: this.chisteNormalVisto,
-            protocolo: this.isProtocolActive
-        }); // Debug
-        
-        // Mostrar transición si CUALQUIERA de las dos acciones está completa
-        if (this.chisteNormalVisto || this.isProtocolActive) {
-            this.mostrarTransicion();
         }
+        
+        await this.delay(2000);
+        
+        // 3. Mostrar chiste
+        if (chisteContainer) {
+            chisteContainer.classList.remove('hidden');
+            chisteContainer.classList.add('fade-in-up');
+            console.log('✅ Mostrando chiste');
+        }
+        
+        await this.delay(3000);
+        
+        // 4. Botón de confirmación
+        const preview = document.getElementById('protocolo-preview');
+        if (preview) {
+            const btnConfirm = document.createElement('button');
+            btnConfirm.className = 'btn-primary';
+            btnConfirm.textContent = '✓ Experimentado';
+            btnConfirm.disabled = true;
+            btnConfirm.style.opacity = '0.6';
+            btnConfirm.style.marginTop = '1rem';
+            preview.appendChild(btnConfirm);
+        }
+        
+        // Mostrar transición
+        await this.delay(2000);
+        this.mostrarTransicion();
     }
     
     async mostrarTransicion() {
         const transicion = document.getElementById('portada-transicion');
-        if (!transicion) return;
-        
-        console.log('Mostrando transición'); // Debug
-        
-        transicion.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        await Utils.delay(500);
-        transicion.classList.remove('hidden');
-        transicion.classList.add('fade-in-up');
+        if (transicion) {
+            transicion.classList.remove('hidden');
+            transicion.classList.add('fade-in-up');
+            console.log('✅ Transición mostrada');
+        }
     }
     
     resetPortada() {
         this.isProtocolActive = false;
         this.chisteNormalVisto = false;
         
-        if (this.btnLeerChiste) {
-            this.btnLeerChiste.textContent = 'Leer chiste';
-            this.btnLeerChiste.disabled = false;
-            this.btnLeerChiste.style.opacity = '1';
-        }
+        // Reset elementos
+        const elementos = {
+            texto: document.querySelector('.protocolo-texto'),
+            latido: document.querySelector('.heartbeat-container'),
+            chiste: document.getElementById('chiste-protocolo-container'),
+            transicion: document.getElementById('portada-transicion')
+        };
         
-        if (this.btnVivirSituacion) {
-            this.btnVivirSituacion.style.display = 'inline-flex';
-        }
-        
-        if (this.heartbeatAudio) {
-            Utils.stopAudio(this.heartbeatAudio);
-        }
-        
-        const protocoloTexto = document.querySelector('.protocolo-texto');
-        const heartbeatContainer = document.querySelector('.heartbeat-container');
-        const chisteProtocoloContainer = document.getElementById('chiste-protocolo-container');
-        
-        if (protocoloTexto) {
-            protocoloTexto.classList.add('hidden');
-            protocoloTexto.classList.remove('fade-in-up');
-        }
-        if (heartbeatContainer) {
-            heartbeatContainer.classList.add('hidden');
-            heartbeatContainer.classList.remove('fade-in');
-        }
-        if (chisteProtocoloContainer) {
-            chisteProtocoloContainer.classList.add('hidden');
-            chisteProtocoloContainer.classList.remove('fade-in-up');
-        }
-        
-        const transicion = document.getElementById('portada-transicion');
-        if (transicion) {
-            transicion.classList.add('hidden');
-            transicion.classList.remove('fade-in-up');
-        }
-        
-        const ladoProtocolo = document.querySelector('.portada-protocolo');
-        if (ladoProtocolo) {
-            ladoProtocolo.classList.remove('active');
-        }
-        
-        // Limpiar botones añadidos dinámicamente
-        const botonesExtra = document.querySelectorAll('#protocolo-preview .btn-primary');
-        botonesExtra.forEach(btn => {
-            if (btn.textContent.includes('Experimentado')) {
-                btn.remove();
-            }
+        Object.values(elementos).forEach(el => {
+            if (el) el.classList.add('hidden');
         });
+        
+        // Reset botones
+        const btnLeer = document.getElementById('btn-leer-chiste');
+        if (btnLeer) {
+            btnLeer.textContent = 'Leer chiste';
+            btnLeer.disabled = false;
+            btnLeer.style.opacity = '1';
+        }
+        
+        const btnVivir = document.getElementById('btn-vivir-situacion');
+        if (btnVivir) {
+            btnVivir.style.display = 'inline-flex';
+        }
+    }
+    
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
 
+// Crear instancia INMEDIATAMENTE
 const portadaModule = new PortadaModule();
+console.log('🧪 Módulo Portada cargado');
