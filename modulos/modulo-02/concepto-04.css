@@ -1,0 +1,499 @@
+/* ==========================================
+   CONCEPTO 4 - PROCEDIMIENTOS DE ENTRENAMIENTO
+   Estilos para animaciones pedagógicas
+   ========================================== */
+
+/* ========== ANIMACIÓN 1: TABS PROCEDIMIENTOS ========== */
+.comparador-procedimientos {
+    background: linear-gradient(135deg, rgba(0,188,212,0.08), rgba(0,229,255,0.08));
+    border: 2px dashed var(--cyan);
+    border-radius: 25px;
+    padding: 2.5rem;
+    margin: 3rem 0;
+    box-shadow: 0 10px 30px rgba(0,188,212,0.15);
+}
+
+.comparador-intro {
+    text-align: center;
+    color: #666;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.tabs-procedimientos {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.tab-proc {
+    background: white;
+    border: 3px solid rgba(0,188,212,0.3);
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    font-weight: 800;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #0D1B2A;
+}
+
+.tab-proc:hover {
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0,188,212,0.3);
+}
+
+.tab-proc.activa {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    color: white;
+    box-shadow: 0 5px 20px rgba(0,188,212,0.4);
+}
+
+.contenido-proc {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.contenido-proc.activo {
+    display: block;
+    opacity: 1;
+}
+
+.proc-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.proc-header h4 {
+    color: var(--cyan);
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem 0;
+    font-weight: 900;
+}
+
+.proc-header p {
+    color: #666;
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.proc-visual {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.proc-detalles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.detalle-item {
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.detalle-item.ventaja {
+    background: linear-gradient(135deg, rgba(0,255,136,0.08), rgba(0,255,136,0.12));
+    border-left: 5px solid var(--verde-neon);
+}
+
+.detalle-item.desventaja {
+    background: linear-gradient(135deg, rgba(255,214,0,0.08), rgba(255,214,0,0.12));
+    border-left: 5px solid var(--amarillo);
+}
+
+.detalle-item strong {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+    color: #0D1B2A;
+}
+
+.detalle-item ul {
+    margin: 0;
+    padding-left: 1.5rem;
+    line-height: 1.8;
+}
+
+.detalle-item li {
+    color: #0D1B2A;
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+/* ========== ANIMACIÓN 2: CALCULADORA AVANZADA ========== */
+.calculadora-avanzada {
+    background: linear-gradient(135deg, rgba(138,43,226,0.05), rgba(138,43,226,0.08));
+    border: 2px solid rgba(138,43,226,0.3);
+    border-radius: 25px;
+    padding: 2.5rem;
+    margin: 3rem 0;
+    box-shadow: 0 10px 30px rgba(138,43,226,0.15);
+}
+
+.calc-controles-avanzada {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 2rem;
+}
+
+.control-grupo {
+    flex: 1;
+}
+
+.control-grupo label {
+    display: block;
+    color: #0D1B2A;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+}
+
+.comparacion-procedimientos-calc {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.proc-calc {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.proc-calc h4 {
+    color: #0D1B2A;
+    margin: 0 0 1.5rem 0;
+    font-size: 1.2rem;
+}
+
+.calc-numeros {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.num-entrena,
+.num-total {
+    text-align: center;
+}
+
+.num-entrena .num {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--verde-neon);
+    line-height: 1;
+}
+
+.num-total .num {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--cyan);
+    line-height: 1;
+}
+
+.num-entrena .label,
+.num-total .label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #666;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+}
+
+.flecha-calc {
+    font-size: 2rem;
+    color: var(--amarillo);
+    font-weight: 900;
+}
+
+.eficiencia-badge {
+    background: linear-gradient(135deg, var(--amarillo), #FFE54C);
+    color: #0D1B2A;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 900;
+    font-size: 1.3rem;
+    display: inline-block;
+    box-shadow: 0 5px 20px rgba(255,214,0,0.4);
+}
+
+.mensaje-calc-avanzada {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(0,255,136,0.1), rgba(0,255,136,0.15));
+    border: 2px solid var(--verde-neon);
+    border-radius: 15px;
+    text-align: center;
+    font-weight: 700;
+    color: #0D1B2A;
+    font-size: 1.05rem;
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+/* ========== ANIMACIÓN 3: DRAG & DROP ========== */
+.quiz-procedimientos {
+    background: rgba(255,255,255,0.03);
+    border-radius: 25px;
+    padding: 2.5rem;
+    margin: 3rem 0;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.quiz-intro {
+    text-align: center;
+    color: #0D1B2A;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255,214,0,0.1);
+    border-radius: 10px;
+}
+
+.escenarios-drag {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.escenario-item {
+    background: white;
+    border: 3px solid rgba(0,188,212,0.3);
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: move;
+    transition: all 0.3s;
+}
+
+.escenario-item:hover {
+    border-color: var(--cyan);
+    transform: translateX(5px);
+    box-shadow: 0 5px 20px rgba(0,188,212,0.3);
+}
+
+.escenario-item.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.escenario-item.correcto-drag {
+    background: var(--verde-neon);
+    border-color: var(--verde-neon);
+    cursor: default;
+}
+
+.escenario-item.incorrecto-drag {
+    background: rgba(255,82,82,0.1);
+    border-color: #FF5252;
+    cursor: default;
+}
+
+.escenario-icon {
+    font-size: 2rem;
+    min-width: 50px;
+    text-align: center;
+}
+
+.escenario-texto {
+    flex: 1;
+    color: #0D1B2A;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.zonas-drop {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.zona-drop {
+    background: white;
+    border: 3px dashed rgba(0,188,212,0.3);
+    border-radius: 15px;
+    padding: 1.5rem;
+    min-height: 200px;
+    transition: all 0.3s;
+}
+
+.zona-drop.drag-over {
+    background: rgba(0,188,212,0.1);
+    border-color: var(--cyan);
+    border-style: solid;
+    transform: scale(1.02);
+}
+
+.zona-drop h4 {
+    color: var(--cyan);
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+    text-align: center;
+}
+
+.zona-desc {
+    color: #666;
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+}
+
+.zona-contenido {
+    min-height: 100px;
+}
+
+.btn-verificar-drag {
+    display: block;
+    margin: 2rem auto;
+    background: var(--cyan);
+    color: white;
+    border: none;
+    padding: 1.2rem 3rem;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-verificar-drag:hover {
+    background: var(--cyan-claro);
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(0,188,212,0.5);
+}
+
+.feedback-drag {
+    margin-top: 2rem;
+    padding: 2rem;
+    border-radius: 20px;
+    display: none;
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+.feedback-drag-exito {
+    background: linear-gradient(135deg, rgba(0,255,136,0.15), rgba(0,255,136,0.2));
+    border: 3px solid var(--verde-neon);
+    padding: 1.5rem;
+    border-radius: 15px;
+    line-height: 1.8;
+    color: #0D1B2A;
+}
+
+.feedback-drag-parcial {
+    background: linear-gradient(135deg, rgba(255,214,0,0.15), rgba(255,214,0,0.2));
+    border: 3px solid var(--amarillo);
+    padding: 1.5rem;
+    border-radius: 15px;
+    line-height: 1.8;
+    color: #0D1B2A;
+}
+
+/* ========== ESTILOS EJERCICIO ========== */
+.caso-objetivo,
+.caso-contexto {
+    background: white;
+    padding: 1.8rem;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.caso-objetivo h4,
+.caso-contexto h4 {
+    color: var(--cyan);
+    font-size: 1.2rem;
+    margin: 0 0 1rem 0;
+    font-weight: 800;
+}
+
+.caso-objetivo p,
+.caso-contexto p {
+    color: #0D1B2A;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin: 0;
+    font-weight: 600;
+}
+
+.opcion-btn-proc {
+    background: rgba(255,255,255,0.95);
+    border: 3px solid rgba(0,188,212,0.3);
+    border-radius: 15px;
+    padding: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0D1B2A;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    margin: 0.8rem 0;
+    text-align: left;
+}
+
+.opcion-btn-proc:hover {
+    border-color: var(--cyan);
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0,188,212,0.3);
+    background: white;
+}
+
+.opcion-btn-proc.correcta {
+    background: var(--verde-neon);
+    border-color: var(--verde-neon);
+    color: #0D1B2A;
+    transform: scale(1.03);
+    box-shadow: 0 10px 30px rgba(0,255,136,0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tabs-procedimientos {
+        flex-direction: column;
+    }
+    
+    .proc-detalles {
+        grid-template-columns: 1fr;
+    }
+    
+    .calc-controles-avanzada {
+        flex-direction: column;
+    }
+    
+    .comparacion-procedimientos-calc {
+        grid-template-columns: 1fr;
+    }
+    
+    .zonas-drop {
+        grid-template-columns: 1fr;
+    }
+}
