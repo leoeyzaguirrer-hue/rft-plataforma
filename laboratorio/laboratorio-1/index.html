@@ -13,7 +13,7 @@
     <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Progress Bar -->
@@ -48,10 +48,10 @@
                                 <p class="dialogo"><strong>Paciente:</strong> "Mi nombre no es David."</p>
                                 <p class="dialogo"><strong>Médico:</strong> "Lo sé. Yo soy David."</p>
                             </div>
-                            <button class="btn-primary" id="btn-leer-chiste">
-                                Leer chiste
-                            </button>
                         </div>
+                        <button class="btn-primary" id="btn-leer-chiste">
+                            Leer chiste
+                        </button>
                     </div>
 
                     <!-- Lado derecho: Con protocolo -->
@@ -59,9 +59,9 @@
                         <div class="portada-label">Con contexto modificado</div>
                         <div class="protocolo-preview" id="protocolo-preview">
                             <div class="protocolo-texto hidden">
-                                <p class="protocolo-instruccion">"Por favor imagina que estás en un hospital...</p>
+                                <p class="protocolo-instruccion">Por favor imagina que estás en un hospital...</p>
                                 <p class="protocolo-instruccion">que lo que vas a escuchar es real,</p>
-                                <p class="protocolo-instruccion">como si estuviera ocurriendo en este momento..."</p>
+                                <p class="protocolo-instruccion">como si estuviera ocurriendo en este momento...</p>
                             </div>
                             <div class="heartbeat-container hidden">
                                 <div class="heartbeat-icon">♥</div>
@@ -69,15 +69,17 @@
                                     <source src="assets/audio/heartbeat.mp3" type="audio/mpeg">
                                 </audio>
                             </div>
-                            <div class="chiste-texto hidden" id="chiste-protocolo">
-                                <p class="dialogo"><strong>Médico:</strong> "Relájate David, es solo una pequeña cirugía. No entres en pánico."</p>
-                                <p class="dialogo"><strong>Paciente:</strong> "Mi nombre no es David."</p>
-                                <p class="dialogo"><strong>Médico:</strong> "Lo sé. Yo soy David."</p>
+                            <div class="chiste-container hidden" id="chiste-protocolo-container">
+                                <div class="chiste-texto" id="chiste-protocolo">
+                                    <p class="dialogo"><strong>Médico:</strong> "Relájate David, es solo una pequeña cirugía. No entres en pánico."</p>
+                                    <p class="dialogo"><strong>Paciente:</strong> "Mi nombre no es David."</p>
+                                    <p class="dialogo"><strong>Médico:</strong> "Lo sé. Yo soy David."</p>
+                                </div>
                             </div>
-                            <button class="btn-primary" id="btn-vivir-situacion">
-                                Vivir la situación
-                            </button>
                         </div>
+                        <button class="btn-primary" id="btn-vivir-situacion">
+                            Vivir la situación
+                        </button>
                     </div>
                 </div>
 
@@ -113,7 +115,7 @@
                 </div>
 
                 <!-- Estación 1.1 -->
-                <div class="estacion" id="estacion-1-1">
+                <div class="estacion">
                     <div class="container-texto">
                         <h3 class="titulo-estacion">El problema: ¿de dónde surge el humor?</h3>
                         
@@ -128,7 +130,7 @@
                 </div>
 
                 <!-- Estación 1.2: Demostración interactiva -->
-                <div class="estacion" id="estacion-1-2">
+                <div class="estacion">
                     <h3 class="titulo-estacion">Demostración interactiva</h3>
                     
                     <div class="demo-container">
@@ -188,129 +190,38 @@
                 <div class="tarjetas-container">
                     
                     <!-- Tarjeta 1 -->
-                    <div class="tarjeta" id="tarjeta-1">
-                        <div class="tarjeta-inner">
-                            <div class="tarjeta-front">
-                                <h3>El humor NO es una cosa</h3>
-                                <h2>Es una CONDUCTA</h2>
-                                <p class="hint">Click para ver más</p>
-                            </div>
-                            <div class="tarjeta-back">
-                                <div class="diagrama-simple">
-                                    <div class="diagrama-box">Conducta verbal + no verbal</div>
-                                    <div class="diagrama-detail">(sonreír, reír, evaluar como gracioso)</div>
-                                    <div class="diagrama-arrow">↓</div>
-                                    <div class="diagrama-box">en función de</div>
-                                    <div class="diagrama-arrow">↓</div>
-                                    <div class="diagrama-multi">
-                                        <div class="diagrama-item">Historia personal</div>
-                                        <div class="diagrama-plus">+</div>
-                                        <div class="diagrama-item">Contexto actual</div>
-                                    </div>
-                                </div>
-                                <p class="tarjeta-conclusion">"El humor no reside en el chiste en sí, sino en CÓMO EL OYENTE RELACIONA los elementos del chiste."</p>
-                            </div>
+                    <div class="tarjeta" data-index="0">
+                        <div class="tarjeta-preview">
+                            <h3>El humor NO es una cosa</h3>
+                            <h2>Es una CONDUCTA</h2>
+                            <p class="hint">Click para ver más</p>
                         </div>
                     </div>
 
                     <!-- Tarjeta 2 -->
-                    <div class="tarjeta" id="tarjeta-2">
-                        <div class="tarjeta-inner">
-                            <div class="tarjeta-front">
-                                <h3>Redes relacionales</h3>
-                                <h2>Coherentes pero incongruentes</h2>
-                                <p class="hint">Click para ver animación</p>
-                            </div>
-                            <div class="tarjeta-back">
-                                <div class="red-relacional" id="red-animada">
-                                    <svg width="100%" height="300" viewBox="0 0 400 300">
-                                        <!-- Nodos -->
-                                        <g id="nodos">
-                                            <circle class="nodo" id="nodo-1" cx="100" cy="80" r="40" opacity="0"/>
-                                            <text class="nodo-texto" x="100" y="85" opacity="0">CIRUJANO</text>
-                                            
-                                            <circle class="nodo" id="nodo-2" cx="300" cy="80" r="40" opacity="0"/>
-                                            <text class="nodo-texto" x="300" y="85" opacity="0">PACIENTE</text>
-                                            
-                                            <circle class="nodo" id="nodo-3" cx="200" cy="200" r="40" opacity="0"/>
-                                            <text class="nodo-texto" x="200" y="205" opacity="0">CIRUGÍA</text>
-                                            
-                                            <circle class="nodo nodo-incongruente" id="nodo-4" cx="200" cy="80" r="45" opacity="0"/>
-                                            <text class="nodo-texto nodo-texto-incongruente" x="200" y="85" opacity="0">YO SOY DAVID</text>
-                                        </g>
-                                        
-                                        <!-- Conexiones -->
-                                        <g id="conexiones" stroke="#666" stroke-width="2" opacity="0">
-                                            <line x1="100" y1="80" x2="300" y2="80"/>
-                                            <line x1="100" y1="80" x2="200" y2="200"/>
-                                            <line x1="300" y1="80" x2="200" y2="200"/>
-                                        </g>
-                                    </svg>
-                                    <div class="red-labels">
-                                        <p class="label-coherente hidden">Red relacional coherente</p>
-                                        <p class="label-incongruente hidden">Incongruencia = coherente PERO conflictiva</p>
-                                    </div>
-                                </div>
-                                <p class="tarjeta-conclusion">"Los chistes suelen generar redes relacionales que son COHERENTES pero INCONGRUENTES."</p>
-                            </div>
+                    <div class="tarjeta" data-index="1">
+                        <div class="tarjeta-preview">
+                            <h3>Redes relacionales</h3>
+                            <h2>Coherentes pero incongruentes</h2>
+                            <p class="hint">Click para ver más</p>
                         </div>
                     </div>
 
                     <!-- Tarjeta 3 -->
-                    <div class="tarjeta" id="tarjeta-3">
-                        <div class="tarjeta-inner">
-                            <div class="tarjeta-front">
-                                <h3>Funciones derivadas</h3>
-                                <h2>El contexto transforma</h2>
-                                <p class="hint">Click para explorar</p>
-                            </div>
-                            <div class="tarjeta-back">
-                                <div class="funciones-demo">
-                                    <div class="estimulo-central">💉</div>
-                                    <div class="funciones-grid">
-                                        <div class="funcion-item">
-                                            <div class="marco">"Es un chiste"</div>
-                                            <div class="arrow">→</div>
-                                            <div class="respuesta">😊</div>
-                                        </div>
-                                        <div class="funcion-item">
-                                            <div class="marco">"Es real"</div>
-                                            <div class="arrow">→</div>
-                                            <div class="respuesta">😰</div>
-                                        </div>
-                                        <div class="funcion-item">
-                                            <div class="marco">"Es injusto"</div>
-                                            <div class="arrow">→</div>
-                                            <div class="respuesta">😠</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="tarjeta-conclusion">"Cuando estas redes mantienen ciertas funciones sociales, la risa puede emerger. Cuando esas funciones se ALTERAN, la respuesta humorística puede desaparecer."</p>
-                            </div>
+                    <div class="tarjeta" data-index="2">
+                        <div class="tarjeta-preview">
+                            <h3>Funciones derivadas</h3>
+                            <h2>El contexto transforma</h2>
+                            <p class="hint">Click para ver más</p>
                         </div>
                     </div>
 
                     <!-- Tarjeta 4 -->
-                    <div class="tarjeta" id="tarjeta-4">
-                        <div class="tarjeta-inner">
-                            <div class="tarjeta-front">
-                                <h3>Objetivo del estudio</h3>
-                                <h2>NO definir, sino mostrar</h2>
-                                <p class="hint">Click para ver</p>
-                            </div>
-                            <div class="tarjeta-back">
-                                <div class="objetivo-visual">
-                                    <div class="no-busca">
-                                        <span class="icon-no">⛔</span>
-                                        <p>NO busca definir QUÉ es el humor</p>
-                                    </div>
-                                    <div class="transicion-arrow">↓</div>
-                                    <div class="si-busca">
-                                        <span class="icon-si">→</span>
-                                        <p><strong>Busca mostrar CÓMO puede alterarse su derivación</strong></p>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="tarjeta" data-index="3">
+                        <div class="tarjeta-preview">
+                            <h3>Objetivo del estudio</h3>
+                            <h2>NO definir, sino mostrar</h2>
+                            <p class="hint">Click para ver más</p>
                         </div>
                     </div>
 
@@ -332,7 +243,7 @@
 
                 <div class="experimento-intro">
                     <h3>Cambiar el contexto, cambiar la respuesta</h3>
-                    <p class="texto-destacado">Los autores diseñaron una serie de protocolos experimentales destinados a <strong>MODIFICAR EL CONTEXTO</strong> en el que los participantes escuchaban chistes previamente evaluados como graciosos.</p>
+                    <p class="texto-destacado">Los autores diseñaron protocolos experimentales para <strong>MODIFICAR EL CONTEXTO</strong> en el que los participantes escuchaban chistes.</p>
                     
                     <div class="hipotesis-box">
                         <h4>La hipótesis era simple:</h4>
@@ -344,7 +255,7 @@
                 <div class="timeline-experimento">
                     <div class="timeline-header">
                         <h3>Diseño Experimental</h3>
-                        <p class="participantes-info">23 participantes (estudiantes universitarios)</p>
+                        <p class="participantes-info">23 participantes universitarios</p>
                     </div>
 
                     <div class="timeline-condiciones">
@@ -352,34 +263,31 @@
                         <!-- Condición Control -->
                         <div class="condicion-box condicion-control">
                             <div class="condicion-header">
-                                <h4>CONDICIÓN CONTROL</h4>
-                                <span class="participantes-n">(n=11)</span>
+                                <h4>CONDICIÓN CONTROL (n=11)</h4>
                             </div>
+                            <p class="condicion-descripcion">Los participantes escucharon 4 chistes <strong>SIN ninguna manipulación</strong> en la Fase 1, descansaron 10 minutos, y volvieron a escuchar los mismos chistes sin manipulación en la Fase 2.</p>
 
                             <div class="fase fase-1">
                                 <h5>FASE 1</h5>
                                 <div class="chistes-secuencia">
-                                    <div class="chiste-item" data-info="doctor-control">
+                                    <div class="chiste-item">
                                         <div class="chiste-icon">🏥</div>
                                         <div class="chiste-label">Doctor</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
-                                    <div class="chiste-item" data-info="beer-control">
+                                    <div class="chiste-item">
                                         <div class="chiste-icon">🍺</div>
-                                        <div class="chiste-label">Beer</div>
+                                        <div class="chiste-label">Cerveza</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
-                                    <div class="chiste-item" data-info="job-control">
+                                    <div class="chiste-item">
                                         <div class="chiste-icon">💼</div>
-                                        <div class="chiste-label">Job</div>
+                                        <div class="chiste-label">Entrevista</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
-                                    <div class="chiste-item" data-info="soccer-control">
+                                    <div class="chiste-item">
                                         <div class="chiste-icon">⚽</div>
-                                        <div class="chiste-label">Soccer</div>
+                                        <div class="chiste-label">Fútbol</div>
                                     </div>
                                 </div>
-                                <p class="fase-nota">SIN manipulación en los 4 chistes</p>
+                                <p class="fase-nota">4 chistes sin manipulación + 36 actividades intermedias</p>
                             </div>
 
                             <div class="pausa">
@@ -394,60 +302,54 @@
                                         <div class="chiste-icon">🏥</div>
                                         <div class="chiste-label">Doctor</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
                                     <div class="chiste-item">
                                         <div class="chiste-icon">🍺</div>
-                                        <div class="chiste-label">Beer</div>
+                                        <div class="chiste-label">Cerveza</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
                                     <div class="chiste-item">
                                         <div class="chiste-icon">💼</div>
-                                        <div class="chiste-label">Job</div>
+                                        <div class="chiste-label">Entrevista</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
                                     <div class="chiste-item">
                                         <div class="chiste-icon">⚽</div>
-                                        <div class="chiste-label">Soccer</div>
+                                        <div class="chiste-label">Fútbol</div>
                                     </div>
                                 </div>
-                                <p class="fase-nota">MISMOS chistes, SIN manipulación</p>
+                                <p class="fase-nota">Mismos 4 chistes sin manipulación</p>
                             </div>
                         </div>
 
                         <!-- Condición Experimental -->
                         <div class="condicion-box condicion-experimental">
                             <div class="condicion-header">
-                                <h4>CONDICIÓN EXPERIMENTAL</h4>
-                                <span class="participantes-n">(n=12)</span>
+                                <h4>CONDICIÓN EXPERIMENTAL (n=12)</h4>
                             </div>
+                            <p class="condicion-descripcion">Los participantes escucharon 3 chistes <strong>CON protocolos de manipulación contextual</strong> (Realidad, Identificación, Malestar) y 1 sin manipular en la Fase 1. En la Fase 2, todos los chistes se presentaron sin manipulación.</p>
 
                             <div class="fase fase-1">
                                 <h5>FASE 1</h5>
                                 <div class="chistes-secuencia">
-                                    <div class="chiste-item with-protocol" data-protocol="reality">
-                                        <div class="protocol-badge reality">REALITY</div>
+                                    <div class="chiste-item with-protocol">
+                                        <div class="protocol-badge reality">REALIDAD</div>
                                         <div class="chiste-icon">🏥</div>
                                         <div class="chiste-label">Doctor</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
-                                    <div class="chiste-item with-protocol" data-protocol="identification">
-                                        <div class="protocol-badge identification">IDENT.</div>
+                                    <div class="chiste-item with-protocol">
+                                        <div class="protocol-badge identification">IDENTIF.</div>
                                         <div class="chiste-icon">🍺</div>
-                                        <div class="chiste-label">Beer</div>
+                                        <div class="chiste-label">Cerveza</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
-                                    <div class="chiste-item with-protocol" data-protocol="discomfort">
-                                        <div class="protocol-badge discomfort">DISCOMF.</div>
+                                    <div class="chiste-item with-protocol">
+                                        <div class="protocol-badge discomfort">MALESTAR</div>
                                         <div class="chiste-icon">💼</div>
-                                        <div class="chiste-label">Job</div>
+                                        <div class="chiste-label">Entrevista</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
                                     <div class="chiste-item">
                                         <div class="chiste-icon">⚽</div>
-                                        <div class="chiste-label">Soccer</div>
+                                        <div class="chiste-label">Fútbol</div>
                                     </div>
                                 </div>
-                                <p class="fase-nota">3 chistes CON protocolos + 1 sin manipular</p>
+                                <p class="fase-nota">3 chistes CON protocolos + 1 sin manipular + 36 actividades</p>
                             </div>
 
                             <div class="pausa">
@@ -462,30 +364,22 @@
                                         <div class="chiste-icon">🏥</div>
                                         <div class="chiste-label">Doctor</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
                                     <div class="chiste-item">
                                         <div class="chiste-icon">🍺</div>
-                                        <div class="chiste-label">Beer</div>
+                                        <div class="chiste-label">Cerveza</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
                                     <div class="chiste-item">
                                         <div class="chiste-icon">💼</div>
-                                        <div class="chiste-label">Job</div>
+                                        <div class="chiste-label">Entrevista</div>
                                     </div>
-                                    <div class="actividades-sep">∿∿∿</div>
                                     <div class="chiste-item">
                                         <div class="chiste-icon">⚽</div>
-                                        <div class="chiste-label">Soccer</div>
+                                        <div class="chiste-label">Fútbol</div>
                                     </div>
                                 </div>
-                                <p class="fase-nota">MISMOS chistes, SIN manipulación</p>
+                                <p class="fase-nota">Todos sin manipulación (primera vez sin protocolo para los 3 chistes manipulados)</p>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="timeline-nota">
-                        <p><strong>∿∿∿</strong> = Actividades intermedias</p>
-                        <p class="sub-nota">(videos, imágenes, tareas de memoria) - 36 actividades en total</p>
                     </div>
                 </div>
 
@@ -494,45 +388,23 @@
                     <h3>¿Qué se midió?</h3>
                     
                     <div class="medidas-grid">
-                        <div class="medida-card" id="medida-facial">
+                        <div class="medida-card">
                             <div class="medida-header">
                                 <span class="medida-icon">📹</span>
-                                <h4>MEDIDA 1: Respuestas faciales</h4>
-                                <button class="btn-expand">Ver más</button>
-                            </div>
-                            <div class="medida-content hidden">
-                                <p>Se registró la presencia o ausencia de <strong>SONRISA</strong> durante la presentación de cada chiste.</p>
-                                
-                                <div class="definicion-box">
-                                    <h5>Definición:</h5>
-                                    <p>Curvatura ascendente de los bordes de los labios, con o sin exposición de dientes, con o sin sonido vocal.</p>
+                                <div class="medida-info">
+                                    <h4>Respuestas faciales</h4>
+                                    <p>Se registró presencia/ausencia de sonrisa (3 observadores independientes, kappa 0.85-1.0)</p>
                                 </div>
-
-                                <ul class="medida-detalles">
-                                    <li>✓ 3 observadores independientes</li>
-                                    <li>✓ Acuerdo casi perfecto (kappa 0.85-1.0)</li>
-                                </ul>
                             </div>
                         </div>
 
-                        <div class="medida-card" id="medida-reporte">
+                        <div class="medida-card">
                             <div class="medida-header">
                                 <span class="medida-icon">📝</span>
-                                <h4>MEDIDA 2: Autorreporte</h4>
-                                <button class="btn-expand">Ver más</button>
-                            </div>
-                            <div class="medida-content hidden">
-                                <p>Después de cada chiste, aparecían 5 opciones:</p>
-                                
-                                <div class="opciones-reporte">
-                                    <div class="opcion opcion-humor">① "Me pareció gracioso" <span class="badge-humor">← HUMOR</span></div>
-                                    <div class="opcion">② "Me pareció injusto"</div>
-                                    <div class="opcion">③ "Me preocupó"</div>
-                                    <div class="opcion">④ "Me enojó"</div>
-                                    <div class="opcion">⑤ "Otro"</div>
+                                <div class="medida-info">
+                                    <h4>Autorreporte</h4>
+                                    <p>5 opciones: "Me pareció gracioso", "Me pareció injusto", "Me preocupó", "Me enojó", "Otro"</p>
                                 </div>
-
-                                <p class="medida-conclusion">Medir ambas respuestas permitió analizar no solo <strong>SI</strong> aparecía el humor, sino <strong>SI AMBAS RESPUESTAS COINCIDÍAN.</strong></p>
                             </div>
                         </div>
                     </div>
@@ -570,7 +442,7 @@
                 </div>
 
                 <!-- Laboratorio 1: Reality -->
-                <div class="laboratorio active" id="lab-reality" data-color="reality">
+                <div class="laboratorio active" id="lab-reality">
                     <div class="lab-intro">
                         <h3>Protocolo de Realidad</h3>
                         <p class="lab-subtitle">"esto está ocurriendo ahora"</p>
@@ -583,7 +455,6 @@
                             </button>
                             
                             <div class="protocolo-player hidden" id="reality-player">
-                                <!-- El contenido se generará dinámicamente -->
                             </div>
                         </div>
                     </div>
@@ -593,13 +464,8 @@
                         <div class="explicacion-content hidden">
                             <div class="explicacion-box">
                                 <h4>🔬 ANÁLISIS FUNCIONAL</h4>
-                                <p>Según los autores del estudio:</p>
                                 <blockquote>
-                                    "El protocolo de Realidad fue construido con claves para establecer una perspectiva diferente del participante con los elementos del chiste.
-                                    
-                                    En el protocolo de Realidad, se le pide al participante que imagine que las cosas que se cuentan están ocurriendo realmente, es decir, el protocolo establece enmarcar los eventos ALLÁ en el contexto de YO (el participante)-Ahora-Allá.
-                                    
-                                    Quizás, mover al participante a esa relación de perspectiva podría contextualizar la función socialmente establecida del rol de un cirujano y las interacciones en la sala de cirugía, de modo que el participante debería derivar una función aversiva en lugar de derivar una función discriminativa para sonreír."
+                                    El protocolo de Realidad establece enmarcar los eventos ALLÁ en el contexto de YO (el participante)-Ahora-Allá, contextualizando la función socialmente establecida del rol de un cirujano, derivando una función aversiva en lugar de discriminativa para sonreír.
                                 </blockquote>
                             </div>
                         </div>
@@ -607,7 +473,7 @@
                 </div>
 
                 <!-- Laboratorio 2: Identification -->
-                <div class="laboratorio" id="lab-identification" data-color="identification">
+                <div class="laboratorio" id="lab-identification">
                     <div class="lab-intro">
                         <h3>Protocolo de Identificación</h3>
                         <p class="lab-subtitle">"ponte en su lugar"</p>
@@ -620,7 +486,6 @@
                             </button>
                             
                             <div class="protocolo-player hidden" id="identification-player">
-                                <!-- Contenido dinámico -->
                             </div>
                         </div>
                     </div>
@@ -631,21 +496,11 @@
                             <div class="explicacion-box">
                                 <h4>🔬 ANÁLISIS FUNCIONAL</h4>
                                 <blockquote>
-                                    "En el protocolo de Identificación, se le pide al participante que adopte la perspectiva de uno de los personajes del chiste.
-                                    
-                                    Esta manipulación apunta a alterar la toma de perspectiva y la relación deíctica entre el oyente y los eventos descritos."
+                                    El protocolo de Identificación pide al participante adoptar la perspectiva de uno de los personajes del chiste, alterando la toma de perspectiva y la relación deíctica entre el oyente y los eventos descritos.
                                 </blockquote>
-                                
                                 <div class="efecto-variable">
-                                    <h5>⚠️ EFECTO VARIABLE:</h5>
-                                    <p>"El efecto de este protocolo fue variable, sugiriendo que la identificación no siempre altera las funciones del humor de manera consistente."</p>
-                                    
-                                    <h5>POSIBLES RAZONES:</h5>
-                                    <ul>
-                                        <li>Flexibilidad en cambio de perspectiva</li>
-                                        <li>Historia personal con compromisos</li>
-                                        <li>Funciones específicas del formato del chiste (burbujas de diálogo, fuente especial para "MAHOU")</li>
-                                    </ul>
+                                    <h5>⚠️ EFECTO VARIABLE</h5>
+                                    <p>La identificación no siempre alteró las funciones del humor de manera consistente.</p>
                                 </div>
                             </div>
                         </div>
@@ -653,7 +508,7 @@
                 </div>
 
                 <!-- Laboratorio 3: Discomfort -->
-                <div class="laboratorio" id="lab-discomfort" data-color="discomfort">
+                <div class="laboratorio" id="lab-discomfort">
                     <div class="lab-intro">
                         <h3>Protocolo de Malestar</h3>
                         <p class="lab-subtitle">"cuando el contexto se vuelve aversivo"</p>
@@ -666,7 +521,6 @@
                             </button>
                             
                             <div class="protocolo-player hidden" id="discomfort-player">
-                                <!-- Contenido dinámico -->
                             </div>
                         </div>
                     </div>
@@ -677,19 +531,11 @@
                             <div class="explicacion-box">
                                 <h4>🔬 ANÁLISIS FUNCIONAL</h4>
                                 <blockquote>
-                                    "En el protocolo de Malestar se introducen descripciones que coordinan a los personajes del chiste con funciones aversivas, como injusticia, burla o daño.
-                                    
-                                    Al hacerlo, se altera el marco social desde el cual el chiste suele derivar humor."
+                                    El protocolo de Malestar introduce descripciones que coordinan a los personajes con funciones aversivas (injusticia, burla, daño), alterando el marco social desde el cual el chiste suele derivar humor.
                                 </blockquote>
-                                
                                 <div class="resultado-box">
-                                    <h5>RESULTADO:</h5>
-                                    <p>"La incongruencia deja de ser 'benigna' y comienza a evocar respuestas incompatibles con la risa."</p>
-                                </div>
-
-                                <div class="mecanismo-box">
-                                    <h5>MECANISMO PROPUESTO:</h5>
-                                    <p>"El protocolo de Malestar... se enfocó en coordinar los comportamientos de los personajes con funciones aversivas, de modo que las funciones socialmente establecidas vinculadas a hacer una entrevista de trabajo pudieran aumentar o dominar y, en consecuencia, pudieran prevenir la incongruencia de los participantes al relacionar los componentes del chiste y, en consecuencia, la prevención de la respuesta de sonrisa derivada."</p>
+                                    <h5>RESULTADO</h5>
+                                    <p>La incongruencia deja de ser 'benigna' y comienza a evocar respuestas incompatibles con la risa.</p>
                                 </div>
                             </div>
                         </div>
@@ -710,83 +556,66 @@
                     <h2>Resultados</h2>
                 </div>
 
-                <!-- Revelación progresiva -->
                 <div class="resultados-intro">
                     <h3>¿Qué pasó?</h3>
-                    <p class="texto-destacado">Antes de ver los resultados...</p>
-                    <p>¿Qué crees que pasó?</p>
-                    <p>Los protocolos, ¿alteraron el humor?</p>
+                    <p class="texto-destacado">¿Los protocolos alteraron el humor?</p>
                     <button class="btn-revelar" id="btn-revelar-resultados">
                         Ver qué pasó realmente
                     </button>
                 </div>
 
-                <!-- Fase 1 -->
                 <div class="resultados-fase hidden" id="resultados-fase-1">
-                    <h3>FASE 1: Primera exposición a los chistes</h3>
+                    <h3>FASE 1: Primera exposición</h3>
                     
-                    <div class="graficos-container">
-                        <!-- Canvas para gráficos - se generarán con JavaScript -->
-                        <div class="grafico-wrapper" id="grafico-doctor"></div>
-                        <div class="grafico-wrapper" id="grafico-beer"></div>
-                        <div class="grafico-wrapper" id="grafico-job"></div>
-                        <div class="grafico-wrapper" id="grafico-soccer"></div>
+                    <div class="graficos-container" id="graficos-fase-1">
                     </div>
 
                     <div class="interpretacion-box">
-                        <h4>📊 ¿QUÉ MUESTRAN ESTOS DATOS?</h4>
+                        <h4>📊 INTERPRETACIÓN</h4>
                         <blockquote>
-                            "Cuando los chistes se presentaron sin manipulación, la mayoría de los participantes sonrió y los evaluó como graciosos.
-                            
-                            Sin embargo, cuando se aplicaron los protocolos de Realidad y Malestar, las respuestas humorísticas disminuyeron drásticamente.
-                            
-                            El protocolo de Identificación produjo efectos menos consistentes."
+                            Cuando los protocolos de Realidad y Malestar se aplicaron, las respuestas humorísticas disminuyeron drásticamente. El protocolo de Identificación produjo efectos menos consistentes.
                         </blockquote>
                     </div>
                 </div>
 
-                <!-- Fase 2 -->
                 <div class="resultados-fase hidden" id="resultados-fase-2">
                     <h3>FASE 2: Segunda exposición (sin manipulaciones)</h3>
                     
-                    <div class="lineas-comparativas" id="grafico-lineas"></div>
-
                     <div class="interpretacion-box">
-                        <h4>📊 ¿QUÉ MUESTRAN ESTOS DATOS?</h4>
+                        <h4>📊 HALLAZGO</h4>
                         <blockquote>
-                            "Al repetir los chistes por segunda vez, se observó una reducción general del humor, INCLUSO SIN manipulación contextual.
-                            
-                            Estos hallazgos podrían indicar que ser re-expuesto a los chistes (incluso siendo la primera vez sin manipulación, como en la condición experimental) impactó la risa.
-                            
-                            Estos resultados podrían analizarse considerando el intervalo relativamente corto entre las dos exposiciones al chiste."
+                            Al repetir los chistes, se observó reducción general del humor INCLUSO SIN manipulación contextual, posiblemente por el intervalo corto entre exposiciones.
                         </blockquote>
                     </div>
-                </div>
 
-                <!-- Acuerdo entre medidas -->
-                <div class="resultados-acuerdo hidden" id="resultados-acuerdo">
-                    <h3>Hallazgo adicional: Acuerdo entre medidas</h3>
-                    
-                    <div class="venn-container">
-                        <div class="venn-diagram" id="venn-fase-1"></div>
-                        <div class="venn-diagram" id="venn-fase-2"></div>
-                    </div>
-
-                    <div class="interpretacion-box">
-                        <h4>📊 ¿QUÉ SIGNIFICA ESTO?</h4>
-                        <blockquote>
-                            "Las respuestas faciales (sonreír o no) y los autorreportes (considerar el chiste como gracioso o reportar otra sensación) PRINCIPALMENTE corrieron en paralelo en la primera fase, con un alto nivel de acuerdo.
-                            
-                            Además, el acuerdo entre ellos disminuyó ligeramente cuando los chistes se presentaron por segunda vez en ambas condiciones.
-                            
-                            Es decir, la sincronía de las dos respuestas pareció haberse alterado cuando los chistes se presentaron por segunda vez en cualquiera de las condiciones."
-                        </blockquote>
-
-                        <details class="interpretacion-detalle">
-                            <summary>¿Por qué es importante?</summary>
-                            <p>"El acuerdo puede analizarse como dos comportamientos bajo las mismas funciones o formando parte de la misma clase funcional.</p>
-                            <p>La falta de coordinación podría analizarse en términos de diferentes funciones contextuales."</p>
-                        </details>
+                    <div class="acuerdo-section">
+                        <h4>Acuerdo entre medidas faciales y verbales</h4>
+                        <div class="acuerdo-grid">
+                            <div class="acuerdo-card">
+                                <h5>FASE 1</h5>
+                                <div class="acuerdo-porcentaje">
+                                    <span class="porcentaje-numero">86%</span>
+                                    <span class="porcentaje-label">Control</span>
+                                </div>
+                                <div class="acuerdo-porcentaje">
+                                    <span class="porcentaje-numero">70%</span>
+                                    <span class="porcentaje-label">Experimental</span>
+                                </div>
+                                <p>Alto acuerdo entre sonreír y reportar "gracioso"</p>
+                            </div>
+                            <div class="acuerdo-card">
+                                <h5>FASE 2</h5>
+                                <div class="acuerdo-porcentaje">
+                                    <span class="porcentaje-numero">72%</span>
+                                    <span class="porcentaje-label">Control</span>
+                                </div>
+                                <div class="acuerdo-porcentaje">
+                                    <span class="porcentaje-numero">74%</span>
+                                    <span class="porcentaje-label">Experimental</span>
+                                </div>
+                                <p>El acuerdo disminuyó ligeramente en ambas condiciones</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -807,22 +636,15 @@
                 <div class="sintesis-visual">
                     <h3>¿Qué nos dicen estos resultados?</h3>
                     
-                    <div class="red-transformacion" id="red-final">
-                        <!-- Animación SVG de red transformándose -->
-                    </div>
-
                     <div class="sintesis-texto">
                         <blockquote class="sintesis-principal">
-                            "Los resultados sugieren que el humor no emerge simplemente por incongruencia,
-                            
+                            Los resultados sugieren que el humor no emerge simplemente por incongruencia,
                             sino por CÓMO ESA INCONGRUENCIA SE RELACIONA con funciones contextuales específicas.
-                            
-                            Cambiar la perspectiva, introducir realismo, o coordinar con malestar puede transformar completamente la función del chiste."
                         </blockquote>
 
                         <div class="perspectiva-relacional">
                             <h4>Desde una perspectiva relacional:</h4>
-                            <p>El humor puede entenderse como un <strong>fenómeno derivado de redes relacionales</strong> sensibles a:</p>
+                            <p>El humor puede entenderse como fenómeno derivado de <strong>redes relacionales</strong> sensibles a:</p>
                             <ul>
                                 <li>Contexto</li>
                                 <li>Historia del individuo</li>
@@ -844,17 +666,8 @@
                         <ul class="lista-final">
                             <li>El contexto</li>
                             <li>La historia del oyente</li>
-                            <li>Las funciones que se derivan en ese momento</li>
+                            <li>Las funciones que se derivan</li>
                         </ul>
-                    </div>
-
-                    <div class="acciones-finales">
-                        <a href="/path/to/paper.pdf" class="btn-paper" download>
-                            📄 Descargar paper completo
-                        </a>
-                        <a href="/laboratorio" class="btn-otros-estudios">
-                            Explorar otros estudios
-                        </a>
                     </div>
 
                     <div class="creditos">
@@ -867,8 +680,7 @@
     </main>
 
     <!-- Scripts -->
-    <script src="js/utils/animations.js"></script>
-    <script src="js/utils/chart-builder.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/modules/portada.js"></script>
     <script src="js/modules/pregunta-cientifica.js"></script>
     <script src="js/modules/marco-conceptual.js"></script>
@@ -876,6 +688,5 @@
     <script src="js/modules/protocolos.js"></script>
     <script src="js/modules/resultados.js"></script>
     <script src="js/modules/cierre.js"></script>
-    <script src="js/app.js"></script>
 </body>
 </html>
