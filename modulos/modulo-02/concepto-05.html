@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concepto 5: De Equivalencia a RFT | Módulo 2 - RFT</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="concepto-01.css">
+    <link rel="stylesheet" href="concepto-05.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="modulo-equivalencia">
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="lab-container">
+        
+        <header class="lab-header">
+            <button class="btn-back" onclick="window.location.href='concepto-04.html'">← Volver a Concepto 4</button>
+            <div class="lab-info">
+                <span class="modulo-badge">🔬 Módulo 2: Equivalencia de Estímulos</span>
+                <h1>Concepto 5: De Equivalencia a RFT - El Salto Conceptual</h1>
+            </div>
+            <div class="contador-global">
+                <span class="contador-label">Casos:</span>
+                <span class="contador-numero" id="casoActual">0</span>
+                <span class="contador-label">/10</span>
+            </div>
+        </header>
+
+        <!-- BLOQUE 1: Limitaciones de Equivalencia -->
+        <section class="teoria-seccion activa" id="teoria1">
+            <div class="teoria-card">
+                <div class="teoria-numero">1</div>
+                <h2 class="teoria-titulo">🚪 Las Limitaciones de la Equivalencia</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        La equivalencia de estímulos, como hemos visto, es un fenómeno poderoso que explica mucho 
+                        sobre el lenguaje simbólico y el aprendizaje complejo. Sin embargo, tiene una <strong>limitación 
+                        fundamental</strong>: solo describe relaciones de coordinación, igualdad o sameness. Cuando 
+                        decimos que A, B y C forman una clase de equivalencia, estamos diciendo que funcionalmente 
+                        son "lo mismo" - son intercambiables, mutuamente sustituibles. Esta es la relación de 
+                        <strong>coordinación</strong>.
+                    </p>
+                    
+                    <p>
+                        Pero el lenguaje humano es mucho más rico que simples relaciones de igualdad. Decimos que 
+                        algo es "mejor que", "peor que", "opuesto a", "parte de", "causa de", "antes de", "después de"... 
+                        Todas estas son relaciones que NO son de equivalencia. Por ejemplo, si aprendemos que "grande" 
+                        es opuesto a "pequeño", esta relación NO es simétrica en el sentido de equivalencia - no son 
+                        intercambiables. Si aprendemos que "10 es más que 5", tampoco podemos invertir y decir que 
+                        "5 es más que 10". La equivalencia, por potente que sea, <strong>no captura estas relaciones</strong>.
+                    </p>
+                    
+                    <!-- ANIMACIÓN 1: Tabla Comparativa Interactiva -->
+                    <div class="tabla-comparativa">
+                        <div class="ejemplo-titulo">🔍 Equivalencia vs Otras Relaciones</div>
+                        <p class="tabla-intro">Observa cómo la equivalencia solo captura UN tipo de relación:</p>
+                        
+                        <div class="tabla-grid">
+                            <div class="tabla-header">
+                                <div class="header-cell">Relación</div>
+                                <div class="header-cell">Ejemplo</div>
+                                <div class="header-cell">¿Es Equivalencia?</div>
+                                <div class="header-cell">Propiedades</div>
+                            </div>
+                            
+                            <div class="tabla-row" onclick="expandirFila(1)">
+                                <div class="cell tipo">✅ Coordinación</div>
+                                <div class="cell ejemplo">"Perro" = 🐕 = "Dog"</div>
+                                <div class="cell validez si">SÍ</div>
+                                <div class="cell propiedades">
+                                    <button class="btn-expandir">Ver detalles →</button>
+                                </div>
+                            </div>
+                            <div class="fila-expandida" id="detalle1">
+                                <div class="detalle-contenido">
+                                    <strong>✅ Esta ES equivalencia</strong><br>
+                                    • <strong>Reflexividad:</strong> Perro = Perro ✓<br>
+                                    • <strong>Simetría:</strong> Si "Perro"=🐕, entonces 🐕="Perro" ✓<br>
+                                    • <strong>Transitividad:</strong> Si "Perro"=🐕 y 🐕="Dog", entonces "Perro"="Dog" ✓<br>
+                                    • <strong>Intercambiabilidad:</strong> Todos los miembros son mutuamente sustituibles.
+                                </div>
+                            </div>
+                            
+                            <div class="tabla-row" onclick="expandirFila(2)">
+                                <div class="cell tipo">❌ Oposición</div>
+                                <div class="cell ejemplo">"Grande" ≠ "Pequeño"</div>
+                                <div class="cell validez no">NO</div>
+                                <div class="cell propiedades">
+                                    <button class="btn-expandir">Ver detalles →</button>
+                                </div>
+                            </div>
+                            <div class="fila-expandida" id="detalle2">
+                                <div class="detalle-contenido">
+                                    <strong>❌ Esto NO es equivalencia - es OPOSICIÓN</strong><br>
+                                    • NO son intercambiables (grande ≠ pequeño)<br>
+                                    • Simetría limitada: Si A es opuesto a B, B es opuesto a A ✓<br>
+                                    • Transitividad NO aplica: Si A opuesto B, B opuesto C → A NO opuesto C<br>
+                                    • <strong>Marco relacional de OPOSICIÓN</strong> (RFT lo estudia, equivalencia no)
+                                </div>
+                            </div>
+                            
+                            <div class="tabla-row" onclick="expandirFila(3)">
+                                <div class="cell tipo">❌ Comparación</div>
+                                <div class="cell ejemplo">"10 > 5"</div>
+                                <div class="cell validez no">NO</div>
+                                <div class="cell propiedades">
+                                    <button class="btn-expandir">Ver detalles →</button>
+                                </div>
+                            </div>
+                            <div class="fila-expandida" id="detalle3">
+                                <div class="detalle-contenido">
+                                    <strong>❌ Esto NO es equivalencia - es COMPARACIÓN</strong><br>
+                                    • NO simétrica: Si 10 > 5, entonces 5 NO > 10 (es 5 < 10)<br>
+                                    • Transitividad diferente: Si A > B y B > C, entonces A > C ✓<br>
+                                    • Pero la relación NO es de igualdad<br>
+                                    • <strong>Marco relacional COMPARATIVO</strong> (más/menos, mejor/peor)
+                                </div>
+                            </div>
+                            
+                            <div class="tabla-row" onclick="expandirFila(4)">
+                                <div class="cell tipo">❌ Jerarquía</div>
+                                <div class="cell ejemplo">"Perro" ⊂ "Animal"</div>
+                                <div class="cell validez no">NO</div>
+                                <div class="cell propiedades">
+                                    <button class="btn-expandir">Ver detalles →</button>
+                                </div>
+                            </div>
+                            <div class="fila-expandida" id="detalle4">
+                                <div class="detalle-contenido">
+                                    <strong>❌ Esto NO es equivalencia - es JERARQUÍA</strong><br>
+                                    • NO simétrica: Perro es parte de Animal, pero Animal NO es parte de Perro<br>
+                                    • Perro ⊂ Animal ⊂ Ser vivo (transitividad de inclusión)<br>
+                                    • Relación de categorización/taxonomía<br>
+                                    • <strong>Marco relacional JERÁRQUICO</strong> (parte-todo, miembro-categoría)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p>
+                        Esta limitación no es un defecto de la teoría de equivalencia - es simplemente su <strong>alcance 
+                        definido</strong>. Sidman y colegas nunca pretendieron que la equivalencia explicara todas las 
+                        relaciones del lenguaje, solo las relaciones de coordinación/igualdad. El problema surge cuando 
+                        queremos explicar el lenguaje completo: necesitamos un marco teórico más amplio que incluya no 
+                        solo equivalencia, sino también oposición, comparación, causalidad, jerarquía, temporalidad, 
+                        espacialidad, y muchas otras relaciones. Aquí es donde entra la <strong>Teoría de los Marcos 
+                        Relacionales (RFT)</strong>.
+                    </p>
+                    
+                    <p>
+                        RFT reconoce que la equivalencia fue un descubrimiento fundamental, pero propone que es solo 
+                        <strong>un tipo específico</strong> de una clase más amplia de fenómenos: los marcos relacionales 
+                        arbitrariamente aplicables. La equivalencia se convierte en el "marco de coordinación" dentro de 
+                        RFT. Todo lo que aprendimos sobre equivalencia sigue siendo válido y correcto, pero ahora entendemos 
+                        que es parte de un sistema mucho más grande. Es como descubrir que el hidrógeno (que estudiamos 
+                        extensamente) es solo un elemento de la tabla periódica completa.
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="irATeoria(2)">
+                    Continuar: RFT Expande el Marco →
+                </button>
+            </div>
+        </section>
+
+        <!-- BLOQUE 2: RFT Expande -->
+        <section class="teoria-seccion" id="teoria2">
+            <div class="teoria-card">
+                <div class="teoria-numero">2</div>
+                <h2 class="teoria-titulo">🌈 RFT: Expandiendo Hacia Múltiples Marcos Relacionales</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        La Teoría de los Marcos Relacionales (Relational Frame Theory, RFT) propone que los humanos 
+                        aprendemos a responder relacionalmente de múltiples maneras, no solo con relaciones de igualdad. 
+                        Un <strong>marco relacional</strong> es un patrón aprendido de responder a relaciones entre 
+                        estímulos basado en claves contextuales. RFT identifica al menos 15-20 tipos diferentes de marcos 
+                        relacionales, cada uno con sus propias propiedades características. Los más estudiados incluyen: 
+                        coordinación (equivalencia), oposición, comparación, distinción, jerarquía, temporalidad, 
+                        espacialidad, y causalidad.
+                    </p>
+                    
+                    <p>
+                        Cada marco relacional tiene <strong>propiedades formales específicas</strong>. Por ejemplo, el 
+                        marco de oposición tiene una forma particular de "implicación mutua": si A es opuesto a B, entonces 
+                        B es opuesto a A (simetría), pero la transitividad funciona diferente: si A es opuesto a B, y B es 
+                        opuesto a C, entonces A y C están relacionados por coordinación (son similares), no por oposición. 
+                        El marco comparativo tiene su propia lógica: si A > B y B > C, entonces A > C (transitividad), 
+                        pero la relación NO se invierte de la misma manera que en coordinación - si A > B, entonces B < A 
+                        (inversión direccional, no simple simetría).
+                    </p>
+                    
+                    <!-- ANIMACIÓN 2: Mapa de Marcos Relacionales -->
+                    <div class="mapa-marcos">
+                        <div class="ejemplo-titulo">🗺️ Mapa de Marcos Relacionales</div>
+                        <p class="mapa-intro">
+                            La equivalencia es solo UNO de muchos marcos relacionales que RFT estudia:
+                        </p>
+                        
+                        <div class="marcos-grid">
+                            <div class="marco-card coordinacion destacada" onclick="mostrarMarco('coordinacion')">
+                                <div class="marco-icono">✅</div>
+                                <div class="marco-nombre">COORDINACIÓN</div>
+                                <div class="marco-subtitulo">(Equivalencia)</div>
+                                <div class="marco-ejemplo">A = B = C</div>
+                            </div>
+                            
+                            <div class="marco-card" onclick="mostrarMarco('oposicion')">
+                                <div class="marco-icono">↔️</div>
+                                <div class="marco-nombre">OPOSICIÓN</div>
+                                <div class="marco-subtitulo">(Contrarios)</div>
+                                <div class="marco-ejemplo">Grande ≠ Pequeño</div>
+                            </div>
+                            
+                            <div class="marco-card" onclick="mostrarMarco('comparacion')">
+                                <div class="marco-icono">📊</div>
+                                <div class="marco-nombre">COMPARACIÓN</div>
+                                <div class="marco-subtitulo">(Más/Menos)</div>
+                                <div class="marco-ejemplo">A > B > C</div>
+                            </div>
+                            
+                            <div class="marco-card" onclick="mostrarMarco('distincion')">
+                                <div class="marco-icono">≠</div>
+                                <div class="marco-nombre">DISTINCIÓN</div>
+                                <div class="marco-subtitulo">(Diferente)</div>
+                                <div class="marco-ejemplo">X ≠ Y</div>
+                            </div>
+                            
+                            <div class="marco-card" onclick="mostrarMarco('jerarquia')">
+                                <div class="marco-icono">🌳</div>
+                                <div class="marco-nombre">JERARQUÍA</div>
+                                <div class="marco-subtitulo">(Parte-Todo)</div>
+                                <div class="marco-ejemplo">Dedo ⊂ Mano</div>
+                            </div>
+                            
+                            <div class="marco-card" onclick="mostrarMarco('temporal')">
+                                <div class="marco-icono">⏰</div>
+                                <div class="marco-nombre">TEMPORAL</div>
+                                <div class="marco-subtitulo">(Antes/Después)</div>
+                                <div class="marco-ejemplo">Ayer → Hoy</div>
+                            </div>
+                            
+                            <div class="marco-card" onclick="mostrarMarco('espacial')">
+                                <div class="marco-icono">📍</div>
+                                <div class="marco-nombre">ESPACIAL</div>
+                                <div class="marco-subtitulo">(Cerca/Lejos)</div>
+                                <div class="marco-ejemplo">Arriba ↑ Abajo</div>
+                            </div>
+                            
+                            <div class="marco-card" onclick="mostrarMarco('causal')">
+                                <div class="marco-icono">⚡</div>
+                                <div class="marco-nombre">CAUSAL</div>
+                                <div class="marco-subtitulo">(Causa-Efecto)</div>
+                                <div class="marco-ejemplo">Fuego → Calor</div>
+                            </div>
+                        </div>
+                        
+                        <div class="marco-detalle" id="marcoDetalle">
+                            <div class="detalle-header">
+                                <span class="detalle-icono" id="detalleIcono">✅</span>
+                                <span class="detalle-titulo" id="detalleTitulo">Marco de COORDINACIÓN</span>
+                            </div>
+                            <div class="detalle-descripcion" id="detalleDescripcion">
+                                Este es el marco que estudiamos como "equivalencia". 
+                                Los estímulos son mutuamente sustituibles e intercambiables.
+                                Propiedades: Reflexividad, Simetría, Transitividad.
+                            </div>
+                        </div>
+                        
+                        <div class="mensaje-puente">
+                            💡 <strong>La gran expansión de RFT:</strong> Todos estos marcos funcionan con los mismos 
+                            principios básicos (aplicabilidad arbitraria, implicación mutua, combinación), 
+                            pero cada uno tiene propiedades formales únicas.
+                        </div>
+                    </div>
+                    
+                    <p>
+                        Lo revolucionario de RFT es que propone que todos estos marcos relacionales son <strong>aprendidos 
+                        por los mismos procesos</strong>: entrenamiento con múltiples ejemplares, claves contextuales, y 
+                        reforzamiento diferencial. Un niño aprende el marco de oposición escuchando "no, el opuesto de 
+                        arriba es abajo", "el opuesto de grande es pequeño", "el opuesto de caliente es frío", hasta que 
+                        responde a nuevas relaciones de oposición (como "¿cuál es el opuesto de feliz?") sin entrenamiento 
+                        directo. Esta es <strong>conducta operante generalizada</strong>, no una capacidad innata.
+                    </p>
+                    
+                    <p>
+                        RFT no invalida la investigación en equivalencia; al contrario, la <strong>incorpora y expande</strong>. 
+                        Todo lo que sabemos sobre cómo formar clases de equivalencia sigue siendo cierto para el marco de 
+                        coordinación. Pero ahora entendemos que podemos aplicar principios similares para enseñar marcos de 
+                        oposición, comparación, jerarquía, etc. Esto tiene enormes implicaciones educativas: si entendemos 
+                        cómo los niños aprenden marcos relacionales, podemos diseñar mejores currículos. Y tiene profundas 
+                        implicaciones clínicas: muchos problemas psicológicos involucran marcos relacionales disfuncionales 
+                        (por ejemplo, relacionar "yo" con "fracaso" mediante coordinación rígida).
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="irATeoria(3)">
+                    Continuar: Marcos como Operantes →
+                </button>
+            </div>
+        </section>
+
+        <!-- BLOQUE 3: Operantes Generalizadas -->
+        <section class="teoria-seccion" id="teoria3">
+            <div class="teoria-card">
+                <div class="teoria-numero">3</div>
+                <h2 class="teoria-titulo">🔑 Marcos Relacionales como Operantes Generalizadas</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        Una de las contribuciones más importantes de RFT es reconceptualizar el responder relacional 
+                        como <strong>conducta operante</strong>, no como una capacidad cognitiva innata o un proceso 
+                        mental. Decir que el responder relacional es operante significa que es conducta aprendida, 
+                        modificable por sus consecuencias, y generalizable a nuevas situaciones. Específicamente, RFT 
+                        propone que responder relacionalmente es una <strong>operante generalizada overarching</strong> 
+                        - una clase funcional de respuestas que se aplica arbitrariamente a virtualmente cualquier 
+                        estímulo.
+                    </p>
+                    
+                    <!-- QUIZ INTERACTIVO: Operante vs Respondiente vs Innato -->
+                    <div class="quiz-conceptual">
+                        <div class="ejemplo-titulo">🤔 ¿Entiendes que los Marcos son OPERANTES?</div>
+                        <p class="quiz-intro">Clasifica cada ejemplo según su naturaleza:</p>
+                        
+                        <div class="ejemplo-clasificar" id="ejemplo1">
+                            <div class="ejemplo-texto">
+                                <strong>Ejemplo 1:</strong> Un niño de 2 años ve una manzana 🍎 y dice "manzana". 
+                                Luego ve la palabra escrita MANZANA y también dice "manzana" sin entrenamiento directo.
+                            </div>
+                            <div class="opciones-clasificar">
+                                <button onclick="clasificar(1, 'respondiente')">Respondiente (reflejo)</button>
+                                <button onclick="clasificar(1, 'operante')">Operante (aprendida)</button>
+                                <button onclick="clasificar(1, 'innato')">Innato (genético)</button>
+                            </div>
+                            <div class="feedback-clasificar" id="feedback1"></div>
+                        </div>
+                        
+                        <div class="ejemplo-clasificar" id="ejemplo2">
+                            <div class="ejemplo-texto">
+                                <strong>Ejemplo 2:</strong> Cuando ves una luz muy brillante, tu pupila se contrae automáticamente.
+                            </div>
+                            <div class="opciones-clasificar">
+                                <button onclick="clasificar(2, 'respondiente')">Respondiente (reflejo)</button>
+                                <button onclick="clasificar(2, 'operante')">Operante (aprendida)</button>
+                                <button onclick="clasificar(2, 'innato')">Innato (genético)</button>
+                            </div>
+                            <div class="feedback-clasificar" id="feedback2"></div>
+                        </div>
+                        
+                        <div class="ejemplo-clasificar" id="ejemplo3">
+                            <div class="ejemplo-texto">
+                                <strong>Ejemplo 3:</strong> Un niño aprende que "grande" es opuesto a "pequeño", 
+                                luego deriva que "feliz" es opuesto a "triste" sin que se lo enseñen directamente.
+                            </div>
+                            <div class="opciones-clasificar">
+                                <button onclick="clasificar(3, 'respondiente')">Respondiente (reflejo)</button>
+                                <button onclick="clasificar(3, 'operante')">Operante (aprendida)</button>
+                                <button onclick="clasificar(3, 'innato')">Innato (genético)</button>
+                            </div>
+                            <div class="feedback-clasificar" id="feedback3"></div>
+                        </div>
+                    </div>
+                    
+                    <p>
+                        La evidencia de que los marcos relacionales son operantes viene de múltiples fuentes. Primero, 
+                        se desarrollan gradualmente con la edad - los niños pequeños muestran equivalencia antes que 
+                        marcos comparativos complejos, sugiriendo <strong>desarrollo ontogenético</strong> no maduración 
+                        biológica. Segundo, varían entre culturas y contextos lingüísticos - algunas culturas estructuran 
+                        ciertas relaciones diferente. Tercero, y más importante, pueden ser <strong>entrenados 
+                        explícitamente</strong>: estudios muestran que entrenar niños en responder relacionalmente 
+                        acelera su adquisición y mejora su flexibilidad.
+                    </p>
+                    
+                    <p>
+                        Las operantes generalizadas tienen características específicas: (1) se aplican a clases amplias 
+                        de estímulos (no solo objetos específicos), (2) se mantienen por reforzamiento generalizado (no 
+                        solo comida o evitación de dolor), (3) muestran <strong>transformación de funciones</strong> - 
+                        las funciones de un estímulo se transfieren a estímulos relacionados, y (4) son modificables por 
+                        el contexto. El responder relacional cumple todos estos criterios. Por ejemplo, una vez que 
+                        aprendiste el marco comparativo "más grande que", puedes aplicarlo arbitrariamente a números, 
+                        edificios, ideas, emociones - virtualmente cualquier cosa.
+                    </p>
+                    
+                    <p>
+                        Entender los marcos relacionales como operantes tiene implicaciones profundas. Significa que NO 
+                        están determinados genéticamente (aunque capacidades básicas de aprendizaje sí lo están), sino 
+                        que se forman en la <strong>historia de aprendizaje</strong> de cada individuo. Esto explica por 
+                        qué las personas con historias diferentes responden relacionalmente de maneras diferentes, y por 
+                        qué algunos problemas psicológicos involucran patrones relacionales inflexibles o disfuncionales. 
+                        Si los marcos son operantes, entonces son modificables - esta es la base de las intervenciones 
+                        clínicas basadas en RFT como ACT (Terapia de Aceptación y Compromiso).
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="irATeoria(4)">
+                    Continuar: Control Contextual →
+                </button>
+            </div>
+        </section>
+
+        <!-- BLOQUE 4: Crels y Cfunc -->
+        <section class="teoria-seccion" id="teoria4">
+            <div class="teoria-card">
+                <div class="teoria-numero">4</div>
+                <h2 class="teoria-titulo">🎯 Control Contextual: Crels y Cfunc</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        Un concepto central de RFT es que el responder relacional está bajo <strong>control contextual 
+                        discriminativo</strong>. Esto significa que claves contextuales específicas controlan: (1) QUÉ 
+                        tipo de relación responder (coordinación vs oposición vs comparación), y (2) QUÉ funciones se 
+                        transforman a través de la relación. RFT distingue dos tipos de control contextual: <strong>Crels 
+                        (contextual relacional)</strong> y <strong>Cfunc (contextual funcional)</strong>.
+                    </p>
+                    
+                    <p>
+                        Los <strong>Crels (claves contextuales relacionales)</strong> especifican el tipo de marco 
+                        relacional a aplicar. Por ejemplo, las palabras "es igual a", "es lo mismo que", "es" funcionan 
+                        como Crels para coordinación. Las palabras "es opuesto a", "es diferente de", "contrario a" son 
+                        Crels para oposición. "Es más grande que", "es mejor que", "supera a" son Crels para comparación. 
+                        Cuando un niño escucha "el gato es lo mismo que cat", el Crel "es lo mismo que" señala que debe 
+                        responder con el marco de coordinación (equivalencia). Si escucha "grande es opuesto a pequeño", 
+                        el Crel "es opuesto a" señala el marco de oposición.
+                    </p>
+                    
+                    <p>
+                        Los <strong>Cfunc (claves contextuales funcionales)</strong> especifican qué funciones 
+                        psicológicas se transforman a través del marco relacional. Por ejemplo, si aprendemos que 
+                        "araña" = "spider" (coordinación), y tenemos miedo a las arañas reales, el Cfunc apropiado hace 
+                        que transfiramos el miedo a la palabra "spider" también. Pero en otros contextos, el mismo marco 
+                        de coordinación podría NO transferir la función de miedo - un biólogo estudiando arañas podría 
+                        responder a "spider" con curiosidad científica, no miedo. El <strong>Cfunc determina SI y CÓMO 
+                        se transfieren las funciones</strong>.
+                    </p>
+                    
+                    <!-- ANIMACIÓN FINAL: Ejemplos Crels/Cfunc -->
+                    <div class="demo-control-contextual">
+                        <div class="ejemplo-titulo">🎭 Crels y Cfunc en Acción</div>
+                        <p class="demo-intro">
+                            Observa cómo el mismo estímulo puede relacionarse de múltiples maneras según el contexto:
+                        </p>
+                        
+                        <div class="demo-escenario">
+                            <div class="estimulos-demo">
+                                <div class="estimulo-demo-box">
+                                    <div class="estimulo-contenido">🏋️ EJERCICIO</div>
+                                    <div class="estimulo-label">Estímulo A</div>
+                                </div>
+                                
+                                <div class="crel-selector">
+                                    <select id="crelSelect" onchange="cambiarRelacion()">
+                                        <option value="">-- Selecciona Crel --</option>
+                                        <option value="coordinacion">es lo mismo que</option>
+                                        <option value="oposicion">es opuesto a</option>
+                                        <option value="causa">causa</option>
+                                        <option value="previene">previene</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="estimulo-demo-box">
+                                    <div class="estimulo-contenido">💪 SALUD</div>
+                                    <div class="estimulo-label">Estímulo B</div>
+                                </div>
+                            </div>
+                            
+                            <div class="resultado-relacion" id="resultadoRelacion">
+                                <div class="resultado-icono">👆</div>
+                                <div class="resultado-texto">
+                                    Selecciona un Crel (clave contextual relacional) para ver 
+                                    cómo cambia la relación entre EJERCICIO y SALUD
+                                </div>
+                            </div>
+                            
+                            <div class="cfunc-demo" id="cfuncDemo" style="display: none;">
+                                <h4>🎯 Transformación de Funciones (Cfunc)</h4>
+                                <div class="cfunc-contenido" id="cfuncContenido"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p>
+                        La distinción Crels/Cfunc es crucial para entender la flexibilidad y complejidad del lenguaje 
+                        humano. Un mismo par de estímulos puede relacionarse de múltiples maneras (coordinación, oposición, 
+                        comparación, causalidad) dependiendo de los Crels presentes. Y las funciones que se transforman 
+                        dependen de los Cfunc. Esta es la base de la <strong>flexibilidad psicológica</strong>: la 
+                        capacidad de cambiar cómo nos relacionamos con nuestros pensamientos y emociones según el contexto. 
+                        También explica la <strong>inflexibilidad psicológica</strong>: cuando respondemos rígidamente con 
+                        el mismo marco relacional independientemente del contexto, o cuando las funciones se transforman 
+                        inapropiadamente.
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="iniciarEjercicio()">
+                    Iniciar Ejercicio: Equivalencia vs Otros Marcos →
+                </button>
+            </div>
+        </section>
+
+        <!-- EJERCICIO: Identificación de Marcos -->
+        <section class="teoria-seccion" id="ejercicio">
+            <div class="ejercicio-card">
+                <h2 class="ejercicio-titulo">🎯 Identificador de Marcos Relacionales</h2>
+                <p class="ejercicio-descripcion">
+                    Identifica si cada relación es equivalencia (coordinación) o un marco relacional diferente.
+                </p>
+                
+                <div class="progreso-ejercicio">
+                    <div class="progreso-barra">
+                        <div class="progreso-fill" id="progresoFill"></div>
+                    </div>
+                    <div class="progreso-info">
+                        <span>Caso <strong id="casoNumero">1</strong> de 10</span>
+                        <span>Aciertos: <strong id="aciertos">0</strong>/10 (<strong id="porcentaje">0</strong>%)</span>
+                    </div>
+                </div>
+
+                <div class="caso-card" id="casoCard">
+                    <div class="relacion-presentada" id="relacionPresentada"></div>
+                    
+                    <div class="caso-pregunta">¿Qué tipo de relación es esta?</div>
+                    
+                    <div class="caso-opciones" id="casoOpciones"></div>
+                    
+                    <div class="caso-feedback" id="casoFeedback"></div>
+                </div>
+
+                <div class="resultado-final" id="resultadoFinal" style="display: none;">
+                    <h3>🎉 Ejercicio Completado</h3>
+                    <div class="resultado-stats">
+                        <div class="resultado-stat">
+                            <span class="resultado-numero" id="finalAciertos">0</span>
+                            <span class="resultado-label">Aciertos</span>
+                        </div>
+                        <div class="resultado-stat">
+                            <span class="resultado-numero" id="finalPorcentaje">0</span>
+                            <span class="resultado-label">% Correcto</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resultado-mensaje" id="resultadoMensaje"></div>
+                    
+                    <div class="mensaje-puente-rft">
+                        <h3>🚀 Bienvenido a RFT</h3>
+                        <p>
+                            La <strong>equivalencia</strong> fue solo el comienzo. Ahora entiendes que es 
+                            el marco de <strong>COORDINACIÓN</strong>, uno de muchos marcos relacionales.
+                        </p>
+                        <p>
+                            <strong>RFT estudia TODOS los marcos relacionales:</strong><br>
+                            Coordinación, Oposición, Comparación, Jerarquía, Temporal, Espacial, 
+                            Causal, Condicional, Deíctico... y cómo se combinan para crear el lenguaje 
+                            y cognición humana completa.
+                        </p>
+                        <p class="mensaje-final-enfasis">
+                            💡 Has completado el Módulo 2: Equivalencia de Estímulos.<br>
+                            El siguiente paso es explorar RFT en profundidad en el <strong>Módulo 3</strong>.
+                        </p>
+                    </div>
+                    
+                    <div class="resultado-acciones">
+                        <button class="btn-lab-secondary" onclick="reiniciarEjercicio()">🔄 Repetir ejercicio</button>
+                        <button class="btn-lab-primary" onclick="window.location.href='../index.html'">🏠 Volver al Inicio</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="concepto-05.js"></script>
+</body>
+</html>
