@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concepto 4: Procedimientos de Entrenamiento | Módulo 2 - RFT</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="concepto-01.css">
+    <link rel="stylesheet" href="concepto-04.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="modulo-equivalencia">
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="lab-container">
+        
+        <header class="lab-header">
+            <button class="btn-back" onclick="window.location.href='concepto-03.html'">← Volver a Concepto 3</button>
+            <div class="lab-info">
+                <span class="modulo-badge">🔬 Módulo 2: Equivalencia de Estímulos</span>
+                <h1>Concepto 4: Procedimientos de Entrenamiento</h1>
+            </div>
+            <div class="contador-global">
+                <span class="contador-label">Casos:</span>
+                <span class="contador-numero" id="casoActual">0</span>
+                <span class="contador-label">/10</span>
+            </div>
+        </header>
+
+        <!-- BLOQUE 1: Procedimientos Básicos -->
+        <section class="teoria-seccion activa" id="teoria1">
+            <div class="teoria-card">
+                <div class="teoria-numero">1</div>
+                <h2 class="teoria-titulo">🔧 Procedimientos Básicos de Entrenamiento</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        Aunque las pruebas necesarias para demostrar equivalencia son siempre las mismas 
+                        (reflexividad, simetría, transitividad), el <strong>entrenamiento previo</strong> puede 
+                        variar entre varios procedimientos. La elección del procedimiento depende del objetivo 
+                        educativo, las características del estudiante, y la eficiencia deseada. Cada procedimiento 
+                        tiene ventajas y desventajas específicas que lo hacen más o menos apropiado para diferentes 
+                        contextos.
+                    </p>
+                    
+                    <p>
+                        El <strong>Procedimiento Lineal</strong> ha sido el más utilizado en investigación sobre 
+                        clases de equivalencia. Consiste en entrenar secuencialmente: primero la discriminación 
+                        condicional A→B (A como muestra, B como comparación), y posteriormente B→C (B como muestra, 
+                        C como comparación). Esta estructura en cadena es intuitiva y generalmente produce resultados 
+                        robustos. Es el procedimiento de elección cuando se busca <strong>máxima confiabilidad</strong> 
+                        en la formación de clases de equivalencia.
+                    </p>
+                    
+                    <!-- ANIMACIÓN 1: Comparador de Procedimientos -->
+                    <div class="comparador-procedimientos">
+                        <div class="ejemplo-titulo">🎯 Explora los 3 Procedimientos Básicos</div>
+                        <p class="comparador-intro">Selecciona cada procedimiento para ver cómo funciona:</p>
+                        
+                        <div class="tabs-procedimientos">
+                            <button class="tab-proc activa" onclick="mostrarProcedimiento('lineal')">
+                                📏 LINEAL
+                            </button>
+                            <button class="tab-proc" onclick="mostrarProcedimiento('uno-muchos')">
+                                🌟 UNO-A-MUCHOS
+                            </button>
+                            <button class="tab-proc" onclick="mostrarProcedimiento('muchos-uno')">
+                                🎯 MUCHOS-A-UNO
+                            </button>
+                        </div>
+                        
+                        <div class="contenido-proc activo" id="proc-lineal">
+                            <div class="proc-header">
+                                <h4>📏 Procedimiento LINEAL</h4>
+                                <p>Entrenamiento secuencial en cadena</p>
+                            </div>
+                            <div class="proc-visual">
+                                <svg width="100%" height="200" viewBox="0 0 500 200">
+                                    <circle cx="100" cy="100" r="35" fill="#00BCD4" stroke="white" stroke-width="4"/>
+                                    <text x="100" y="110" text-anchor="middle" fill="white" font-size="28" font-weight="bold">A</text>
+                                    
+                                    <line x1="135" y1="100" x2="215" y2="100" stroke="#00FF88" stroke-width="5" marker-end="url(#arrowGreen)"/>
+                                    <text x="175" y="85" text-anchor="middle" fill="#00FF88" font-size="12" font-weight="bold">1° entrenar</text>
+                                    
+                                    <circle cx="250" cy="100" r="35" fill="#00BCD4" stroke="white" stroke-width="4"/>
+                                    <text x="250" y="110" text-anchor="middle" fill="white" font-size="28" font-weight="bold">B</text>
+                                    
+                                    <line x1="285" y1="100" x2="365" y2="100" stroke="#00FF88" stroke-width="5" marker-end="url(#arrowGreen)"/>
+                                    <text x="325" y="85" text-anchor="middle" fill="#00FF88" font-size="12" font-weight="bold">2° entrenar</text>
+                                    
+                                    <circle cx="400" cy="100" r="35" fill="#00BCD4" stroke="white" stroke-width="4"/>
+                                    <text x="400" y="110" text-anchor="middle" fill="white" font-size="28" font-weight="bold">C</text>
+                                    
+                                    <defs>
+                                        <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                            <path d="M0,0 L0,6 L9,3 z" fill="#00FF88" />
+                                        </marker>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <div class="proc-detalles">
+                                <div class="detalle-item ventaja">
+                                    <strong>✅ Ventajas:</strong>
+                                    <ul>
+                                        <li>Más robusto y confiable</li>
+                                        <li>Fácil de implementar</li>
+                                        <li>Estructura intuitiva (cadena)</li>
+                                    </ul>
+                                </div>
+                                <div class="detalle-item desventaja">
+                                    <strong>⚠️ Desventajas:</strong>
+                                    <ul>
+                                        <li>Puede ser más lento</li>
+                                        <li>Requiere orden secuencial estricto</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contenido-proc" id="proc-uno-muchos">
+                            <div class="proc-header">
+                                <h4>🌟 Procedimiento UNO-A-MUCHOS</h4>
+                                <p>Mismo conjunto de muestras, múltiples comparaciones</p>
+                            </div>
+                            <div class="proc-visual">
+                                <svg width="100%" height="200" viewBox="0 0 500 200">
+                                    <circle cx="100" cy="100" r="35" fill="#FFD600" stroke="white" stroke-width="4"/>
+                                    <text x="100" y="110" text-anchor="middle" fill="#0D1B2A" font-size="28" font-weight="bold">A</text>
+                                    
+                                    <line x1="130" y1="80" x2="315" y2="50" stroke="#00FF88" stroke-width="5" marker-end="url(#arrowGreen)"/>
+                                    <text x="220" y="45" text-anchor="middle" fill="#00FF88" font-size="12" font-weight="bold">1° entrenar</text>
+                                    
+                                    <line x1="130" y1="120" x2="315" y2="150" stroke="#00FF88" stroke-width="5" marker-end="url(#arrowGreen)"/>
+                                    <text x="220" y="170" text-anchor="middle" fill="#00FF88" font-size="12" font-weight="bold">2° entrenar</text>
+                                    
+                                    <circle cx="350" cy="50" r="35" fill="#00BCD4" stroke="white" stroke-width="4"/>
+                                    <text x="350" y="60" text-anchor="middle" fill="white" font-size="28" font-weight="bold">B</text>
+                                    
+                                    <circle cx="350" cy="150" r="35" fill="#00BCD4" stroke="white" stroke-width="4"/>
+                                    <text x="350" y="160" text-anchor="middle" fill="white" font-size="28" font-weight="bold">C</text>
+                                </svg>
+                            </div>
+                            <div class="proc-detalles">
+                                <div class="detalle-item ventaja">
+                                    <strong>✅ Ventajas:</strong>
+                                    <ul>
+                                        <li>Usado por Sidman (1971) originalmente</li>
+                                        <li>Eficiente para enseñar categorías</li>
+                                        <li>Un mismo estímulo controla múltiples respuestas</li>
+                                    </ul>
+                                </div>
+                                <div class="detalle-item desventaja">
+                                    <strong>⚠️ Desventajas:</strong>
+                                    <ul>
+                                        <li>Puede generar confusión inicial</li>
+                                        <li>Requiere buena discriminación</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contenido-proc" id="proc-muchos-uno">
+                            <div class="proc-header">
+                                <h4>🎯 Procedimiento MUCHOS-A-UNO</h4>
+                                <p>Múltiples muestras, mismo conjunto de comparaciones</p>
+                            </div>
+                            <div class="proc-visual">
+                                <svg width="100%" height="200" viewBox="0 0 500 200">
+                                    <circle cx="100" cy="50" r="35" fill="#00BCD4" stroke="white" stroke-width="4"/>
+                                    <text x="100" y="60" text-anchor="middle" fill="white" font-size="28" font-weight="bold">B</text>
+                                    
+                                    <circle cx="100" cy="150" r="35" fill="#00BCD4" stroke="white" stroke-width="4"/>
+                                    <text x="100" y="160" text-anchor="middle" fill="white" font-size="28" font-weight="bold">C</text>
+                                    
+                                    <line x1="135" y1="60" x2="315" y2="90" stroke="#00FF88" stroke-width="5" marker-end="url(#arrowGreen)"/>
+                                    <text x="225" y="60" text-anchor="middle" fill="#00FF88" font-size="12" font-weight="bold">1° entrenar</text>
+                                    
+                                    <line x1="135" y1="140" x2="315" y2="110" stroke="#00FF88" stroke-width="5" marker-end="url(#arrowGreen)"/>
+                                    <text x="225" y="150" text-anchor="middle" fill="#00FF88" font-size="12" font-weight="bold">2° entrenar</text>
+                                    
+                                    <circle cx="350" cy="100" r="35" fill="#FFD600" stroke="white" stroke-width="4"/>
+                                    <text x="350" y="110" text-anchor="middle" fill="#0D1B2A" font-size="28" font-weight="bold">A</text>
+                                </svg>
+                            </div>
+                            <div class="proc-detalles">
+                                <div class="detalle-item ventaja">
+                                    <strong>✅ Ventajas:</strong>
+                                    <ul>
+                                        <li>Complementario a Uno-a-Muchos</li>
+                                        <li>Útil para convergencia de respuestas</li>
+                                        <li>Fortalece el conjunto común</li>
+                                    </ul>
+                                </div>
+                                <div class="detalle-item desventaja">
+                                    <strong>⚠️ Desventajas:</strong>
+                                    <ul>
+                                        <li>Menos estudiado que Lineal</li>
+                                        <li>Puede generar perseveración</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p>
+                        El <strong>Procedimiento Uno-a-Muchos</strong> fue utilizado originalmente por Sidman (1971) 
+                        en su estudio pionero. Consiste en entrenar dos discriminaciones condicionales donde el 
+                        conjunto A actúa como muestra en ambas: A→B y A→C. Este procedimiento es especialmente útil 
+                        cuando queremos que un mismo estímulo (por ejemplo, una palabra hablada) controle múltiples 
+                        respuestas diferentes (seleccionar la imagen, seleccionar la palabra escrita). La prueba más 
+                        habitual evalúa si emergen las relaciones B↔C, comprobando <strong>simetría y transitividad 
+                        simultáneamente</strong>.
+                    </p>
+                    
+                    <p>
+                        El <strong>Procedimiento Muchos-a-Uno</strong> es complementario al anterior. Mientras que 
+                        Uno-a-Muchos comparte un único conjunto de muestras, Muchos-a-Uno comparte un único conjunto 
+                        de comparaciones. Se entrena: B→A y C→A. Este procedimiento es útil cuando múltiples estímulos 
+                        diferentes deben converger en una misma respuesta. Por ejemplo, diferentes representaciones del 
+                        mismo concepto (imagen, palabra hablada, palabra escrita) todas apuntando al mismo referente. 
+                        Como en Uno-a-Muchos, la prueba típica evalúa B↔C, verificando la formación de la clase de 
+                        equivalencia.
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="irATeoria(2)">
+                    Continuar: Eficiencia en el Aprendizaje →
+                </button>
+            </div>
+        </section>
+
+        <!-- BLOQUE 2: Eficiencia -->
+        <section class="teoria-seccion" id="teoria2">
+            <div class="teoria-card">
+                <div class="teoria-numero">2</div>
+                <h2 class="teoria-titulo">⚡ Eficiencia en el Aprendizaje por Equivalencia</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        Una de las aplicaciones más poderosas de las clases de equivalencia es la <strong>multiplicación 
+                        exponencial del aprendizaje</strong>. La pregunta clave es: ¿cuántas relaciones necesito entrenar 
+                        versus cuántas relaciones totales obtendré? La respuesta depende del número de estímulos en la 
+                        clase y del procedimiento de entrenamiento elegido. Esta eficiencia no es solo una curiosidad 
+                        teórica, sino que tiene profundas implicaciones prácticas para la educación y la rehabilitación.
+                    </p>
+                    
+                    <p>
+                        Consideremos un ejemplo concreto con 3 conjuntos de estímulos (A, B, C), cada uno con 3 miembros 
+                        (A1, A2, A3; B1, B2, B3; C1, C2, C3). Si usamos el procedimiento lineal, necesitamos entrenar 
+                        solo <strong>6 relaciones</strong>: A1→B1, A2→B2, A3→B3 (primera discriminación) y B1→C1, B2→C2, 
+                        B3→C3 (segunda discriminación). Sin embargo, una vez formadas las clases de equivalencia, emergen 
+                        automáticamente <strong>54 relaciones totales</strong> (cada estímulo puede relacionarse con 
+                        cada otro en su clase, en ambas direcciones, más reflexividad). ¡Esto es una eficiencia del 
+                        800%!
+                    </p>
+                    
+                    <!-- ANIMACIÓN 2: Calculadora Avanzada de Eficiencia -->
+                    <div class="calculadora-avanzada">
+                        <div class="ejemplo-titulo">🧮 Calculadora de Eficiencia por Procedimiento</div>
+                        <p class="calc-intro">
+                            Compara cuántas relaciones entrenas vs cuántas obtienes con cada procedimiento:
+                        </p>
+                        
+                        <div class="calc-controles-avanzada">
+                            <div class="control-grupo">
+                                <label>Número de conjuntos (A, B, C...):</label>
+                                <div class="slider-container">
+                                    <input type="range" min="3" max="5" value="3" id="sliderConjuntos" oninput="calcularEficienciaAvanzada()">
+                                    <span class="slider-valor" id="valorConjuntos">3</span>
+                                </div>
+                            </div>
+                            
+                            <div class="control-grupo">
+                                <label>Estímulos por conjunto:</label>
+                                <div class="slider-container">
+                                    <input type="range" min="2" max="5" value="3" id="sliderEstimulos" oninput="calcularEficienciaAvanzada()">
+                                    <span class="slider-valor" id="valorEstimulosPorConj">3</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="comparacion-procedimientos-calc">
+                            <div class="proc-calc lineal-calc">
+                                <h4>📏 Lineal</h4>
+                                <div class="calc-numeros">
+                                    <div class="num-entrena">
+                                        <span class="num" id="linealEntrena">6</span>
+                                        <span class="label">Entrenas</span>
+                                    </div>
+                                    <div class="flecha-calc">→</div>
+                                    <div class="num-total">
+                                        <span class="num" id="linealTotal">54</span>
+                                        <span class="label">Totales</span>
+                                    </div>
+                                </div>
+                                <div class="eficiencia-badge" id="linealEfic">800%</div>
+                            </div>
+                            
+                            <div class="proc-calc uno-muchos-calc">
+                                <h4>🌟 Uno-a-Muchos</h4>
+                                <div class="calc-numeros">
+                                    <div class="num-entrena">
+                                        <span class="num" id="unoMuchosEntrena">6</span>
+                                        <span class="label">Entrenas</span>
+                                    </div>
+                                    <div class="flecha-calc">→</div>
+                                    <div class="num-total">
+                                        <span class="num" id="unoMuchosTotal">54</span>
+                                        <span class="label">Totales</span>
+                                    </div>
+                                </div>
+                                <div class="eficiencia-badge" id="unoMuchosEfic">800%</div>
+                            </div>
+                            
+                            <div class="proc-calc muchos-uno-calc">
+                                <h4>🎯 Muchos-a-Uno</h4>
+                                <div class="calc-numeros">
+                                    <div class="num-entrena">
+                                        <span class="num" id="muchosUnoEntrena">6</span>
+                                        <span class="label">Entrenas</span>
+                                    </div>
+                                    <div class="flecha-calc">→</div>
+                                    <div class="num-total">
+                                        <span class="num" id="muchosUnoTotal">54</span>
+                                        <span class="label">Totales</span>
+                                    </div>
+                                </div>
+                                <div class="eficiencia-badge" id="muchosUnoEfic">800%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mensaje-calc-avanzada" id="mensajeCalcAvanzada">
+                            💡 Con 3 conjuntos de 3 estímulos: entrenas 6, obtienes 54 totales (800% eficiencia)
+                        </div>
+                    </div>
+                    
+                    <p>
+                        En aplicaciones educativas, esta eficiencia es transformadora. Imagina enseñar vocabulario en un 
+                        segundo idioma: si entrenas la relación entre palabra en español → palabra en inglés, y luego 
+                        palabra en inglés → imagen, automáticamente emergen: palabra en español → imagen, imagen → palabra 
+                        en español, imagen → palabra en inglés, y todas las inversas por simetría. De <strong>2 relaciones 
+                        entrenadas</strong> obtienes <strong>6 relaciones funcionales</strong>. Cuando escalas esto a 
+                        vocabularios de 50-100 palabras, el ahorro de tiempo es enorme.
+                    </p>
+                    
+                    <p>
+                        La clave para maximizar eficiencia es la <strong>selección estratégica del procedimiento</strong>. 
+                        El procedimiento lineal generalmente requiere menos ensayos de entrenamiento total, pero puede tomar 
+                        más tiempo secuencial. Los procedimientos Uno-a-Muchos y Muchos-a-Uno pueden ser más eficientes en 
+                        términos de tiempo total, especialmente cuando se pueden entrenar múltiples discriminaciones en 
+                        paralelo. La elección óptima depende de: (1) las características del estudiante, (2) los recursos 
+                        disponibles, (3) el contenido específico a enseñar, y (4) los objetivos educativos finales. No existe 
+                        un "mejor" procedimiento universal, sino <strong>procedimientos más o menos apropiados</strong> para 
+                        contextos específicos.
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="irATeoria(3)">
+                    Continuar: Procedimientos Especiales →
+                </button>
+            </div>
+        </section>
+
+        <!-- BLOQUE 3: Procedimientos Especiales -->
+        <section class="teoria-seccion" id="teoria3">
+            <div class="teoria-card">
+                <div class="teoria-numero">3</div>
+                <h2 class="teoria-titulo">🔬 Procedimientos Especiales de Entrenamiento</h2>
+                
+                <div class="teoria-contenido">
+                    <p>
+                        Más allá de los tres procedimientos básicos, existen <strong>procedimientos especiales</strong> 
+                        que utilizan paradigmas diferentes para generar clases de equivalencia. Estos procedimientos son 
+                        importantes tanto teóricamente (ayudan a entender los mecanismos subyacentes de la equivalencia) 
+                        como prácticamente (ofrecen alternativas cuando los procedimientos estándar no son efectivos). 
+                        Cada uno tiene indicaciones específicas y requiere condiciones particulares para funcionar.
+                    </p>
+                    
+                    <!-- QUIZ INTERACTIVO: Cuándo usar cada procedimiento -->
+                    <div class="quiz-procedimientos">
+                        <div class="ejemplo-titulo">🎯 ¿Cuándo Usar Cada Procedimiento Especial?</div>
+                        <p class="quiz-intro">Arrastra cada escenario al procedimiento más apropiado:</p>
+                        
+                        <div class="escenarios-drag">
+                            <div class="escenario-item" draggable="true" id="escenario1" data-correcto="vaughan">
+                                <div class="escenario-icon">📊</div>
+                                <div class="escenario-texto">
+                                    Sujeto tiene dificultad con tareas de matching-to-sample. 
+                                    Mejor empezar con discriminación más simple.
+                                </div>
+                            </div>
+                            
+                            <div class="escenario-item" draggable="true" id="escenario2" data-correcto="compuestos">
+                                <div class="escenario-icon">🎨</div>
+                                <div class="escenario-texto">
+                                    Necesitas enseñar categorías complejas con múltiples características 
+                                    (ej: "cuadrado rojo" vs "círculo azul").
+                                </div>
+                            </div>
+                            
+                            <div class="escenario-item" draggable="true" id="escenario3" data-correcto="pavloviano">
+                                <div class="escenario-icon">🔔</div>
+                                <div class="escenario-texto">
+                                    Investigación básica: ¿puede formarse equivalencia sin 
+                                    discriminación condicional operante?
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="zonas-drop">
+                            <div class="zona-drop" id="zona-vaughan" data-nombre="vaughan">
+                                <h4>Discriminación Simple (Vaughan)</h4>
+                                <p class="zona-desc">Inversiones repetidas de contingencias</p>
+                                <div class="zona-contenido"></div>
+                            </div>
+                            
+                            <div class="zona-drop" id="zona-compuestos" data-nombre="compuestos">
+                                <h4>Estímulos Compuestos</h4>
+                                <p class="zona-desc">Multi-elementos simultáneos</p>
+                                <div class="zona-contenido"></div>
+                            </div>
+                            
+                            <div class="zona-drop" id="zona-pavloviano" data-nombre="pavloviano">
+                                <h4>Condicionamiento Clásico</h4>
+                                <p class="zona-desc">Procedimiento respondiente</p>
+                                <div class="zona-contenido"></div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-verificar-drag" onclick="verificarDragDrop()" style="display: none;">
+                            ✓ Verificar Respuestas
+                        </button>
+                        
+                        <div class="feedback-drag" id="feedbackDrag"></div>
+                    </div>
+                    
+                    <p>
+                        El <strong>Procedimiento de Discriminación Simple</strong> (Vaughan) usa entrenamiento 
+                        discriminativo simple en lugar de condicional para generar equivalencia. Los sujetos aprenden 
+                        una serie de inversiones repetidas donde los estímulos A son reforzados y los B están en extinción, 
+                        luego se invierten las contingencias múltiples veces. Eventualmente, la inversión de contingencias 
+                        en solo algunos elementos (ej: a1 y b1) produce <strong>inversión espontánea</strong> en todos los 
+                        demás (a2-b2, a3-b3...). Esto demuestra que se han formado clases funcionales equivalentes sin 
+                        necesidad de discriminación condicional.
+                    </p>
+                    
+                    <p>
+                        El <strong>Procedimiento de Estímulos Compuestos</strong> trabaja con discriminativos formados 
+                        por múltiples elementos simultáneos. Por ejemplo, se entrena: A1B1+ (reforzado) vs A2B2- (extinción), 
+                        y A1C1+ vs A2C2-. Los sujetos típicamente forman clases de estímulos excitatorios (todos los "1") 
+                        y clases de inhibitorios (todos los "2"). Este procedimiento es particularmente útil para enseñar 
+                        conceptos complejos que involucran <strong>múltiples dimensiones simultáneas</strong>, como 
+                        "cuadrado rojo grande" vs "círculo azul pequeño".
+                    </p>
+                    
+                    <p>
+                        El <strong>Procedimiento de Condicionamiento Clásico</strong> es especialmente fascinante porque 
+                        demuestra que la equivalencia puede formarse usando solo paradigmas respondientes. Se presenta 
+                        estímulo A que predice B (nunca simultáneos), y luego B predice C, en secuencia pavloviana. 
+                        Después del entrenamiento respondiente, se prueba si el sujeto puede responder a relaciones de 
+                        equivalencia (C→A) en matching-to-sample. Estudios con universitarios usando sílabas sin sentido 
+                        demuestran que SÍ es posible. La efectividad depende de intervalos específicos entre ensayos y 
+                        entre estímulos. Este hallazgo sugiere que la equivalencia podría no requerir exclusivamente 
+                        <strong>contingencias operantes de cuatro términos</strong>, ampliando nuestra comprensión de los 
+                        mecanismos subyacentes.
+                    </p>
+                </div>
+                
+                <button class="btn-teoria-continuar" onclick="iniciarEjercicio()">
+                    Iniciar Ejercicio: Diseñador de Entrenamiento →
+                </button>
+            </div>
+        </section>
+
+        <!-- EJERCICIO: Diseñador de Entrenamiento -->
+        <section class="teoria-seccion" id="ejercicio">
+            <div class="ejercicio-card">
+                <h2 class="ejercicio-titulo">🎨 Diseñador de Entrenamiento en Equivalencia</h2>
+                <p class="ejercicio-descripcion">
+                    Analiza cada objetivo educativo y selecciona el procedimiento de entrenamiento más apropiado.
+                </p>
+                
+                <div class="progreso-ejercicio">
+                    <div class="progreso-barra">
+                        <div class="progreso-fill" id="progresoFill"></div>
+                    </div>
+                    <div class="progreso-info">
+                        <span>Caso <strong id="casoNumero">1</strong> de 10</span>
+                        <span>Aciertos: <strong id="aciertos">0</strong>/10 (<strong id="porcentaje">0</strong>%)</span>
+                    </div>
+                </div>
+
+                <div class="caso-card" id="casoCard">
+                    <div class="caso-objetivo" id="casoObjetivo"></div>
+                    
+                    <div class="caso-contexto" id="casoContexto"></div>
+                    
+                    <div class="caso-pregunta">¿Qué procedimiento es MÁS apropiado?</div>
+                    
+                    <div class="caso-opciones" id="casoOpciones"></div>
+                    
+                    <div class="caso-feedback" id="casoFeedback"></div>
+                </div>
+
+                <div class="resultado-final" id="resultadoFinal" style="display: none;">
+                    <h3>🎉 Ejercicio Completado</h3>
+                    <div class="resultado-stats">
+                        <div class="resultado-stat">
+                            <span class="resultado-numero" id="finalAciertos">0</span>
+                            <span class="resultado-label">Aciertos</span>
+                        </div>
+                        <div class="resultado-stat">
+                            <span class="resultado-numero" id="finalPorcentaje">0</span>
+                            <span class="resultado-label">% Correcto</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resultado-mensaje" id="resultadoMensaje"></div>
+                    
+                    <div class="resultado-acciones">
+                        <button class="btn-lab-secondary" onclick="reiniciarEjercicio()">🔄 Repetir ejercicio</button>
+                        <button class="btn-lab-primary" onclick="window.location.href='integracion-final.html'">Continuar a Integración Final →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="concepto-04.js"></script>
+</body>
+</html>
