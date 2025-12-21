@@ -38,15 +38,15 @@ const casos = [
         feedback: "✅ Exacto. La relación se INVIRTIÓ automáticamente sin entrenamiento: si A→B fue entrenado, B→A emergió. Esto es SIMETRÍA, característica única del comportamiento simbólico humano que NO ocurre en condicionamiento pavloviano."
     },
     {
-        escenario: "Una cliente en terapia desarrolló lo siguiente: (1) Aprendió en su historia: Situaciones sociales → Ansiedad. (2) Aprendió recientemente: Palabra 'FIESTA' → Pensar en situaciones sociales. (3) Resultado: Ahora escuchar la palabra 'FIESTA' le produce ansiedad, aunque nunca ha tenido una experiencia ansiosa directa con la palabra.",
-        opciones: [
-            {texto: "Reflexividad", correcto: false},
-            {texto: "Simetría", correcto: false},
-            {texto: "Transitividad", correcto: true},
-            {texto: "Condicionamiento directo", correcto: false}
-        ],
-        feedback: "✅ Perfecto. La función aversiva se TRANSFIRIÓ a través de una cadena: 'FIESTA'→Situaciones→Ansiedad, por lo tanto 'FIESTA'→Ansiedad. Esto es TRANSITIVIDAD: si A=B y B=C, entonces A=C. La cliente nunca tuvo contacto directo ansiógeno con la palabra."
-    },
+    escenario: "En un programa educativo, un niño aprende dos discriminaciones condicionales: (1) Foto de manzana → Palabra escrita 'MANZANA'. (2) Palabra escrita 'MANZANA' → Dibujo esquemático de manzana. En una prueba posterior, sin entrenamiento adicional, el niño selecciona correctamente el dibujo esquemático cuando se le presenta la foto de manzana.",
+    opciones: [
+        {texto: "Reflexividad", correcto: false},
+        {texto: "Simetría", correcto: false},
+        {texto: "Transitividad", correcto: true},
+        {texto: "Generalización simple", correcto: false}
+    ],
+    feedback: "✅ Exacto. Se entrenó Foto→Palabra y Palabra→Dibujo. El niño derivó Foto→Dibujo sin entrenamiento directo. Esto es TRANSITIVIDAD: si A=B y B=C, entonces A=C. La relación emergió mediante el elemento compartido (la palabra)."
+},
     {
         escenario: "Un niño aprende que un billete de $100 es equivalente a otro billete de $100, aunque sean billetes físicamente diferentes (diferentes números de serie, diferentes grados de desgaste).",
         opciones: [
@@ -57,16 +57,16 @@ const casos = [
         ],
         feedback: "✅ Correcto. Reconoce que diferentes ejemplares físicos son funcionalmente el MISMO estímulo ($100=$100). Aunque sean objetos distintos, pertenecen a la misma clase. Esto requiere REFLEXIVIDAD: identificar la 'mismidad' a pesar de diferencias físicas."
     },
-    {
-        escenario: "Un cliente con fobia a arañas desarrolló lo siguiente: Primero asoció Imagen de araña → Miedo intenso. Ahora, sin exposición directa adicional, también presenta Miedo intenso → Pensamiento 'voy a ver una araña'.",
-        opciones: [
-            {texto: "Reflexividad", correcto: false},
-            {texto: "Simetría", correcto: true},
-            {texto: "Transitividad", correcto: false},
-            {texto: "Condicionamiento backward", correcto: false}
-        ],
-        feedback: "✅ Exacto. La relación Imagen→Miedo también funciona al revés: Miedo→Imagen. Cuando siente miedo, automáticamente piensa en arañas. Esto es SIMETRÍA: la bidireccionalidad automática. En condicionamiento pavloviano simple esto NO ocurriría."
-    },
+   {
+    escenario: "En un experimento con adultos, se entrena: Símbolo abstracto ⚡ → Color azul. Después, sin entrenamiento adicional, se presenta el color azul como muestra y el participante selecciona correctamente el símbolo ⚡ de entre tres opciones de símbolos diferentes.",
+    opciones: [
+        {texto: "Reflexividad", correcto: false},
+        {texto: "Simetría", correcto: true},
+        {texto: "Transitividad", correcto: false},
+        {texto: "Equivalencia completa", correcto: false}
+    ],
+    feedback: "✅ Correcto. Se entrenó ⚡→Azul, y emergió Azul→⚡ sin entrenamiento adicional. La relación se INVIRTIÓ automáticamente. Esto es SIMETRÍA: si A=B, entonces B=A. Esta bidireccionalidad es característica de las clases de equivalencia."
+},
     {
         escenario: "En un programa de lectura, un niño aprende: (1) Letra 'P' → Sonido /p/. (2) Sonido /p/ (al inicio) → Palabra 'PERRO'. Sin entrenamiento adicional, ahora al ver la letra 'P' al inicio de palabras, puede identificar palabras que empiezan con ese sonido.",
         opciones: [
@@ -97,16 +97,16 @@ const casos = [
         ],
         feedback: "✅ Correcto. Este caso muestra la AUSENCIA de SIMETRÍA en condicionamiento pavloviano simple. Campana→Comida fue entrenada, pero Comida→Campana NO emergió. La simetría es característica exclusiva del comportamiento simbólico verbal humano, NO de condicionamiento básico."
     },
-    {
-        escenario: "En terapia ACT, un cliente tiene: (1) 'Fracaso' → Autorrechazo. (2) 'Cometer errores' → Pensar 'soy un fracaso'. Como resultado, ahora: 'Cometer errores' → Autorrechazo, sin que haya habido una asociación directa entre cometer errores y rechazarse.",
-        opciones: [
-            {texto: "Reflexividad", correcto: false},
-            {texto: "Simetría", correcto: false},
-            {texto: "Transitividad", correcto: true},
-            {texto: "Fusión cognitiva", correcto: false}
-        ],
-        feedback: "✅ Perfecto. Error→'Fracaso'→Autorrechazo, por lo tanto Error→Autorrechazo. La función aversiva se transfirió a través de la palabra 'fracaso' sin contacto directo. Esto es TRANSITIVIDAD clínica: cómo las palabras transmiten funciones emocionales en cadenas."
-    },
+   {
+    escenario: "Un estudiante universitario participa en un experimento donde aprende: (1) Kanji japonés 木 → Número romano 'III'. (2) Número romano 'III' → Letra griega Γ. En la fase de prueba, cuando se presenta el kanji 木 como muestra, el estudiante selecciona correctamente la letra Γ, aunque estos dos estímulos nunca fueron relacionados directamente durante el entrenamiento.",
+    opciones: [
+        {texto: "Reflexividad", correcto: false},
+        {texto: "Simetría", correcto: false},
+        {texto: "Transitividad", correcto: true},
+        {texto: "Discriminación condicional simple", correcto: false}
+    ],
+    feedback: "✅ Perfecto. Se entrenó 木→III y III→Γ. El estudiante derivó 木→Γ sin entrenamiento directo de esta relación. Esto es TRANSITIVIDAD: conectó ambas discriminaciones condicionales a través del elemento compartido (III), demostrando la formación de una clase de equivalencia."
+},
     {
         escenario: "Un investigador presenta diferentes fotografías del MISMO objeto (una silla) tomadas desde diferentes ángulos, distancias e iluminaciones. El participante identifica correctamente que todas las fotos son 'la misma silla'.",
         opciones: [
