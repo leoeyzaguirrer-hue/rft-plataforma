@@ -5,10 +5,6 @@
 
 class ExperimentoModule {
     constructor() {
-        this.medidasExpanded = {
-            facial: false,
-            reporte: false
-        };
         this.init();
     }
     
@@ -25,7 +21,7 @@ class ExperimentoModule {
     }
     
     setupEventListeners() {
-        const chistesItems = document.querySelectorAll('.chiste-item[data-info]');
+        const chistesItems = document.querySelectorAll('.chiste-item');
         chistesItems.forEach(item => {
             item.addEventListener('mouseenter', (e) => {
                 this.mostrarInfoChiste(e.currentTarget);
@@ -33,15 +29,6 @@ class ExperimentoModule {
             
             item.addEventListener('mouseleave', () => {
                 this.ocultarInfoChiste();
-            });
-        });
-        
-        const medidasCards = document.querySelectorAll('.medida-card');
-        medidasCards.forEach(card => {
-            const header = card.querySelector('.medida-header');
-            
-            header.addEventListener('click', () => {
-                this.toggleMedida(card);
             });
         });
     }
@@ -61,7 +48,15 @@ class ExperimentoModule {
     }
     
     mostrarInfoChiste(item) {
-        const info = item.dataset.info;
+        const hasProtocol = item.classList.contains('with-protocol');
+        const badge = item.querySelector('.protocol-badge');
+        
+        let tooltipText = 'Chiste sin manipulación';
+        
+        if (hasProtocol && badge) {
+            const protocolType = badge.textContent;
+            tooltipText = `Chiste con protocolo: ${protocolType}`;
+        }
         
         const tooltip = Utils.createElement('div', ['chiste-tooltip'], {});
         tooltip.style.cssText = `
@@ -73,21 +68,14 @@ class ExperimentoModule {
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             white-space: nowrap;
             margin-bottom: 0.5rem;
             z-index: 100;
             pointer-events: none;
         `;
         
-        const infoTexts = {
-            'doctor-control': 'Chiste del Doctor - Sin manipulación',
-            'beer-control': 'Chiste de la Cerveza - Sin manipulación',
-            'job-control': 'Chiste de la Entrevista - Sin manipulación',
-            'soccer-control': 'Chiste del Fútbol - Sin manipulación'
-        };
-        
-        tooltip.textContent = infoTexts[info] || 'Chiste';
+        tooltip.textContent = tooltipText;
         
         item.style.position = 'relative';
         item.appendChild(tooltip);
@@ -100,44 +88,6 @@ class ExperimentoModule {
             Utils.fadeOut(tooltip, 200);
             setTimeout(() => tooltip.remove(), 200);
         });
-    }
-    
-    toggleMedida(card) {
-        const content = card.querySelector('.medida-content');
-        const btnExpand = card.querySelector('.btn-expand');
-        
-        if (content.classList.contains('hidden')) {
-            content.classList.remove('hidden');
-            content.style.maxHeight = '0';
-            content.style.overflow = 'hidden';
-            content.style.transition = 'max-height 0.4s ease-out';
-            
-            const height = content.scrollHeight;
-            content.style.maxHeight = height + 'px';
-            
-            btnExpand.textContent = 'Ver menos';
-            
-            setTimeout(() => {
-                content.style.maxHeight = 'none';
-                content.style.overflow = 'visible';
-            }, 400);
-        } else {
-            const height = content.scrollHeight;
-            content.style.maxHeight = height + 'px';
-            content.style.overflow = 'hidden';
-            
-            setTimeout(() => {
-                content.style.maxHeight = '0';
-            }, 10);
-            
-            setTimeout(() => {
-                content.classList.add('hidden');
-                content.style.maxHeight = '';
-                content.style.overflow = '';
-            }, 400);
-            
-            btnExpand.textContent = 'Ver más';
-        }
     }
 }
 
