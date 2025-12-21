@@ -130,6 +130,9 @@ function inicializarExperimento() {
     cargarFase();
 }
 
+let paresEntrenados = [];
+let parActual = 0;
+
 function cargarFase() {
     if (faseActual >= fasesExperimento.length) {
         mostrarResultadoExperimento();
@@ -149,29 +152,168 @@ function cargarFase() {
     if (fase.tipo === 'resultado') {
         document.getElementById('faseFeedback').innerHTML = '';
         document.getElementById('btnFase').textContent = 'Ver Resultados →';
-    } else {
-        // Mostrar pares de estímulos
-        fase.pares.forEach((par, idx) => {
-            const parEl = document.createElement('div');
-            parEl.className = 'par-estimulos';
-            parEl.innerHTML = `
-                <div class="estimulo-box muestra">
-                    <div class="estimulo-contenido">${par.muestra}</div>
+    } else if (fase.tipo === 'entrenamiento') {
+        // ENTRENAMIENTO INTERACTIVO - entrenar cada par
+        paresEntrenados = [];
+        parActual = 0;
+        mostrarEntrenamientoInteractivo(fase);
+    } else if (fase.tipo === 'prueba') {
+        // PRUEBA INTERACTIVA - seleccionar respuesta
+        paresEntrenados = [];
+        parActual = 0;
+        mostrarPruebaInteractiva(fase);
+    }
+}
+
+function mostrarEntrenamientoInteractivo(fase) {
+    const estimulosEl = document.getElementById('faseEstimulos');
+    const btnFase = document.getElementById('btnFase');
+    
+    estimulosEl.innerHTML = `
+        <div class="entrenamiento-interactivo">
+            <div class="contador-pares">Par ${parActual + 1} de ${fase.pares.length}</div>
+            
+            <div class="par-entrenar">
+                <div class="estimulo-muestra-grande">
+                    <div class="estimulo-contenido-grande">${fase.pares[parActual].muestra}</div>
                     <div class="estimulo-label">Muestra</div>
                 </div>
-                <div class="flecha-relacion">→</div>
-                <div class="estimulo-box comparacion">
-                    <div class="estimulo-contenido">${par.comparacion}</div>
-                    <div class="estimulo-label">Comparación</div>
+                
+                <div class="instruccion-entrenar">
+                    👆 Cuando veas esto, selecciona:
                 </div>
-                <div class="relacion-label">${par.relacion}</div>
-            `;
-            estimulosEl.appendChild(parEl);
-        });
+                
+                <div class="estimulo-comparacion-grande">
+                    <div class="estimulo-contenido-grande">${fase.pares[parActual].comparacion}</div>
+                    <div class="estimulo-label">Comparación correcta</div>
+                </div>
+            </div>
+            
+            <button class="btn-entrenar" onclick="entrenarPar()">
+                ✓ Entrenar esta relación (${fase.pares[parActual].relacion})
+            </button>
+        </div>
+    `;
+    
+    btnFase.style.display = 'none';
+}
+
+function entrenarPar() {
+    const fase = fasesExperimento[faseActual];
+    paresEntrenados.push(parActual);
+    
+    // Feedback inmediato
+    const feedbackEl = document.getElementById('faseFeedback');
+    feedbackEl.innerHTML = `
+        <div class="feedback-fase entrenamiento-correcto">
+            ✅ ¡Relación entrenada! ${fase.pares[parActual].muestra} → ${fase.pares[parActual].comparacion}
+        </div>
+    `;
+    feedbackEl.style.display = 'block';
+    
+    setTimeout(() => {
+        parActual++;
         
-        document.getElementById('faseFeedback').innerHTML = '';
-        document.getElementById('btnFase').textContent = 'Continuar →';
-    }
+        if (parActual < fase.pares.length) {
+            // Siguiente par
+            mostrarEntrenamientoInteractivo(fase);
+            feedbackEl.style.display = 'none';
+        } else {
+            // Todos los pares entrenados
+            feedbackEl.innerHTML = `
+                <div class="feedback-fase fase-completa">
+                    🎉 ¡Fase de entrenamiento completada! Has entrenado ${fase.pares.length} relaciones.
+                </div>
+            `;
+            document.getElementById('btnFase').style.display = 'block';
+            document.getElementById('faseEstimulos').innerHTML = `
+                <div class="resumen-entrenamiento">
+                    ${fase.pares.map(par => `
+                        <div class="par-entrenado">
+                            <span class="check-entrenado">✓</span>
+                            ${par.muestra} → ${par.comparacion}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+    }, 1000);
+}
+
+function mostrarPruebaInteractiva(fase) {
+    const estimulosEl = document.getElementById('faseEstimulos');
+    const btnFase = document.getElementById('btnFase');
+    
+    estimulosEl.innerHTML = `
+        <div class="prueba-interactiva">
+            <div class="contador-pares">Prueba ${parActual + 1} de ${fase.pares.length}</div>
+            
+            <div class="par-probar">
+                <div class="estimulo-muestra-grande">
+                    <div class="estimulo-contenido-grande">${fase.pares[parActual].muestra}</div>
+                    <div class="estimulo-label">Muestra</div>
+                </div>
+                
+                <div class="pregunta-prueba">
+                    ❓ ¿Cuál es la comparación correcta?
+                </div>
+                
+                <div class="estimulo-comparacion-grande">
+                    <div class="estimulo-contenido-grande">${fase.pares[parActual].comparacion}</div>
+                </div>
+            </div>
+            
+            <button class="btn-probar" onclick="probarRelacion(true)">
+                ✓ Esta es la correcta
+            </button>
+            
+            <div class="nota-prueba">
+                💡 Esta relación NO fue entrenada directamente. Debe emerger por las propiedades de equivalencia.
+            </div>
+        </div>
+    `;
+    
+    btnFase.style.display = 'none';
+}
+
+function probarRelacion(correcto) {
+    const fase = fasesExperimento[faseActual];
+    paresEntrenados.push(parActual);
+    
+    const feedbackEl = document.getElementById('faseFeedback');
+    feedbackEl.innerHTML = `
+        <div class="feedback-fase prueba-correcta">
+            ✅ ¡Correcto! La relación ${fase.pares[parActual].muestra} → ${fase.pares[parActual].comparacion} emergió sin entrenamiento directo.
+        </div>
+    `;
+    feedbackEl.style.display = 'block';
+    
+    setTimeout(() => {
+        parActual++;
+        
+        if (parActual < fase.pares.length) {
+            mostrarPruebaInteractiva(fase);
+            feedbackEl.style.display = 'none';
+        } else {
+            feedbackEl.innerHTML = `
+                <div class="feedback-fase fase-completa">
+                    ${fase.explicacion}
+                </div>
+            `;
+            document.getElementById('btnFase').style.display = 'block';
+            document.getElementById('faseEstimulos').innerHTML = `
+                <div class="resumen-prueba">
+                    ${fase.pares.map(par => `
+                        <div class="par-probado">
+                            <span class="check-derivado">✨</span>
+                            ${par.muestra} → ${par.comparacion}
+                            <span class="etiqueta-derivada">Derivada</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+    }, 1500);
 }
 
 function avanzarFase() {
@@ -229,25 +371,34 @@ function dibujarRedVacia() {
     Object.keys(posicionesNodos).forEach(nodo => {
         const pos = posicionesNodos[nodo];
         
+        // Grupo para sombra
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        
         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         circle.setAttribute('cx', pos.x);
         circle.setAttribute('cy', pos.y);
-        circle.setAttribute('r', '35');
+        circle.setAttribute('r', '40');
         circle.setAttribute('fill', '#00BCD4');
-        circle.setAttribute('stroke', 'white');
-        circle.setAttribute('stroke-width', '4');
+        circle.setAttribute('stroke', '#0D1B2A');
+        circle.setAttribute('stroke-width', '3');
         circle.setAttribute('id', `nodo-${nodo}`);
-        svg.appendChild(circle);
+        circle.setAttribute('filter', 'drop-shadow(0px 4px 8px rgba(0,0,0,0.2))');
+        g.appendChild(circle);
         
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         text.setAttribute('x', pos.x);
-        text.setAttribute('y', pos.y + 8);
+        text.setAttribute('y', pos.y + 10);
         text.setAttribute('text-anchor', 'middle');
-        text.setAttribute('fill', 'white');
-        text.setAttribute('font-size', '20');
+        text.setAttribute('fill', '#0D1B2A');
+        text.setAttribute('font-size', '24');
         text.setAttribute('font-weight', 'bold');
+        text.setAttribute('stroke', 'white');
+        text.setAttribute('stroke-width', '0.5');
+        text.setAttribute('paint-order', 'stroke');
         text.textContent = nodosLabels[nodo];
-        svg.appendChild(text);
+        g.appendChild(text);
+        
+        svg.appendChild(g);
     });
 }
 
