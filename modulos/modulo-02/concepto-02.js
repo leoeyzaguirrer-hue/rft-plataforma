@@ -1,5 +1,5 @@
-// CONCEPTO 2 - PROPIEDADES FORMALES DE EQUIVALENCIA
-// Detective de Propiedades: 12 casos clínicos/experimentales
+// CONCEPTO 2 - SIMETRÍA: LA PRIMERA DERIVACIÓN
+// Ejercicio de predicción de simetría (10 casos)
 
 // ============= NAVEGACIÓN TEORÍA =============
 function irATeoria(numero) {
@@ -18,131 +18,70 @@ function iniciarEjercicio() {
 // ============= CASOS DEL EJERCICIO =============
 const casos = [
     {
-        escenario: "Un niño con autismo aprende a reconocer su nombre 'JUAN' escrito en diferentes tipografías (Arial, Times New Roman, Comic Sans) y en diferentes tamaños. En todas las presentaciones, responde 'Ese soy yo' sin entrenamiento adicional para cada variante.",
-        opciones: [
-            {texto: "Reflexividad", correcto: true},
-            {texto: "Simetría", correcto: false},
-            {texto: "Transitividad", correcto: false},
-            {texto: "Ninguna propiedad", correcto: false}
-        ],
-        feedback: "✅ Correcto. El niño reconoce que todas las variaciones tipográficas son el MISMO nombre (Juan=Juan). Esto es REFLEXIVIDAD: reconocer la identidad a través de diferentes formas del mismo estímulo."
+        entrenamiento: "Se entrena a un niño: Palabra hablada 'GATO' (muestra) → Seleccionar imagen de gato (comparación). El niño aprende perfectamente esta relación.",
+        prueba: "Se presenta la imagen del gato como muestra. ¿El niño seleccionará la palabra escrita 'GATO' o producirá la palabra hablada 'GATO'?",
+        emergera: true,
+        feedback: "✅ Correcto. SÍ emergerá la simetría. Tras entrenar Palabra→Imagen en un contexto de discriminación condicional con estímulos arbitrarios y en un organismo verbal (humano), típicamente emerge Imagen→Palabra. Esta bidireccionalidad es característica de las clases de equivalencia y del lenguaje simbólico."
     },
     {
-        escenario: "En un experimento, se entrena a un participante: Imagen de perro → Palabra 'PERRO'. Luego, sin entrenamiento adicional, se prueba al revés: se muestra la palabra 'PERRO' y el participante selecciona correctamente la imagen del perro.",
-        opciones: [
-            {texto: "Reflexividad", correcto: false},
-            {texto: "Simetría", correcto: true},
-            {texto: "Transitividad", correcto: false},
-            {texto: "Generalización simple", correcto: false}
-        ],
-        feedback: "✅ Exacto. La relación se INVIRTIÓ automáticamente sin entrenamiento: si A→B fue entrenado, B→A emergió. Esto es SIMETRÍA, característica única del comportamiento simbólico humano que NO ocurre en condicionamiento pavloviano."
+        entrenamiento: "Un perro aprende mediante condicionamiento pavloviano: Campana (EC) → Comida (EI). Después de múltiples emparejamientos, la campana produce salivación.",
+        prueba: "Se presenta la comida. ¿El perro producirá el sonido de la campana o alguna respuesta relacionada específicamente con ella?",
+        emergera: false,
+        feedback: "✅ Correcto. NO emergerá simetría. En condicionamiento pavloviano simple, la relación es unidireccional: Campana→Comida, pero NO Comida→Campana. La simetría NO ocurre en condicionamiento clásico básico. El perro salivará ante la comida (respuesta incondicionada), pero no producirá la campana."
     },
     {
-    escenario: "En un programa educativo, un niño aprende dos discriminaciones condicionales: (1) Foto de manzana → Palabra escrita 'MANZANA'. (2) Palabra escrita 'MANZANA' → Dibujo esquemático de manzana. En una prueba posterior, sin entrenamiento adicional, el niño selecciona correctamente el dibujo esquemático cuando se le presenta la foto de manzana.",
-    opciones: [
-        {texto: "Reflexividad", correcto: false},
-        {texto: "Simetría", correcto: false},
-        {texto: "Transitividad", correcto: true},
-        {texto: "Generalización simple", correcto: false}
-    ],
-    feedback: "✅ Exacto. Se entrenó Foto→Palabra y Palabra→Dibujo. El niño derivó Foto→Dibujo sin entrenamiento directo. Esto es TRANSITIVIDAD: si A=B y B=C, entonces A=C. La relación emergió mediante el elemento compartido (la palabra)."
-},
-    {
-        escenario: "Un niño aprende que un billete de $100 es equivalente a otro billete de $100, aunque sean billetes físicamente diferentes (diferentes números de serie, diferentes grados de desgaste).",
-        opciones: [
-            {texto: "Reflexividad", correcto: true},
-            {texto: "Simetría", correcto: false},
-            {texto: "Transitividad", correcto: false},
-            {texto: "Equivalencia completa", correcto: false}
-        ],
-        feedback: "✅ Correcto. Reconoce que diferentes ejemplares físicos son funcionalmente el MISMO estímulo ($100=$100). Aunque sean objetos distintos, pertenecen a la misma clase. Esto requiere REFLEXIVIDAD: identificar la 'mismidad' a pesar de diferencias físicas."
-    },
-   {
-    escenario: "En un experimento con adultos, se entrena: Símbolo abstracto ⚡ → Color azul. Después, sin entrenamiento adicional, se presenta el color azul como muestra y el participante selecciona correctamente el símbolo ⚡ de entre tres opciones de símbolos diferentes.",
-    opciones: [
-        {texto: "Reflexividad", correcto: false},
-        {texto: "Simetría", correcto: true},
-        {texto: "Transitividad", correcto: false},
-        {texto: "Equivalencia completa", correcto: false}
-    ],
-    feedback: "✅ Correcto. Se entrenó ⚡→Azul, y emergió Azul→⚡ sin entrenamiento adicional. La relación se INVIRTIÓ automáticamente. Esto es SIMETRÍA: si A=B, entonces B=A. Esta bidireccionalidad es característica de las clases de equivalencia."
-},
-    {
-        escenario: "En un programa de lectura, un niño aprende: (1) Letra 'P' → Sonido /p/. (2) Sonido /p/ (al inicio) → Palabra 'PERRO'. Sin entrenamiento adicional, ahora al ver la letra 'P' al inicio de palabras, puede identificar palabras que empiezan con ese sonido.",
-        opciones: [
-            {texto: "Reflexividad", correcto: false},
-            {texto: "Simetría", correcto: false},
-            {texto: "Transitividad", correcto: true},
-            {texto: "Discriminación simple", correcto: false}
-        ],
-        feedback: "✅ Perfecto. Letra→Sonido y Sonido→Palabra, por lo tanto Letra→Palabra. El niño DERIVÓ la relación final sin entrenamiento directo. Esto es TRANSITIVIDAD, la base de la lectura: enseñar componentes básicos y derivar combinaciones complejas."
+        entrenamiento: "Se entrena a un adulto en laboratorio: Símbolo abstracto ⚡ (muestra) → Seleccionar color azul (comparación) de entre 3 colores. Alcanza 100% de aciertos en 20 ensayos.",
+        prueba: "Se presenta el color azul como muestra con tres símbolos de comparación incluyendo ⚡. ¿Seleccionará el símbolo ⚡?",
+        emergera: true,
+        feedback: "✅ Correcto. SÍ emergerá simetría. En adultos humanos verbales, tras entrenar relaciones arbitrarias mediante discriminación condicional (⚡→Azul), típicamente emerge la relación simétrica (Azul→⚡) sin entrenamiento adicional. Esta es una demostración experimental estándar de simetría."
     },
     {
-        escenario: "Un adulto se ve en un espejo, luego en una foto, luego en un video, y en todos los casos reconoce 'Ese soy yo', sabiendo que todas esas representaciones visuales diferentes corresponden a la misma persona.",
-        opciones: [
-            {texto: "Reflexividad", correcto: true},
-            {texto: "Simetría", correcto: false},
-            {texto: "Transitividad", correcto: false},
-            {texto: "Auto-reconocimiento simple", correcto: false}
-        ],
-        feedback: "✅ Correcto. Reconoce que múltiples representaciones (espejo, foto, video) son la MISMA entidad (YO=YO). Esto es REFLEXIVIDAD aplicada al auto-reconocimiento: identificar identidad personal a través de diferentes modalidades y contextos."
+        entrenamiento: "Una paloma aprende en una caja de Skinner: Luz roja (Ed) → Picar tecla = Comida. Luz verde (Delta) → Picar tecla = No comida. Discrimina perfectamente ambas condiciones.",
+        prueba: "Se da comida. ¿La paloma picará la tecla que antes producía la luz roja?",
+        emergera: false,
+        feedback: "✅ Correcto. NO emergerá simetría. Esto es discriminación simple, no discriminación condicional. Además, en condicionamiento operante básico con no-humanos, no se observa típicamente la emergencia de relaciones simétricas. La paloma come, pero no necesariamente produce la respuesta asociada con la luz roja."
     },
     {
-        escenario: "En un experimento de condicionamiento pavloviano, un perro aprende Campana → Comida. Se prueba la relación inversa mostrando comida, pero el perro NO produce el sonido de la campana ni ninguna respuesta relacionada específicamente con la campana.",
-        opciones: [
-            {texto: "Reflexividad", correcto: false},
-            {texto: "Simetría", correcto: true},
-            {texto: "Transitividad", correcto: false},
-            {texto: "Ninguna propiedad", correcto: false}
-        ],
-        feedback: "✅ Correcto. Este caso muestra la AUSENCIA de SIMETRÍA en condicionamiento pavloviano simple. Campana→Comida fue entrenada, pero Comida→Campana NO emergió. La simetría es característica exclusiva del comportamiento simbólico verbal humano, NO de condicionamiento básico."
-    },
-   {
-    escenario: "Un estudiante universitario participa en un experimento donde aprende: (1) Kanji japonés 木 → Número romano 'III'. (2) Número romano 'III' → Letra griega Γ. En la fase de prueba, cuando se presenta el kanji 木 como muestra, el estudiante selecciona correctamente la letra Γ, aunque estos dos estímulos nunca fueron relacionados directamente durante el entrenamiento.",
-    opciones: [
-        {texto: "Reflexividad", correcto: false},
-        {texto: "Simetría", correcto: false},
-        {texto: "Transitividad", correcto: true},
-        {texto: "Discriminación condicional simple", correcto: false}
-    ],
-    feedback: "✅ Perfecto. Se entrenó 木→III y III→Γ. El estudiante derivó 木→Γ sin entrenamiento directo de esta relación. Esto es TRANSITIVIDAD: conectó ambas discriminaciones condicionales a través del elemento compartido (III), demostrando la formación de una clase de equivalencia."
-},
-    {
-        escenario: "Un investigador presenta diferentes fotografías del MISMO objeto (una silla) tomadas desde diferentes ángulos, distancias e iluminaciones. El participante identifica correctamente que todas las fotos son 'la misma silla'.",
-        opciones: [
-            {texto: "Reflexividad", correcto: true},
-            {texto: "Simetría", correcto: false},
-            {texto: "Transitividad", correcto: false},
-            {texto: "Constancia perceptual", correcto: false}
-        ],
-        feedback: "✅ Correcto. Reconoce que múltiples presentaciones visuales diferentes son el MISMO objeto (Silla=Silla). Aunque cada foto es físicamente distinta, todas se reconocen como la misma entidad. Esto es REFLEXIVIDAD: identificar mismidad a pesar de variación en la apariencia."
+        entrenamiento: "Un niño con autismo aprende mediante matching-to-sample: Foto de manzana (muestra) → Seleccionar palabra escrita 'MANZANA' (comparación). Entrenamiento con corrección de errores hasta criterio (90% aciertos).",
+        prueba: "Se presenta 'MANZANA' escrita como muestra. ¿Seleccionará la foto de manzana?",
+        emergera: true,
+        feedback: "✅ Correcto. SÍ emergerá simetría (aunque puede requerir verificación). En niños con desarrollo típico del lenguaje, la simetría emerge consistentemente. En algunos niños con autismo puede emerger, mientras otros pueden requerir entrenamiento explícito. Los estudios muestran variabilidad individual, pero cuando hay repertorio verbal, la simetría es probable."
     },
     {
-        escenario: "Un niño completa un programa de equivalencia donde aprende: (1) Kanji 犬 → Palabra 'PERRO'. (2) Palabra 'PERRO' → Imagen 🐕. Después del entrenamiento, el niño demuestra: 犬 ↔ 'PERRO' ↔ 🐕 en todas las direcciones, reconociendo que los tres son 'la misma cosa'.",
-        opciones: [
-            {texto: "Reflexividad", correcto: false},
-            {texto: "Simetría", correcto: false},
-            {texto: "Transitividad", correcto: false},
-            {texto: "Equivalencia completa (las tres)", correcto: true}
-        ],
-        feedback: "✅ ¡Excelente! Este caso demuestra las TRES propiedades: (1) Cada estímulo=sí mismo (REFLEXIVIDAD), (2) Las relaciones funcionan en ambas direcciones (SIMETRÍA), (3) Derivó 犬↔🐕 sin entrenamiento directo (TRANSITIVIDAD). Cuando las tres están presentes, hay EQUIVALENCIA COMPLETA."
+        entrenamiento: "Se entrena a una rata: Tono 1000Hz (EC) → Shock eléctrico leve (EI). Después de varios emparejamientos, la rata muestra respuesta de congelamiento ante el tono.",
+        prueba: "Se presenta el shock. ¿La rata producirá el tono o mostrará respuestas específicamente asociadas al tono?",
+        emergera: false,
+        feedback: "✅ Correcto. NO emergerá simetría. El condicionamiento pavloviano aversivo sigue siendo unidireccional: Tono→Shock produce miedo al tono, pero Shock NO produce el tono. La rata mostrará respuestas de dolor/escape ante el shock (respuestas incondicionadas), no respuestas condicionadas al tono."
     },
     {
-        escenario: "En un laboratorio se entrena a un participante: Estímulo A → Presionar botón rojo. El participante aprende perfectamente esta discriminación. No se prueba ninguna relación derivada, solo se verifica que el entrenamiento fue exitoso.",
-        opciones: [
-            {texto: "Reflexividad", correcto: false},
-            {texto: "Simetría", correcto: false},
-            {texto: "Transitividad", correcto: false},
-            {texto: "Ninguna propiedad (solo entrenamiento)", correcto: true}
-        ],
-        feedback: "✅ Correcto. Este es un caso TRICK. Solo hubo ENTRENAMIENTO DIRECTO de una discriminación simple. No se probó ni emergió ninguna relación derivada. Para demostrar propiedades de equivalencia, debe haber emergencia de relaciones NO entrenadas. Aquí solo hay aprendizaje directo."
+        entrenamiento: "Un estudiante universitario aprende en un experimento: Kanji japonés 犬 (muestra) → Seleccionar número romano III (comparación) de entre V opciones. 15 ensayos hasta 100% de precisión.",
+        prueba: "Se presenta III como muestra con 5 kanjis de comparación. ¿Seleccionará 犬?",
+        emergera: true,
+        feedback: "✅ Correcto. SÍ emergerá simetría. Adultos universitarios en tareas de discriminación condicional con estímulos arbitrarios muestran simetría de manera muy consistente. La relación 犬→III entrenada produce III→犬 sin entrenamiento adicional. Esta es una de las poblaciones donde la simetría es más robusta y predecible."
+    },
+    {
+        entrenamiento: "Se entrena discriminación condicional a una paloma usando el procedimiento estándar: Luz roja (muestra) → Picar tecla izquierda (comparación) = Comida. Luz verde (muestra) → Picar tecla derecha = Comida. Discrimina perfectamente.",
+        prueba: "Mediante un procedimiento especial, se enciende la tecla izquierda como 'muestra'. ¿La paloma producirá respuestas hacia donde estaba la luz roja?",
+        emergera: false,
+        feedback: "✅ Correcto. NO emergerá simetría espontáneamente. Décadas de investigación muestran que las palomas típicamente NO muestran simetría derivada en procedimientos estándares de discriminación condicional. Solo bajo condiciones muy específicas (como cuando la propia conducta es parte de la relación) se ha logrado demostrar simetría en palomas."
+    },
+    {
+        entrenamiento: "Un niño preescolar aprende: Objeto real (pelota) → Seleccionar dibujo de pelota. Objeto (carro) → Dibujo de carro. Tres objetos entrenados hasta 90% de aciertos con reforzamiento social.",
+        prueba: "Se muestra el dibujo de la pelota. ¿El niño seleccionará o señalará el objeto real (pelota)?",
+        emergera: true,
+        feedback: "✅ Correcto. SÍ emergerá simetría. En niños preescolares con lenguaje típico, las relaciones entre objetos y sus representaciones (dibujos, fotos) muestran simetría consistentemente. La relación Objeto→Dibujo entrenada produce Dibujo→Objeto. Esto es parte del desarrollo normal de la función simbólica."
+    },
+    {
+        entrenamiento: "Se entrena a un mono rhesus mediante discriminación condicional: Forma triangular (muestra) → Seleccionar color rojo (comparación). Forma circular (muestra) → Color azul. Criterio: 85% de aciertos en 100 ensayos.",
+        prueba: "Se presenta color rojo como muestra. ¿El mono seleccionará la forma triangular?",
+        emergera: false,
+        feedback: "✅ Correcto. NO emergerá simetría (o será muy débil). La investigación con primates no-humanos ha mostrado resultados equívocos, débiles o negativos en pruebas de simetría. Aunque los monos pueden aprender discriminaciones condicionales complejas, la derivación espontánea de relaciones simétricas es inconsistente o ausente sin procedimientos de entrenamiento muy específicos."
     }
 ];
 
 // ============= ESTADO DEL EJERCICIO =============
 let casoActualIndex = 0;
 let aciertosTotal = 0;
-let respondido = false;
 
 // ============= CARGAR CASO =============
 function cargarCaso() {
@@ -152,7 +91,6 @@ function cargarCaso() {
     }
     
     const caso = casos[casoActualIndex];
-    respondido = false;
     
     // Actualizar contador header
     document.getElementById('casoActual').textContent = casoActualIndex + 1;
@@ -166,17 +104,31 @@ function cargarCaso() {
     progresoFill.style.width = ((casoActualIndex / casos.length) * 100) + '%';
     
     // Mostrar escenario
-    document.getElementById('casoEscenario').innerHTML = `<p>${caso.escenario}</p>`;
+    document.getElementById('casoEscenario').innerHTML = `
+        <div class="entrenamiento-box">
+            <h4>📚 Entrenamiento:</h4>
+            <p>${caso.entrenamiento}</p>
+        </div>
+        <div class="prueba-box">
+            <h4>🧪 Prueba de Simetría:</h4>
+            <p>${caso.prueba}</p>
+        </div>
+    `;
     
     // Generar opciones
     const opcionesEl = document.getElementById('casoOpciones');
     opcionesEl.innerHTML = '';
     
-    caso.opciones.forEach((opcion, index) => {
+    const opciones = [
+        {texto: "SÍ emergerá simetría", valor: true},
+        {texto: "NO emergerá simetría", valor: false}
+    ];
+    
+    opciones.forEach(opcion => {
         const btn = document.createElement('button');
-        btn.className = 'opcion-btn';
+        btn.className = 'opcion-btn-amplia';
         btn.textContent = opcion.texto;
-        btn.onclick = () => seleccionarOpcion(index);
+        btn.onclick = () => verificarRespuesta(opcion.valor);
         opcionesEl.appendChild(btn);
     });
     
@@ -185,28 +137,24 @@ function cargarCaso() {
     document.getElementById('casoFeedback').className = 'caso-feedback';
 }
 
-// ============= SELECCIONAR OPCIÓN =============
-function seleccionarOpcion(index) {
-    if (respondido) return;
-    
-    respondido = true;
+// ============= VERIFICAR RESPUESTA =============
+function verificarRespuesta(respuesta) {
     const caso = casos[casoActualIndex];
-    const opcionSeleccionada = caso.opciones[index];
     const feedbackEl = document.getElementById('casoFeedback');
-    const botonesOpciones = document.querySelectorAll('.opcion-btn');
+    const botonesOpciones = document.querySelectorAll('.opcion-btn-amplia');
     
-    // Marcar respuestas
-    botonesOpciones.forEach((btn, i) => {
-        if (caso.opciones[i].correcto) {
+    // Deshabilitar botones
+    botonesOpciones.forEach(btn => btn.style.pointerEvents = 'none');
+    
+    // Marcar respuesta correcta
+    botonesOpciones.forEach(btn => {
+        if ((btn.textContent.includes('SÍ') && caso.emergera) || 
+            (btn.textContent.includes('NO') && !caso.emergera)) {
             btn.classList.add('correcta');
         }
-        if (i === index && !opcionSeleccionada.correcto) {
-            btn.classList.add('incorrecta');
-        }
-        btn.style.pointerEvents = 'none';
     });
     
-    if (opcionSeleccionada.correcto) {
+    if (respuesta === caso.emergera) {
         aciertosTotal++;
         feedbackEl.className = 'caso-feedback correcto';
         feedbackEl.innerHTML = `
@@ -219,11 +167,10 @@ function seleccionarOpcion(index) {
         `;
     } else {
         feedbackEl.className = 'caso-feedback incorrecto';
-        const opcionCorrecta = caso.opciones.find(o => o.correcto);
         feedbackEl.innerHTML = `
             <div class="feedback-contenido">
-                <p>❌ Incorrecto. La respuesta correcta es: <strong>${opcionCorrecta.texto}</strong></p>
-                <p>${caso.feedback}</p>
+                <p>❌ Incorrecto.</p>
+                ${caso.feedback}
             </div>
             <button class="btn-siguiente" onclick="siguienteCaso()">
                 Siguiente caso →
@@ -258,36 +205,36 @@ function mostrarResultadoFinal() {
         mensajeEl.innerHTML = `
             <p class="mensaje-excelente">
                 <strong>🏆 ¡EXCELENTE!</strong><br>
-                Dominas las propiedades formales de la equivalencia. Comprendes perfectamente 
-                cómo funcionan la reflexividad, simetría y transitividad, y puedes identificarlas 
-                en contextos clínicos y experimentales.
+                Dominas el concepto de simetría. Entiendes perfectamente cuándo emerge 
+                (relaciones arbitrarias en organismos verbales) y cuándo NO (condicionamiento 
+                básico o especies sin repertorio verbal). ¡Listo para transitividad!
             </p>
         `;
     } else if (porcentajeFinal >= 75) {
         mensajeEl.innerHTML = `
             <p class="mensaje-bueno">
                 <strong>✅ ¡MUY BIEN!</strong><br>
-                Tienes una comprensión sólida de las propiedades. Podrías beneficiarte de 
-                revisar los casos donde fallaste para consolidar la distinción entre las 
-                tres propiedades.
+                Tienes una comprensión sólida de la simetría. Recuerda: emerge en humanos 
+                verbales con relaciones arbitrarias mediante discriminación condicional, 
+                pero NO en condicionamiento pavloviano simple.
             </p>
         `;
     } else if (porcentajeFinal >= 60) {
         mensajeEl.innerHTML = `
             <p class="mensaje-regular">
                 <strong>📚 BIEN</strong><br>
-                Comprendes los conceptos básicos, pero necesitas más práctica para distinguir 
-                claramente entre reflexividad, simetría y transitividad. Considera repetir el 
-                ejercicio o revisar la teoría.
+                Comprendes los conceptos básicos. Clave para recordar: simetría = 
+                bidireccionalidad automática. SÍ en humanos verbales, NO en pavloviano. 
+                Considera revisar la teoría.
             </p>
         `;
     } else {
         mensajeEl.innerHTML = `
             <p class="mensaje-repasar">
                 <strong>🔄 NECESITAS REPASAR</strong><br>
-                Te recomendamos volver a leer los bloques teóricos y repetir el ejercicio. 
-                Las propiedades formales son fundamentales para entender RFT. ¡No te desanimes, 
-                con práctica lo dominarás!
+                Te recomendamos releer los bloques teóricos. Concepto clave: la simetría 
+                emerge en discriminaciones condicionales con humanos verbales, pero NO en 
+                condicionamiento básico. ¡Repite el ejercicio!
             </p>
         `;
     }
@@ -297,7 +244,6 @@ function mostrarResultadoFinal() {
 function reiniciarEjercicio() {
     casoActualIndex = 0;
     aciertosTotal = 0;
-    respondido = false;
     
     document.getElementById('casoCard').style.display = 'block';
     document.getElementById('resultadoFinal').style.display = 'none';
