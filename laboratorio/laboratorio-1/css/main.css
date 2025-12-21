@@ -3,12 +3,13 @@
    Estilos principales y variables
    =================================== */
 
-/* Variables globales */
+/* Variables globales - TAMAÑOS REDUCIDOS */
 :root {
-    /* Colores base */
-    --color-primary: #1e40af;
-    --color-secondary: #64748b;
-    --color-accent: #f59e0b;
+    /* Colores del proyecto */
+    --color-primary: #1e40af; /* Azul */
+    --color-secondary: #64748b; /* Gris */
+    --color-accent: #f59e0b; /* Amarillo/Naranja */
+    --color-white: #ffffff;
     
     /* Colores por protocolo */
     --color-reality: #1e3a8a;
@@ -20,6 +21,7 @@
     --bg-primary: #ffffff;
     --bg-secondary: #f8fafc;
     --bg-dark: #0f172a;
+    --bg-yellow: #fef3c7;
     
     /* Texto */
     --text-primary: #1e293b;
@@ -28,25 +30,24 @@
     
     /* Espaciado */
     --spacing-xs: 0.5rem;
-    --spacing-sm: 1rem;
-    --spacing-md: 2rem;
-    --spacing-lg: 4rem;
-    --spacing-xl: 6rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2.5rem;
+    --spacing-xl: 4rem;
     
     /* Tipografía */
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-mono: 'Fira Code', 'Courier New', monospace;
     
-    /* Tamaños de fuente - MUY GRANDES */
-    --text-xs: 0.875rem;
-    --text-sm: 1rem;
-    --text-base: 1.25rem;
-    --text-lg: 1.5rem;
-    --text-xl: 1.75rem;
-    --text-2xl: 2rem;
-    --text-3xl: 2.5rem;
-    --text-4xl: 3rem;
-    --text-5xl: 4rem;
+    /* Tamaños de fuente - REDUCIDOS */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+    --text-5xl: 2.5rem;
     
     /* Sombras */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -56,8 +57,8 @@
     
     /* Bordes */
     --radius-sm: 0.375rem;
-    --radius-md: 0.75rem;
-    --radius-lg: 1.5rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
     --radius-full: 9999px;
     
     /* Transiciones */
@@ -68,7 +69,7 @@
     /* Z-index */
     --z-progress: 1000;
     --z-nav: 900;
-    --z-modal: 800;
+    --z-modal: 9999;
 }
 
 /* Reset y base */
@@ -80,24 +81,23 @@
 
 html {
     scroll-behavior: smooth;
-    font-size: 18px; /* Base más grande */
+    font-size: 16px;
 }
 
 body {
     font-family: var(--font-sans);
     color: var(--text-primary);
     background-color: var(--bg-primary);
-    line-height: 1.7;
+    line-height: 1.6;
     overflow-x: hidden;
-    font-size: var(--text-base);
+    overflow-y: auto;
 }
 
-/* Tipografía - TAMAÑOS GRANDES */
+/* Tipografía */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: var(--spacing-md);
-    letter-spacing: -0.02em;
 }
 
 h1 { font-size: var(--text-5xl); }
@@ -109,8 +109,8 @@ h6 { font-size: var(--text-lg); }
 
 p {
     margin-bottom: var(--spacing-sm);
-    font-size: var(--text-lg);
-    line-height: 1.8;
+    font-size: var(--text-base);
+    line-height: 1.6;
 }
 
 a {
@@ -129,7 +129,7 @@ a:hover {
     top: 0;
     left: 0;
     width: 100%;
-    height: 5px;
+    height: 4px;
     background-color: var(--bg-secondary);
     z-index: var(--z-progress);
 }
@@ -154,26 +154,25 @@ a:hover {
 }
 
 .nav-dot {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     border-radius: var(--radius-full);
     background-color: var(--bg-secondary);
-    border: 3px solid var(--color-secondary);
+    border: 2px solid var(--color-secondary);
     cursor: pointer;
     transition: all var(--transition-fast);
     position: relative;
 }
 
 .nav-dot:hover {
-    transform: scale(1.3);
+    transform: scale(1.2);
     background-color: var(--color-accent);
-    border-color: var(--color-accent);
 }
 
 .nav-dot.active {
     background-color: var(--color-primary);
     border-color: var(--color-primary);
-    transform: scale(1.4);
+    transform: scale(1.3);
 }
 
 .nav-dot::after {
@@ -186,7 +185,7 @@ a:hover {
     color: white;
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--radius-sm);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
@@ -203,15 +202,15 @@ a:hover {
     width: 100%;
 }
 
-/* Módulos */
+/* Módulos - SIN scroll automático */
 .module {
-    min-height: 100vh;
+    min-height: auto;
     width: 100%;
     opacity: 0;
     transform: translateY(30px);
     transition: opacity var(--transition-slow), transform var(--transition-slow);
     display: none;
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-lg) 0;
 }
 
 .module.active {
@@ -221,7 +220,7 @@ a:hover {
 }
 
 .module-container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: var(--spacing-xl) var(--spacing-md);
 }
@@ -233,27 +232,26 @@ a:hover {
 
 .module-numero {
     display: inline-block;
-    font-size: var(--text-base);
-    font-weight: 700;
+    font-size: var(--text-sm);
+    font-weight: 600;
     color: var(--color-accent);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    margin-bottom: var(--spacing-sm);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--spacing-xs);
 }
 
 .module-header h2 {
-    font-size: var(--text-5xl);
+    font-size: var(--text-4xl);
     color: var(--text-primary);
     margin-bottom: var(--spacing-sm);
 }
 
 .module-header .subtitle {
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
     color: var(--text-secondary);
-    font-weight: 400;
 }
 
-/* Botones - GRANDES Y LEGIBLES */
+/* Botones */
 .btn-primary,
 .btn-secondary,
 .btn-cta,
@@ -261,11 +259,11 @@ a:hover {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-md) var(--spacing-lg);
-    font-size: var(--text-lg);
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--text-base);
     font-weight: 600;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     border: none;
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -275,19 +273,18 @@ a:hover {
 .btn-primary {
     background-color: var(--color-primary);
     color: white;
-    box-shadow: var(--shadow-md);
 }
 
 .btn-primary:hover {
     background-color: #1e3a8a;
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
 .btn-secondary {
     background-color: transparent;
     color: var(--color-primary);
-    border: 3px solid var(--color-primary);
+    border: 2px solid var(--color-primary);
 }
 
 .btn-secondary:hover {
@@ -298,81 +295,77 @@ a:hover {
 .btn-cta {
     background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
     color: white;
-    padding: var(--spacing-lg) calc(var(--spacing-lg) * 1.5);
-    font-size: var(--text-xl);
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--text-lg);
     font-weight: 700;
-    box-shadow: var(--shadow-xl);
+    box-shadow: var(--shadow-lg);
 }
 
 .btn-cta:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
 }
 
 .btn-arrow {
     transition: transform var(--transition-fast);
-    font-size: var(--text-2xl);
 }
 
 .btn-cta:hover .btn-arrow {
-    transform: translateX(6px);
+    transform: translateX(4px);
 }
 
 .btn-next-module {
     background-color: var(--bg-dark);
     color: white;
-    margin-top: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
     padding: var(--spacing-md) var(--spacing-lg);
-    font-size: var(--text-xl);
 }
 
 .btn-next-module:hover {
     background-color: var(--color-primary);
-    transform: translateX(6px);
+    transform: translateX(4px);
 }
 
 /* Contenedores de texto */
 .container-texto {
-    max-width: 900px;
+    max-width: 800px;
     margin: 0 auto;
 }
 
 .texto-destacado {
-    font-size: var(--text-2xl);
+    font-size: var(--text-xl);
     font-weight: 600;
     color: var(--text-primary);
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 .texto-academico {
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
     color: var(--text-secondary);
-    line-height: 1.9;
+    line-height: 1.7;
 }
 
 .texto-academico strong {
     color: var(--text-primary);
-    font-weight: 700;
+    font-weight: 600;
 }
 
 /* Cajas destacadas */
 .box-destacado {
     background-color: var(--bg-secondary);
-    border-left: 6px solid var(--color-primary);
-    padding: var(--spacing-lg);
-    border-radius: var(--radius-lg);
-    margin: var(--spacing-lg) 0;
+    border-left: 4px solid var(--color-primary);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-md) 0;
 }
 
 blockquote {
     background-color: var(--bg-secondary);
-    border-left: 6px solid var(--color-accent);
-    padding: var(--spacing-lg);
-    margin: var(--spacing-lg) 0;
+    border-left: 4px solid var(--color-accent);
+    padding: var(--spacing-md);
+    margin: var(--spacing-md) 0;
     font-style: italic;
     color: var(--text-secondary);
-    font-size: var(--text-lg);
-    line-height: 1.8;
 }
 
 /* Utilidades */
@@ -393,27 +386,11 @@ blockquote {
 .mb-lg { margin-bottom: var(--spacing-lg); }
 
 /* Responsive */
-@media (max-width: 1024px) {
-    :root {
-        --text-5xl: 3rem;
-        --text-4xl: 2.5rem;
-        --text-3xl: 2rem;
-        --text-2xl: 1.75rem;
-    }
-}
-
 @media (max-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-    
     :root {
-        --text-5xl: 2.5rem;
-        --text-4xl: 2rem;
-        --text-3xl: 1.75rem;
-        --text-2xl: 1.5rem;
-        --text-xl: 1.25rem;
-        --text-lg: 1.125rem;
+        --text-5xl: 2rem;
+        --text-4xl: 1.75rem;
+        --text-3xl: 1.5rem;
     }
     
     .module-container {
@@ -431,15 +408,7 @@ blockquote {
 
 @media (max-width: 480px) {
     :root {
-        --spacing-xl: 3rem;
-        --spacing-lg: 2rem;
-    }
-    
-    .btn-primary,
-    .btn-secondary,
-    .btn-cta,
-    .btn-next-module {
-        font-size: var(--text-base);
-        padding: var(--spacing-sm) var(--spacing-md);
+        --spacing-xl: 2.5rem;
+        --spacing-lg: 1.5rem;
     }
 }
