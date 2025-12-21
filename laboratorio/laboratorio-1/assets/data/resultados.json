@@ -1,0 +1,241 @@
+{
+  "participantes": {
+    "control": 11,
+    "experimental": 12
+  },
+  "chistes": [
+    {
+      "id": "doctor",
+      "nombre": "Doctor",
+      "icon": "🏥",
+      "protocolo": "reality",
+      "texto": {
+        "es": "Médico: 'Relájate David, es solo una pequeña cirugía. No entres en pánico.'\nPaciente: 'Mi nombre no es David.'\nMédico: 'Lo sé. Yo soy David.'"
+      }
+    },
+    {
+      "id": "beer",
+      "nombre": "Beer",
+      "icon": "🍺",
+      "protocolo": "identification",
+      "texto": {
+        "es": "'Mira Juan, no iba a beber una cerveza pero vino mi gato y dijo MAHOU y yo le dije al gato... ¡vamos a tomarnos una!'"
+      }
+    },
+    {
+      "id": "job",
+      "nombre": "Job",
+      "icon": "💼",
+      "protocolo": "discomfort",
+      "texto": {
+        "es": "Entrevistador: '¿Nivel de inglés?'\nCandidato: 'Alto.'\nEntrevistador: 'Traduce juguete.'\nCandidato: 'Toy.'\nEntrevistador: 'Úsalo en una oración.'\nCandidato: 'Toy triste.'\nEntrevistador: '¡Contratado!'"
+      }
+    },
+    {
+      "id": "soccer",
+      "nombre": "Soccer",
+      "icon": "⚽",
+      "protocolo": null,
+      "texto": {
+        "es": "Jugador 1: 'Si sigues haciéndome eso te voy a romper el hueso de la pierna.'\nJugador 2: 'Se dice... tibia.'\nJugador 1: 'OK, como dije, TIBIÁ romper la pierna.'"
+      }
+    }
+  ],
+  "resultados": {
+    "fase1": {
+      "control": {
+        "doctor": {
+          "sonrisas": { "n": 8, "total": 11, "porcentaje": 73 },
+          "gracioso": { "n": 9, "total": 11, "porcentaje": 82 },
+          "acuerdo": { "yy": 8, "nn": 2, "total": 10, "porcentaje": 91 }
+        },
+        "beer": {
+          "sonrisas": { "n": 9, "total": 11, "porcentaje": 82 },
+          "gracioso": { "n": 9, "total": 11, "porcentaje": 82 },
+          "acuerdo": { "yy": 8, "nn": 1, "total": 9, "porcentaje": 82 }
+        },
+        "job": {
+          "sonrisas": { "n": 11, "total": 11, "porcentaje": 100 },
+          "gracioso": { "n": 8, "total": 11, "porcentaje": 73 },
+          "acuerdo": { "yy": 8, "nn": 0, "total": 8, "porcentaje": 73 }
+        },
+        "soccer": {
+          "sonrisas": { "n": 10, "total": 11, "porcentaje": 91 },
+          "gracioso": { "n": 10, "total": 11, "porcentaje": 91 },
+          "acuerdo": { "yy": 10, "nn": 1, "total": 11, "porcentaje": 100 }
+        }
+      },
+      "experimental": {
+        "doctor": {
+          "sonrisas": { "n": 1, "total": 12, "porcentaje": 8 },
+          "gracioso": { "n": 2, "total": 12, "porcentaje": 17 },
+          "acuerdo": { "yy": 0, "nn": 9, "total": 9, "porcentaje": 75 },
+          "significativo": true
+        },
+        "beer": {
+          "sonrisas": { "n": 6, "total": 12, "porcentaje": 50 },
+          "gracioso": { "n": 7, "total": 12, "porcentaje": 59 },
+          "acuerdo": { "yy": 4, "nn": 3, "total": 7, "porcentaje": 58 },
+          "significativo": false
+        },
+        "job": {
+          "sonrisas": { "n": 2, "total": 12, "porcentaje": 17 },
+          "gracioso": { "n": 1, "total": 12, "porcentaje": 8 },
+          "acuerdo": { "yy": 0, "nn": 9, "total": 9, "porcentaje": 75 },
+          "significativo": true
+        },
+        "soccer": {
+          "sonrisas": { "n": 8, "total": 12, "porcentaje": 67 },
+          "gracioso": { "n": 7, "total": 12, "porcentaje": 58 },
+          "acuerdo": { "yy": 6, "nn": 3, "total": 9, "porcentaje": 75 },
+          "significativo": false
+        }
+      }
+    },
+    "fase2": {
+      "control": {
+        "doctor": {
+          "sonrisas": { "n": 5, "total": 10, "porcentaje": 50 },
+          "gracioso": { "n": 3, "total": 10, "porcentaje": 30 },
+          "acuerdo": { "yy": 2, "nn": 4, "total": 6, "porcentaje": 60 }
+        },
+        "beer": {
+          "sonrisas": { "n": 7, "total": 10, "porcentaje": 70 },
+          "gracioso": { "n": 8, "total": 10, "porcentaje": 80 },
+          "acuerdo": { "yy": 6, "nn": 1, "total": 7, "porcentaje": 70 }
+        },
+        "job": {
+          "sonrisas": { "n": 6, "total": 10, "porcentaje": 60 },
+          "gracioso": { "n": 8, "total": 10, "porcentaje": 80 },
+          "acuerdo": { "yy": 6, "nn": 2, "total": 8, "porcentaje": 80 }
+        },
+        "soccer": {
+          "sonrisas": { "n": 6, "total": 10, "porcentaje": 60 },
+          "gracioso": { "n": 8, "total": 10, "porcentaje": 80 },
+          "acuerdo": { "yy": 6, "nn": 2, "total": 8, "porcentaje": 80 }
+        }
+      },
+      "experimental": {
+        "doctor": {
+          "sonrisas": { "n": 2, "total": 11, "porcentaje": 18 },
+          "gracioso": { "n": 2, "total": 11, "porcentaje": 18 },
+          "acuerdo": { "yy": 1, "nn": 8, "total": 9, "porcentaje": 82 },
+          "significativo": false
+        },
+        "beer": {
+          "sonrisas": { "n": 5, "total": 11, "porcentaje": 45 },
+          "gracioso": { "n": 8, "total": 11, "porcentaje": 73 },
+          "acuerdo": { "yy": 5, "nn": 3, "total": 8, "porcentaje": 73 },
+          "significativo": false
+        },
+        "job": {
+          "sonrisas": { "n": 2, "total": 10, "porcentaje": 20 },
+          "gracioso": { "n": 7, "total": 10, "porcentaje": 70 },
+          "acuerdo": { "yy": 2, "nn": 3, "total": 5, "porcentaje": 50 },
+          "significativo": false
+        },
+        "soccer": {
+          "sonrisas": { "n": 1, "total": 11, "porcentaje": 9 },
+          "gracioso": { "n": 5, "total": 11, "porcentaje": 45 },
+          "acuerdo": { "yy": 1, "nn": 6, "total": 7, "porcentaje": 64 },
+          "significativo": true
+        }
+      }
+    }
+  },
+  "protocolos": {
+    "reality": {
+      "nombre": "Realidad",
+      "duracion": 50,
+      "color": "#1e3a8a",
+      "instrucciones": [
+        "Por favor imagina que estás en un hospital...",
+        "que lo que vas a escuchar es real,",
+        "como si estuviera ocurriendo en este momento.",
+        "",
+        "Ahora intenta imaginar tanto como puedas,",
+        "que estás cerca de la sala de cirugía,",
+        "que estás observando lo que está pasando.",
+        "",
+        "Imagina que ves personas entrando y saliendo de ese lugar,",
+        "los médicos, las enfermeras...",
+        "",
+        "y luego, ves al paciente...",
+        "está acostado en la mesa de cirugía.",
+        "",
+        "[El latido se hace más fuerte]",
+        "",
+        "En este momento puedes ver al cirujano",
+        "acercándose al paciente."
+      ]
+    },
+    "identification": {
+      "nombre": "Identificación",
+      "duracion": 29,
+      "color": "#ea580c",
+      "instrucciones": [
+        "Vas a leer algo sobre alguien llamado Juan.",
+        "Te pedimos que intentes imaginar que TÚ eres él.",
+        "",
+        "Ahora, imagina que tú, como si fueras Juan,",
+        "has estado intentando ayudar a un amigo",
+        "a dejar de beber durante mucho tiempo.",
+        "",
+        "Imagina que estás preocupado por él,",
+        "y le preguntas cómo le va.",
+        "",
+        "Recuerda intentar SER Juan y los esfuerzos",
+        "que estás haciendo para ayudar a tu amigo",
+        "a dejar de beber."
+      ]
+    },
+    "discomfort": {
+      "nombre": "Malestar",
+      "duracion": 19,
+      "color": "#dc2626",
+      "instrucciones": [
+        "⚠️ ADVERTENCIA ⚠️",
+        "",
+        "Ahora vas a ver una entrevista de trabajo.",
+        "",
+        "Estos son entrevistadores que se ríen de la gente",
+        "y organizan entrevistas falsas para burlarse",
+        "de los candidatos.",
+        "",
+        "Disfrutan haciéndoles pasar un mal rato,",
+        "invitando a personas no calificadas con problemas",
+        "financieros para ridiculizarlas,",
+        "",
+        "y les dicen que obtuvieron el trabajo",
+        "cuando todo es una MENTIRA."
+      ]
+    }
+  },
+  "interpretaciones": {
+    "reality": {
+      "mecanismo": "El protocolo de Realidad fue construido con claves para establecer una perspectiva diferente del participante con los elementos del chiste. En el protocolo de Realidad, se le pide al participante que imagine que las cosas que se cuentan están ocurriendo realmente, es decir, el protocolo establece enmarcar los eventos ALLÁ en el contexto de YO (el participante)-Ahora-Allá. Quizás, mover al participante a esa relación de perspectiva podría contextualizar la función socialmente establecida del rol de un cirujano y las interacciones en la sala de cirugía, de modo que el participante debería derivar una función aversiva en lugar de derivar una función discriminativa para sonreír."
+    },
+    "identification": {
+      "mecanismo": "En el protocolo de Identificación, se le pide al participante que adopte la perspectiva de uno de los personajes del chiste. Esta manipulación apunta a alterar la toma de perspectiva y la relación deíctica entre el oyente y los eventos descritos.",
+      "efectoVariable": "El efecto de este protocolo fue variable, sugiriendo que la identificación no siempre altera las funciones del humor de manera consistente.",
+      "posiblesRazones": [
+        "Flexibilidad en cambio de perspectiva",
+        "Historia personal con compromisos",
+        "Funciones específicas del formato del chiste (burbujas de diálogo, fuente especial para 'MAHOU')"
+      ]
+    },
+    "discomfort": {
+      "mecanismo": "En el protocolo de Malestar se introducen descripciones que coordinan a los personajes del chiste con funciones aversivas, como injusticia, burla o daño. Al hacerlo, se altera el marco social desde el cual el chiste suele derivar humor.",
+      "resultado": "La incongruencia deja de ser 'benigna' y comienza a evocar respuestas incompatibles con la risa.",
+      "mecanismoExtendido": "El protocolo de Malestar... se enfocó en coordinar los comportamientos de los personajes con funciones aversivas, de modo que las funciones socialmente establecidas vinculadas a hacer una entrevista de trabajo pudieran aumentar o dominar y, en consecuencia, pudieran prevenir la incongruencia de los participantes al relacionar los componentes del chiste y, en consecuencia, la prevención de la respuesta de sonrisa derivada."
+    }
+  },
+  "conclusiones": {
+    "fase1": "Cuando los chistes se presentaron sin manipulación, la mayoría de los participantes sonrió y los evaluó como graciosos. Sin embargo, cuando se aplicaron los protocolos de Realidad y Malestar, las respuestas humorísticas disminuyeron drásticamente. El protocolo de Identificación produjo efectos menos consistentes.",
+    "fase2": "Al repetir los chistes por segunda vez, se observó una reducción general del humor, INCLUSO SIN manipulación contextual. Estos hallazgos podrían indicar que ser re-expuesto a los chistes (incluso siendo la primera vez sin manipulación, como en la condición experimental) impactó la risa. Estos resultados podrían analizarse considerando el intervalo relativamente corto entre las dos exposiciones al chiste.",
+    "acuerdo": "Las respuestas faciales (sonreír o no) y los autorreportes (considerar el chiste como gracioso o reportar otra sensación) PRINCIPALMENTE corrieron en paralelo en la primera fase, con un alto nivel de acuerdo. Además, el acuerdo entre ellos disminuyó ligeramente cuando los chistes se presentaron por segunda vez en ambas condiciones. Es decir, la sincronía de las dos respuestas pareció haberse alterado cuando los chistes se presentaron por segunda vez en cualquiera de las condiciones.",
+    "general": "Los resultados sugieren que el humor no emerge simplemente por incongruencia, sino por CÓMO ESA INCONGRUENCIA SE RELACIONA con funciones contextuales específicas. Cambiar la perspectiva, introducir realismo, o coordinar con malestar puede transformar completamente la función del chiste.",
+    "perspectiva": "Desde una perspectiva relacional, el humor puede entenderse como un fenómeno derivado de redes relacionales sensibles a: Contexto, Historia del individuo, Toma de perspectiva.",
+    "final": "Este estudio no responde definitivamente por qué algo es gracioso. Pero muestra con claridad que EL HUMOR NO ESTÁ EN EL CHISTE, sino en la relación entre: El contexto, La historia del oyente, Las funciones que se derivan en ese momento."
+  }
+}
