@@ -5,7 +5,6 @@
 
 class PreguntaCientificaModule {
     constructor() {
-        this.currentDemo = 1;
         this.init();
     }
     
