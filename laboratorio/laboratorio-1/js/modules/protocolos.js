@@ -1,18 +1,55 @@
 /* ===================================
    LABORATORIO DEL HUMOR - protocolos.js
-   Módulo 4: Los tres protocolos
+   Módulo 4: Los tres protocolos - ARREGLADO CON CONTRASTE
    =================================== */
 
 class ProtocolosModule {
     constructor() {
         this.currentLab = 'reality';
-        this.protocolosData = null;
+        this.protocolosData = {
+            reality: {
+                duracion: 15,
+                instrucciones: [
+                    "Por favor imagina que estás en un hospital...",
+                    "que lo que vas a escuchar es real,",
+                    "como si estuviera ocurriendo en este momento...",
+                    "",
+                    "Respira profundo..."
+                ]
+            },
+            identification: {
+                duracion: 12,
+                instrucciones: [
+                    "Imagina que eres Juan...",
+                    "Has estado ayudando a tu amigo durante meses...",
+                    "Estás muy preocupado por él...",
+                    "",
+                    "Ahora escucha lo que dice..."
+                ]
+            },
+            discomfort: {
+                duracion: 12,
+                instrucciones: [
+                    "Imagina que este candidato necesita urgentemente el trabajo...",
+                    "Tiene una familia que mantener...",
+                    "Esta es su última oportunidad...",
+                    "",
+                    "Ahora escucha la entrevista..."
+                ]
+            }
+        };
+        
+        this.chistes = {
+            reality: 'Médico: "Relájate David, es solo una pequeña cirugía. No entres en pánico."\n\nPaciente: "Mi nombre no es David."\n\nMédico: "Lo sé. Yo soy David."',
+            identification: 'Mira Juan, no iba a beber una cerveza pero vino mi gato y dijo MAHOU y yo le dije al gato... ¡vamos a tomarnos una!',
+            discomfort: 'Entrevistador: "¿Nivel de inglés?"\n\nCandidato: "Alto."\n\nEntrevistador: "Traduce juguete."\n\nCandidato: "Toy."\n\nEntrevistador: "Úsalo en una oración."\n\nCandidato: "Toy triste."\n\nEntrevistador: "¡Contratado!"'
+        };
+        
         this.init();
     }
     
     init() {
         document.addEventListener('DOMContentLoaded', () => {
-            this.loadProtocolosData();
             this.setupEventListeners();
         });
         
@@ -21,10 +58,6 @@ class ProtocolosModule {
                 this.onModuleShown();
             }
         });
-    }
-    
-    async loadProtocolosData() {
-        this.protocolosData = await Utils.loadJSON('assets/data/resultados.json');
     }
     
     setupEventListeners() {
@@ -70,7 +103,6 @@ class ProtocolosModule {
     }
     
     onModuleShown() {
-        // Mostrar primer laboratorio
         this.switchLab('reality');
     }
     
@@ -100,9 +132,7 @@ class ProtocolosModule {
     }
     
     async iniciarProtocolo(tipo) {
-        if (!this.protocolosData) return;
-        
-        const protocolo = this.protocolosData.protocolos[tipo];
+        const protocolo = this.protocolosData[tipo];
         const player = document.getElementById(`${tipo}-player`);
         const btnStart = document.getElementById(`btn-${tipo}-start`);
         
@@ -140,7 +170,7 @@ class ProtocolosModule {
             await Utils.delay(tiempoPorInstruccion);
         }
         
-        // Mostrar chiste correspondiente
+        // Mostrar chiste con CONTRASTE
         await this.mostrarChiste(tipo, player);
         
         // Botón para reflexionar
@@ -156,23 +186,10 @@ class ProtocolosModule {
     }
     
     async mostrarChiste(tipo, player) {
-        const chistes = {
-            'reality': 'Médico: "Relájate David, es solo una pequeña cirugía. No entres en pánico."\nPaciente: "Mi nombre no es David."\nMédico: "Lo sé. Yo soy David."',
-            'identification': 'Mira Juan, no iba a beber una cerveza pero vino mi gato y dijo MAHOU y yo le dije al gato... ¡vamos a tomarnos una!',
-            'discomfort': 'Entrevistador: "¿Nivel de inglés?"\nCandidato: "Alto."\nEntrevistador: "Traduce juguete."\nCandidato: "Toy."\nEntrevistador: "Úsalo en una oración."\nCandidato: "Toy triste."\nEntrevistador: "¡Contratado!"'
-        };
-        
         const chisteBox = Utils.createElement('div', ['chiste-protocolo-box'], {});
-        chisteBox.style.cssText = `
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            margin-top: 2rem;
-            border: 2px solid ${this.protocolosData.protocolos[tipo].color};
-        `;
         
-        const chisteTexto = Utils.createElement('p', ['chiste-texto'], {});
-        chisteTexto.textContent = chistes[tipo];
+        const chisteTexto = Utils.createElement('p', [], {});
+        chisteTexto.innerHTML = this.chistes[tipo].replace(/\n/g, '<br>');
         chisteTexto.style.whiteSpace = 'pre-line';
         chisteTexto.style.fontSize = '1.125rem';
         chisteTexto.style.lineHeight = '1.8';
@@ -186,13 +203,6 @@ class ProtocolosModule {
     
     mostrarReflexion(tipo, player) {
         const reflexionBox = Utils.createElement('div', ['reflexion-box'], {});
-        reflexionBox.style.cssText = `
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            padding: 2rem;
-            border-radius: 1rem;
-            margin-top: 2rem;
-            border-left: 4px solid ${this.protocolosData.protocolos[tipo].color};
-        `;
         
         const pregunta = Utils.createElement('p', [], {});
         pregunta.textContent = '¿Notaste alguna diferencia en cómo te hizo sentir el chiste después del protocolo?';
@@ -203,7 +213,6 @@ class ProtocolosModule {
         nota.textContent = 'Este es exactamente el tipo de cambio que el estudio documentó en los participantes.';
         nota.style.fontSize = '0.875rem';
         nota.style.fontStyle = 'italic';
-        nota.style.color = '#64748b';
         
         reflexionBox.appendChild(pregunta);
         reflexionBox.appendChild(nota);
@@ -220,7 +229,7 @@ class ProtocolosModule {
         if (explicacionContent.classList.contains('hidden')) {
             explicacionContent.classList.remove('hidden');
             Utils.fadeIn(explicacionContent, 400);
-            button.textContent = '¿Ocultar explicación?';
+            button.textContent = 'Ocultar explicación';
         } else {
             Utils.fadeOut(explicacionContent, 300);
             setTimeout(() => {
