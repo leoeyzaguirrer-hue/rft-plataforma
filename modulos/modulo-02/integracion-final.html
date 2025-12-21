@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integración Final: Laboratorio Completo | Módulo 2 - RFT</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="concepto-01.css">
+    <link rel="stylesheet" href="integracion-final.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="modulo-equivalencia integracion-final">
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="lab-container">
+        
+        <!-- PANTALLA BIENVENIDA -->
+        <section class="pantalla activa" id="bienvenida">
+            <div class="bienvenida-card">
+                <div class="bienvenida-icono">🧪</div>
+                <h1 class="bienvenida-titulo">Integración Final del Módulo 2</h1>
+                <h2 class="bienvenida-subtitulo">Laboratorio Completo de Equivalencia</h2>
+                
+                <div class="bienvenida-descripcion">
+                    <p>
+                        Has aprendido los fundamentos de la equivalencia de estímulos. Ahora es momento 
+                        de integrar todo ese conocimiento en una experiencia completa de laboratorio.
+                    </p>
+                    <p>
+                        Esta integración tiene <strong>3 partes</strong>:
+                    </p>
+                </div>
+                
+                <div class="partes-grid">
+                    <div class="parte-card">
+                        <div class="parte-numero">1</div>
+                        <div class="parte-titulo">Experimento Completo</div>
+                        <div class="parte-desc">
+                            Ejecuta las 9 fases del experimento de equivalencia. 
+                            Construye tu propia red de relaciones y observa las derivaciones.
+                        </div>
+                        <div class="parte-duracion">⏱️ ~8 minutos</div>
+                    </div>
+                    
+                    <div class="parte-card">
+                        <div class="parte-numero">2</div>
+                        <div class="parte-titulo">Desafío Conceptual</div>
+                        <div class="parte-desc">
+                            12 decisiones críticas que integran todos los conceptos: 
+                            identificación, predicción, distinción y aplicación clínica.
+                        </div>
+                        <div class="parte-duracion">⏱️ ~10 minutos</div>
+                    </div>
+                    
+                    <div class="parte-card">
+                        <div class="parte-numero">3</div>
+                        <div class="parte-titulo">Puente hacia RFT</div>
+                        <div class="parte-desc">
+                            Síntesis del módulo y transición conceptual hacia la Teoría 
+                            de los Marcos Relacionales completa.
+                        </div>
+                        <div class="parte-duracion">⏱️ ~3 minutos</div>
+                    </div>
+                </div>
+                
+                <div class="bienvenida-stats">
+                    <div class="stat-item">
+                        <div class="stat-numero">21</div>
+                        <div class="stat-label">Decisiones totales</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-numero">~20</div>
+                        <div class="stat-label">Minutos aprox.</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-numero">100%</div>
+                        <div class="stat-label">Interactivo</div>
+                    </div>
+                </div>
+                
+                <button class="btn-comenzar" onclick="comenzarIntegracion()">
+                    🚀 Comenzar Integración Final
+                </button>
+            </div>
+        </section>
+
+        <!-- PARTE 1: EXPERIMENTO COMPLETO -->
+        <section class="pantalla" id="experimento">
+            <header class="lab-header">
+                <div class="lab-info">
+                    <span class="modulo-badge">🧪 Parte 1: Experimento Completo</span>
+                    <h1>Laboratorio de Equivalencia de Estímulos</h1>
+                </div>
+                <div class="progreso-experimento">
+                    <span>Fase <strong id="faseActual">1</strong>/9</span>
+                </div>
+            </header>
+            
+            <div class="experimento-container">
+                <!-- Red visual en tiempo real -->
+                <div class="red-visual-experimento">
+                    <h3>🌐 Red de Relaciones</h3>
+                    <svg id="svgRed" width="100%" height="400" viewBox="0 0 800 400">
+                        <defs>
+                            <marker id="arrowEntrenada" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#00FF88" />
+                            </marker>
+                            <marker id="arrowDerivada" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#FFD600" />
+                            </marker>
+                        </defs>
+                    </svg>
+                    
+                    <div class="leyenda-red">
+                        <div class="leyenda-item">
+                            <div class="linea-ejemplo entrenada"></div>
+                            <span>Entrenadas</span>
+                        </div>
+                        <div class="leyenda-item">
+                            <div class="linea-ejemplo derivada"></div>
+                            <span>Derivadas</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interfaz de fase actual -->
+                <div class="fase-card" id="faseCard">
+                    <div class="fase-header">
+                        <span class="fase-etiqueta" id="faseEtiqueta">ENTRENAMIENTO</span>
+                        <h2 class="fase-titulo" id="faseTitulo"></h2>
+                    </div>
+                    
+                    <div class="fase-instruccion" id="faseInstruccion"></div>
+                    
+                    <div class="fase-estimulos" id="faseEstimulos"></div>
+                    
+                    <div class="fase-feedback" id="faseFeedback"></div>
+                    
+                    <div class="fase-controles">
+                        <button class="btn-fase" id="btnFase" onclick="avanzarFase()">
+                            Continuar →
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Resultado experimento -->
+            <div class="resultado-experimento" id="resultadoExperimento" style="display: none;">
+                <h2>🎉 ¡Experimento Completado!</h2>
+                
+                <div class="resumen-red">
+                    <h3>Tu Red de Equivalencia Final:</h3>
+                    <div class="stats-red">
+                        <div class="stat-red">
+                            <span class="num" id="numEntrenadas">6</span>
+                            <span class="label">Relaciones Entrenadas</span>
+                        </div>
+                        <div class="stat-red">
+                            <span class="num" id="numDerivadas">48</span>
+                            <span class="label">Relaciones Derivadas</span>
+                        </div>
+                        <div class="stat-red">
+                            <span class="num" id="numTotal">54</span>
+                            <span class="label">Relaciones Totales</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="explicacion-resultado">
+                    <p>
+                        <strong>¡Felicitaciones!</strong> Has demostrado la formación de una clase de equivalencia 
+                        completa. Con solo <strong>6 relaciones entrenadas</strong>, emergieron <strong>48 relaciones 
+                        derivadas</strong> automáticamente. Esto es la esencia de la eficiencia del aprendizaje 
+                        por equivalencia.
+                    </p>
+                    <p>
+                        Verificaste las tres propiedades:
+                        <br>✅ <strong>Reflexividad:</strong> Cada estímulo es igual a sí mismo
+                        <br>✅ <strong>Simetría:</strong> Las relaciones son bidireccionales
+                        <br>✅ <strong>Transitividad:</strong> Las relaciones se conectan a través de elementos comunes
+                    </p>
+                </div>
+                
+                <button class="btn-lab-primary" onclick="irADesafio()">
+                    Continuar a Parte 2: Desafío Conceptual →
+                </button>
+            </div>
+        </section>
+
+        <!-- PARTE 2: DESAFÍO CONCEPTUAL -->
+        <section class="pantalla" id="desafio">
+            <header class="lab-header">
+                <div class="lab-info">
+                    <span class="modulo-badge">🎯 Parte 2: Desafío Conceptual</span>
+                    <h1>Aplicación e Integración de Conocimientos</h1>
+                </div>
+                <div class="progreso-desafio">
+                    <div class="progreso-barra">
+                        <div class="progreso-fill" id="progresoDesafio"></div>
+                    </div>
+                    <span>Decisión <strong id="decisionActual">1</strong>/12</span>
+                    <span>Aciertos: <strong id="aciertosDesafio">0</strong></span>
+                </div>
+            </header>
+            
+            <div class="desafio-container">
+                <div class="categoria-banner" id="categoriaBanner">
+                    <span class="categoria-icono" id="categoriaIcono">🔍</span>
+                    <span class="categoria-nombre" id="categoriaNombre">IDENTIFICACIÓN</span>
+                </div>
+                
+                <div class="decision-card" id="decisionCard">
+                    <div class="decision-contexto" id="decisionContexto"></div>
+                    <div class="decision-pregunta" id="decisionPregunta"></div>
+                    <div class="decision-opciones" id="decisionOpciones"></div>
+                    <div class="decision-feedback" id="decisionFeedback"></div>
+                </div>
+            </div>
+            
+            <!-- Resultado desafío -->
+            <div class="resultado-desafio" id="resultadoDesafio" style="display: none;">
+                <h2>📊 Resultados del Desafío Conceptual</h2>
+                
+                <div class="stats-desafio">
+                    <div class="stat-grande">
+                        <span class="stat-numero-grande" id="totalAciertos">0</span>
+                        <span class="stat-label-grande">de 12 correctas</span>
+                    </div>
+                    <div class="stat-grande">
+                        <span class="stat-numero-grande" id="porcentajeDesafio">0</span>
+                        <span class="stat-label-grande">% de dominio</span>
+                    </div>
+                </div>
+                
+                <div class="desglose-categorias">
+                    <h3>Desglose por Categoría:</h3>
+                    <div class="categorias-grid">
+                        <div class="categoria-resultado">
+                            <div class="cat-header">🔍 Identificación</div>
+                            <div class="cat-score"><span id="scoreIdentif">0</span>/3</div>
+                        </div>
+                        <div class="categoria-resultado">
+                            <div class="cat-header">🔮 Predicción</div>
+                            <div class="cat-score"><span id="scorePredict">0</span>/3</div>
+                        </div>
+                        <div class="categoria-resultado">
+                            <div class="cat-header">🌈 Distinción</div>
+                            <div class="cat-score"><span id="scoreDistinc">0</span>/3</div>
+                        </div>
+                        <div class="categoria-resultado">
+                            <div class="cat-header">🏥 Aplicación</div>
+                            <div class="cat-score"><span id="scoreAplicac">0</span>/3</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mensaje-desafio" id="mensajeDesafio"></div>
+                
+                <button class="btn-lab-primary" onclick="irAPuente()">
+                    Continuar a Parte 3: Puente hacia RFT →
+                </button>
+            </div>
+        </section>
+
+        <!-- PARTE 3: PUENTE A RFT -->
+        <section class="pantalla" id="puente">
+            <div class="puente-container">
+                <div class="puente-header">
+                    <div class="puente-icono">🌉</div>
+                    <h1>El Puente hacia RFT</h1>
+                    <p class="puente-subtitulo">De la Equivalencia a la Teoría Completa</p>
+                </div>
+                
+                <div class="sintesis-modulo">
+                    <h2>📚 Síntesis del Módulo 2</h2>
+                    
+                    <div class="conceptos-cubiertos">
+                        <div class="concepto-item completado">
+                            <div class="concepto-check">✓</div>
+                            <div class="concepto-contenido">
+                                <h4>Equivalencia de Estímulos</h4>
+                                <p>Aprendiste que ciertos estímulos pueden volverse funcionalmente intercambiables 
+                                mediante entrenamiento en discriminación condicional.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concepto-item completado">
+                            <div class="concepto-check">✓</div>
+                            <div class="concepto-contenido">
+                                <h4>Las Tres Propiedades</h4>
+                                <p>Reflexividad, Simetría y Transitividad - las propiedades matemáticas que 
+                                definen una clase de equivalencia.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concepto-item completado">
+                            <div class="concepto-check">✓</div>
+                            <div class="concepto-contenido">
+                                <h4>Procedimientos de Entrenamiento</h4>
+                                <p>Lineal, Uno-a-Muchos, Muchos-a-Uno - diferentes métodos para formar clases 
+                                de equivalencia con distintas ventajas.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concepto-item completado">
+                            <div class="concepto-check">✓</div>
+                            <div class="concepto-contenido">
+                                <h4>Marco de Coordinación</h4>
+                                <p>Comprendiste que la equivalencia es el marco relacional de COORDINACIÓN - 
+                                relaciones de igualdad e intercambiabilidad.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pregunta-critica">
+                    <h2>🤔 La Pregunta Crítica</h2>
+                    <div class="pregunta-box">
+                        <p class="pregunta-texto">
+                            La equivalencia explica relaciones de <strong>coordinación/igualdad</strong>. 
+                            Pero el lenguaje humano también incluye relaciones como:
+                        </p>
+                        <ul class="lista-relaciones">
+                            <li><strong>"Más grande que"</strong> (comparación)</li>
+                            <li><strong>"Opuesto a"</strong> (oposición)</li>
+                            <li><strong>"Causa de"</strong> (causalidad)</li>
+                            <li><strong>"Parte de"</strong> (jerarquía)</li>
+                            <li><strong>"Antes de"</strong> (temporal)</li>
+                            <li><strong>"Mejor que"</strong> (evaluación)</li>
+                        </ul>
+                        <p class="pregunta-enfasis">
+                            ❓ <strong>¿Puede la equivalencia explicar estas relaciones?</strong>
+                        </p>
+                    </div>
+                    
+                    <div class="opciones-pregunta">
+                        <button class="opcion-pregunta" onclick="responderPreguntaCritica('si')">
+                            SÍ - La equivalencia puede explicarlas
+                        </button>
+                        <button class="opcion-pregunta" onclick="responderPreguntaCritica('no')">
+                            NO - Necesitamos algo más amplio
+                        </button>
+                    </div>
+                    
+                    <div class="respuesta-critica" id="respuestaCritica"></div>
+                </div>
+                
+                <div class="transicion-rft" id="transicionRFT" style="display: none;">
+                    <div class="rft-reveal">
+                        <h2>🌟 Bienvenido a RFT</h2>
+                        <div class="rft-explicacion">
+                            <p>
+                                La <strong>Teoría de los Marcos Relacionales (RFT)</strong> es la respuesta. 
+                                RFT reconoce que la equivalencia fue un descubrimiento fundamental, pero 
+                                propone que es solo <strong>un tipo específico</strong> de una clase más 
+                                amplia de fenómenos.
+                            </p>
+                            <p>
+                                RFT estudia <strong>todos los marcos relacionales</strong>:
+                            </p>
+                            
+                            <div class="marcos-showcase">
+                                <div class="marco-mini">✅ Coordinación<br><span>(Equivalencia)</span></div>
+                                <div class="marco-mini">↔️ Oposición<br><span>(Contrarios)</span></div>
+                                <div class="marco-mini">📊 Comparación<br><span>(Más/Menos)</span></div>
+                                <div class="marco-mini">🌳 Jerarquía<br><span>(Parte-Todo)</span></div>
+                                <div class="marco-mini">⏰ Temporal<br><span>(Antes/Después)</span></div>
+                                <div class="marco-mini">⚡ Causal<br><span>(Causa-Efecto)</span></div>
+                                <div class="marco-mini">≠ Distinción<br><span>(Diferente de)</span></div>
+                                <div class="marco-mini">🎭 Deíctico<br><span>(Yo/Tú/Aquí)</span></div>
+                            </div>
+                            
+                            <p class="rft-principio">
+                                💡 <strong>El principio revolucionario:</strong> Todos estos marcos funcionan 
+                                con los mismos procesos básicos (aplicabilidad arbitraria, implicación mutua, 
+                                combinación), pero cada uno tiene <strong>propiedades formales únicas</strong>.
+                            </p>
+                            
+                            <p class="rft-integracion">
+                                Todo lo que aprendiste sobre equivalencia sigue siendo válido. Ahora se convierte 
+                                en el <strong>marco de coordinación</strong> dentro de RFT. Es como descubrir que 
+                                el hidrógeno (que estudiamos extensamente) es solo un elemento de la tabla 
+                                periódica completa.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="finalizacion">
+                        <h2>🎓 Has Completado el Módulo 2</h2>
+                        <p class="mensaje-final">
+                            Dominaste los fundamentos de la equivalencia de estímulos y comprendiste 
+                            sus limitaciones. Estás preparado para explorar la visión completa de RFT 
+                            en el siguiente módulo.
+                        </p>
+                        
+                        <div class="certificado-progreso">
+                            <div class="cert-icono">🏆</div>
+                            <div class="cert-texto">
+                                <h3>Equivalencia de Estímulos</h3>
+                                <p>Fundamentos Completos</p>
+                            </div>
+                            <div class="cert-check">✓</div>
+                        </div>
+                        
+                        <div class="acciones-finales">
+                            <button class="btn-lab-secondary" onclick="verResumen()">
+                                📊 Ver Resumen Completo
+                            </button>
+                            <button class="btn-lab-primary" onclick="irAModulo3()">
+                                🚀 Continuar al Módulo 3: RFT Completo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESUMEN FINAL -->
+        <div class="modal-resumen" id="modalResumen">
+            <div class="modal-contenido">
+                <button class="modal-cerrar" onclick="cerrarResumen()">×</button>
+                <h2>📊 Resumen de tu Integración Final</h2>
+                
+                <div class="resumen-stats-completo">
+                    <div class="resumen-seccion">
+                        <h3>🧪 Parte 1: Experimento</h3>
+                        <div class="resumen-dato">
+                            <span class="dato-label">Fases completadas:</span>
+                            <span class="dato-valor">9/9</span>
+                        </div>
+                        <div class="resumen-dato">
+                            <span class="dato-label">Relaciones entrenadas:</span>
+                            <span class="dato-valor" id="resumenEntrenadas">6</span>
+                        </div>
+                        <div class="resumen-dato">
+                            <span class="dato-label">Relaciones derivadas:</span>
+                            <span class="dato-valor" id="resumenDerivadas">48</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resumen-seccion">
+                        <h3>🎯 Parte 2: Desafío Conceptual</h3>
+                        <div class="resumen-dato">
+                            <span class="dato-label">Decisiones correctas:</span>
+                            <span class="dato-valor" id="resumenAciertos">0/12</span>
+                        </div>
+                        <div class="resumen-dato">
+                            <span class="dato-label">Porcentaje de dominio:</span>
+                            <span class="dato-valor" id="resumenPorcentaje">0%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resumen-seccion">
+                        <h3>🌉 Parte 3: Comprensión RFT</h3>
+                        <div class="resumen-dato">
+                            <span class="dato-label">Pregunta crítica:</span>
+                            <span class="dato-valor">✓ Respondida</span>
+                        </div>
+                        <div class="resumen-dato">
+                            <span class="dato-label">Transición a RFT:</span>
+                            <span class="dato-valor">✓ Completada</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mensaje-final-resumen">
+                    <p>
+                        <strong>¡Excelente trabajo!</strong> Has integrado todos los conceptos del Módulo 2. 
+                        Comprendes la equivalencia de estímulos en profundidad y estás listo para explorar 
+                        la Teoría de los Marcos Relacionales completa.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="integracion-final.js"></script>
+</body>
+</html>
