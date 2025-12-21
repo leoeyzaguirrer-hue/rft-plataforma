@@ -1,6 +1,6 @@
 /* ===================================
    LABORATORIO DEL HUMOR - marco-conceptual.js
-   Módulo 2: Marco Conceptual - CON MODAL FULLSCREEN
+   Módulo 2: Marco Conceptual - CON FLIP ANIMATION
    =================================== */
 
 class MarcoConceptualModule {
@@ -8,7 +8,6 @@ class MarcoConceptualModule {
         this.tarjetas = [];
         this.modalOpen = false;
         this.contenidoTarjetas = [
-            // Tarjeta 1
             {
                 titulo: "El humor como conducta",
                 contenido: `
@@ -21,7 +20,6 @@ class MarcoConceptualModule {
                     <p><strong>Conclusión:</strong> El humor NO reside en el chiste en sí, sino en CÓMO EL OYENTE RELACIONA los elementos del chiste.</p>
                 `
             },
-            // Tarjeta 2
             {
                 titulo: "Redes relacionales",
                 contenido: `
@@ -35,7 +33,6 @@ class MarcoConceptualModule {
                     <p>Cuando esas funciones se <strong>ALTERAN</strong>, la respuesta humorística puede desaparecer.</p>
                 `
             },
-            // Tarjeta 3
             {
                 titulo: "Funciones derivadas",
                 contenido: `
@@ -49,7 +46,6 @@ class MarcoConceptualModule {
                     <p><strong>El contexto transforma completamente la función del estímulo.</strong></p>
                 `
             },
-            // Tarjeta 4
             {
                 titulo: "Objetivo del estudio",
                 contenido: `
@@ -93,7 +89,6 @@ class MarcoConceptualModule {
         modal.appendChild(modalContent);
         document.body.appendChild(modal);
         
-        // Cerrar con ESC o click fuera
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.modalOpen) {
                 this.closeModal();
@@ -111,18 +106,46 @@ class MarcoConceptualModule {
         this.tarjetas = Array.from(document.querySelectorAll('.tarjeta'));
         
         this.tarjetas.forEach((tarjeta, index) => {
+            // Efecto hover con transformación
+            tarjeta.addEventListener('mouseenter', () => {
+                tarjeta.style.transform = 'translateY(-8px) rotateY(5deg)';
+            });
+            
+            tarjeta.addEventListener('mouseleave', () => {
+                tarjeta.style.transform = 'translateY(0) rotateY(0deg)';
+            });
+            
+            // Click para abrir modal
             tarjeta.addEventListener('click', () => {
-                this.openModal(index);
+                this.animarFlipYAbrir(tarjeta, index);
             });
         });
     }
     
     onModuleShown() {
+        // Animación de entrada escalonada
         this.tarjetas.forEach((tarjeta, index) => {
             setTimeout(() => {
                 tarjeta.classList.add('fade-in-up');
-            }, index * 150);
+                tarjeta.style.opacity = '1';
+            }, index * 200);
         });
+    }
+    
+    async animarFlipYAbrir(tarjeta, index) {
+        // Animación de flip antes de abrir
+        tarjeta.style.transition = 'transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        tarjeta.style.transform = 'rotateY(180deg) scale(1.1)';
+        
+        await Utils.delay(300);
+        
+        // Abrir modal
+        this.openModal(index);
+        
+        // Restaurar tarjeta
+        setTimeout(() => {
+            tarjeta.style.transform = 'rotateY(0deg) scale(1)';
+        }, 400);
     }
     
     openModal(index) {
@@ -132,20 +155,39 @@ class MarcoConceptualModule {
         const contenido = this.contenidoTarjetas[index];
         
         modalBody.innerHTML = `
-            <h3 style="color: #1e40af; margin-bottom: 1.5rem; font-size: 2rem;">${contenido.titulo}</h3>
+            <h3 style="color: var(--color-accent); margin-bottom: 1.5rem; font-size: 2rem;">${contenido.titulo}</h3>
             ${contenido.contenido}
         `;
         
         modal.classList.add('active');
         this.modalOpen = true;
         document.body.style.overflow = 'hidden';
+        
+        // Animar entrada del modal
+        const modalContent = modal.querySelector('.modal-content');
+        modalContent.style.transform = 'scale(0.8) rotateX(-10deg)';
+        modalContent.style.opacity = '0';
+        
+        setTimeout(() => {
+            modalContent.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            modalContent.style.transform = 'scale(1) rotateX(0deg)';
+            modalContent.style.opacity = '1';
+        }, 10);
     }
     
     closeModal() {
         const modal = document.getElementById('tarjeta-modal');
-        modal.classList.remove('active');
-        this.modalOpen = false;
-        document.body.style.overflow = 'auto';
+        const modalContent = modal.querySelector('.modal-content');
+        
+        // Animar salida
+        modalContent.style.transform = 'scale(0.8) rotateX(10deg)';
+        modalContent.style.opacity = '0';
+        
+        setTimeout(() => {
+            modal.classList.remove('active');
+            this.modalOpen = false;
+            document.body.style.overflow = 'auto';
+        }, 400);
     }
 }
 
