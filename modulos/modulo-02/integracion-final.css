@@ -306,7 +306,7 @@
 
 .estimulo-contenido-grande {
     background: var(--cyan);
-    color: white;
+    color: #0D1B2A;
     font-size: 4rem;
     font-weight: 900;
     padding: 2rem 3rem;
@@ -448,7 +448,7 @@
 
 .btn-fase {
     background: var(--cyan);
-    color: white;
+    color: #0D1B2A;
     border: none;
     padding: 1.2rem 3rem;
     border-radius: 50px;
