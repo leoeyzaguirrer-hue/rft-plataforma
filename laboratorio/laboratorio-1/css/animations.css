@@ -1,6 +1,6 @@
 /* ===================================
    LABORATORIO DEL HUMOR - animations.css
-   Animaciones y transiciones
+   Animaciones PREMIUM
    =================================== */
 
 /* Fade animations */
@@ -61,7 +61,7 @@
 @keyframes scaleIn {
     from {
         opacity: 0;
-        transform: scale(0.85);
+        transform: scale(0.9);
     }
     to {
         opacity: 1;
@@ -69,34 +69,24 @@
     }
 }
 
-@keyframes scaleOut {
-    from {
-        opacity: 1;
-        transform: scale(1);
-    }
-    to {
-        opacity: 0;
-        transform: scale(0.85);
-    }
-}
-
-/* Pulse */
+/* Pulse con glow */
 @keyframes pulse {
     0%, 100% {
         transform: scale(1);
         opacity: 1;
     }
     50% {
-        transform: scale(1.08);
-        opacity: 0.92;
+        transform: scale(1.05);
+        opacity: 0.9;
+        box-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
     }
 }
 
 /* Shake */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
-    20%, 40%, 60%, 80% { transform: translateX(8px); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
+    20%, 40%, 60%, 80% { transform: translateX(6px); }
 }
 
 /* Bounce */
@@ -105,52 +95,36 @@
         transform: translateY(0);
     }
     50% {
-        transform: translateY(-15px);
+        transform: translateY(-12px);
     }
 }
 
-/* Slide animations */
-@keyframes slideInLeft {
-    from {
-        transform: translateX(-100%);
-        opacity: 0;
+/* Glow premium */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(251, 191, 36, 0.3);
     }
-    to {
-        transform: translateX(0);
-        opacity: 1;
+    50% {
+        box-shadow: 0 0 25px rgba(251, 191, 36, 0.6), 0 0 40px rgba(251, 191, 36, 0.4);
     }
 }
 
-@keyframes slideInRight {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
+/* Heartbeat */
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
     }
-    to {
-        transform: translateX(0);
-        opacity: 1;
+    10% {
+        transform: scale(1.12);
     }
-}
-
-@keyframes slideOutLeft {
-    from {
-        transform: translateX(0);
-        opacity: 1;
+    20% {
+        transform: scale(1);
     }
-    to {
-        transform: translateX(-100%);
-        opacity: 0;
+    30% {
+        transform: scale(1.18);
     }
-}
-
-@keyframes slideOutRight {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(100%);
-        opacity: 0;
+    40% {
+        transform: scale(1);
     }
 }
 
@@ -161,61 +135,6 @@
     }
     to {
         transform: rotate(360deg);
-    }
-}
-
-/* Glow */
-@keyframes glow {
-    0%, 100% {
-        box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
-    }
-    50% {
-        box-shadow: 0 0 25px rgba(59, 130, 246, 0.9), 0 0 40px rgba(59, 130, 246, 0.7);
-    }
-}
-
-/* Typing effect */
-@keyframes typing {
-    from {
-        width: 0;
-    }
-    to {
-        width: 100%;
-    }
-}
-
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
-}
-
-/* Heartbeat */
-@keyframes heartbeat {
-    0%, 100% {
-        transform: scale(1);
-    }
-    10% {
-        transform: scale(1.15);
-    }
-    20% {
-        transform: scale(1);
-    }
-    30% {
-        transform: scale(1.2);
-    }
-    40% {
-        transform: scale(1);
-    }
-}
-
-/* Wave */
-@keyframes wave {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-20px);
     }
 }
 
@@ -232,25 +151,32 @@
     }
 }
 
-/* Utility classes for animations */
+/* Bar grow animation */
+@keyframes barGrow {
+    from {
+        width: 0%;
+    }
+}
+
+/* Utility classes */
 .fade-in {
-    animation: fadeIn 0.7s ease-out forwards;
+    animation: fadeIn 0.6s ease-out forwards;
 }
 
 .fade-in-up {
-    animation: fadeInUp 0.7s ease-out forwards;
+    animation: fadeInUp 0.6s ease-out forwards;
 }
 
 .fade-in-down {
-    animation: fadeInDown 0.7s ease-out forwards;
+    animation: fadeInDown 0.6s ease-out forwards;
 }
 
 .fade-in-left {
-    animation: fadeInLeft 0.7s ease-out forwards;
+    animation: fadeInLeft 0.6s ease-out forwards;
 }
 
 .fade-in-right {
-    animation: fadeInRight 0.7s ease-out forwards;
+    animation: fadeInRight 0.6s ease-out forwards;
 }
 
 .scale-in {
@@ -274,38 +200,26 @@
 }
 
 /* Delay utilities */
-.delay-1 { animation-delay: 0.3s; }
-.delay-2 { animation-delay: 0.6s; }
-.delay-3 { animation-delay: 0.9s; }
-.delay-4 { animation-delay: 1.2s; }
-.delay-5 { animation-delay: 1.5s; }
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+.delay-4 { animation-delay: 0.8s; }
+.delay-5 { animation-delay: 1s; }
 
-/* Hover effects */
+/* Hover effects premium */
 .hover-lift {
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hover-lift:hover {
     transform: translateY(-6px);
-    box-shadow: var(--shadow-xl);
+    box-shadow: var(--shadow-xl), 0 0 25px rgba(251, 191, 36, 0.3);
 }
 
-.hover-scale {
-    transition: transform var(--transition-fast);
-}
-
-.hover-scale:hover {
-    transform: scale(1.06);
-}
-
-.hover-glow:hover {
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
-}
-
-/* Loading spinner */
+/* Loading spinner premium */
 .spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-top-color: var(--color-primary);
+    border: 4px solid rgba(251, 191, 36, 0.2);
+    border-top-color: var(--color-accent);
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -313,164 +227,26 @@
 }
 
 /* Progress bar animation */
-.progress-animate {
-    animation: progressBar 2.5s ease-out forwards;
-}
-
 @keyframes progressBar {
     from {
         width: 0%;
     }
-    to {
-        width: 100%;
-    }
 }
 
-/* Skeleton loading */
-@keyframes skeleton {
-    0% {
-        background-position: -200px 0;
-    }
-    100% {
-        background-position: calc(200px + 100%) 0;
-    }
+.progress-animate {
+    animation: progressBar 2s ease-out forwards;
 }
 
-.skeleton {
-    background: linear-gradient(
-        90deg,
-        #f0f0f0 0px,
-        #f8f8f8 40px,
-        #f0f0f0 80px
-    );
-    background-size: 200px 100%;
-    animation: skeleton 1.5s infinite;
-}
-
-/* SVG drawing animation */
-@keyframes draw {
-    to {
-        stroke-dashoffset: 0;
-    }
-}
-
-.draw-svg {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: draw 2.5s ease-out forwards;
-}
-
-/* Text reveal */
-@keyframes textReveal {
-    from {
-        clip-path: inset(0 100% 0 0);
-    }
-    to {
-        clip-path: inset(0 0 0 0);
-    }
-}
-
-.text-reveal {
-    animation: textReveal 1s ease-out forwards;
-}
-
-/* Attention seekers */
-@keyframes wiggle {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-6deg); }
-    75% { transform: rotate(6deg); }
-}
-
-.wiggle {
-    animation: wiggle 0.6s ease-in-out;
-}
-
-/* Entrance animations for modules */
-.module-enter {
-    animation: fadeInUp 1s ease-out forwards;
-}
-
-.module-exit {
-    animation: fadeInDown 0.7s ease-in forwards;
-}
-
-/* Card flip animation */
-.flip-enter {
-    animation: flipIn 0.7s ease-out forwards;
-}
-
-@keyframes flipIn {
-    from {
-        transform: perspective(400px) rotateY(90deg);
-        opacity: 0;
-    }
-    to {
-        transform: perspective(400px) rotateY(0deg);
-        opacity: 1;
-    }
-}
-
-/* Stagger animations */
-.stagger-1 { animation-delay: 0.15s; }
-.stagger-2 { animation-delay: 0.3s; }
-.stagger-3 { animation-delay: 0.45s; }
-.stagger-4 { animation-delay: 0.6s; }
-.stagger-5 { animation-delay: 0.75s; }
-
-/* Intersection Observer animations */
+/* Intersection Observer */
 .observe-fade {
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .observe-fade.visible {
     opacity: 1;
     transform: translateY(0);
-}
-
-/* Protocol-specific animations */
-.reality-ambiente {
-    animation: fadeToReality 1.2s ease-out forwards;
-}
-
-@keyframes fadeToReality {
-    from {
-        background: var(--bg-secondary);
-        filter: brightness(1);
-    }
-    to {
-        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-        filter: brightness(0.85);
-    }
-}
-
-/* Chart animations */
-.bar-grow {
-    animation: barGrow 1.2s ease-out forwards;
-}
-
-@keyframes barGrow {
-    from {
-        transform: scaleY(0);
-        transform-origin: bottom;
-    }
-    to {
-        transform: scaleY(1);
-        transform-origin: bottom;
-    }
-}
-
-.line-draw {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: lineDraw 2.5s ease-out forwards;
-}
-
-@keyframes lineDraw {
-    to {
-        stroke-dashoffset: 0;
-    }
 }
 
 /* Reduce motion for accessibility */
