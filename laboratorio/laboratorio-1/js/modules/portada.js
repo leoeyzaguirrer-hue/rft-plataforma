@@ -1,6 +1,6 @@
 /* ===================================
    LABORATORIO DEL HUMOR - portada.js
-   Módulo 0: Portada
+   Módulo 0: Portada - ARREGLADO
    =================================== */
 
 class PortadaModule {
@@ -77,18 +77,20 @@ class PortadaModule {
         const protocoloPreview = document.getElementById('protocolo-preview');
         const protocoloTexto = protocoloPreview.querySelector('.protocolo-texto');
         const heartbeatContainer = protocoloPreview.querySelector('.heartbeat-container');
-        const chisteProtocolo = document.getElementById('chiste-protocolo');
+        const chisteProtocoloContainer = document.getElementById('chiste-protocolo-container');
         
         const ladoProtocolo = document.querySelector('.portada-protocolo');
         ladoProtocolo.classList.add('active');
         
         this.btnVivirSituacion.style.display = 'none';
         
+        // Mostrar instrucciones
         protocoloTexto.classList.remove('hidden');
         protocoloTexto.classList.add('fade-in-up');
         
         await Utils.delay(3000);
         
+        // Mostrar latido
         heartbeatContainer.classList.remove('hidden');
         heartbeatContainer.classList.add('fade-in');
         
@@ -98,8 +100,9 @@ class PortadaModule {
         
         await Utils.delay(2000);
         
-        chisteProtocolo.classList.remove('hidden');
-        chisteProtocolo.classList.add('fade-in-up');
+        // Mostrar chiste
+        chisteProtocoloContainer.classList.remove('hidden');
+        chisteProtocoloContainer.classList.add('fade-in-up');
         
         await Utils.delay(3000);
         
@@ -125,33 +128,7 @@ class PortadaModule {
         
         if (chisteNormalVisto && protocoloVisto) {
             this.mostrarTransicion();
-        } else if (chisteNormalVisto || protocoloVisto) {
-            this.mostrarHint();
         }
-    }
-    
-    mostrarHint() {
-        const hint = Utils.createElement('div', ['hint-completar'], {});
-        hint.textContent = '👆 Prueba también el otro lado';
-        hint.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            z-index: 999;
-            animation: fadeIn 0.3s ease-out;
-        `;
-        
-        document.body.appendChild(hint);
-        
-        setTimeout(() => {
-            Utils.fadeOut(hint, 300);
-            setTimeout(() => hint.remove(), 300);
-        }, 3000);
     }
     
     async mostrarTransicion() {
@@ -182,11 +159,11 @@ class PortadaModule {
         
         const protocoloTexto = document.querySelector('.protocolo-texto');
         const heartbeatContainer = document.querySelector('.heartbeat-container');
-        const chisteProtocolo = document.getElementById('chiste-protocolo');
+        const chisteProtocoloContainer = document.getElementById('chiste-protocolo-container');
         
         if (protocoloTexto) protocoloTexto.classList.add('hidden');
         if (heartbeatContainer) heartbeatContainer.classList.add('hidden');
-        if (chisteProtocolo) chisteProtocolo.classList.add('hidden');
+        if (chisteProtocoloContainer) chisteProtocoloContainer.classList.add('hidden');
         
         const transicion = document.getElementById('portada-transicion');
         if (transicion) transicion.classList.add('hidden');
