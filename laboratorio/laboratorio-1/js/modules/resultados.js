@@ -1,18 +1,37 @@
 /* ===================================
    LABORATORIO DEL HUMOR - resultados.js
-   Módulo 5: Resultados
+   Módulo 5: Resultados - CON GRÁFICOS VISUALES
    =================================== */
 
 class ResultadosModule {
     constructor() {
-        this.resultadosData = null;
+        this.resultadosData = {
+            fase1: {
+                doctor: {
+                    control: { sonrisas: 82, gracioso: 91 },
+                    experimental: { sonrisas: 25, gracioso: 33, significativo: true }
+                },
+                beer: {
+                    control: { sonrisas: 91, gracioso: 100 },
+                    experimental: { sonrisas: 58, gracioso: 67, significativo: true }
+                },
+                job: {
+                    control: { sonrisas: 73, gracioso: 82 },
+                    experimental: { sonrisas: 17, gracioso: 25, significativo: true }
+                },
+                soccer: {
+                    control: { sonrisas: 64, gracioso: 73 },
+                    experimental: { sonrisas: 67, gracioso: 75, significativo: false }
+                }
+            }
+        };
+        
         this.chartsCreated = false;
         this.init();
     }
     
     init() {
         document.addEventListener('DOMContentLoaded', () => {
-            this.loadResultadosData();
             this.setupEventListeners();
         });
         
@@ -21,10 +40,6 @@ class ResultadosModule {
                 this.onModuleShown();
             }
         });
-    }
-    
-    async loadResultadosData() {
-        this.resultadosData = await Utils.loadJSON('assets/data/resultados.json');
     }
     
     setupEventListeners() {
@@ -37,7 +52,6 @@ class ResultadosModule {
     }
     
     onModuleShown() {
-        // Reset si es necesario
         this.chartsCreated = false;
     }
     
@@ -45,7 +59,6 @@ class ResultadosModule {
         const btnRevelar = document.getElementById('btn-revelar-resultados');
         const fase1 = document.getElementById('resultados-fase-1');
         const fase2 = document.getElementById('resultados-fase-2');
-        const acuerdo = document.getElementById('resultados-acuerdo');
         
         // Ocultar botón
         if (btnRevelar) {
@@ -67,246 +80,109 @@ class ResultadosModule {
         if (fase2) {
             fase2.classList.remove('hidden');
             fase2.classList.add('fade-in-up');
-            await this.crearGraficoFase2();
-        }
-        
-        await Utils.delay(2000);
-        
-        // Mostrar Acuerdo
-        if (acuerdo) {
-            acuerdo.classList.remove('hidden');
-            acuerdo.classList.add('fade-in-up');
-            await this.crearDiagramasVenn();
         }
     }
     
     async crearGraficosFase1() {
-        if (!this.resultadosData || this.chartsCreated) return;
+        if (this.chartsCreated) return;
+        
+        const container = document.getElementById('graficos-fase-1');
+        if (!container) return;
         
         const chistes = ['doctor', 'beer', 'job', 'soccer'];
-        const fase1Data = this.resultadosData.resultados.fase1;
-        
-        for (let chiste of chistes) {
-            await Utils.delay(400);
-            
-            const container = document.getElementById(`grafico-${chiste}`);
-            if (!container) continue;
-            
-            const control = fase1Data.control[chiste];
-            const experimental = fase1Data.experimental[chiste];
-            
-            // Crear gráfico de barras simple
-            const grafico = this.crearGraficoBarras(
-                chiste,
-                control,
-                experimental
-            );
-            
-            container.appendChild(grafico);
-        }
-    }
-    
-    crearGraficoBarras(chiste, control, experimental) {
-        const wrapper = Utils.createElement('div', ['grafico-barras'], {});
-        wrapper.style.cssText = `
-            background: white;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            border: 2px solid #e2e8f0;
-        `;
-        
-        // Título
-        const titulo = Utils.createElement('h4', [], {});
-        const chisteNombres = {
+        const nombres = {
             'doctor': '🏥 Chiste del Doctor',
             'beer': '🍺 Chiste de la Cerveza',
             'job': '💼 Chiste de la Entrevista',
             'soccer': '⚽ Chiste del Fútbol'
         };
-        titulo.textContent = chisteNombres[chiste];
-        titulo.style.marginBottom = '1rem';
-        titulo.style.textAlign = 'center';
-        wrapper.appendChild(titulo);
         
-        // Contenedor de barras
-        const barrasContainer = Utils.createElement('div', ['barras-container'], {});
-        barrasContainer.style.cssText = `
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        `;
-        
-        // Crear grupo control
-        const grupoControl = this.crearGrupoBarra('Control', control, '#64748b');
-        barrasContainer.appendChild(grupoControl);
-        
-        // Crear grupo experimental
-        const grupoExperimental = this.crearGrupoBarra('Experimental', experimental, '#f59e0b');
-        barrasContainer.appendChild(grupoExperimental);
-        
-        wrapper.appendChild(barrasContainer);
-        
-        // Nota si es significativo
-        if (experimental.significativo) {
-            const nota = Utils.createElement('p', [], {});
-            nota.textContent = '⚠️ Diferencia estadísticamente significativa';
-            nota.style.cssText = `
-                margin-top: 1rem;
-                padding: 0.5rem;
-                background: #fef3c7;
-                border-left: 4px solid #f59e0b;
-                border-radius: 0.5rem;
-                font-size: 0.875rem;
-                font-weight: 600;
-                color: #92400e;
-            `;
-            wrapper.appendChild(nota);
+        for (let chiste of chistes) {
+            await Utils.delay(400);
+            
+            const data = this.resultadosData.fase1[chiste];
+            const grafico = this.crearGraficoBarras(nombres[chiste], data);
+            container.appendChild(grafico);
         }
         
-        return wrapper;
+        this.chartsCreated = true;
     }
     
-    crearGrupoBarra(nombre, datos, color) {
-        const grupo = Utils.createElement('div', ['grupo-barra'], {});
-        
-        const label = Utils.createElement('p', [], {});
-        label.textContent = nombre;
-        label.style.fontWeight = '600';
-        label.style.marginBottom = '0.5rem';
-        label.style.textAlign = 'center';
-        grupo.appendChild(label);
-        
-        // Barra de sonrisas
-        const barraSmile = this.crearBarra('Sonrisas', datos.sonrisas.porcentaje, color);
-        grupo.appendChild(barraSmile);
-        
-        // Barra de "gracioso"
-        const barraGracioso = this.crearBarra('"Gracioso"', datos.gracioso.porcentaje, color);
-        grupo.appendChild(barraGracioso);
-        
-        return grupo;
-    }
-    
-    crearBarra(label, porcentaje, color) {
-        const container = Utils.createElement('div', [], {});
-        container.style.marginBottom = '0.75rem';
-        
-        const labelEl = Utils.createElement('div', [], {});
-        labelEl.style.cssText = `
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.875rem;
-            margin-bottom: 0.25rem;
-        `;
-        labelEl.innerHTML = `<span>${label}</span><span>${porcentaje}%</span>`;
-        container.appendChild(labelEl);
-        
-        const barraFondo = Utils.createElement('div', [], {});
-        barraFondo.style.cssText = `
-            background: #e2e8f0;
-            height: 24px;
-            border-radius: 0.5rem;
-            overflow: hidden;
-        `;
-        
-        const barraRelleno = Utils.createElement('div', ['bar-grow'], {});
-        barraRelleno.style.cssText = `
-            background: ${color};
-            height: 100%;
-            width: ${porcentaje}%;
-            transition: width 1s ease-out;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 0.5rem;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 600;
-        `;
-        
-        barraFondo.appendChild(barraRelleno);
-        container.appendChild(barraFondo);
-        
-        return container;
-    }
-    
-    async crearGraficoFase2() {
-        const container = document.getElementById('grafico-lineas');
-        if (!container || !this.resultadosData) return;
-        
-        // Crear SVG simple para gráfico de líneas
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('width', '100%');
-        svg.setAttribute('height', '400');
-        svg.setAttribute('viewBox', '0 0 800 400');
-        
-        // Aquí iría la lógica del gráfico de líneas
-        // Por simplicidad, creamos un placeholder
-        const texto = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        texto.setAttribute('x', '400');
-        texto.setAttribute('y', '200');
-        texto.setAttribute('text-anchor', 'middle');
-        texto.setAttribute('fill', '#64748b');
-        texto.textContent = 'Gráfico de líneas - Fase 2';
-        svg.appendChild(texto);
-        
-        container.appendChild(svg);
-    }
-    
-    async crearDiagramasVenn() {
-        const containerFase1 = document.getElementById('venn-fase-1');
-        const containerFase2 = document.getElementById('venn-fase-2');
-        
-        if (containerFase1) {
-            const venn1 = this.crearVennDiagram('Fase 1', 86, 70);
-            containerFase1.appendChild(venn1);
-        }
-        
-        if (containerFase2) {
-            const venn2 = this.crearVennDiagram('Fase 2', 72, 74);
-            containerFase2.appendChild(venn2);
-        }
-    }
-    
-    crearVennDiagram(titulo, controlAcuerdo, experimentalAcuerdo) {
-        const container = Utils.createElement('div', [], {});
-        container.style.cssText = `
-            background: white;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            border: 2px solid #e2e8f0;
-            text-align: center;
-        `;
+    crearGraficoBarras(titulo, data) {
+        const card = Utils.createElement('div', ['grafico-card'], {});
         
         const h4 = Utils.createElement('h4', [], {});
         h4.textContent = titulo;
-        h4.style.marginBottom = '1rem';
-        container.appendChild(h4);
+        card.appendChild(h4);
         
-        const stats = Utils.createElement('div', [], {});
-        stats.style.cssText = `
-            display: flex;
-            justify-content: space-around;
-            margin-top: 1rem;
-        `;
+        const barrasContainer = Utils.createElement('div', ['barras-comparacion'], {});
         
-        const controlStat = Utils.createElement('div', [], {});
-        controlStat.innerHTML = `
-            <p style="font-size: 2rem; font-weight: 700; color: #64748b;">${controlAcuerdo}%</p>
-            <p style="font-size: 0.875rem; color: #64748b;">Control</p>
-        `;
+        // Barra Sonrisas - Control
+        const sonrisasControlGroup = this.crearBarra(
+            'Sonrisas - Control',
+            data.control.sonrisas,
+            'barra-control'
+        );
+        barrasContainer.appendChild(sonrisasControlGroup);
         
-        const experimentalStat = Utils.createElement('div', [], {});
-        experimentalStat.innerHTML = `
-            <p style="font-size: 2rem; font-weight: 700; color: #f59e0b;">${experimentalAcuerdo}%</p>
-            <p style="font-size: 0.875rem; color: #f59e0b;">Experimental</p>
-        `;
+        // Barra Sonrisas - Experimental
+        const sonrisasExpGroup = this.crearBarra(
+            'Sonrisas - Experimental',
+            data.experimental.sonrisas,
+            'barra-experimental'
+        );
+        barrasContainer.appendChild(sonrisasExpGroup);
         
-        stats.appendChild(controlStat);
-        stats.appendChild(experimentalStat);
-        container.appendChild(stats);
+        // Barra "Gracioso" - Control
+        const graciosoControlGroup = this.crearBarra(
+            '"Gracioso" - Control',
+            data.control.gracioso,
+            'barra-control'
+        );
+        barrasContainer.appendChild(graciosoControlGroup);
         
-        return container;
+        // Barra "Gracioso" - Experimental
+        const graciosoExpGroup = this.crearBarra(
+            '"Gracioso" - Experimental',
+            data.experimental.gracioso,
+            'barra-experimental'
+        );
+        barrasContainer.appendChild(graciosoExpGroup);
+        
+        card.appendChild(barrasContainer);
+        
+        // Badge significativo
+        if (data.experimental.significativo) {
+            const badge = Utils.createElement('div', ['significativo-badge'], {});
+            badge.textContent = '⚠️ Diferencia significativa';
+            card.appendChild(badge);
+        }
+        
+        return card;
+    }
+    
+    crearBarra(label, porcentaje, colorClass) {
+        const grupo = Utils.createElement('div', ['barra-grupo'], {});
+        
+        const labelDiv = Utils.createElement('div', ['barra-label'], {});
+        labelDiv.innerHTML = `<span>${label}</span><span>${porcentaje}%</span>`;
+        grupo.appendChild(labelDiv);
+        
+        const barraFondo = Utils.createElement('div', ['barra-fondo'], {});
+        
+        const barraFill = Utils.createElement('div', ['barra-fill', colorClass], {});
+        barraFill.style.width = '0%';
+        barraFill.textContent = `${porcentaje}%`;
+        
+        barraFondo.appendChild(barraFill);
+        grupo.appendChild(barraFondo);
+        
+        // Animar después de un momento
+        setTimeout(() => {
+            barraFill.style.width = `${porcentaje}%`;
+        }, 100);
+        
+        return grupo;
     }
 }
 
