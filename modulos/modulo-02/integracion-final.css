@@ -252,19 +252,173 @@
 .estimulo-box {
     flex: 1;
     text-align: center;
+    background: var(--cyan);
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,188,212,0.3);
 }
 
 .estimulo-contenido {
     font-size: 2.5rem;
     font-weight: 900;
     margin-bottom: 0.5rem;
+    color: white;
 }
 
 .estimulo-label {
     font-size: 0.85rem;
     font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    text-transform: uppercase;
+}
+
+/* Estilos para entrenamiento/prueba interactiva */
+.entrenamiento-interactivo,
+.prueba-interactiva {
+    text-align: center;
+}
+
+.contador-pares {
+    background: linear-gradient(135deg, var(--amarillo), #FFE54C);
+    color: #0D1B2A;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    display: inline-block;
+}
+
+.par-entrenar,
+.par-probar {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    margin: 2rem 0;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.estimulo-muestra-grande,
+.estimulo-comparacion-grande {
+    display: inline-block;
+    margin: 1rem;
+}
+
+.estimulo-contenido-grande {
+    background: var(--cyan);
+    color: white;
+    font-size: 4rem;
+    font-weight: 900;
+    padding: 2rem 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,188,212,0.4);
+    min-width: 150px;
+}
+
+.estimulo-muestra-grande .estimulo-label,
+.estimulo-comparacion-grande .estimulo-label {
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
     color: #666;
     text-transform: uppercase;
+}
+
+.instruccion-entrenar,
+.pregunta-prueba {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--cyan);
+    margin: 2rem 0;
+}
+
+.btn-entrenar,
+.btn-probar {
+    background: linear-gradient(135deg, var(--verde-neon), #00FF88);
+    color: #0D1B2A;
+    border: none;
+    padding: 1.5rem 3rem;
+    border-radius: 50px;
+    font-weight: 900;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 8px 25px rgba(0,255,136,0.4);
+}
+
+.btn-entrenar:hover,
+.btn-probar:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0,255,136,0.6);
+}
+
+.nota-prueba {
+    background: rgba(255,214,0,0.1);
+    border: 2px solid var(--amarillo);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    font-weight: 700;
+    color: #0D1B2A;
+}
+
+.resumen-entrenamiento,
+.resumen-prueba {
+    display: grid;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.par-entrenado,
+.par-probado {
+    background: white;
+    border: 3px solid var(--verde-neon);
+    padding: 1.5rem;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0D1B2A;
+}
+
+.check-entrenado,
+.check-derivado {
+    width: 40px;
+    height: 40px;
+    background: var(--verde-neon);
+    color: #0D1B2A;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.check-derivado {
+    background: var(--amarillo);
+}
+
+.etiqueta-derivada {
+    margin-left: auto;
+    background: var(--amarillo);
+    color: #0D1B2A;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.entrenamiento-correcto,
+.prueba-correcta {
+    background: linear-gradient(135deg, rgba(0,255,136,0.15), rgba(0,255,136,0.2)) !important;
+    border: 3px solid var(--verde-neon) !important;
+}
+
+.fase-completa {
+    background: linear-gradient(135deg, rgba(0,188,212,0.15), rgba(0,188,212,0.2)) !important;
+    border: 3px solid var(--cyan) !important;
 }
 
 .flecha-relacion {
