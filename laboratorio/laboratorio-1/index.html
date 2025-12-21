@@ -36,6 +36,7 @@
     <main id="app">
         
         <!-- MÓDULO 0: PORTADA -->
+     <!-- MÓDULO 0: PORTADA SIMPLIFICADA -->
         <section class="module active" id="module-0" data-module="portada">
             <div class="portada-container">
                 <div class="portada-split">
@@ -43,53 +44,58 @@
                     <div class="portada-lado portada-normal">
                         <div class="portada-label">Contexto normal</div>
                         <div class="chiste-container">
-                            <div class="chiste-texto" id="chiste-normal">
+                            <div class="chiste-texto">
                                 <p class="dialogo"><strong>Médico:</strong> "Relájate David, es solo una pequeña cirugía. No entres en pánico."</p>
                                 <p class="dialogo"><strong>Paciente:</strong> "Mi nombre no es David."</p>
                                 <p class="dialogo"><strong>Médico:</strong> "Lo sé. Yo soy David."</p>
                             </div>
+                            <div class="demo-reaction" style="margin-top: 1rem;">
+                                ¿Gracioso? <span class="emoji">😄</span>
+                            </div>
                         </div>
-                        <button class="btn-primary" id="btn-leer-chiste">
-                            Leer chiste
-                        </button>
                     </div>
 
-                   <!-- Lado derecho: Con protocolo -->
-<div class="portada-lado portada-protocolo">
-    <div class="portada-label">Con contexto modificado</div>
-    <div class="protocolo-preview" id="protocolo-preview">
-        <div class="protocolo-texto hidden">
-            <p class="protocolo-instruccion">Por favor imagina que estás en un hospital...</p>
-            <p class="protocolo-instruccion">que lo que vas a escuchar es real,</p>
-            <p class="protocolo-instruccion">como si estuviera ocurriendo en este momento...</p>
-        </div>
-        
-        <div class="heartbeat-container hidden">
-            <div class="heartbeat-icon">♥</div>
-        </div>
-        
-        <div class="chiste-container hidden" id="chiste-protocolo-container">
-            <div class="chiste-texto" id="chiste-protocolo">
-                <p class="dialogo"><strong>Médico:</strong> "Relájate David, es solo una pequeña cirugía. No entres en pánico."</p>
-                <p class="dialogo"><strong>Paciente:</strong> "Mi nombre no es David."</p>
-                <p class="dialogo"><strong>Médico:</strong> "Lo sé. Yo soy David."</p>
-            </div>
-        </div>
-    </div>
-    
-    <button class="btn-primary" id="btn-vivir-situacion">
-        Vivir la situación
-    </button>
-</div>
+                    <!-- Lado derecho: Con protocolo -->
+                    <div class="portada-lado portada-protocolo">
+                        <div class="portada-label">Con contexto modificado</div>
+                        
+                        <div class="chiste-container">
+                            <div style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; border: 2px solid #ef4444;">
+                                <p style="font-style: italic; color: #fca5a5; font-size: 0.875rem; margin-bottom: 0.5rem;">
+                                    <strong>Imagina que estás en un hospital...</strong>
+                                </p>
+                                <p style="font-style: italic; color: #fca5a5; font-size: 0.875rem; margin-bottom: 0.5rem;">
+                                    que lo que vas a escuchar es real,
+                                </p>
+                                <p style="font-style: italic; color: #fca5a5; font-size: 0.875rem;">
+                                    como si estuviera ocurriendo en este momento...
+                                </p>
+                            </div>
+                            
+                            <div style="text-align: center; margin: 1.5rem 0;">
+                                <div style="font-size: 3rem; color: #ef4444; animation: heartbeat 1.2s ease-in-out infinite;">♥</div>
+                            </div>
+                            
+                            <div class="chiste-texto">
+                                <p class="dialogo"><strong>Médico:</strong> "Relájate David, es solo una pequeña cirugía. No entres en pánico."</p>
+                                <p class="dialogo"><strong>Paciente:</strong> "Mi nombre no es David."</p>
+                                <p class="dialogo"><strong>Médico:</strong> "Lo sé. Yo soy David."</p>
+                            </div>
+                            
+                            <div class="demo-reaction" style="margin-top: 1rem;">
+                                ¿Gracioso? <span class="emoji">😐</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Texto de transición -->
-                <div class="portada-transicion hidden" id="portada-transicion">
+                <!-- Texto de transición - SIEMPRE VISIBLE -->
+                <div class="portada-transicion" style="margin-top: 3rem;">
                     <div class="container-texto">
-                        <h1 class="fade-in-up">¿Notaste la diferencia?</h1>
-                        <p class="texto-destacado fade-in-up delay-1">El chiste es el mismo, pero <strong>algo cambió</strong>.</p>
+                        <h1>¿Notaste la diferencia?</h1>
+                        <p class="texto-destacado">El chiste es el mismo, pero <strong>algo cambió</strong>.</p>
                         
-                        <div class="texto-academico fade-in-up delay-2">
+                        <div class="texto-academico" style="margin-top: 2rem;">
                             <p>A pesar de la enorme cantidad de investigaciones sobre el humor, <strong>no existe consenso sobre bajo qué condiciones emerge una respuesta humorística.</strong></p>
                             
                             <p>Tradicionalmente se ha propuesto que la <strong>incongruencia</strong> es el núcleo del humor: algo rompe una expectativa previa y eso genera risa.</p>
@@ -97,10 +103,12 @@
                             <p>Sin embargo, esta explicación <strong>no aclara por qué la MISMA incongruencia puede ser graciosa en un contexto y no en otro.</strong></p>
                         </div>
 
-                        <button class="btn-cta fade-in-up delay-3" id="btn-explorar">
-                            Explorar el experimento
-                            <span class="btn-arrow">→</span>
-                        </button>
+                        <div style="text-align: center; margin-top: 3rem;">
+                            <button class="btn-cta" onclick="window.laboratorioApp.navigateToModule(1)">
+                                Explorar el experimento
+                                <span class="btn-arrow">→</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
