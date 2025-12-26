@@ -1,0 +1,142 @@
+/* ==============================================
+   LABORATORIO DE COHERENCIA - VARIABLES GLOBALES
+   ============================================== */
+
+:root {
+    /* === PALETA DE COLORES === */
+    
+    /* Fondos */
+    --fondo-principal: #0D4D4D;
+    --fondo-secundario: #0A3636;
+    --fondo-terciario: #1A4D4D;
+    --fondo-tarjeta: #FFFFFF;
+    --fondo-tarjeta-suave: #F0F8F8;
+    --fondo-overlay: rgba(13, 77, 77, 0.95);
+    
+    /* Acentos principales */
+    --acento-dorado: #FFB800;
+    --acento-dorado-hover: #FFA500;
+    --acento-coral: #FF6B6B;
+    --acento-coral-hover: #FF5252;
+    --acento-cyan: #00E5CC;
+    --acento-cyan-hover: #00CCB8;
+    --acento-violeta: #9D4EDD;
+    --acento-violeta-hover: #8B3FD1;
+    
+    /* Texto */
+    --texto-oscuro: #1A1A1A;
+    --texto-medio: #4A4A4A;
+    --texto-suave: #666666;
+    --texto-claro: #FFFFFF;
+    --texto-suave-claro: #B8D4D4;
+    --texto-deshabilitado: #999999;
+    
+    /* Estados */
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #EF4444;
+    --info: #3B82F6;
+    
+    /* === TIPOGRAFÍA === */
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Space Grotesk', sans-serif;
+    
+    /* Tamaños de fuente */
+    --text-xs: 12px;
+    --text-sm: 14px;
+    --text-base: 16px;
+    --text-lg: 18px;
+    --text-xl: 20px;
+    --text-2xl: 24px;
+    --text-3xl: 32px;
+    --text-4xl: 42px;
+    --text-5xl: 56px;
+    --text-6xl: 72px;
+    
+    /* Pesos de fuente */
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --font-black: 900;
+    
+    /* === ESPACIADO === */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --space-20: 80px;
+    --space-24: 96px;
+    
+    /* === BORDER RADIUS === */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-2xl: 24px;
+    --radius-3xl: 32px;
+    --radius-full: 9999px;
+    
+    /* === SOMBRAS === */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.25);
+    --shadow-2xl: 0 20px 60px rgba(0, 0, 0, 0.3);
+    
+    /* Sombras con color */
+    --shadow-cyan: 0 8px 24px rgba(0, 229, 204, 0.2);
+    --shadow-cyan-lg: 0 12px 32px rgba(0, 229, 204, 0.3);
+    --shadow-dorado: 0 8px 24px rgba(255, 184, 0, 0.4);
+    --shadow-dorado-lg: 0 12px 32px rgba(255, 184, 0, 0.6);
+    
+    /* === TRANSICIONES === */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* === Z-INDEX === */
+    --z-below: -1;
+    --z-base: 0;
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+    
+    /* === BREAKPOINTS (para JavaScript) === */
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+    
+    /* === LAYOUT === */
+    --max-width-sm: 640px;
+    --max-width-md: 768px;
+    --max-width-lg: 1024px;
+    --max-width-xl: 1280px;
+    --max-width-2xl: 1400px;
+    --max-width-full: 100%;
+    
+    /* === ANIMACIONES === */
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* === MODO OSCURO (Opcional para futuro) === */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Podemos activar esto más adelante si lo necesitamos */
+    }
+}
