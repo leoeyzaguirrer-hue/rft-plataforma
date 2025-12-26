@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entailment Combinatorio - Laboratorio de Coherencia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        /* Test de transitividad interactivo */
+        .test-transitividad {
+            background: linear-gradient(135deg, #F0F9FF, #E6F7FF);
+            border-radius: var(--radius-3xl);
+            padding: var(--space-12);
+            margin: var(--space-10) 0;
+            border: 4px solid var(--info);
+        }
+
+        .test-fase {
+            margin-bottom: var(--space-10);
+        }
+
+        .test-fase-titulo {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-black);
+            color: var(--texto-oscuro);
+            margin-bottom: var(--space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .estimulo-pair {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin: var(--space-4) 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-6);
+            font-size: var(--text-3xl);
+            box-shadow: var(--shadow-md);
+        }
+
+        .flecha-igual {
+            font-size: var(--text-4xl);
+            color: var(--acento-cyan);
+            font-weight: var(--font-black);
+        }
+
+        .test-pregunta {
+            background: linear-gradient(135deg, #FFF9E6, #FFFAEB);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            margin: var(--space-8) 0;
+            border-left: 6px solid var(--acento-dorado);
+        }
+
+        .test-pregunta-texto {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--texto-oscuro);
+            margin-bottom: var(--space-6);
+        }
+
+        .test-opciones {
+            display: flex;
+            gap: var(--space-6);
+            flex-wrap: wrap;
+        }
+
+        .test-opcion {
+            flex: 1;
+            min-width: 200px;
+            background: white;
+            border: 3px solid transparent;
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .test-opcion:hover {
+            border-color: var(--acento-cyan);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .test-opcion.correcta {
+            border-color: var(--success);
+            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+        }
+
+        .test-opcion.incorrecta {
+            border-color: var(--error);
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+        }
+
+        .test-opcion-emoji {
+            font-size: 64px;
+            display: block;
+            margin-bottom: var(--space-3);
+        }
+
+        .test-opcion-label {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+        }
+
+        /* Comparación grupos */
+        .split-grupos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-8);
+            margin: var(--space-10) 0;
+        }
+
+        .grupo-card {
+            background: white;
+            border-radius: var(--radius-3xl);
+            padding: var(--space-10);
+            box-shadow: var(--shadow-2xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grupo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: var(--acento-cyan);
+        }
+
+        .grupo-card.no-entailers::before {
+            background: var(--acento-coral);
+        }
+
+        .grupo-titulo {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            font-weight: var(--font-black);
+            margin-bottom: var(--space-6);
+        }
+
+        .grupo-card.entailers .grupo-titulo {
+            color: var(--acento-cyan);
+        }
+
+        .grupo-card.no-entailers .grupo-titulo {
+            color: var(--acento-coral);
+        }
+
+        .grupo-stat {
+            text-align: center;
+            padding: var(--space-6);
+            background: var(--fondo-tarjeta-suave);
+            border-radius: var(--radius-lg);
+            margin: var(--space-4) 0;
+        }
+
+        .grupo-stat-numero {
+            font-family: var(--font-display);
+            font-size: var(--text-6xl);
+            font-weight: var(--font-black);
+            line-height: 1;
+        }
+
+        .grupo-stat-label {
+            font-size: var(--text-base);
+            color: var(--texto-suave);
+            margin-top: var(--space-2);
+        }
+
+        /* Visual de qué ve cada grupo */
+        .vision-grupo {
+            background: var(--fondo-tarjeta-suave);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin: var(--space-6) 0;
+        }
+
+        .vision-titulo {
+            font-size: var(--text-lg);
+            font-weight: var(--font-bold);
+            color: var(--texto-oscuro);
+            margin-bottom: var(--space-4);
+        }
+
+        .vision-trial {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin: var(--space-3) 0;
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .vision-trial-tipo {
+            font-size: var(--text-base);
+            font-weight: var(--font-bold);
+            min-width: 100px;
+        }
+
+        .vision-trial-contenido {
+            flex: 1;
+            font-size: var(--text-lg);
+        }
+
+        .vision-trial-resultado {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+        }
+
+        .vision-trial.coherente .vision-trial-resultado {
+            color: var(--success);
+        }
+
+        .vision-trial.semicoherente .vision-trial-resultado {
+            color: var(--warning);
+        }
+
+        /* Tabla de datos */
+        .tabla-entailment {
+            background: white;
+            border-radius: var(--radius-2xl);
+            padding: var(--space-10);
+            margin: var(--space-10) 0;
+            box-shadow: var(--shadow-xl);
+            overflow-x: auto;
+        }
+
+        .tabla-entailment table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tabla-entailment th {
+            background: var(--acento-cyan);
+            color: white;
+            padding: var(--space-6);
+            text-align: left;
+            font-size: var(--text-lg);
+            font-weight: var(--font-bold);
+        }
+
+        .tabla-entailment td {
+            padding: var(--space-6);
+            border-bottom: 2px solid var(--fondo-tarjeta-suave);
+            font-size: var(--text-lg);
+        }
+
+        .tabla-entailment tr:hover {
+            background: var(--fondo-tarjeta-suave);
+        }
+
+        .tabla-highlight {
+            background: linear-gradient(135deg, #FFF9E6, #FFFAEB) !important;
+            font-weight: var(--font-bold);
+        }
+
+        @media (max-width: 768px) {
+            .split-grupos {
+                grid-template-columns: 1fr;
+            }
+
+            .test-opciones {
+                flex-direction: column;
+            }
+
+            .test-opcion {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <button class="btn-volver">
+                <span>←</span>
+                <span>Volver al inicio</span>
+            </button>
+            
+            <div class="pill-progreso">
+                <span class="pill-texto">Progreso del Módulo</span>
+                <div class="pill-barra">
+                    <div class="pill-barra-fill"></div>
+                </div>
+                <span class="pill-texto"><strong>6/8</strong></span>
+            </div>
+        </header>
+
+        <!-- Badge de módulo -->
+        <div class="badge-modulo animate-fade-in delay-200">
+            🧠 El Requisito Oculto para Preferir Coherencia
+        </div>
+
+        <!-- Título principal -->
+        <h1 class="text-gradient animate-fade-in delay-300">
+            No Puedes Preferir Lo Que No Puedes Ver
+        </h1>
+
+        <!-- Tarjeta principal -->
+        <div class="tarjeta tarjeta-principal animate-fade-in-up delay-500">
+            <div class="tarjeta-icono-grande animate-float">🔍</div>
+            <h2 class="tarjeta-titulo">El Hallazgo Más Importante del Estudio</h2>
+            
+            <p class="tarjeta-texto">
+                Recuerda que en el Estudio 2, solo 39-45% de los participantes prefirieron coherencia. 
+                ¿Por qué no más? Los investigadores descubrieron algo crucial: <strong>no todos podían 
+                discriminar entre coherente e incoherente</strong>.
+            </p>
+
+            <p class="tarjeta-texto">
+                Para preferir coherencia, primero necesitas <strong>poder reconocerla</strong>. 
+                Y eso requiere una habilidad específica llamada <strong>entailment combinatorio</strong>.
+            </p>
+
+            <!-- EJEMPLO DIDÁCTICO 1: Concepto básico -->
+            <div class="ejemplo-didactico">
+                <div class="ejemplo-titulo">
+                    <span>💡</span>
+                    <span>Analogía: El Crítico de Arte</span>
+                </div>
+                <div class="ejemplo-contenido">
+                    <p style="margin-bottom: var(--space-6);">
+                        Imagina dos personas mirando pinturas en un museo:
+                    </p>
+
+                    <div class="grid-2" style="gap: var(--space-6); margin: var(--space-6) 0;">
+                        <div style="background: linear-gradient(135deg, #D1FAE5, #A7F3D0); padding: var(--space-8); border-radius: var(--radius-xl);">
+                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
+                                🎨 Persona A: Crítico Entrenado
+                            </h4>
+                            <p style="font-size: var(--text-lg); margin-bottom: var(--space-4);">
+                                Puede distinguir un Monet real de una copia perfecta. 
+                                Ve detalles sutiles en la técnica, las pinceladas, la composición.
+                            </p>
+                            <p style="font-weight: var(--font-bold); color: var(--success);">
+                                → Puede <strong>preferir</strong> el Monet real porque puede <strong>discriminarlo</strong>
+                            </p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #FEE2E2, #FECACA); padding: var(--space-8); border-radius: var(--radius-xl);">
+                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
+                                👤 Persona B: Sin Entrenamiento
+                            </h4>
+                            <p style="font-size: var(--text-lg); margin-bottom: var(--space-4);">
+                                Para ella, ambas pinturas se ven igual. No puede distinguir 
+                                el original de la copia.
+                            </p>
+                            <p style="font-weight: var(--font-bold); color: var(--error);">
+                                → No puede preferir algo que no puede ver ✗
+                            </p>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: var(--space-6); font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--acento-cyan);">
+                        Eso es exactamente lo que pasó en el estudio con la coherencia.
+                    </p>
+                </div>
+            </div>
+
+            <h3 class="tarjeta-titulo" style="margin-top: var(--space-16);">
+                🧬 ¿Qué Es el Entailment Combinatorio?
+            </h3>
+
+            <p class="tarjeta-texto">
+                Es la capacidad de derivar relaciones no entrenadas combinando múltiples relaciones. 
+                En el estudio, esto se midió con un <strong>test de transitividad</strong>.
+            </p>
+
+            <!-- EJEMPLO DIDÁCTICO 2: Transitividad explicada -->
+            <div class="ejemplo-didactico">
+                <div class="ejemplo-titulo">
+                    <span>🔗</span>
+                    <span>Entendiendo la Transitividad</span>
+                </div>
+                <div class="ejemplo-contenido">
+                    <p style="margin-bottom: var(--space-6); font-size: var(--text-xl);">
+                        <strong>Transitividad</strong> es cuando puedes inferir una relación nueva 
+                        combinando dos relaciones que ya conoces:
+                    </p>
+
+                    <div class="ejemplo-visual" style="margin: var(--space-6) 0; background: linear-gradient(135deg, #E6F7FF, #F0F9FF); flex-direction: column; gap: var(--space-4);">
+                        <div style="font-size: var(--text-2xl); font-weight: var(--font-bold);">
+                            Te enseño: A1 = B1
+                        </div>
+                        <div style="font-size: var(--text-2xl); font-weight: var(--font-bold);">
+                            Te enseño: B1 = C1
+                        </div>
+                        <div style="font-size: var(--text-3xl); color: var(--acento-cyan); margin: var(--space-6) 0;">
+                            ⬇️
+                        </div>
+                        <div style="font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--acento-cyan);">
+                            Tú infiere: A1 = C1
+                        </div>
+                        <div style="margin-top: var(--space-4); font-size: var(--text-lg); color: var(--texto-medio);">
+                            ¡Nadie te enseñó A1=C1, pero lo derivaste tú mismo!
+                        </div>
+                    </div>
+
+                    <p style="margin-top: var(--space-6);">
+                        <strong style="color: var(--success);">Si pasas el test de transitividad:</strong> 
+                        Puedes derivar relaciones combinadas. Esto significa que en un trial coherente, 
+                        ves que TODAS las relaciones (simetría + transitividad) tienen sentido.
+                    </p>
+
+                    <p style="margin-top: var(--space-4);">
+                        <strong style="color: var(--error);">Si NO pasas el test:</strong> 
+                        Solo ves simetría (A1=B1 → B1=A1), pero no transitividad. Para ti, 
+                        un trial "coherente" solo es 50% coherente.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEST INTERACTIVO DE TRANSITIVIDAD -->
+        <div class="test-transitividad animate-fade-in-up delay-700">
+            <h3 style="font-size: var(--text-4xl); font-weight: var(--font-black); text-align: center; margin-bottom: var(--space-10);">
+                🧪 Prueba Tu Entailment Combinatorio
+            </h3>
+
+            <!-- Fase 1: Entrenamiento -->
+            <div class="test-fase" id="faseEntrenamiento">
+                <div class="test-fase-titulo">
+                    <span>📚</span>
+                    <span>Fase 1: Aprende Estas Relaciones</span>
+                </div>
+
+                <p style="font-size: var(--text-lg); color: var(--texto-medio); margin-bottom: var(--space-6);">
+                    Memoriza estos pares. Los necesitarás:
+                </p>
+
+                <div class="estimulo-pair">
+                    <span>🔴</span>
+                    <span class="flecha-igual">=</span>
+                    <span>⭐</span>
+                    <span style="font-size: var(--text-xl); color: var(--texto-suave); margin-left: var(--space-4);">(A1 = B1)</span>
+                </div>
+
+                <div class="estimulo-pair">
+                    <span>⭐</span>
+                    <span class="flecha-igual">=</span>
+                    <span>📐</span>
+                    <span style="font-size: var(--text-xl); color: var(--texto-suave); margin-left: var(--space-4);">(B1 = C1)</span>
+                </div>
+
+                <div class="estimulo-pair">
+                    <span>🔵</span>
+                    <span class="flecha-igual">=</span>
+                    <span>❤️</span>
+                    <span style="font-size: var(--text-xl); color: var(--texto-suave); margin-left: var(--space-4);">(A2 = B2)</span>
+                </div>
+
+                <div class="estimulo-pair">
+                    <span>❤️</span>
+                    <span class="flecha-igual">=</span>
+                    <span>🔺</span>
+                    <span style="font-size: var(--text-xl); color: var(--texto-suave); margin-left: var(--space-4);">(B2 = C2)</span>
+                </div>
+
+                <button class="btn btn-primario" style="width: 100%; margin-top: var(--space-8); justify-content: center;" onclick="iniciarTest()">
+                    <span>Entendido, continuar al test</span>
+                    <span>→</span>
+                </button>
+            </div>
+
+            <!-- Fase 2: Test de Simetría -->
+            <div class="test-fase" id="faseSimetria" style="display: none;">
+                <div class="test-fase-titulo">
+                    <span>🔄</span>
+                    <span>Fase 2: Test de Simetría</span>
+                </div>
+
+                <p style="font-size: var(--text-lg); color: var(--texto-medio); margin-bottom: var(--space-6);">
+                    Si A=B, entonces B=A. ¿Puedes derivar la relación inversa?
+                </p>
+
+                <div class="test-pregunta">
+                    <div class="test-pregunta-texto">
+                        Si ⭐ = 📐, entonces ¿📐 es igual a...?
+                    </div>
+                    <div class="test-opciones">
+                        <div class="test-opcion" onclick="responderSimetria('correcta')">
+                            <div class="test-opcion-emoji">⭐</div>
+                            <div class="test-opcion-label">Estrella</div>
+                        </div>
+                        <div class="test-opcion" onclick="responderSimetria('incorrecta')">
+                            <div class="test-opcion-emoji">❤️</div>
+                            <div class="test-opcion-label">Corazón</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="feedbackSimetria" style="display: none; margin-top: var(--space-6);"></div>
+            </div>
+
+            <!-- Fase 3: Test de Transitividad -->
+            <div class="test-fase" id="faseTransitividad" style="display: none;">
+                <div class="test-fase-titulo">
+                    <span>🔗</span>
+                    <span>Fase 3: Test de Transitividad (El Crítico)</span>
+                </div>
+
+                <p style="font-size: var(--text-lg); color: var(--texto-medio); margin-bottom: var(--space-6);">
+                    Ahora viene lo difícil. ¿Puedes combinar dos relaciones para derivar una tercera?
+                </p>
+
+                <div class="test-pregunta">
+                    <div class="test-pregunta-texto">
+                        Sabes que: 🔴 = ⭐ y ⭐ = 📐
+                        <br><br>
+                        Entonces, ¿🔴 es igual a...?
+                    </div>
+                    <div class="test-opciones">
+                        <div class="test-opcion" onclick="responderTransitividad('correcta')">
+                            <div class="test-opcion-emoji">📐</div>
+                            <div class="test-opcion-label">Regla</div>
+                        </div>
+                        <div class="test-opcion" onclick="responderTransitividad('incorrecta')">
+                            <div class="test-opcion-emoji">🔺</div>
+                            <div class="test-opcion-label">Triángulo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="feedbackTransitividad" style="display: none; margin-top: var(--space-6);"></div>
+            </div>
+
+            <!-- Resultado del test -->
+            <div class="test-fase" id="resultadoTest" style="display: none;">
+                <div class="caja-insight">
+                    <div class="caja-icono" id="resultadoIcono">✨</div>
+                    <div class="caja-contenido">
+                        <h4 id="resultadoTitulo"></h4>
+                        <p id="resultadoTexto"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Datos del estudio: División de participantes -->
+        <div class="tarjeta animate-fade-in-up delay-900">
+            <h2 class="tarjeta-titulo">Los Dos Grupos del Estudio</h2>
+
+            <p class="tarjeta-texto">
+                De los 76 participantes que completaron el entrenamiento, los investigadores 
+                los dividieron según su desempeño en los tests:
+            </p>
+
+            <div class="tabla-entailment">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Test</th>
+                            <th>Pasaron</th>
+                            <th>No Pasaron</th>
+                            <th>% Éxito</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Simetría</strong></td>
+                            <td>61 participantes</td>
+                            <td>15 participantes</td>
+                            <td>80%</td>
+                        </tr>
+                        <tr class="tabla-highlight">
+                            <td><strong>Transitividad</strong></td>
+                            <td>46 participantes</td>
+                            <td>30 participantes</td>
+                            <td>61%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ambos</strong></td>
+                            <td>42 participantes</td>
+                            <td>34 participantes</td>
+                            <td>55%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="caja-dato">
+                <div class="caja-icono">📊</div>
+                <div class="caja-contenido">
+                    <h4>Dato Clave</h4>
+                    <p>
+                        El <strong>91% de los que pasaron transitividad también pasaron simetría</strong>, 
+                        pero no al revés. Esto sugiere que transitividad es más difícil y requiere simetría como prerrequisito.
+                    </p>
+                </div>
+            </div>
+
+            <h3 class="tarjeta-titulo" style="margin-top: var(--space-16);">
+                👁️ Lo Que Cada Grupo Podía "Ver"
+            </h3>
+
+            <div class="split-grupos">
+                <!-- Grupo Entailers -->
+                <div class="grupo-card entailers">
+                    <div class="grupo-titulo">
+                        ✅ Entailers
+                        <div style="font-size: var(--text-lg); font-weight: normal; color: var(--texto-suave); margin-top: var(--space-2);">
+                            (Pasaron transitividad)
+                        </div>
+                    </div>
+
+                    <div class="grupo-stat">
+                        <div class="grupo-stat-numero" style="color: var(--acento-cyan);">46</div>
+                        <div class="grupo-stat-label">participantes (61%)</div>
+                    </div>
+
+                    <div class="vision-grupo">
+                        <div class="vision-titulo">En trials COHERENTES ven:</div>
+                        
+                        <div class="vision-trial coherente">
+                            <div class="vision-trial-tipo">Simetría:</div>
+                            <div class="vision-trial-contenido">A1=B1 → B1=A1</div>
+                            <div class="vision-trial-resultado">✓</div>
+                        </div>
+
+                        <div class="vision-trial coherente">
+                            <div class="vision-trial-tipo">Transitividad:</div>
+                            <div class="vision-trial-contenido">A1=B1, B1=C1 → A1=C1</div>
+                            <div class="vision-trial-resultado">✓</div>
+                        </div>
+
+                        <p style="margin-top: var(--space-4); font-weight: var(--font-bold); font-size: var(--text-lg); color: var(--success);">
+                            → 100% de las relaciones tienen sentido
+                        </p>
+                    </div>
+
+                    <div class="grupo-stat" style="margin-top: var(--space-6);">
+                        <div class="grupo-stat-numero" style="color: var(--acento-cyan);">54-63%</div>
+                        <div class="grupo-stat-label">Prefirieron coherencia (estable)</div>
+                    </div>
+                </div>
+
+                <!-- Grupo No-Entailers -->
+                <div class="grupo-card no-entailers">
+                    <div class="grupo-titulo">
+                        ❌ No-Entailers
+                        <div style="font-size: var(--text-lg); font-weight: normal; color: var(--texto-suave); margin-top: var(--space-2);">
+                            (No pasaron transitividad)
+                        </div>
+                    </div>
+
+                    <div class="grupo-stat">
+                        <div class="grupo-stat-numero" style="color: var(--acento-coral);">30</div>
+                        <div class="grupo-stat-label">participantes (39%)</div>
+                    </div>
+
+                    <div class="vision-grupo">
+                        <div class="vision-titulo">En trials COHERENTES ven:</div>
+                        
+                        <div class="vision-trial coherente">
+                            <div class="vision-trial-tipo">Simetría:</div>
+                            <div class="vision-trial-contenido">A1=B1 → B1=A1</div>
+                            <div class="vision-trial-resultado">✓</div>
+                        </div>
+
+                        <div class="vision-trial semicoherente">
+                            <div class="vision-trial-tipo">Transitividad:</div>
+                            <div class="vision-trial-contenido">A1=B1, B1=C1 → A1=C1</div>
+                            <div class="vision-trial-resultado">?</div>
+                        </div>
+
+                        <p style="margin-top: var(--space-4); font-weight: var(--font-bold); font-size: var(--text-lg); color: var(--warning);">
+                            → Solo 50% de las relaciones tienen sentido
+                        </p>
+                    </div>
+
+                    <div class="grupo-stat" style="margin-top: var(--space-6);">
+                        <div class="grupo-stat-numero" style="color: var(--acento-coral);">~33%</div>
+                        <div class="grupo-stat-label">Sin preferencia clara</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EJEMPLO DIDÁCTICO 3: Por qué esto importa -->
+            <div class="ejemplo-didactico" style="margin-top: var(--space-10);">
+                <div class="ejemplo-titulo">
+                    <span>💡</span>
+                    <span>¿Por Qué Esto Explica la Preferencia Moderada?</span>
+                </div>
+                <div class="ejemplo-contenido">
+                    <p style="margin-bottom: var(--space-6); font-size: var(--text-xl);">
+                        Recuerda que solo 39-45% del total prefirió coherencia. Ahora tiene sentido:
+                    </p>
+
+                    <div style="background: linear-gradient(135deg, #E6F7FF, #F0F9FF); padding: var(--space-8); border-radius: var(--radius-xl); margin: var(--space-6) 0;">
+                        <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-6);">
+                            Cálculo Real:
+                        </h4>
+                        <p style="font-size: var(--text-lg); line-height: 1.8;">
+                            • <strong>61% eran Entailers</strong> (46 de 76)
+                            <br>
+                            • De estos, <strong>~58% prefirieron coherencia</strong>
+                            <br>
+                            • 0.61 × 0.58 = <strong style="color: var(--acento-cyan); font-size: var(--text-2xl);">35% del total</strong>
+                        </p>
+                        <p style="margin-top: var(--space-6); font-weight: var(--font-bold); font-size: var(--text-xl);">
+                            Eso está casi exactamente en el 39-45% observado. ✓
+                        </p>
+                    </div>
+
+                    <p style="margin-top: var(--space-6);">
+                        Los <strong>No-Entailers</strong> no pudieron discriminar completamente entre 
+                        coherente e incoherente, entonces no mostraron preferencia clara. 
+                        Para ellos, ambas opciones se veían "medio coherentes".
+                    </p>
+                </div>
+            </div>
+
+            <div class="caja-insight" style="margin-top: var(--space-10);">
+                <div class="caja-icono">🎯</div>
+                <div class="caja-contenido">
+                    <h4>Hallazgo Clave #5</h4>
+                    <p>
+                        El <strong>entailment combinatorio moderó la preferencia por coherencia</strong>. 
+                        Solo aquellos con el repertorio relacional necesario pudieron preferir coherencia 
+                        de forma consistente. Esto tiene implicaciones enormes para intervenciones clínicas.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación -->
+        <div class="navegacion animate-fade-in delay-1200">
+            <button class="btn btn-secundario btn-anterior">
+                <span>←</span>
+                <span>Anterior</span>
+            </button>
+            <button class="btn btn-primario btn-siguiente">
+                <span>Siguiente: Implicaciones</span>
+                <span>→</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Configurar pantalla actual
+        const nav = new NavigationSystem();
+        nav.currentScreen = 6;
+        nav.updateProgressBar();
+
+        // Variables del test
+        let pasoSimetria = false;
+        let pasoTransitividad = false;
+
+        function iniciarTest() {
+            document.getElementById('faseEntrenamiento').style.display = 'none';
+            document.getElementById('faseSimetria').style.display = 'block';
+        }
+
+        function responderSimetria(respuesta) {
+            const feedback = document.getElementById('feedbackSimetria');
+            const opciones = document.querySelectorAll('#faseSimetria .test-opcion');
+            
+            // Deshabilitar clicks
+            opciones.forEach(op => op.style.pointerEvents = 'none');
+
+            if (respuesta === 'correcta') {
+                pasoSimetria = true;
+                opciones[0].classList.add('correcta');
+                feedback.innerHTML = `
+                    <div class="caja-insight">
+                        <div class="caja-icono">✅</div>
+                        <div class="caja-contenido">
+                            <h4>¡Correcto!</h4>
+                            <p>Derivaste simetría correctamente. Si ⭐=📐 entonces 📐=⭐. 
+                            Ahora vamos al test difícil: transitividad.</p>
+                        </div>
+                    </div>
+                `;
+                feedback.style.display = 'block';
+
+                // Continuar a transitividad
+                setTimeout(() => {
+                    document.getElementById('faseSimetria').style.display = 'none';
+                    document.getElementById('faseTransitividad').style.display = 'block';
+                }, 2000);
+            } else {
+                opciones[1].classList.add('incorrecta');
+                opciones[0].classList.add('correcta');
+                feedback.innerHTML = `
+                    <div class="caja-limitacion">
+                        <div class="caja-icono">❌</div>
+                        <div class="caja-contenido">
+                            <h4>No exactamente</h4>
+                            <p>La respuesta correcta era ⭐ (Estrella). En el estudio real, 
+                            80% de participantes pasaron este test. Es un skill básico.</p>
+                        </div>
+                    </div>
+                `;
+                feedback.style.display = 'block';
+
+                // Igual continuar (para propósitos didácticos)
+                setTimeout(() => {
+                    document.getElementById('faseSimetria').style.display = 'none';
+                    document.getElementById('faseTransitividad').style.display = 'block';
+                }, 3000);
+            }
+        }
+
+        function responderTransitividad(respuesta) {
+            const feedback = document.getElementById('feedbackTransitividad');
+            const opciones = document.querySelectorAll('#faseTransitividad .test-opcion');
+            
+            // Deshabilitar clicks
+            opciones.forEach(op => op.style.pointerEvents = 'none');
+
+            if (respuesta === 'correcta') {
+                pasoTransitividad = true;
+                opciones[0].classList.add('correcta');
+                feedback.innerHTML = `
+                    <div class="caja-insight">
+                        <div class="caja-icono">🎉</div>
+                        <div class="caja-contenido">
+                            <h4>¡Excelente!</h4>
+                            <p>Derivaste transitividad. Combinaste 🔴=⭐ y ⭐=📐 para inferir 🔴=📐. 
+                            Esto te hace un "Entailer". Solo el 61% del estudio lo logró.</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                opciones[1].classList.add('incorrecta');
+                opciones[0].classList.add('correcta');
+                feedback.innerHTML = `
+                    <div class="caja-limitacion">
+                        <div class="caja-icono">❌</div>
+                        <div class="caja-contenido">
+                            <h4>No en esta ocasión</h4>
+                            <p>La respuesta correcta era 📐 (Regla). Si 🔴=⭐ y ⭐=📐, entonces 🔴=📐. 
+                            En el estudio, 39% no pasó este test. Es más difícil de lo que parece.</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            feedback.style.display = 'block';
+
+            // Mostrar resultado final
+            setTimeout(() => {
+                mostrarResultadoFinal();
+            }, 3000);
+        }
+
+        function mostrarResultadoFinal() {
+            document.getElementById('faseTransitividad').style.display = 'none';
+            const resultado = document.getElementById('resultadoTest');
+            const icono = document.getElementById('resultadoIcono');
+            const titulo = document.getElementById('resultadoTitulo');
+            const texto = document.getElementById('resultadoTexto');
+
+            if (pasoSimetria && pasoTransitividad) {
+                icono.textContent = '🌟';
+                titulo.textContent = 'Eres un "Entailer"';
+                texto.innerHTML = `
+                    Pasaste ambos tests. Esto significa que en el estudio real, 
+                    probablemente <strong style="color: var(--acento-cyan);">habrías preferido coherencia 
+                    de forma estable (54-63%)</strong>. Puedes discriminar completamente entre 
+                    contextos coherentes e incoherentes porque ves tanto simetría como transitividad.
+                `;
+            } else if (pasoSimetria && !pasoTransitividad) {
+                icono.textContent = '⚠️';
+                titulo.textContent = 'Eres un "No-Entailer"';
+                texto.innerHTML = `
+                    Pasaste simetría pero no transitividad. En el estudio, participantes como tú 
+                    <strong style="color: var(--warning);">no mostraron preferencia clara</strong>. 
+                    Los trials "coherentes" solo eran 50% coherentes para ti (solo veías simetría, 
+                    no transitividad), entonces ambas opciones se veían similares.
+                `;
+            } else {
+                icono.textContent = '🔄';
+                titulo.textContent = 'Sin repertorio relacional completo';
+                texto.innerHTML = `
+                    No pasaste los tests básicos. En el estudio, esto habría dificultado mucho 
+                    tu participación. El aprendizaje de clases de equivalencia requiere al menos 
+                    simetría como base.
+                `;
+            }
+
+            resultado.style.display = 'block';
+            resultado.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>
