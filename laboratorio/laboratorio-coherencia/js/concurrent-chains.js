@@ -163,21 +163,30 @@ class ExperimentoConcurrentChains {
         }
 
         // Renderizar
-        container.innerHTML = `
-            <div class="mini-muestra">
-                <div class="mini-muestra-label">Empareja esto:</div>
-                <div class="mini-muestra-emoji">${this.getEmoji(muestraId)}</div>
-                <div class="mini-muestra-label">${muestraId}</div>
+        // Renderizar
+container.innerHTML = `
+    <div class="mini-muestra">
+        <div class="mini-muestra-label">Empareja esto:</div>
+        <div class="mini-muestra-emoji">${this.getEmoji(muestraId)}</div>
+        <div class="mini-muestra-label">${muestraId}</div>
+    </div>
+    <div class="mini-opciones">
+        ${opciones.map((op, index) => `
+            <div class="mini-opcion" data-opcion="${op}" data-index="${index}">
+                <div class="mini-opcion-emoji">${this.getEmoji(op)}</div>
+                <div class="mini-opcion-label">${op}</div>
             </div>
-            <div class="mini-opciones">
-                ${opciones.map(op => `
-                    <div class="mini-opcion" onclick="experimento.responderMatching('${op}', ${esCoherente})">
-                        <div class="mini-opcion-emoji">${this.getEmoji(op)}</div>
-                        <div class="mini-opcion-label">${op}</div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
+        `).join('')}
+    </div>
+`;
+
+// Agregar event listeners después de renderizar
+document.querySelectorAll('.mini-opcion').forEach(opcion => {
+    opcion.addEventListener('click', () => {
+        const op = opcion.dataset.opcion;
+        this.responderMatching(op, esCoherente);
+    });
+});
 
         // Scroll suave
         setTimeout(() => {
