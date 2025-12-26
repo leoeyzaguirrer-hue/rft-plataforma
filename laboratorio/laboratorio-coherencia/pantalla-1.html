@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Problema - Laboratorio de Coherencia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <button class="btn-volver">
+                <span>←</span>
+                <span>Volver al inicio</span>
+            </button>
+            
+            <div class="pill-progreso">
+                <span class="pill-texto">Progreso del Módulo</span>
+                <div class="pill-barra">
+                    <div class="pill-barra-fill"></div>
+                </div>
+                <span class="pill-texto"><strong>1/8</strong></span>
+            </div>
+        </header>
+
+        <!-- Badge de módulo -->
+        <div class="badge-modulo animate-fade-in delay-200">
+            📊 Estudio Empírico de Coherencia
+        </div>
+
+        <!-- Título principal -->
+        <h1 class="text-gradient animate-fade-in delay-300">
+            El Problema
+        </h1>
+        <p class="subtitulo-pantalla animate-fade-in delay-400" style="font-size: var(--text-xl); color: var(--texto-suave-claro); margin-bottom: var(--space-16);">
+            La asunción secreta que nunca se había probado
+        </p>
+
+        <!-- Tarjeta principal -->
+        <div class="tarjeta tarjeta-principal animate-fade-in-up delay-500">
+            <div class="tarjeta-icono-grande animate-float">🧩</div>
+            <h2 class="tarjeta-titulo">La Gran Pregunta No Respondida</h2>
+            
+            <p class="tarjeta-texto">
+                Los humanos buscamos coherencia todo el tiempo. Cuando algo "tiene sentido", nos sentimos bien. 
+                Cuando algo es contradictorio o ambiguo, nos incomoda. La Teoría del Marco Relacional (RFT) 
+                ha asumido durante décadas que <strong>hacer sentido es reforzante por sí mismo</strong>.
+            </p>
+
+            <p class="tarjeta-texto">
+                Pero aquí está el problema: <strong>nadie lo había probado directamente</strong>. Era una suposición 
+                fundamental sin evidencia empírica sólida.
+            </p>
+
+            <div class="caja-insight">
+                <div class="caja-icono">💡</div>
+                <div class="caja-contenido">
+                    <h4>La Hipótesis Central</h4>
+                    <p>
+                        Los humanos verbalmente competentes derivan relaciones coherentes porque hacerlo ha sido 
+                        reforzado históricamente, y por lo tanto, la oportunidad de responder coherentemente es 
+                        en sí misma reforzante.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Timeline histórico -->
+            <div class="timeline-container">
+                <h3 class="timeline-titulo">
+                    <span>🕰️</span>
+                    <span>El Camino Hacia Esta Pregunta</span>
+                </h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-punto"></div>
+                        <div class="timeline-año">1971</div>
+                        <div class="timeline-autor">Sidman</div>
+                        <div class="timeline-descripcion">
+                            Descubre la equivalencia de estímulos: si enseñas A=B y B=C, 
+                            las personas derivan automáticamente A=C sin entrenamiento directo.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-punto"></div>
+                        <div class="timeline-año">1996</div>
+                        <div class="timeline-autor">Wilson & Hayes</div>
+                        <div class="timeline-descripcion">
+                            Estudio de resurgencia: 22 de 23 participantes mostraron patrones 
+                            consistentes incluso en tareas ambiguas.
+                        </div>
+                        <div class="timeline-cita">
+                            "La coherencia parece funcionar como un reforzador poderoso para la actividad relacional"
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-punto"></div>
+                        <div class="timeline-año">2001</div>
+                        <div class="timeline-autor">Barnes-Holmes et al.</div>
+                        <div class="timeline-descripcion">
+                            Observación clave: los participantes abandonaban cuando no podían "resolver" 
+                            la tarea. Cuando se permitió responder coherentemente, persistieron.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-punto"></div>
+                        <div class="timeline-año">2012</div>
+                        <div class="timeline-autor">Wray et al.</div>
+                        <div class="timeline-descripcion">
+                            Primera aproximación: 11 de 17 participantes eligieron la tarea "solucionable" 
+                            sobre la "no solucionable". Pero usaron instrucciones y reforzamiento programado.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-punto"></div>
+                        <div class="timeline-año">2015</div>
+                        <div class="timeline-autor">🔬 Bordieri, Kellum, Wilson & Whiteman</div>
+                        <div class="timeline-descripcion">
+                            <strong>ESTE ESTUDIO:</strong> Primera prueba directa sin contingencias programadas 
+                            ni instrucciones explícitas. ¿Es la coherencia realmente reforzante?
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid de estadísticas -->
+        <div class="grid-3 animate-fade-in delay-1000">
+            <div class="stat-card">
+                <div class="stat-icono">🎯</div>
+                <div class="stat-numero">81</div>
+                <div class="stat-label">Estudiantes universitarios participaron</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icono">🔬</div>
+                <div class="stat-numero">2</div>
+                <div class="stat-label">Estudios experimentales realizados</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icono">⏱️</div>
+                <div class="stat-numero">0</div>
+                <div class="stat-label">Reforzamiento programado (¡ninguno!)</div>
+            </div>
+        </div>
+
+        <!-- Navegación -->
+        <div class="navegacion navegacion-single animate-fade-in delay-1200">
+            <button class="btn btn-primario btn-siguiente">
+                <span>Siguiente: Estudio 1</span>
+                <span>→</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Configurar pantalla actual
+        const nav = new NavigationSystem();
+        nav.currentScreen = 1;
+        nav.updateProgressBar();
+
+        // Parallax suave
+        AnimationController.initParallax();
+    </script>
+</body>
+</html>
