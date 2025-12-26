@@ -9,6 +9,18 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
     <style>
+        /* FIX: Asegurar que todos los textos sean legibles */
+        .tarjeta p, .tarjeta-principal p, .ejemplo-contenido p,
+        .caso-step-texto, .caso-step-titulo, .ejemplo-didactico p,
+        .caja-contenido p, .caja-dato p, .caja-insight p {
+            color: var(--texto-oscuro) !important;
+        }
+        .ejemplo-titulo, .ejemplo-titulo span {
+            color: var(--texto-oscuro) !important;
+        }
+        textarea, input[type="text"] {
+            color: var(--texto-oscuro) !important;
+        }
         /* Cards de aplicación clickeables */
         .aplicaciones-grid {
             display: grid;
@@ -215,7 +227,6 @@
             padding: var(--space-12);
             margin: var(--space-10) 0;
             border: 4px solid var(--acento-violeta);
-            color: var(--texto-oscuro);
         }
 
         .ciencia-item {
@@ -224,7 +235,6 @@
             padding: var(--space-8);
             margin: var(--space-6) 0;
             box-shadow: var(--shadow-md);
-            color: var(--texto-oscuro);
         }
 
         .ciencia-item-titulo {
@@ -236,7 +246,6 @@
             display: flex;
             align-items: center;
             gap: var(--space-3);
-            color: var(--texto-oscuro);
         }
 
         @media (max-width: 768px) {
@@ -249,13 +258,17 @@
                 text-align: center;
             }
         }
-    </style>
+    
+        .ejemplo-contenido p {
+            color: var(--texto-oscuro);
+        }
+        </style>
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <button class="btn-volver">
+            <button class="btn-volver" onclick="window.location.href='index.html'">
                 <span>←</span>
                 <span>Volver al inicio</span>
             </button>
@@ -320,7 +333,7 @@
                 <div class="caja-icono">🎯</div>
                 <div class="caja-contenido">
                     <h4>Lo Que Probó Este Estudio</h4>
-                    <p>
+                    <p style="color: var(--texto-oscuro);">
                         1️⃣ Las personas responden coherentemente <strong>sin entrenamiento ni reforzamiento</strong> (73%)
                         <br><br>
                         2️⃣ La mayoría de la gente <strong>verbaliza reglas</strong> incluso sin instrucciones (80/81)
@@ -389,7 +402,7 @@
                 <div class="modal-titulo">Terapia ACT y Coherencia Psicológica</div>
             </div>
 
-            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);">
+            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);; color: var(--texto-oscuro);">
                 En ACT, muchos de los problemas psicológicos surgen porque la mente busca coherencia 
                 incluso cuando esa coherencia es destructiva.
             </p>
@@ -450,13 +463,13 @@
                     <span>🔗</span>
                     <span>Conexión con el Estudio</span>
                 </div>
-                <p style="font-size: var(--text-lg); line-height: 1.7;">
+                <p style="font-size: var(--text-lg); line-height: 1.7;; color: var(--texto-oscuro);">
                     Este estudio muestra que la coherencia es <strong>intrínsecamente reforzante</strong>. 
                     Eso explica por qué patrones destructivos son tan persistentes: no es que María "quiera" 
                     sufrir, es que su mente está haciendo lo que está diseñada para hacer: <strong>buscar 
                     coherencia</strong>.
                 </p>
-                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);; color: var(--texto-oscuro);">
                     <strong>Implicación clínica:</strong> En lugar de "desafiar pensamientos irracionales", 
                     ACT trabaja con la <strong>defusión</strong>: ayudar al cliente a ver la regla como una 
                     regla (no como verdad), y elegir acciones basadas en valores incluso cuando la regla 
@@ -476,7 +489,7 @@
                 <div class="modal-titulo">Desinformación y Sesgo de Confirmación</div>
             </div>
 
-            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);">
+            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);; color: var(--texto-oscuro);">
                 La búsqueda de coherencia explica por qué somos tan vulnerables a información 
                 que "encaja" con nuestras creencias previas.
             </p>
@@ -536,7 +549,7 @@
                     <span>🔗</span>
                     <span>Conexión con el Estudio</span>
                 </div>
-                <p style="font-size: var(--text-lg); line-height: 1.7;">
+                <p style="font-size: var(--text-lg); line-height: 1.7;; color: var(--texto-oscuro);">
                     El estudio mostró que las personas <strong>prefieren contextos coherentes</strong> 
                     sobre incoherentes. En redes sociales y noticias, esto se traduce en:
                 </p>
@@ -545,7 +558,7 @@
                     <li>Evitar o descartar información contradictoria (puerta amarilla = incoherente)</li>
                     <li>Buscar activamente fuentes que confirmen el marco relacional previo</li>
                 </ul>
-                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);; color: var(--texto-oscuro);">
                     <strong>Implicación social:</strong> El problema no es solo "falta de pensamiento crítico". 
                     Es que la coherencia es reforzante a nivel básico del procesamiento relacional. 
                     Contramedidas efectivas deben trabajar con esto, no contra esto.
@@ -564,7 +577,7 @@
                 <div class="modal-titulo">Diseño Educativo y Aprendizaje</div>
             </div>
 
-            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);">
+            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);; color: var(--texto-oscuro);">
                 Los estudiantes buscan patrones automáticamente. Podemos diseñar experiencias 
                 de aprendizaje que aprovechen esta tendencia natural.
             </p>
@@ -628,12 +641,12 @@
                     <span>🔗</span>
                     <span>Conexión con el Estudio</span>
                 </div>
-                <p style="font-size: var(--text-lg); line-height: 1.7;">
+                <p style="font-size: var(--text-lg); line-height: 1.7;; color: var(--texto-oscuro);">
                     Este estudio valida el enfoque de <strong>aprendizaje por descubrimiento guiado</strong>. 
                     Los humanos no son tablas rasas esperando instrucciones; son máquinas de buscar patrones. 
                     La educación efectiva trabaja CON esta tendencia.
                 </p>
-                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);; color: var(--texto-oscuro);">
                     <strong>Implicación práctica:</strong> Diseña experiencias donde descubrir el patrón 
                     sea reforzante por sí mismo (coherencia como reforzador intrínseco), no solo por 
                     calificaciones o elogios (reforzadores extrínsecos).
@@ -652,7 +665,7 @@
                 <div class="modal-titulo">Relaciones Interpersonales</div>
             </div>
 
-            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);">
+            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);; color: var(--texto-oscuro);">
                 Necesitamos narrativas coherentes sobre las personas en nuestras vidas. 
                 Cuando esas narrativas se rompen, causa malestar significativo.
             </p>
@@ -712,7 +725,7 @@
                     <span>🔗</span>
                     <span>Conexión con el Estudio</span>
                 </div>
-                <p style="font-size: var(--text-lg); line-height: 1.7;">
+                <p style="font-size: var(--text-lg); line-height: 1.7;; color: var(--texto-oscuro);">
                     El estudio mostró que las personas evitan activamente contextos incoherentes 
                     cuando pueden. En relaciones, esto se manifiesta como:
                 </p>
@@ -721,7 +734,7 @@
                     <li>Malestar intenso cuando la coherencia se rompe (no solo por el evento)</li>
                     <li>Motivación fuerte para restaurar coherencia (explicar, justificar, o revisar)</li>
                 </ul>
-                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);; color: var(--texto-oscuro);">
                     <strong>Implicación terapéutica:</strong> Cuando clientes presentan conflictos 
                     relacionales, evalúa las <strong>rupturas de coherencia</strong> en sus marcos 
                     relacionales, no solo los eventos específicos.
@@ -744,12 +757,12 @@
                     <span>1️⃣</span>
                     <span>Diseño Experimental: El Problema del Pre-Test</span>
                 </div>
-                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);; color: var(--texto-oscuro);">
                     Tradicionalmente, los pre-tests asumen que los participantes responden aleatoriamente 
                     antes del entrenamiento. Este estudio mostró que <strong>73% responden coherentemente 
                     SIN entrenamiento</strong>.
                 </p>
-                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);; color: var(--texto-oscuro);">
                     → Implicación: Los pre-tests pueden estar comprometidos. Los investigadores deberían 
                     considerar que la "línea base" ya contiene responding relacional.
                 </p>
@@ -760,12 +773,12 @@
                     <span>2️⃣</span>
                     <span>Interpretación de "Failures": No es Random</span>
                 </div>
-                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);; color: var(--texto-oscuro);">
                     Cuando alguien "falla" un test de equivalencia, tradicionalmente se asume responding aleatorio. 
                     Este estudio sugiere que pueden tener <strong>patrones coherentes idiográficos</strong> 
                     (Holth & Arntzen, 1998: 15/21 "non-passers" tenían patrones consistentes).
                 </p>
-                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);; color: var(--texto-oscuro);">
                     → Implicación: Analiza los patrones de "failures", no solo los descartes como ruido.
                 </p>
             </div>
@@ -775,11 +788,11 @@
                     <span>3️⃣</span>
                     <span>Validación de RFT Sin Class-Acquisition</span>
                 </div>
-                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);; color: var(--texto-oscuro);">
                     El Estudio 1 mostró responding coherente <strong>sin entrenamiento de clases</strong>. 
                     Esto es la primera evidencia de derivación relacional espontánea en este tipo de paradigma.
                 </p>
-                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);; color: var(--texto-oscuro);">
                     → Implicación: RFT predice esto (historia de reforzamiento por coherencia), 
                     pero nunca se había mostrado tan claramente.
                 </p>
@@ -790,11 +803,11 @@
                     <span>4️⃣</span>
                     <span>Moderadores: Entailment Combinatorio es Clave</span>
                 </div>
-                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);; color: var(--texto-oscuro);">
                     El hallazgo más importante: <strong>solo los que podían hacer entailment combinatorio 
                     mostraron preferencia consistente</strong>. Esto no se había identificado como moderador antes.
                 </p>
-                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);">
+                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);; color: var(--texto-oscuro);">
                     → Implicación: Futuros estudios sobre coherencia deben medir repertorios relacionales 
                     de los participantes. No todos pueden discriminar coherencia de la misma manera.
                 </p>
