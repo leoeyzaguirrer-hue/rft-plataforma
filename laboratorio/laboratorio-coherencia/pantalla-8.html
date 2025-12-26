@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conclusiones - Laboratorio de Coherencia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        /* Acordeón Premium */
+        .btn-acordeon {
+            width: 100%;
+            background: linear-gradient(135deg, var(--acento-cyan), var(--acento-dorado));
+            border: none;
+            border-radius: var(--radius-2xl);
+            padding: 0;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-xl);
+            margin: var(--space-8) 0;
+            overflow: hidden;
+        }
+
+        .btn-acordeon:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 229, 204, 0.4);
+        }
+
+        .acordeon-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-6);
+            padding: var(--space-8);
+            background: white;
+            margin: 4px;
+            border-radius: var(--radius-2xl);
+        }
+
+        .acordeon-icono {
+            font-size: 56px;
+            flex-shrink: 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .acordeon-texto {
+            flex: 1;
+            text-align: left;
+        }
+
+        .acordeon-titulo {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-black);
+            color: var(--texto-oscuro);
+            margin-bottom: var(--space-2);
+        }
+
+        .acordeon-subtitulo {
+            font-size: var(--text-base);
+            color: var(--texto-suave);
+            font-weight: var(--font-medium);
+        }
+
+        .acordeon-flecha {
+            font-size: var(--text-3xl);
+            color: var(--acento-cyan);
+            font-weight: var(--font-black);
+            transition: transform var(--transition-base);
+            flex-shrink: 0;
+        }
+
+        .acordeon-flecha.rotado {
+            transform: rotate(180deg);
+        }
+
+        .acordeon-contenido {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            background: white;
+            border-radius: var(--radius-2xl);
+            margin-top: var(--space-4);
+        }
+
+        .acordeon-contenido.abierto {
+            max-height: 8000px;
+            transition: max-height 1s ease-in;
+        }
+
+        .referencias-categorias {
+            padding: var(--space-10);
+        }
+
+        .ref-categoria {
+            margin-bottom: var(--space-12);
+        }
+
+        .ref-categoria-titulo {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-black);
+            color: var(--acento-cyan);
+            margin-bottom: var(--space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding-bottom: var(--space-4);
+            border-bottom: 3px solid var(--fondo-tarjeta-suave);
+        }
+
+        .ref-item {
+            background: var(--fondo-tarjeta-suave);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            margin: var(--space-4) 0;
+            display: flex;
+            gap: var(--space-4);
+            transition: all var(--transition-base);
+            border-left: 4px solid transparent;
+        }
+
+        .ref-item:hover {
+            background: white;
+            border-left-color: var(--acento-cyan);
+            box-shadow: var(--shadow-md);
+            transform: translateX(4px);
+        }
+
+        .ref-principal {
+            background: linear-gradient(135deg, #FFF9E6, #FFFAEB);
+            border-left: 6px solid var(--acento-dorado);
+            padding: var(--space-8);
+        }
+
+        .ref-emoji {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .ref-contenido {
+            flex: 1;
+            line-height: 1.8;
+        }
+
+        .ref-autores {
+            font-weight: var(--font-bold);
+            font-size: var(--text-lg);
+            color: var(--texto-oscuro);
+        }
+
+        .ref-anio {
+            display: inline;
+            font-weight: var(--font-bold);
+            color: var(--acento-cyan);
+        }
+
+        .ref-titulo {
+            font-style: italic;
+            margin: var(--space-2) 0;
+            font-size: var(--text-base);
+        }
+
+        .ref-revista {
+            color: var(--texto-medio);
+            font-size: var(--text-base);
+        }
+
+        .badge-completado {
+            background: linear-gradient(135deg, var(--acento-dorado), #FFA500);
+            color: var(--fondo-principal);
+            padding: var(--space-6) var(--space-10);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xl);
+            font-weight: var(--font-black);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-4);
+            box-shadow: var(--shadow-dorado-lg);
+            animation: pulse 2s ease-in-out infinite;
+            margin: var(--space-8) 0;
+        }
+
+        @media (max-width: 768px) {
+            .acordeon-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .acordeon-texto {
+                text-align: center;
+            }
+
+            .ref-item {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <button class="btn-volver">
+                <span>←</span>
+                <span>Volver al inicio</span>
+            </button>
+            
+            <div class="pill-progreso">
+                <span class="pill-texto">Progreso del Módulo</span>
+                <div class="pill-barra">
+                    <div class="pill-barra-fill"></div>
+                </div>
+                <span class="pill-texto"><strong>8/8</strong></span>
+            </div>
+        </header>
+
+        <!-- Badge completado -->
+        <div class="badge-completado animate-fade-in delay-200">
+            <span>🎉</span>
+            <span>¡Módulo Completado!</span>
+            <span>🎉</span>
+        </div>
+
+        <!-- Título -->
+        <h1 class="text-gradient animate-fade-in delay-300">
+            Conclusión: La Coherencia Como Reforzador
+        </h1>
+
+        <!-- Tarjeta principal -->
+        <div class="tarjeta tarjeta-principal animate-fade-in-up delay-500">
+            <div class="tarjeta-icono-grande animate-float">🏆</div>
+            <h2 class="tarjeta-titulo">Lo Que Aprendimos</h2>
+            
+            <p class="tarjeta-texto">
+                Este fue un viaje desde la pregunta más básica de RFT hasta sus implicaciones más profundas. 
+                Empezamos preguntando: <strong>"¿Es la coherencia realmente reforzante?"</strong>
+            </p>
+
+            <p class="tarjeta-texto">
+                La respuesta: <strong>Sí, con matices importantes</strong>.
+            </p>
+
+            <div class="grid-2" style="margin: var(--space-10) 0;">
+                <div class="caja-insight">
+                    <div class="caja-icono">✅</div>
+                    <div class="caja-contenido">
+                        <h4>Lo Que Se Probó</h4>
+                        <p style="font-size: var(--text-lg);">
+                            • Responding coherente emerge sin entrenamiento<br>
+                            • Existe preferencia significativa por coherencia<br>
+                            • Las personas verbalizan reglas espontáneamente<br>
+                            • La preferencia tiene límites medibles
+                        </p>
+                    </div>
+                </div>
+
+                <div class="caja-limitacion">
+                    <div class="caja-icono">⚠️</div>
+                    <div class="caja-contenido">
+                        <h4>Limitaciones Honestas</h4>
+                        <p style="font-size: var(--text-lg);">
+                            • No midió aversión del delay directamente<br>
+                            • Grupo semántico tuvo más exposición<br>
+                            • Preferencia ≠ reforzamiento probado<br>
+                            • Necesita replicación y extensión
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="caja-dato" style="margin-top: var(--space-10);">
+                <div class="caja-icono">🎯</div>
+                <div class="caja-contenido">
+                    <h4>El Hallazgo Más Importante</h4>
+                    <p style="font-size: var(--text-xl); line-height: 1.8;">
+                        <strong>El entailment combinatorio es un moderador crucial.</strong> No puedes preferir 
+                        coherencia si no puedes discriminarla completamente.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referencias con Acordeón Premium -->
+        <div class="tarjeta animate-fade-in-up delay-700">
+            <h2 class="tarjeta-titulo" style="text-align: center; margin-bottom: var(--space-8);">
+                📚 Referencias Bibliográficas
+            </h2>
+
+            <p style="font-size: var(--text-lg); text-align: center; color: var(--texto-medio); margin-bottom: var(--space-10);">
+                Todas las fuentes académicas citadas en este laboratorio
+            </p>
+
+            <!-- Botón Acordeón -->
+            <button class="btn-acordeon" onclick="toggleAcordeon()">
+                <div class="acordeon-header">
+                    <div class="acordeon-icono">📖</div>
+                    <div class="acordeon-texto">
+                        <div class="acordeon-titulo">Ver Referencias Completas</div>
+                        <div class="acordeon-subtitulo">30+ fuentes académicas organizadas</div>
+                    </div>
+                    <div class="acordeon-flecha" id="flechaReferencias">▼</div>
+                </div>
+            </button>
+
+            <!-- Contenido Acordeón -->
+            <div class="acordeon-contenido" id="contenidoReferencias">
+                <div class="referencias-categorias">
+                    
+                    <!-- Paper Principal -->
+                    <div class="ref-categoria">
+                        <h3 class="ref-categoria-titulo">
+                            <span>⭐</span>
+                            <span>Estudio Principal</span>
+                        </h3>
+                        <div class="ref-item ref-principal">
+                            <div class="ref-emoji">📄</div>
+                            <div class="ref-contenido">
+                                <div class="ref-autores">Bordieri, M. J., Kellum, K. K., Wilson, K. G., & Whiteman, K. C.</div>
+                                <span class="ref-anio"> (2015). </span>
+                                <div class="ref-titulo">Basic properties of coherence: Testing a core assumption of Relational Frame Theory.</div>
+                                <div class="ref-revista">The Psychological Record, 66(1), 83-93.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fundamentos RFT -->
+                    <div class="ref-categoria">
+                        <h3 class="ref-categoria-titulo">
+                            <span>🧠</span>
+                            <span>Fundamentos de RFT</span>
+                        </h3>
+
+                        <div class="ref-item">
+                            <div class="ref-emoji">📘</div>
+                            <div class="ref-contenido">
+                                <div class="ref-autores">Hayes, S. C., Barnes-Holmes, D., & Roche, B.</div>
+                                <span class="ref-anio"> (2001). </span>
+                                <div class="ref-titulo">Relational Frame Theory: A Post-Skinnerian account of human language and cognition.</div>
+                                <div class="ref-revista">New York: Kluwer Academic/Plenum Publishers.</div>
+                            </div>
+                        </div>
+
+                        <div class="ref-item">
+                            <div class="ref-emoji">📘</div>
+                            <div class="ref-contenido">
+                                <div class="ref-autores">Barnes-Holmes, D., Hayes, S. C., & Dymond, S.</div>
+                                <span class="ref-anio"> (2001). </span>
+                                <div class="ref-titulo">Self and self-directed rules.</div>
+                                <div class="ref-revista">In S. C. Hayes et al. (Eds.), Relational Frame Theory (pp. 119-139). Kluwer Academic/Plenum.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Equivalencia -->
+                    <div class="ref-categoria">
+                        <h3 class="ref-categoria-titulo">
+                            <span>🔗</span>
+                            <span>Equivalencia de Estímulos</span>
+                        </h3>
+
+                        <div class="ref-item">
+                            <div class="ref-emoji">📄</div>
+                            <div class="ref-contenido">
+                                <div class="ref-autores">Sidman, M.</div>
+                                <span class="ref-anio"> (1971). </span>
+                                <div class="ref-titulo">Reading and auditory-visual equivalences.</div>
+                                <div class="ref-revista">Journal of Speech and Hearing Research, 14, 5-13.</div>
+                            </div>
+                        </div>
+
+                        <div class="ref-item">
+                            <div class="ref-emoji">📄</div>
+                            <div class="ref-contenido">
+                                <div class="ref-autores">Sidman, M.</div>
+                                <span class="ref-anio"> (1994). </span>
+                                <div class="ref-titulo">Equivalence relations and behavior: A research story.</div>
+                                <div class="ref-revista">Boston: Authors Cooperative.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coherencia -->
+                    <div class="ref-categoria">
+                        <h3 class="ref-categoria-titulo">
+                            <span>🎯</span>
+                            <span>Coherencia y Preferencia</span>
+                        </h3>
+
+                        <div class="ref-item">
+                            <div class="ref-emoji">📄</div>
+                            <div class="ref-contenido">
+                                <div class="ref-autores">Wray, A. M., Freund, M., & Dougher, M. J.</div>
+                                <span class="ref-anio"> (2009). </span>
+                                <div class="ref-titulo">Derived relational responding and sensitivity to reinforcement.</div>
+                                <div class="ref-revista">The Psychological Record, 59, 167-188.</div>
+                            </div>
+                        </div>
+
+                        <div class="ref-item">
+                            <div class="ref-emoji">📄</div>
+                            <div class="ref-contenido">
+                                <div class="ref-autores">Wilson, K. G., & Hayes, S. C.</div>
+                                <span class="ref-anio"> (1996). </span>
+                                <div class="ref-titulo">Resurgence of derived stimulus relations.</div>
+                                <div class="ref-revista">Journal of the Experimental Analysis of Behavior, 66, 267-281.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reglas -->
+                    <div class="ref-categoria">
+                        <h3 class="ref-categoria-titulo">
+                            <span>📋</span>
+                            <span>Conducta Gobernada por Reglas</span>
+                        </h3>
+
+                        <div class="ref-item">
+                            <div class="ref-emoji">📄</div>
+                            <div class="ref-contenido">
+                                <div class="ref-autores">Hayes, S. C.</div>
+                                <span class="ref-anio"> (1989). </span>
+                                <div class="ref-titulo">Rule-governed behavior: Cognition, contingencies, and instructional control.</div>
+                                <div class="ref-revista">New York: Plenum Press.</div>
+                            </div>
+                        </div>
+
+                        <div class="ref-item">
+                            <div class="ref-emoji">📄</div>
+                            <div class="ref-contenido">
+                                <div class="ref-autores">Holth, P., & Arntzen, E.</div>
+                                <span class="ref-anio"> (1998). </span>
+                                <div class="ref-titulo">Symmetry versus sequentiality in symbolic behavior.</div>
+                                <div class="ref-revista">Behavioural Processes, 42, 31-46.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ACT -->
+                    <div class="ref-categoria">
+                        <h3 class="ref-categoria-titulo">
+                            <span>💊</span>
+                            <span>ACT y CBS</span>
+                        </h3>
+
+                        <div class="ref-item">
+                            <div class="ref-emoji">📘</div>
+                            <div class="ref-contenido">
+                                <div class="ref-autores">Hayes, S. C., Strosahl, K. D., & Wilson, K. G.</div>
+                                <span class="ref-anio"> (2012). </span>
+                                <div class="ref-titulo">Acceptance and Commitment Therapy (2nd ed.).</div>
+                                <div class="ref-revista">New York: Guilford Press.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Agradecimiento -->
+        <div class="tarjeta tarjeta-principal animate-fade-in-up delay-900" style="text-align: center;">
+            <div class="tarjeta-icono-grande">🙏</div>
+            <h2 class="tarjeta-titulo">Gracias Por Explorar</h2>
+            <p class="tarjeta-texto">
+                Esperamos que hayas disfrutado este viaje interactivo por RFT y coherencia.
+            </p>
+        </div>
+
+        <!-- Navegación -->
+        <div class="navegacion animate-fade-in delay-1100">
+            <button class="btn btn-secundario btn-anterior">
+                <span>←</span>
+                <span>Anterior</span>
+            </button>
+            <button class="btn btn-primario" onclick="window.location.href='index.html'">
+                <span>🏠 Volver al Inicio</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        const nav = new NavigationSystem();
+        nav.currentScreen = 8;
+        nav.updateProgressBar();
+
+        function toggleAcordeon() {
+            const contenido = document.getElementById('contenidoReferencias');
+            const flecha = document.getElementById('flechaReferencias');
+            
+            if (contenido.classList.contains('abierto')) {
+                contenido.classList.remove('abierto');
+                flecha.classList.remove('rotado');
+            } else {
+                contenido.classList.add('abierto');
+                flecha.classList.add('rotado');
+                
+                setTimeout(() => {
+                    contenido.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'nearest' 
+                    });
+                }, 300);
+            }
+        }
+    </script>
+</body>
+</html>
