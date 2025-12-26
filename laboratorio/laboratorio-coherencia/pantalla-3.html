@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Reportes Verbales - Laboratorio de Coherencia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        /* Estilos específicos para análisis de reglas */
+        .input-regla-container {
+            background: white;
+            border-radius: var(--radius-2xl);
+            padding: var(--space-10);
+            margin: var(--space-10) 0;
+            box-shadow: var(--shadow-xl);
+            border: 3px solid var(--acento-violeta);
+        }
+
+        .input-regla-label {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--texto-oscuro);
+            margin-bottom: var(--space-4);
+            display: block;
+        }
+
+        .input-regla {
+            width: 100%;
+            min-height: 120px;
+            padding: var(--space-6);
+            font-size: var(--text-lg);
+            border: 2px solid var(--acento-violeta);
+            border-radius: var(--radius-lg);
+            resize: vertical;
+            font-family: var(--font-body);
+            background: var(--fondo-tarjeta-suave);
+        }
+
+        .input-regla:focus {
+            border-color: var(--acento-cyan);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(0, 229, 204, 0.1);
+        }
+
+        .analisis-resultado {
+            margin-top: var(--space-6);
+            padding: var(--space-8);
+            background: linear-gradient(135deg, #F0F9FF, #E6F7FF);
+            border-radius: var(--radius-xl);
+            border-left: 6px solid var(--acento-cyan);
+            display: none;
+        }
+
+        .analisis-resultado.show {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .analisis-titulo {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--texto-oscuro);
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .analisis-texto {
+            font-size: var(--text-lg);
+            line-height: 1.7;
+            color: var(--texto-medio);
+        }
+
+        /* Matriz de consistencia */
+        .matriz-consistencia {
+            background: white;
+            border-radius: var(--radius-2xl);
+            padding: var(--space-10);
+            margin: var(--space-10) 0;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .matriz-grid {
+            display: grid;
+            grid-template-columns: 150px repeat(3, 1fr);
+            gap: 2px;
+            background: var(--acento-cyan);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-top: var(--space-6);
+        }
+
+        .matriz-cell {
+            background: white;
+            padding: var(--space-6);
+            text-align: center;
+            font-size: var(--text-base);
+        }
+
+        .matriz-header {
+            background: var(--acento-cyan);
+            color: white;
+            font-weight: var(--font-bold);
+            font-size: var(--text-lg);
+        }
+
+        .matriz-row-header {
+            background: var(--fondo-tarjeta-suave);
+            font-weight: var(--font-bold);
+            font-size: var(--text-lg);
+            color: var(--texto-oscuro);
+        }
+
+        .matriz-cell-verde {
+            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+            font-weight: var(--font-bold);
+            font-size: var(--text-2xl);
+        }
+
+        .matriz-cell-amarillo {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            font-weight: var(--font-bold);
+            font-size: var(--text-2xl);
+        }
+
+        .matriz-cell-rojo {
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            font-weight: var(--font-bold);
+            font-size: var(--text-xl);
+        }
+
+        /* Comparación visual */
+        .comparacion-split {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-8);
+            margin: var(--space-10) 0;
+        }
+
+        .comparacion-card {
+            background: white;
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .comparacion-titulo {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .comparacion-stat {
+            font-size: var(--text-5xl);
+            font-family: var(--font-display);
+            font-weight: var(--font-black);
+            color: var(--acento-cyan);
+            margin: var(--space-4) 0;
+        }
+
+        .comparacion-descripcion {
+            font-size: var(--text-lg);
+            color: var(--texto-medio);
+            line-height: 1.7;
+        }
+
+        /* Caso ejemplo interactivo */
+        .caso-ejemplo {
+            background: linear-gradient(135deg, #FFF7ED, #FFEDD5);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-10);
+            margin: var(--space-10) 0;
+            border-left: 8px solid var(--acento-dorado);
+        }
+
+        .caso-step {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            margin: var(--space-4) 0;
+            display: flex;
+            align-items: center;
+            gap: var(--space-6);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .caso-numero {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: var(--font-black);
+            color: var(--acento-dorado);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .caso-contenido {
+            flex: 1;
+        }
+
+        .caso-emoji {
+            font-size: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .matriz-grid {
+                font-size: var(--text-sm);
+                grid-template-columns: 100px repeat(3, 1fr);
+            }
+
+            .matriz-cell {
+                padding: var(--space-3);
+            }
+
+            .comparacion-split {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <button class="btn-volver">
+                <span>←</span>
+                <span>Volver al inicio</span>
+            </button>
+            
+            <div class="pill-progreso">
+                <span class="pill-texto">Progreso del Módulo</span>
+                <div class="pill-barra">
+                    <div class="pill-barra-fill"></div>
+                </div>
+                <span class="pill-texto"><strong>3/8</strong></span>
+            </div>
+        </header>
+
+        <!-- Badge de módulo -->
+        <div class="badge-modulo animate-fade-in delay-200">
+            💭 Análisis de Auto-Reportes Verbales
+        </div>
+
+        <!-- Título principal -->
+        <h1 class="text-gradient animate-fade-in delay-300">
+            ¿Qué Dijiste Que Hiciste?
+        </h1>
+
+        <!-- Tarjeta principal -->
+        <div class="tarjeta tarjeta-principal animate-fade-in-up delay-500">
+            <div class="tarjeta-icono-grande animate-float">🗣️</div>
+            <h2 class="tarjeta-titulo">Tu Mente Crea Reglas Incluso Cuando Nadie Te Las Da</h2>
+            
+            <p class="tarjeta-texto">
+                Después de que los participantes completaron las primeras 27 pruebas de emparejamiento, 
+                los investigadores les hicieron una pregunta muy simple pero reveladora:
+            </p>
+
+            <div class="caja-info">
+                <div class="caja-icono">❓</div>
+                <div class="caja-contenido">
+                    <h4>La Pregunta Clave</h4>
+                    <p style="font-size: var(--text-xl); font-style: italic;">
+                        "¿Qué regla seguiste para emparejar las comidas con las formas?"
+                    </p>
+                </div>
+            </div>
+
+            <p class="tarjeta-texto">
+                Recuerda: <strong>nadie les había dicho qué hacer</strong>. No había instrucciones. 
+                No había reforzamiento. Sin embargo, cuando se les preguntó, casi todos pudieron 
+                describir una regla que habían seguido.
+            </p>
+
+            <!-- EJEMPLO DIDÁCTICO 1: Concepto de regla verbal -->
+            <div class="ejemplo-didactico">
+                <div class="ejemplo-titulo">
+                    <span>💡</span>
+                    <span>Ejemplo: ¿Qué Es Una "Regla Verbal"?</span>
+                </div>
+                <div class="ejemplo-contenido">
+                    <p style="margin-bottom: var(--space-6);">
+                        Imagina que estás jugando un videojuego nuevo sin tutorial. 
+                        Después de 10 minutos, alguien te pregunta: "¿Cómo juegas?"
+                    </p>
+                    
+                    <div class="caso-ejemplo" style="margin: var(--space-6) 0;">
+                        <div class="caso-step">
+                            <div class="caso-numero">🎮</div>
+                            <div class="caso-contenido">
+                                <p style="font-size: var(--text-lg); margin: 0;">
+                                    <strong>Tu respuesta:</strong> "Presiono X para saltar cuando veo un obstáculo"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: var(--space-6);">
+                        Esa es una <strong>regla verbal</strong>: una descripción de tu propio comportamiento 
+                        que creaste DESPUÉS de comportarte. El juego no te lo dijo. Lo descubriste solo y 
+                        luego lo verbalizaste.
+                    </p>
+
+                    <p style="margin-top: var(--space-4); font-weight: var(--font-bold); color: var(--acento-cyan);">
+                        Eso es exactamente lo que pasó en el experimento.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prueba tú mismo -->
+        <div class="input-regla-container animate-fade-in-up delay-700">
+            <h3 style="font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--texto-oscuro); margin-bottom: var(--space-6); text-align: center;">
+                🤔 Ahora Tú: ¿Qué Regla Seguiste?
+            </h3>
+            
+            <p style="font-size: var(--text-lg); color: var(--texto-medio); text-align: center; margin-bottom: var(--space-8);">
+                Piensa en el experimento que hiciste en la pantalla anterior. 
+                ¿Cómo decidiste emparejar las comidas? Descríbelo con tus palabras:
+            </p>
+
+            <label class="input-regla-label" for="inputRegla">
+                Escribe tu regla aquí:
+            </label>
+            <textarea 
+                id="inputRegla" 
+                class="input-regla" 
+                placeholder="Ejemplo: 'Emparejé todas las comidas redondas con círculos y las alargadas con líneas' o 'Puse las saludables en un grupo y las no saludables en otro'..."
+            ></textarea>
+
+            <button class="btn btn-primario" style="margin-top: var(--space-6); width: 100%; justify-content: center;" onclick="analizarRegla()">
+                <span>Analizar mi regla</span>
+                <span>🔍</span>
+            </button>
+
+            <div class="analisis-resultado" id="analisisResultado">
+                <div class="analisis-titulo">
+                    <span>✨</span>
+                    <span>Análisis de tu regla:</span>
+                </div>
+                <p class="analisis-texto" id="analisisTexto"></p>
+            </div>
+        </div>
+
+        <!-- Hallazgos del estudio -->
+        <div class="tarjeta animate-fade-in-up delay-900">
+            <h2 class="tarjeta-titulo">Lo Que Encontraron: Consistencia Sorprendente</h2>
+
+            <p class="tarjeta-texto">
+                Los investigadores codificaron las reglas verbales de los participantes en tres categorías:
+            </p>
+
+            <div class="grid-3" style="margin: var(--space-8) 0;">
+                <div class="stat-card">
+                    <div class="stat-icono">📐</div>
+                    <div class="stat-numero" style="color: var(--acento-cyan);">Forma</div>
+                    <div class="stat-label">Mencionaron líneas, círculos, triángulos o formas</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icono">💭</div>
+                    <div class="stat-numero" style="color: var(--acento-violeta);">Semántica</div>
+                    <div class="stat-label">Mencionaron saludable, no saludable, o asqueroso</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icono">❓</div>
+                    <div class="stat-numero" style="color: var(--texto-suave);">Otra</div>
+                    <div class="stat-label">Reglas confusas o sin patrón claro</div>
+                </div>
+            </div>
+
+            <p class="tarjeta-texto">
+                Luego compararon lo que los participantes <strong>dijeron que hicieron</strong> 
+                con lo que <strong>realmente hicieron</strong> en las pruebas.
+            </p>
+
+            <!-- EJEMPLO DIDÁCTICO 2: Matriz de consistencia -->
+            <div class="ejemplo-didactico">
+                <div class="ejemplo-titulo">
+                    <span>📊</span>
+                    <span>Ejemplo: ¿Coincide Lo Que Dices Con Lo Que Haces?</span>
+                </div>
+                <div class="ejemplo-contenido">
+                    <p style="margin-bottom: var(--space-6);">
+                        Imagina tres participantes del estudio:
+                    </p>
+
+                    <div class="caso-ejemplo" style="margin: var(--space-6) 0;">
+                        <div class="caso-step">
+                            <div class="caso-numero">👤</div>
+                            <div class="caso-contenido">
+                                <p style="font-size: var(--text-lg); margin: 0;">
+                                    <strong>Ana</strong> dice: "Usé formas" → Su comportamiento: 90% basado en formas
+                                    <br><span style="color: var(--success); font-weight: bold;">✓ Consistente</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="caso-step">
+                            <div class="caso-numero">👤</div>
+                            <div class="caso-contenido">
+                                <p style="font-size: var(--text-lg); margin: 0;">
+                                    <strong>Luis</strong> dice: "Usé formas" → Su comportamiento: 40% basado en formas
+                                    <br><span style="color: var(--warning); font-weight: bold;">⚠️ Inconsistente</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="caso-step">
+                            <div class="caso-numero">👤</div>
+                            <div class="caso-contenido">
+                                <p style="font-size: var(--text-lg); margin: 0;">
+                                    <strong>María</strong> dice: "Usé significado" → Su comportamiento: 85% basado en significado
+                                    <br><span style="color: var(--success); font-weight: bold;">✓ Consistente</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: var(--space-6); font-weight: var(--font-bold);">
+                        La pregunta es: ¿Cuántos participantes fueron como Ana y María (consistentes) 
+                        versus como Luis (inconsistentes)?
+                    </p>
+                </div>
+            </div>
+
+            <!-- Matriz de resultados -->
+            <div class="matriz-consistencia">
+                <h3 class="tarjeta-titulo" style="text-align: center; margin-bottom: var(--space-6);">
+                    📈 Matriz de Consistencia: Regla Verbal vs Comportamiento Real
+                </h3>
+
+                <p style="font-size: var(--text-lg); color: var(--texto-medio); text-align: center; margin-bottom: var(--space-8);">
+                    Esta tabla cruza lo que dijeron vs lo que hicieron:
+                </p>
+
+                <div class="matriz-grid">
+                    <!-- Headers -->
+                    <div class="matriz-cell matriz-header"></div>
+                    <div class="matriz-cell matriz-header">Comportó<br>Forma</div>
+                    <div class="matriz-cell matriz-header">Comportó<br>Semántica</div>
+                    <div class="matriz-cell matriz-header">Comportó<br>Otro</div>
+
+                    <!-- Fila 1: Regla Forma -->
+                    <div class="matriz-cell matriz-row-header">Regla:<br>Forma</div>
+                    <div class="matriz-cell matriz-cell-verde">34<br><small>Consistentes ✓</small></div>
+                    <div class="matriz-cell matriz-cell-rojo">2<br><small>Inconsistentes</small></div>
+                    <div class="matriz-cell matriz-cell-amarillo">16<br><small>Dijeron forma,<br>hicieron random</small></div>
+
+                    <!-- Fila 2: Regla Semántica -->
+                    <div class="matriz-cell matriz-row-header">Regla:<br>Semántica</div>
+                    <div class="matriz-cell matriz-cell-rojo">0</div>
+                    <div class="matriz-cell matriz-cell-verde">23<br><small>Consistentes ✓</small></div>
+                    <div class="matriz-cell matriz-cell-amarillo">1<br><small>Dijo semántica,<br>hizo random</small></div>
+
+                    <!-- Fila 3: Regla Otra -->
+                    <div class="matriz-cell matriz-row-header">Regla:<br>Otra</div>
+                    <div class="matriz-cell matriz-cell-amarillo">4</div>
+                    <div class="matriz-cell matriz-cell-amarillo">0</div>
+                    <div class="matriz-cell matriz-cell-verde">1</div>
+                </div>
+
+                <div class="caja-dato" style="margin-top: var(--space-8);">
+                    <div class="caja-icono">🎯</div>
+                    <div class="caja-contenido">
+                        <h4>Resultado Clave: Cohen's Kappa = 0.614</h4>
+                        <p>
+                            Esta es una medida estadística de acuerdo. Un kappa de 0.614 significa 
+                            <strong>"acuerdo moderado a sustancial"</strong>. En otras palabras: 
+                            <strong>60 de 81 participantes (74%) fueron consistentes</strong> entre 
+                            lo que dijeron y lo que hicieron.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparación entre condiciones -->
+            <h3 class="tarjeta-titulo" style="margin-top: var(--space-16);">
+                🔬 La Diferencia Entre Condiciones
+            </h3>
+
+            <p class="tarjeta-texto">
+                Recuerda que había dos grupos: uno solo vio formas, otro vio primero los conceptos 
+                semánticos. ¿Fueron igual de consistentes?
+            </p>
+
+            <div class="comparacion-split">
+                <div class="comparacion-card" style="border-top: 6px solid var(--acento-violeta);">
+                    <div class="comparacion-titulo">
+                        <span>💭</span>
+                        <span>Grupo Semántico</span>
+                    </div>
+                    <div class="comparacion-stat">0.779</div>
+                    <p class="comparacion-descripcion">
+                        <strong>Kappa = 0.779</strong> → Acuerdo SUSTANCIAL
+                        <br><br>
+                        86% de consistencia (38 de 44 participantes)
+                        <br><br>
+                        <strong style="color: var(--acento-cyan);">¿Por qué?</strong> 
+                        Las funciones de "saludable" son más evidentes. 
+                        Es fácil ver que el brócoli es saludable y la pizza no.
+                    </p>
+                </div>
+
+                <div class="comparacion-card" style="border-top: 6px solid var(--acento-cyan);">
+                    <div class="comparacion-titulo">
+                        <span>📐</span>
+                        <span>Grupo Formas</span>
+                    </div>
+                    <div class="comparacion-stat">0.276</div>
+                    <p class="comparacion-descripcion">
+                        <strong>Kappa = 0.276</strong> → Acuerdo FAIR (justo/moderado)
+                        <br><br>
+                        59% de consistencia (22 de 37 participantes)
+                        <br><br>
+                        <strong style="color: var(--acento-coral);">¿Por qué?</strong> 
+                        Las formas son ambiguas. ¿El brócoli es línea o triángulo? 
+                        14 personas dijeron "usé formas" pero su comportamiento fue aleatorio.
+                    </p>
+                </div>
+            </div>
+
+            <!-- EJEMPLO DIDÁCTICO 3: Por qué la diferencia -->
+            <div class="ejemplo-didactico" style="margin-top: var(--space-10);">
+                <div class="ejemplo-titulo">
+                    <span>🤔</span>
+                    <span>¿Por Qué Esta Diferencia Importa?</span>
+                </div>
+                <div class="ejemplo-contenido">
+                    <p style="margin-bottom: var(--space-6);">
+                        Piensa en estos dos participantes del grupo Formas:
+                    </p>
+
+                    <div class="caso-ejemplo" style="margin: var(--space-6) 0; background: linear-gradient(135deg, #FEE2E2, #FECACA);">
+                        <h4 style="font-size: var(--text-xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
+                            Participante #23 - El Caso de la Ambigüedad
+                        </h4>
+                        
+                        <div class="caso-step">
+                            <div class="caso-emoji">🥦</div>
+                            <div class="caso-contenido">
+                                <p style="margin: 0;">
+                                    Ve el brócoli. Piensa: "¿Es línea porque los tallos son alargados? 
+                                    ¿O triángulo por la forma de la copa?"
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="caso-step">
+                            <div class="caso-emoji">🍕</div>
+                            <div class="caso-contenido">
+                                <p style="margin: 0;">
+                                    Ve la pizza. Piensa: "Obviamente triángulo... pero la pizza completa es círculo..."
+                                </p>
+                            </div>
+                        </div>
+
+                        <p style="margin-top: var(--space-6); font-weight: var(--font-bold);">
+                            Al final dice: "Usé formas", pero en realidad alternó criterios porque las formas 
+                            eran demasiado ambiguas para mantener consistencia.
+                        </p>
+                    </div>
+
+                    <div class="caso-ejemplo" style="margin: var(--space-6) 0; background: linear-gradient(135deg, #D1FAE5, #A7F3D0);">
+                        <h4 style="font-size: var(--text-xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
+                            Participante #45 - El Caso de la Claridad
+                        </h4>
+                        
+                        <div class="caso-step">
+                            <div class="caso-emoji">🥦</div>
+                            <div class="caso-contenido">
+                                <p style="margin: 0;">
+                                    Ve el brócoli. Piensa: "Saludable, obvio."
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="caso-step">
+                            <div class="caso-emoji">🍕</div>
+                            <div class="caso-contenido">
+                                <p style="margin: 0;">
+                                    Ve la pizza. Piensa: "No saludable, claro."
+                                </p>
+                            </div>
+                        </div>
+
+                        <p style="margin-top: var(--space-6); font-weight: var(--font-bold);">
+                            Dice: "Usé el concepto de salud" y su comportamiento es 95% consistente con eso.
+                            Las funciones semánticas son menos ambiguas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="caja-insight" style="margin-top: var(--space-10);">
+                <div class="caja-icono">💡</div>
+                <div class="caja-contenido">
+                    <h4>Hallazgo Clave #2</h4>
+                    <p>
+                        Solo 1 de 81 participantes dijo "elegí al azar". Los otros 80 generaron alguna regla 
+                        verbal, incluso sin instrucciones. <strong>Tu mente verbal SIEMPRE busca patrones 
+                        y los verbaliza.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación -->
+        <div class="navegacion animate-fade-in delay-1200">
+            <button class="btn btn-secundario btn-anterior">
+                <span>←</span>
+                <span>Anterior</span>
+            </button>
+            <button class="btn btn-primario btn-siguiente">
+                <span>Siguiente: Estudio 2</span>
+                <span>→</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Configurar pantalla actual
+        const nav = new NavigationSystem();
+        nav.currentScreen = 3;
+        nav.updateProgressBar();
+
+        // Función para analizar la regla del usuario
+        function analizarRegla() {
+            const input = document.getElementById('inputRegla');
+            const texto = input.value.trim().toLowerCase();
+            const resultadoDiv = document.getElementById('analisisResultado');
+            const textoAnalisis = document.getElementById('analisisTexto');
+
+            if (texto.length < 10) {
+                textoAnalisis.innerHTML = `
+                    <span style="color: var(--acento-coral); font-weight: bold;">
+                        Por favor escribe al menos una frase describiendo tu estrategia.
+                    </span>
+                `;
+                resultadoDiv.classList.add('show');
+                return;
+            }
+
+            // Detectar palabras clave
+            const palabrasForma = ['forma', 'línea', 'círculo', 'triángulo', 'redond', 'alargad', 'geometr'];
+            const palabrasSignificado = ['salud', 'saludable', 'sano', 'asqueros', 'moho', 'nutritiv', 'malo'];
+
+            let esForma = palabrasForma.some(p => texto.includes(p));
+            let esSignificado = palabrasSignificado.some(p => texto.includes(p));
+
+            let analisis = '';
+
+            if (esForma && !esSignificado) {
+                analisis = `
+                    <strong>Tu regla parece ser: FORMA</strong> 🔷
+                    <br><br>
+                    Mencionaste criterios topográficos (formas geométricas). 
+                    Esto coincide con el 64% de participantes que emitieron reglas basadas en forma.
+                    <br><br>
+                    Curiosidad: Si estabas en el grupo que vio formas, es posible que tu consistencia 
+                    entre lo que dices y haces sea moderada, ya que las formas pueden ser ambiguas.
+                `;
+            } else if (esSignificado && !esForma) {
+                analisis = `
+                    <strong>Tu regla parece ser: SEMÁNTICA</strong> 💭
+                    <br><br>
+                    Mencionaste funciones de las comidas (saludable, nutritivo, etc.). 
+                    Esto coincide con el 28% de participantes que emitieron reglas semánticas.
+                    <br><br>
+                    Dato interesante: Los participantes que usaron significado tuvieron 
+                    mayor consistencia (86%) entre lo que dijeron y lo que hicieron.
+                `;
+            } else if (esForma && esSignificado) {
+                analisis = `
+                    <strong>Tu regla parece ser: MIXTA</strong> 🔄
+                    <br><br>
+                    Mencionaste tanto formas como significados. Esto podría indicar que 
+                    usaste diferentes criterios en diferentes pruebas, o que ambos factores 
+                    influyeron en tus decisiones.
+                    <br><br>
+                    En el estudio, algunos participantes mostraron este patrón mixto, 
+                    clasificados como "Otro" (8% de las reglas verbales).
+                `;
+            } else {
+                analisis = `
+                    <strong>Tu regla es única</strong> ⭐
+                    <br><br>
+                    No detecté palabras clave típicas, lo que significa que desarrollaste 
+                    tu propio criterio idiosincrásico. Esto también ocurrió en el estudio real.
+                    <br><br>
+                    Lo importante es que pudiste verbalizarlo, mostrando que tu mente buscó 
+                    un patrón coherente, incluso sin instrucciones explícitas.
+                `;
+            }
+
+            textoAnalisis.innerHTML = analisis;
+            resultadoDiv.classList.add('show');
+
+            // Scroll suave al resultado
+            setTimeout(() => {
+                resultadoDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 300);
+        }
+
+        // Permitir envío con Enter (opcional)
+        document.getElementById('inputRegla').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                analizarRegla();
+            }
+        });
+    </script>
+</body>
+</html>
