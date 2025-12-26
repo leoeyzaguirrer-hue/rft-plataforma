@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Costo de la Coherencia - Laboratorio de Coherencia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        /* Temporizador visual */
+        .timer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 77, 77, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
+
+        .timer-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .timer-content {
+            text-align: center;
+            color: white;
+        }
+
+        .timer-numero {
+            font-family: var(--font-display);
+            font-size: 180px;
+            font-weight: var(--font-black);
+            line-height: 1;
+            background: linear-gradient(135deg, var(--acento-cyan), var(--acento-dorado));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .timer-label {
+            font-size: var(--text-2xl);
+            margin-top: var(--space-6);
+            color: var(--texto-suave-claro);
+        }
+
+        /* Indicador de costo */
+        .costo-indicator {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-8);
+            border: 4px solid var(--acento-dorado);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .costo-titulo {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-black);
+            color: var(--texto-oscuro);
+            margin-bottom: var(--space-4);
+        }
+
+        .costo-valor {
+            font-family: var(--font-display);
+            font-size: var(--text-6xl);
+            font-weight: var(--font-black);
+            color: var(--acento-dorado);
+            line-height: 1;
+        }
+
+        .costo-descripcion {
+            font-size: var(--text-lg);
+            color: var(--texto-medio);
+            margin-top: var(--space-4);
+        }
+
+        /* Modificación de puertas con delay */
+        .puerta.con-delay {
+            position: relative;
+        }
+
+        .puerta.con-delay::after {
+            content: '⏱️';
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            font-size: 48px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .delay-badge {
+            position: absolute;
+            top: var(--space-6);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--acento-coral);
+            color: white;
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-full);
+            font-weight: var(--font-bold);
+            font-size: var(--text-lg);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+            z-index: 10;
+        }
+
+        /* Gráfico de cambio de preferencia */
+        .grafico-cambio {
+            background: white;
+            border-radius: var(--radius-2xl);
+            padding: var(--space-10);
+            margin: var(--space-10) 0;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .grafico-linea {
+            position: relative;
+            height: 400px;
+            margin: var(--space-8) 0;
+        }
+
+        .grafico-eje-y {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: var(--text-sm);
+            color: var(--texto-suave);
+        }
+
+        .grafico-eje-x {
+            position: absolute;
+            left: 60px;
+            right: 0;
+            bottom: 0;
+            height: 40px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            font-size: var(--text-sm);
+            color: var(--texto-suave);
+            border-top: 2px solid var(--fondo-tarjeta-suave);
+        }
+
+        .grafico-area {
+            position: absolute;
+            left: 60px;
+            right: 0;
+            top: 0;
+            bottom: 40px;
+            background: 
+                repeating-linear-gradient(
+                    to bottom,
+                    var(--fondo-tarjeta-suave) 0px,
+                    var(--fondo-tarjeta-suave) 1px,
+                    transparent 1px,
+                    transparent 25%
+                );
+        }
+
+        .grafico-linea-path {
+            stroke: var(--acento-cyan);
+            stroke-width: 4;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .grafico-punto {
+            fill: white;
+            stroke: var(--acento-cyan);
+            stroke-width: 3;
+        }
+
+        .grafico-punto-critical {
+            fill: var(--acento-coral);
+            stroke: var(--acento-coral);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Comparación por bloques */
+        .bloques-comparacion {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-10) 0;
+        }
+
+        .bloque-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            transition: all var(--transition-base);
+        }
+
+        .bloque-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .bloque-numero {
+            font-family: var(--font-display);
+            font-size: var(--text-base);
+            font-weight: var(--font-bold);
+            color: var(--texto-suave);
+            margin-bottom: var(--space-4);
+        }
+
+        .bloque-delay {
+            font-size: var(--text-4xl);
+            font-weight: var(--font-black);
+            color: var(--acento-coral);
+            margin: var(--space-4) 0;
+        }
+
+        .bloque-preferencia {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-black);
+            margin: var(--space-4) 0;
+        }
+
+        .bloque-preferencia.alta {
+            color: var(--acento-cyan);
+        }
+
+        .bloque-preferencia.media {
+            color: var(--warning);
+        }
+
+        .bloque-preferencia.baja {
+            color: var(--acento-coral);
+        }
+
+        .bloque-descripcion {
+            font-size: var(--text-base);
+            color: var(--texto-suave);
+        }
+
+        @media (max-width: 768px) {
+            .timer-numero {
+                font-size: 120px;
+            }
+
+            .grafico-linea {
+                height: 300px;
+            }
+
+            .costo-valor {
+                font-size: var(--text-5xl);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <button class="btn-volver">
+                <span>←</span>
+                <span>Volver al inicio</span>
+            </button>
+            
+            <div class="pill-progreso">
+                <span class="pill-texto">Progreso del Módulo</span>
+                <div class="pill-barra">
+                    <div class="pill-barra-fill"></div>
+                </div>
+                <span class="pill-texto"><strong>5/8</strong></span>
+            </div>
+        </header>
+
+        <!-- Badge de módulo -->
+        <div class="badge-modulo animate-fade-in delay-200">
+            ⏱️ Response Cost: Midiendo la Fuerza de la Preferencia
+        </div>
+
+        <!-- Título principal -->
+        <h1 class="text-gradient animate-fade-in delay-300">
+            ¿Cuánto Pagarías Por Tener Sentido?
+        </h1>
+
+        <!-- Tarjeta principal -->
+        <div class="tarjeta tarjeta-principal animate-fade-in-up delay-500">
+            <div class="tarjeta-icono-grande animate-float">⚖️</div>
+            <h2 class="tarjeta-titulo">La Prueba Definitiva de Preferencia</h2>
+            
+            <p class="tarjeta-texto">
+                En la pantalla anterior viste que algunos participantes prefirieron la coherencia. 
+                Pero aquí viene la pregunta más importante: <strong>¿qué tan fuerte es esa preferencia?</strong>
+            </p>
+
+            <p class="tarjeta-texto">
+                Si algo es verdaderamente reforzante, deberías estar dispuesto a "pagar un costo" por obtenerlo. 
+                Los investigadores probaron esto agregando <strong>delays progresivos</strong> a la puerta coherente.
+            </p>
+
+            <!-- EJEMPLO DIDÁCTICO 1: Concepto de response cost -->
+            <div class="ejemplo-didactico">
+                <div class="ejemplo-titulo">
+                    <span>💡</span>
+                    <span>Analogía: El Restaurante con Fila</span>
+                </div>
+                <div class="ejemplo-contenido">
+                    <p style="margin-bottom: var(--space-6);">
+                        Imagina dos restaurantes uno al lado del otro:
+                    </p>
+
+                    <div class="grid-2" style="gap: var(--space-6); margin: var(--space-6) 0;">
+                        <div style="background: linear-gradient(135deg, #D1FAE5, #A7F3D0); padding: var(--space-8); border-radius: var(--radius-xl);">
+                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4); color: var(--texto-oscuro);">
+                                🍽️ Restaurante A
+                            </h4>
+                            <p style="font-size: var(--text-lg); margin-bottom: var(--space-4);">
+                                <strong>Tu favorito</strong> - La comida es exactamente como te gusta
+                            </p>
+                            <p style="font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--acento-coral);">
+                                ⏱️ Pero tiene una fila de 30 minutos
+                            </p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); padding: var(--space-8); border-radius: var(--radius-xl);">
+                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4); color: var(--texto-oscuro);">
+                                🍔 Restaurante B
+                            </h4>
+                            <p style="font-size: var(--text-lg); margin-bottom: var(--space-4);">
+                                <strong>Comida OK</strong> - No es tu favorito, pero está bien
+                            </p>
+                            <p style="font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--success);">
+                                ⚡ Entras inmediatamente
+                            </p>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: var(--space-6); font-weight: var(--font-bold); font-size: var(--text-xl);">
+                        ¿Cuál eliges?
+                    </p>
+
+                    <p style="margin-top: var(--space-4);">
+                        Si el Restaurante A fuera <em>realmente</em> reforzante para ti, estarías dispuesto 
+                        a esperar. Pero si la fila fuera de 2 horas... probablemente cambiarías al B.
+                    </p>
+
+                    <p style="margin-top: var(--space-4); font-weight: var(--font-bold); color: var(--acento-cyan);">
+                        El punto donde cambias de opinión revela <strong>qué tan reforzante es</strong> 
+                        tu restaurante favorito.
+                    </p>
+                </div>
+            </div>
+
+            <h3 class="tarjeta-titulo" style="margin-top: var(--space-16);">
+                🔬 El Diseño del Response Cost
+            </h3>
+
+            <p class="tarjeta-texto">
+                Los investigadores crearon <strong>6 bloques de evaluación</strong>. En cada bloque, 
+                eligieron la puerta azul (coherente) agregaban un delay progresivo:
+            </p>
+
+            <div class="bloques-comparacion">
+                <div class="bloque-card">
+                    <div class="bloque-numero">BLOQUE 1</div>
+                    <div class="bloque-delay">+0s</div>
+                    <div class="bloque-descripcion">Sin delay</div>
+                </div>
+
+                <div class="bloque-card">
+                    <div class="bloque-numero">BLOQUE 2</div>
+                    <div class="bloque-delay">+1s</div>
+                    <div class="bloque-descripcion">1 segundo extra</div>
+                </div>
+
+                <div class="bloque-card">
+                    <div class="bloque-numero">BLOQUE 3</div>
+                    <div class="bloque-delay">+2s</div>
+                    <div class="bloque-descripcion">2 segundos extra</div>
+                </div>
+
+                <div class="bloque-card">
+                    <div class="bloque-numero">BLOQUE 4</div>
+                    <div class="bloque-delay">+3s</div>
+                    <div class="bloque-descripcion">3 segundos extra</div>
+                </div>
+
+                <div class="bloque-card">
+                    <div class="bloque-numero">BLOQUE 5</div>
+                    <div class="bloque-delay">+5s</div>
+                    <div class="bloque-descripcion">5 segundos extra</div>
+                </div>
+
+                <div class="bloque-card">
+                    <div class="bloque-numero">BLOQUE 6</div>
+                    <div class="bloque-delay">+6s</div>
+                    <div class="bloque-descripcion">6 segundos extra</div>
+                </div>
+            </div>
+
+            <div class="caja-info">
+                <div class="caja-icono">📊</div>
+                <div class="caja-contenido">
+                    <h4>¿Por Qué Usar Delays?</h4>
+                    <p>
+                        El delay es <strong>aversivo</strong> (molesto). Si la coherencia es realmente 
+                        reforzante, los participantes deberían tolerarlo... hasta cierto punto. 
+                        Cuando el costo supera el beneficio, cambiarán de preferencia.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXPERIMENTO INTERACTIVO CON DELAYS -->
+        <div class="experimento-eleccion animate-fade-in-up delay-700" id="experimentoCosto">
+            <h3 style="font-size: var(--text-4xl); font-weight: var(--font-black); text-align: center; margin-bottom: var(--space-8); position: relative; z-index: 1;">
+                🎮 Experimenta el Response Cost
+            </h3>
+
+            <p style="font-size: var(--text-lg); text-align: center; color: var(--texto-medio); margin-bottom: var(--space-8); position: relative; z-index: 1;">
+                Ahora la puerta azul tendrá un delay. ¿Seguirás eligiéndola?
+            </p>
+
+            <!-- Indicador de costo actual -->
+            <div class="costo-indicator">
+                <div class="costo-titulo">⏱️ Delay Actual en Puerta Azul</div>
+                <div class="costo-valor" id="costoValor">+0s</div>
+                <div class="costo-descripcion" id="costoDescripcion">Sin delay todavía</div>
+            </div>
+
+            <!-- Progress -->
+            <div class="trial-progress">
+                <div class="trial-progress-bar">
+                    <div class="trial-progress-fill" id="progressFillCosto"></div>
+                </div>
+                <div class="trial-progress-text" id="progressTextCosto">Trial 1 de 12</div>
+            </div>
+
+            <!-- Fase indicator -->
+            <div class="fase-indicator" id="faseIndicatorCosto">
+                <div class="fase-titulo">Fase: Elección Libre</div>
+                <div class="fase-descripcion">Elige la puerta que prefieras</div>
+            </div>
+
+            <!-- Puertas con delay -->
+            <div class="puertas-container" id="puertasContainerCosto">
+                <div class="puerta azul con-delay" id="puertaAzulCosto" onclick="elegirPuertaCosto('azul')">
+                    <div class="delay-badge" id="delayBadge">+0s</div>
+                    <div class="puerta-emoji">🟦</div>
+                    <div class="puerta-label">Puerta Azul</div>
+                    <div class="puerta-info">Contexto coherente (con delay)</div>
+                </div>
+
+                <div class="puerta amarilla" id="puertaAmarillaCosto" onclick="elegirPuertaCosto('amarilla')">
+                    <div class="puerta-emoji">🟨</div>
+                    <div class="puerta-label">Puerta Amarilla</div>
+                    <div class="puerta-info">Contexto incoherente (sin delay)</div>
+                </div>
+            </div>
+
+            <!-- Feedback -->
+            <div class="feedback-eleccion" id="feedbackCosto">
+                <!-- Se llenará dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Timer overlay -->
+        <div class="timer-overlay" id="timerOverlay">
+            <div class="timer-content">
+                <div class="timer-numero" id="timerNumero">3</div>
+                <div class="timer-label">Esperando...</div>
+            </div>
+        </div>
+
+        <!-- Resultados con gráfico -->
+        <div class="resultados-preferencia" id="resultadosCosto">
+            <h3 class="tarjeta-titulo" style="text-align: center; margin-bottom: var(--space-10);">
+                📊 Tus Resultados: Cambio de Preferencia
+            </h3>
+
+            <div class="grafico-barras">
+                <div class="barra-container">
+                    <div class="barra-label">
+                        <span style="color: #3B82F6;">🟦 Puerta Azul (Coherente)</span>
+                        <span id="porcentajeAzulCosto">0%</span>
+                    </div>
+                    <div class="barra-visual">
+                        <div class="barra-fill azul" id="barraAzulCosto" style="width: 0%;">
+                            <span id="conteoAzulCosto">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="barra-container">
+                    <div class="barra-label">
+                        <span style="color: #F59E0B;">🟨 Puerta Amarilla (Incoherente)</span>
+                        <span id="porcentajeAmarillaCosto">0%</span>
+                    </div>
+                    <div class="barra-visual">
+                        <div class="barra-fill amarilla" id="barraAmarillaCosto" style="width: 0%;">
+                            <span id="conteoAmarillaCosto">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="caja-insight" style="margin-top: var(--space-10);">
+                <div class="caja-icono">💡</div>
+                <div class="caja-contenido">
+                    <h4>Interpretación:</h4>
+                    <p id="interpretacionCosto"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Datos del estudio real -->
+        <div class="tarjeta animate-fade-in-up delay-900">
+            <h2 class="tarjeta-titulo">Los Hallazgos: El Punto de Quiebre</h2>
+
+            <p class="tarjeta-texto">
+                Los investigadores encontraron un patrón fascinante: la preferencia por coherencia 
+                se mantuvo estable en delays bajos, pero <strong>colapsó en delays altos</strong>.
+            </p>
+
+            <!-- Datos por bloque -->
+            <h3 class="tarjeta-titulo" style="margin-top: var(--space-12);">
+                📉 Preferencia por Bloque
+            </h3>
+
+            <div class="bloques-comparacion">
+                <div class="bloque-card">
+                    <div class="bloque-numero">+0s</div>
+                    <div class="bloque-preferencia alta">54%</div>
+                    <div class="bloque-descripcion">Prefirieron coherente</div>
+                </div>
+
+                <div class="bloque-card">
+                    <div class="bloque-numero">+1s</div>
+                    <div class="bloque-preferencia alta">58%</div>
+                    <div class="bloque-descripcion">Aumentó ligeramente</div>
+                </div>
+
+                <div class="bloque-card">
+                    <div class="bloque-numero">+2s</div>
+                    <div class="bloque-preferencia alta">63%</div>
+                    <div class="bloque-descripcion">Máxima preferencia</div>
+                </div>
+
+                <div class="bloque-card">
+                    <div class="bloque-numero">+3s</div>
+                    <div class="bloque-preferencia alta">55%</div>
+                    <div class="bloque-descripcion">Empezó a bajar</div>
+                </div>
+
+                <div class="bloque-card">
+                    <div class="bloque-numero">+5s</div>
+                    <div class="bloque-preferencia media">41%</div>
+                    <div class="bloque-descripcion">Cayó significativamente</div>
+                </div>
+
+                <div class="bloque-card">
+                    <div class="bloque-numero">+6s</div>
+                    <div class="bloque-preferencia baja">21%</div>
+                    <div class="bloque-descripcion">Preferencia invertida</div>
+                </div>
+            </div>
+
+            <!-- EJEMPLO DIDÁCTICO 2: Interpretando los datos -->
+            <div class="ejemplo-didactico" style="margin-top: var(--space-10);">
+                <div class="ejemplo-titulo">
+                    <span>🔍</span>
+                    <span>¿Qué Significa Este Patrón?</span>
+                </div>
+                <div class="ejemplo-contenido">
+                    <p style="margin-bottom: var(--space-6); font-size: var(--text-xl); font-weight: var(--font-bold);">
+                        Observa el cambio dramático entre +3s y +6s:
+                    </p>
+
+                    <div class="grid-2" style="gap: var(--space-6); margin: var(--space-6) 0;">
+                        <div style="background: linear-gradient(135deg, #D1FAE5, #A7F3D0); padding: var(--space-8); border-radius: var(--radius-xl);">
+                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
+                                ✅ Delays Bajos (+0s a +3s)
+                            </h4>
+                            <p style="font-size: var(--text-lg); line-height: 1.7;">
+                                Los participantes <strong>toleraron el costo</strong> porque la coherencia 
+                                valía la pena. Preferencia se mantuvo entre 54-63%.
+                            </p>
+                            <p style="margin-top: var(--space-4); font-weight: var(--font-bold); color: var(--success);">
+                                → La coherencia ES reforzante ✓
+                            </p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #FEE2E2, #FECACA); padding: var(--space-8); border-radius: var(--radius-xl);">
+                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
+                                ❌ Delays Altos (+5s y +6s)
+                            </h4>
+                            <p style="font-size: var(--text-lg); line-height: 1.7;">
+                                El costo superó el beneficio. A +6s, solo 21% eligió coherente. 
+                                Ahora preferían <strong>entrar rápido aunque fuera incoherente</strong>.
+                            </p>
+                            <p style="margin-top: var(--space-4); font-weight: var(--font-bold); color: var(--error);">
+                                → Pero tiene límites ✗
+                            </p>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: var(--space-8); font-size: var(--text-lg);">
+                        Esto es <strong>exactamente lo que esperarías de un reforzador real</strong>: 
+                        es valioso, pero no infinitamente. La gente paga costos moderados por él, 
+                        pero eventualmente el costo es demasiado.
+                    </p>
+                </div>
+            </div>
+
+            <div class="caja-dato" style="margin-top: var(--space-10);">
+                <div class="caja-icono">📊</div>
+                <div class="caja-contenido">
+                    <h4>Hallazgo Clave #4</h4>
+                    <p>
+                        Hubo un <strong>efecto significativo del response cost</strong> sobre la preferencia 
+                        (p = .0002). En el bloque de +6s, la preferencia cambió a 46% incoherente vs 
+                        21% coherente. El costo importa.
+                    </p>
+                </div>
+            </div>
+
+            <div class="caja-limitacion" style="margin-top: var(--space-8);">
+                <div class="caja-icono">⚠️</div>
+                <div class="caja-contenido">
+                    <h4>Limitación Metodológica</h4>
+                    <p>
+                        Los investigadores asumieron que el delay era aversivo basándose en 
+                        Szameitat et al. (2009), que mostró que delays en computadoras son frustrantes. 
+                        Pero <strong>no midieron directamente</strong> si los participantes lo encontraron 
+                        aversivo. Futuros estudios deberían verificar esto.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación -->
+        <div class="navegacion animate-fade-in delay-1200">
+            <button class="btn btn-secundario btn-anterior">
+                <span>←</span>
+                <span>Anterior</span>
+            </button>
+            <button class="btn btn-primario btn-siguiente">
+                <span>Siguiente: Entailment</span>
+                <span>→</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/response-cost.js"></script>
+    <script>
+        // Configurar pantalla actual
+        const nav = new NavigationSystem();
+        nav.currentScreen = 5;
+        nav.updateProgressBar();
+    </script>
+</body>
+</html>
