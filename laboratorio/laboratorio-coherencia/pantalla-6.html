@@ -9,6 +9,18 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
     <style>
+        /* FIX: Asegurar que todos los textos sean legibles */
+        .tarjeta p, .tarjeta-principal p, .ejemplo-contenido p,
+        .caso-step-texto, .caso-step-titulo, .ejemplo-didactico p,
+        .caja-contenido p, .caja-dato p, .caja-insight p {
+            color: var(--texto-oscuro) !important;
+        }
+        .ejemplo-titulo, .ejemplo-titulo span {
+            color: var(--texto-oscuro) !important;
+        }
+        textarea, input[type="text"] {
+            color: var(--texto-oscuro) !important;
+        }
         /* Test de transitividad interactivo */
         .test-transitividad {
             background: linear-gradient(135deg, #F0F9FF, #E6F7FF);
@@ -281,13 +293,17 @@
                 min-width: auto;
             }
         }
-    </style>
+    
+        .ejemplo-contenido p {
+            color: var(--texto-oscuro);
+        }
+        </style>
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <button class="btn-volver">
+            <button class="btn-volver" onclick="window.location.href='index.html'">
                 <span>←</span>
                 <span>Volver al inicio</span>
             </button>
@@ -334,45 +350,45 @@
                     <span>Analogía: El Crítico de Arte</span>
                 </div>
                 <div class="ejemplo-contenido">
-                    <p style="margin-bottom: var(--space-6); color: var(--texto-oscuro);">
+                    <p style="margin-bottom: var(--space-6);; color: var(--texto-oscuro);">
                         Imagina dos personas mirando pinturas en un museo:
                     </p>
 
                     <div class="grid-2" style="gap: var(--space-6); margin: var(--space-6) 0;">
                         <div style="background: linear-gradient(135deg, #D1FAE5, #A7F3D0); padding: var(--space-8); border-radius: var(--radius-xl);">
-                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
+                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);; color: var(--texto-oscuro);">
                                 🎨 Persona A: Crítico Entrenado
                             </h4>
-                            <p style="font-size: var(--text-lg); margin-bottom: var(--space-4);">
+                            <p style="font-size: var(--text-lg); margin-bottom: var(--space-4);; color: var(--texto-oscuro);">
                                 Puede distinguir un Monet real de una copia perfecta. 
                                 Ve detalles sutiles en la técnica, las pinceladas, la composición.
                             </p>
-                            <p style="font-weight: var(--font-bold); color: var(--success);">
+                            <p style="font-weight: var(--font-bold); color: var(--success);; color: var(--texto-oscuro);">
                                 → Puede <strong>preferir</strong> el Monet real porque puede <strong>discriminarlo</strong>
                             </p>
                         </div>
 
                         <div style="background: linear-gradient(135deg, #FEE2E2, #FECACA); padding: var(--space-8); border-radius: var(--radius-xl);">
-                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
+                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);; color: var(--texto-oscuro);">
                                 👤 Persona B: Sin Entrenamiento
                             </h4>
-                            <p style="font-size: var(--text-lg); margin-bottom: var(--space-4); color: var(--texto-oscuro);">
+                            <p style="font-size: var(--text-lg); margin-bottom: var(--space-4);; color: var(--texto-oscuro);">
                                 Para ella, ambas pinturas se ven igual. No puede distinguir 
                                 el original de la copia.
                             </p>
-                            <p style="font-weight: var(--font-bold); color: var(--error);">
+                            <p style="font-weight: var(--font-bold); color: var(--error);; color: var(--texto-oscuro);">
                                 → No puede preferir algo que no puede ver ✗
                             </p>
                         </div>
                     </div>
 
-                    <p style="margin-top: var(--space-6); font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--acento-cyan);">
+                    <p style="margin-top: var(--space-6); font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--acento-cyan);; color: var(--texto-oscuro);">
                         Eso es exactamente lo que pasó en el estudio con la coherencia.
                     </p>
                 </div>
             </div>
 
-            <h3 class="tarjeta-titulo" style="margin-top: var(--space-16);">
+            <h3 class="tarjeta-titulo" style="color: var(--texto-oscuro);" style="margin-top: var(--space-16);">
                 🧬 ¿Qué Es el Entailment Combinatorio?
             </h3>
 
@@ -388,36 +404,36 @@
                     <span>Entendiendo la Transitividad</span>
                 </div>
                 <div class="ejemplo-contenido">
-                    <p style="margin-bottom: var(--space-6); font-size: var(--text-xl); color: var(--texto-oscuro);">
+                    <p style="margin-bottom: var(--space-6); font-size: var(--text-xl);; color: var(--texto-oscuro);">
                         <strong>Transitividad</strong> es cuando puedes inferir una relación nueva 
                         combinando dos relaciones que ya conoces:
                     </p>
 
                     <div class="ejemplo-visual" style="margin: var(--space-6) 0; background: linear-gradient(135deg, #E6F7FF, #F0F9FF); flex-direction: column; gap: var(--space-4);">
-                        <div style="font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--texto-oscuro);">
+                        <div style="font-size: var(--text-2xl); font-weight: var(--font-bold);">
                             Te enseño: A1 = B1
                         </div>
-                        <div style="font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--texto-oscuro);">
+                        <div style="font-size: var(--text-2xl); font-weight: var(--font-bold);">
                             Te enseño: B1 = C1
                         </div>
-                        <div style="font-size: var(--text-3xl); color: var(--acento-cyan); margin: var(--space-6) 0; color: var(--texto-oscuro);">
+                        <div style="font-size: var(--text-3xl); color: var(--acento-cyan); margin: var(--space-6) 0;">
                             ⬇️
                         </div>
-                        <div style="font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--acento-cyan); color: var(--texto-oscuro);">
+                        <div style="font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--acento-cyan);">
                             Tú infiere: A1 = C1
                         </div>
-                        <div style="margin-top: var(--space-4); font-size: var(--text-lg); color: var(--texto-medio); color: var(--texto-oscuro);">
+                        <div style="margin-top: var(--space-4); font-size: var(--text-lg); color: var(--texto-medio);">
                             ¡Nadie te enseñó A1=C1, pero lo derivaste tú mismo!
                         </div>
                     </div>
 
-                    <p style="margin-top: var(--space-6); color: var(--texto-oscuro);">
+                    <p style="margin-top: var(--space-6);; color: var(--texto-oscuro);">
                         <strong style="color: var(--success);">Si pasas el test de transitividad:</strong> 
                         Puedes derivar relaciones combinadas. Esto significa que en un trial coherente, 
                         ves que TODAS las relaciones (simetría + transitividad) tienen sentido.
                     </p>
 
-                    <p style="margin-top: var(--space-4); color: var(--texto-oscuro);">
+                    <p style="margin-top: var(--space-4);; color: var(--texto-oscuro);">
                         <strong style="color: var(--error);">Si NO pasas el test:</strong> 
                         Solo ves simetría (A1=B1 → B1=A1), pero no transitividad. Para ti, 
                         un trial "coherente" solo es 50% coherente.
@@ -428,7 +444,7 @@
 
         <!-- TEST INTERACTIVO DE TRANSITIVIDAD -->
         <div class="test-transitividad animate-fade-in-up delay-700">
-            <h3 style="font-size: var(--text-4xl); font-weight: var(--font-black); text-align: center; margin-bottom: var(--space-10);">
+            <h3 style="font-size: var(--text-4xl); font-weight: var(--font-black); text-align: center; margin-bottom: var(--space-10);; color: var(--texto-oscuro);">
                 🧪 Prueba Tu Entailment Combinatorio
             </h3>
 
@@ -439,7 +455,7 @@
                     <span>Fase 1: Aprende Estas Relaciones</span>
                 </div>
 
-                <p style="font-size: var(--text-lg); color: var(--texto-oscuro); margin-bottom: var(--space-6);">
+                <p style="font-size: var(--text-lg); color: var(--texto-medio); margin-bottom: var(--space-6);; color: var(--texto-oscuro);">
                     Memoriza estos pares. Los necesitarás:
                 </p>
 
@@ -447,28 +463,28 @@
                     <span>🔴</span>
                     <span class="flecha-igual">=</span>
                     <span>⭐</span>
-                    <span style="font-size: var(--text-xl); color: var(--texto-oscuro); margin-left: var(--space-4);">(A1 = B1)</span>
+                    <span style="font-size: var(--text-xl); color: var(--texto-suave); margin-left: var(--space-4);">(A1 = B1)</span>
                 </div>
 
                 <div class="estimulo-pair">
                     <span>⭐</span>
                     <span class="flecha-igual">=</span>
                     <span>📐</span>
-                    <span style="font-size: var(--text-xl); color: var(--texto-oscuro); margin-left: var(--space-4);">(B1 = C1)</span>
+                    <span style="font-size: var(--text-xl); color: var(--texto-suave); margin-left: var(--space-4);">(B1 = C1)</span>
                 </div>
 
                 <div class="estimulo-pair">
                     <span>🔵</span>
                     <span class="flecha-igual">=</span>
                     <span>❤️</span>
-                    <span style="font-size: var(--text-xl); color: var(--texto-oscuro); margin-left: var(--space-4);">(A2 = B2)</span>
+                    <span style="font-size: var(--text-xl); color: var(--texto-suave); margin-left: var(--space-4);">(A2 = B2)</span>
                 </div>
 
                 <div class="estimulo-pair">
                     <span>❤️</span>
                     <span class="flecha-igual">=</span>
                     <span>🔺</span>
-                    <span style="font-size: var(--text-xl); color: var(--texto-oscuro); margin-left: var(--space-4);">(B2 = C2)</span>
+                    <span style="font-size: var(--text-xl); color: var(--texto-suave); margin-left: var(--space-4);">(B2 = C2)</span>
                 </div>
 
                 <button class="btn btn-primario" style="width: 100%; margin-top: var(--space-8); justify-content: center;" onclick="iniciarTest()">
@@ -484,7 +500,7 @@
                     <span>Fase 2: Test de Simetría</span>
                 </div>
 
-                <p style="font-size: var(--text-lg); color: var(--texto-oscuro); margin-bottom: var(--space-6);">
+                <p style="font-size: var(--text-lg); color: var(--texto-medio); margin-bottom: var(--space-6);; color: var(--texto-oscuro);">
                     Si A=B, entonces B=A. ¿Puedes derivar la relación inversa?
                 </p>
 
@@ -514,7 +530,7 @@
                     <span>Fase 3: Test de Transitividad (El Crítico)</span>
                 </div>
 
-                <p style="font-size: var(--text-lg); color: var(--texto-oscuro); margin-bottom: var(--space-6);">
+                <p style="font-size: var(--text-lg); color: var(--texto-medio); margin-bottom: var(--space-6);; color: var(--texto-oscuro);">
                     Ahora viene lo difícil. ¿Puedes combinar dos relaciones para derivar una tercera?
                 </p>
 
@@ -597,14 +613,14 @@
                 <div class="caja-icono">📊</div>
                 <div class="caja-contenido">
                     <h4>Dato Clave</h4>
-                    <p>
+                    <p style="color: var(--texto-oscuro);">
                         El <strong>91% de los que pasaron transitividad también pasaron simetría</strong>, 
                         pero no al revés. Esto sugiere que transitividad es más difícil y requiere simetría como prerrequisito.
                     </p>
                 </div>
             </div>
 
-            <h3 class="tarjeta-titulo" style="margin-top: var(--space-16);">
+            <h3 class="tarjeta-titulo" style="color: var(--texto-oscuro);" style="margin-top: var(--space-16);">
                 👁️ Lo Que Cada Grupo Podía "Ver"
             </h3>
 
@@ -638,7 +654,7 @@
                             <div class="vision-trial-resultado">✓</div>
                         </div>
 
-                        <p style="margin-top: var(--space-4); font-weight: var(--font-bold); font-size: var(--text-lg); color: var(--success);">
+                        <p style="margin-top: var(--space-4); font-weight: var(--font-bold); font-size: var(--text-lg); color: var(--success);; color: var(--texto-oscuro);">
                             → 100% de las relaciones tienen sentido
                         </p>
                     </div>
@@ -678,7 +694,7 @@
                             <div class="vision-trial-resultado">?</div>
                         </div>
 
-                        <p style="margin-top: var(--space-4); font-weight: var(--font-bold); font-size: var(--text-lg); color: var(--warning);">
+                        <p style="margin-top: var(--space-4); font-weight: var(--font-bold); font-size: var(--text-lg); color: var(--warning);; color: var(--texto-oscuro);">
                             → Solo 50% de las relaciones tienen sentido
                         </p>
                     </div>
@@ -697,27 +713,27 @@
                     <span>¿Por Qué Esto Explica la Preferencia Moderada?</span>
                 </div>
                 <div class="ejemplo-contenido">
-                    <p style="margin-bottom: var(--space-6); font-size: var(--text-xl);">
+                    <p style="margin-bottom: var(--space-6); font-size: var(--text-xl);; color: var(--texto-oscuro);">
                         Recuerda que solo 39-45% del total prefirió coherencia. Ahora tiene sentido:
                     </p>
 
                     <div style="background: linear-gradient(135deg, #E6F7FF, #F0F9FF); padding: var(--space-8); border-radius: var(--radius-xl); margin: var(--space-6) 0;">
-                        <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-6);">
+                        <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-6);; color: var(--texto-oscuro);">
                             Cálculo Real:
                         </h4>
-                        <p style="font-size: var(--text-lg); line-height: 1.8;">
+                        <p style="font-size: var(--text-lg); line-height: 1.8;; color: var(--texto-oscuro);">
                             • <strong>61% eran Entailers</strong> (46 de 76)
                             <br>
                             • De estos, <strong>~58% prefirieron coherencia</strong>
                             <br>
                             • 0.61 × 0.58 = <strong style="color: var(--acento-cyan); font-size: var(--text-2xl);">35% del total</strong>
                         </p>
-                        <p style="margin-top: var(--space-6); font-weight: var(--font-bold); font-size: var(--text-xl);">
+                        <p style="margin-top: var(--space-6); font-weight: var(--font-bold); font-size: var(--text-xl);; color: var(--texto-oscuro);">
                             Eso está casi exactamente en el 39-45% observado. ✓
                         </p>
                     </div>
 
-                    <p style="margin-top: var(--space-6);">
+                    <p style="margin-top: var(--space-6);; color: var(--texto-oscuro);">
                         Los <strong>No-Entailers</strong> no pudieron discriminar completamente entre 
                         coherente e incoherente, entonces no mostraron preferencia clara. 
                         Para ellos, ambas opciones se veían "medio coherentes".
@@ -729,7 +745,7 @@
                 <div class="caja-icono">🎯</div>
                 <div class="caja-contenido">
                     <h4>Hallazgo Clave #5</h4>
-                    <p>
+                    <p style="color: var(--texto-oscuro);">
                         El <strong>entailment combinatorio moderó la preferencia por coherencia</strong>. 
                         Solo aquellos con el repertorio relacional necesario pudieron preferir coherencia 
                         de forma consistente. Esto tiene implicaciones enormes para intervenciones clínicas.
@@ -782,7 +798,7 @@
                         <div class="caja-icono">✅</div>
                         <div class="caja-contenido">
                             <h4>¡Correcto!</h4>
-                            <p>Derivaste simetría correctamente. Si ⭐=📐 entonces 📐=⭐. 
+                            <p style="color: var(--texto-oscuro);">Derivaste simetría correctamente. Si ⭐=📐 entonces 📐=⭐. 
                             Ahora vamos al test difícil: transitividad.</p>
                         </div>
                     </div>
@@ -802,7 +818,7 @@
                         <div class="caja-icono">❌</div>
                         <div class="caja-contenido">
                             <h4>No exactamente</h4>
-                            <p>La respuesta correcta era ⭐ (Estrella). En el estudio real, 
+                            <p style="color: var(--texto-oscuro);">La respuesta correcta era ⭐ (Estrella). En el estudio real, 
                             80% de participantes pasaron este test. Es un skill básico.</p>
                         </div>
                     </div>
@@ -832,7 +848,7 @@
                         <div class="caja-icono">🎉</div>
                         <div class="caja-contenido">
                             <h4>¡Excelente!</h4>
-                            <p>Derivaste transitividad. Combinaste 🔴=⭐ y ⭐=📐 para inferir 🔴=📐. 
+                            <p style="color: var(--texto-oscuro);">Derivaste transitividad. Combinaste 🔴=⭐ y ⭐=📐 para inferir 🔴=📐. 
                             Esto te hace un "Entailer". Solo el 61% del estudio lo logró.</p>
                         </div>
                     </div>
@@ -845,7 +861,7 @@
                         <div class="caja-icono">❌</div>
                         <div class="caja-contenido">
                             <h4>No en esta ocasión</h4>
-                            <p>La respuesta correcta era 📐 (Regla). Si 🔴=⭐ y ⭐=📐, entonces 🔴=📐. 
+                            <p style="color: var(--texto-oscuro);">La respuesta correcta era 📐 (Regla). Si 🔴=⭐ y ⭐=📐, entonces 🔴=📐. 
                             En el estudio, 39% no pasó este test. Es más difícil de lo que parece.</p>
                         </div>
                     </div>
