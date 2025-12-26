@@ -8,57 +8,21 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/mobile.css">
     <style>
-        /* Estilos para experimento de elección */
         .experimento-eleccion {
             background: linear-gradient(135deg, #E6FFF9, #F0FFF9);
             border-radius: var(--radius-3xl);
             padding: var(--space-12);
             margin: var(--space-10) 0;
             border: 4px solid var(--acento-cyan);
-            position: relative;
-            overflow: hidden;
         }
 
-        .experimento-eleccion::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0, 229, 204, 0.1) 0%, transparent 70%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        .fase-indicator {
-            text-align: center;
-            margin-bottom: var(--space-8);
-            position: relative;
-            z-index: 1;
-        }
-
-        .fase-titulo {
-            font-family: var(--font-display);
-            font-size: var(--text-3xl);
-            font-weight: var(--font-black);
-            color: var(--texto-oscuro);
-            margin-bottom: var(--space-4);
-        }
-
-        .fase-descripcion {
-            font-size: var(--text-lg);
-            color: var(--texto-medio);
-        }
-
-        /* Puertas de elección */
         .puertas-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: var(--space-10);
             margin: var(--space-10) 0;
-            position: relative;
-            z-index: 1;
         }
 
         .puerta {
@@ -67,75 +31,24 @@
             padding: var(--space-12);
             text-align: center;
             cursor: pointer;
-            transition: all var(--transition-base);
+            transition: all 0.3s;
             box-shadow: var(--shadow-xl);
             border: 4px solid transparent;
-            position: relative;
-            overflow: hidden;
         }
 
-        .puerta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.5));
-            opacity: 0;
-            transition: opacity var(--transition-base);
-        }
-
-        .puerta:hover {
-            transform: translateY(-12px) scale(1.02);
+        .puerta:hover:not(.forzada) {
+            transform: translateY(-12px);
             box-shadow: var(--shadow-2xl);
         }
 
-        .puerta:hover::before {
-            opacity: 1;
-        }
-
-        .puerta.azul {
-            border-color: #3B82F6;
-        }
-
-        .puerta.azul:hover {
-            border-color: #2563EB;
-            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.4);
-        }
-
-        .puerta.amarilla {
-            border-color: #F59E0B;
-        }
-
-        .puerta.amarilla:hover {
-            border-color: #D97706;
-            box-shadow: 0 20px 60px rgba(245, 158, 11, 0.4);
-        }
-
-        .puerta.forzada {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: scale(0.95);
-        }
-
-        .puerta.forzada:hover {
-            transform: scale(0.95);
-        }
+        .puerta.azul { border-color: #3B82F6; }
+        .puerta.amarilla { border-color: #F59E0B; }
+        .puerta.forzada { opacity: 0.5; cursor: not-allowed; }
 
         .puerta-emoji {
             font-size: 120px;
             margin: var(--space-6) 0;
-            display: block;
             animation: float 3s ease-in-out infinite;
-        }
-
-        .puerta.azul .puerta-emoji {
-            animation-delay: 0s;
-        }
-
-        .puerta.amarilla .puerta-emoji {
-            animation-delay: 0.5s;
         }
 
         .puerta-label {
@@ -145,71 +58,42 @@
             margin-top: var(--space-4);
         }
 
-        .puerta.azul .puerta-label {
-            color: #3B82F6;
-        }
+        .puerta.azul .puerta-label { color: #3B82F6; }
+        .puerta.amarilla .puerta-label { color: #F59E0B; }
 
-        .puerta.amarilla .puerta-label {
-            color: #F59E0B;
-        }
-
-        .puerta-info {
-            font-size: var(--text-base);
-            color: var(--texto-suave);
-            margin-top: var(--space-3);
-            font-style: italic;
-        }
-
-        /* Mini prueba de matching */
         .mini-matching {
             background: white;
             border-radius: var(--radius-2xl);
             padding: var(--space-8);
             margin: var(--space-6) 0;
-            box-shadow: var(--shadow-lg);
+            display: none;
         }
 
-        .mini-muestra {
-            text-align: center;
-            padding: var(--space-6);
-            background: var(--fondo-tarjeta-suave);
-            border-radius: var(--radius-xl);
-            margin-bottom: var(--space-6);
-        }
-
-        .mini-muestra-emoji {
-            font-size: 80px;
-            display: block;
-            margin: var(--space-4) 0;
-        }
-
-        .mini-muestra-label {
-            font-size: var(--text-lg);
-            font-weight: var(--font-bold);
-            color: var(--texto-oscuro);
-        }
+        .mini-matching.show { display: block; }
 
         .mini-opciones {
             display: flex;
             gap: var(--space-4);
             justify-content: center;
+            margin-top: var(--space-6);
         }
 
         .mini-opcion {
-            flex: 1;
             padding: var(--space-6);
             background: var(--fondo-tarjeta-suave);
             border: 2px solid transparent;
             border-radius: var(--radius-lg);
-            text-align: center;
             cursor: pointer;
-            transition: all var(--transition-base);
+            transition: all 0.2s;
+            text-align: center;
+            flex: 1;
+            max-width: 150px;
         }
 
         .mini-opcion:hover {
             border-color: var(--acento-cyan);
-            background: white;
             transform: scale(1.05);
+            background: white;
         }
 
         .mini-opcion-emoji {
@@ -218,61 +102,22 @@
             margin-bottom: var(--space-2);
         }
 
-        .mini-opcion-label {
-            font-size: var(--text-base);
-            font-weight: var(--font-medium);
-        }
-
-        /* Contador de trials */
-        .trial-progress {
-            background: white;
-            border-radius: var(--radius-xl);
-            padding: var(--space-6);
-            margin-bottom: var(--space-8);
-            box-shadow: var(--shadow-md);
-            position: relative;
-            z-index: 1;
-        }
-
-        .trial-progress-bar {
-            height: 12px;
-            background: var(--fondo-tarjeta-suave);
-            border-radius: var(--radius-full);
-            overflow: hidden;
-            margin-bottom: var(--space-3);
-        }
-
-        .trial-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--acento-cyan), var(--acento-dorado));
-            border-radius: var(--radius-full);
-            transition: width var(--transition-slow);
-        }
-
-        .trial-progress-text {
-            text-align: center;
-            font-size: var(--text-lg);
-            font-weight: var(--font-bold);
-            color: var(--texto-oscuro);
-        }
-
-        /* Feedback visual */
         .feedback-eleccion {
             background: linear-gradient(135deg, #FFF9E6, #FFFAEB);
             border-radius: var(--radius-xl);
             padding: var(--space-6);
             margin-top: var(--space-6);
             text-align: center;
-            font-size: var(--text-lg);
             display: none;
+            color: var(--texto-oscuro);
+            font-size: var(--text-lg);
+        }
+
+        .feedback-eleccion.show { 
+            display: block;
             animation: fadeInUp 0.5s ease-out;
         }
 
-        .feedback-eleccion.show {
-            display: block;
-        }
-
-        /* Resultados de preferencia */
         .resultados-preferencia {
             background: white;
             border-radius: var(--radius-3xl);
@@ -282,26 +127,9 @@
             display: none;
         }
 
-        .resultados-preferencia.show {
+        .resultados-preferencia.show { 
             display: block;
             animation: fadeInUp 0.8s ease-out;
-        }
-
-        .grafico-barras {
-            margin: var(--space-8) 0;
-        }
-
-        .barra-container {
-            margin-bottom: var(--space-6);
-        }
-
-        .barra-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-3);
-            font-size: var(--text-lg);
-            font-weight: var(--font-bold);
         }
 
         .barra-visual {
@@ -309,7 +137,7 @@
             background: var(--fondo-tarjeta-suave);
             border-radius: var(--radius-lg);
             overflow: hidden;
-            position: relative;
+            margin: var(--space-4) 0;
         }
 
         .barra-fill {
@@ -321,299 +149,169 @@
             font-size: var(--text-2xl);
             font-weight: var(--font-black);
             color: white;
+            width: 0%;
             transition: width 1s ease-out;
         }
 
-        .barra-fill.azul {
-            background: linear-gradient(90deg, #3B82F6, #2563EB);
-        }
+        .barra-fill.azul { background: linear-gradient(90deg, #3B82F6, #2563EB); }
+        .barra-fill.amarilla { background: linear-gradient(90deg, #F59E0B, #D97706); }
 
-        .barra-fill.amarilla {
-            background: linear-gradient(90deg, #F59E0B, #D97706);
-        }
+        .ejemplo-titulo { color: var(--texto-oscuro); }
 
         @media (max-width: 768px) {
-            .puertas-container {
-                grid-template-columns: 1fr;
-                gap: var(--space-6);
-            }
-
-            .puerta-emoji {
-                font-size: 80px;
-            }
-
-            .puerta-label {
-                font-size: var(--text-2xl);
-            }
-
-            .mini-opciones {
-                flex-direction: column;
-            }
+            .puertas-container { grid-template-columns: 1fr; }
+            .mini-opciones { flex-direction: column; }
+            .mini-opcion { max-width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <header class="header">
-            <button class="btn-volver">
+            <button class="btn-volver" onclick="window.location.href='index.html'">
                 <span>←</span>
                 <span>Volver al inicio</span>
             </button>
             
             <div class="pill-progreso">
-                <span class="pill-texto">Progreso del Módulo</span>
+                <span class="pill-texto">Progreso</span>
                 <div class="pill-barra">
-                    <div class="pill-barra-fill"></div>
+                    <div class="pill-barra-fill" style="width: 50%;"></div>
                 </div>
                 <span class="pill-texto"><strong>4/8</strong></span>
             </div>
         </header>
 
-        <!-- Badge de módulo -->
         <div class="badge-modulo animate-fade-in delay-200">
             🚪 Estudio 2: ¿Prefieres Tener Sentido?
         </div>
 
-        <!-- Título principal -->
         <h1 class="text-gradient animate-fade-in delay-300">
             ¿Elegirías la Coherencia Si Pudieras?
         </h1>
 
-        <!-- Tarjeta principal -->
         <div class="tarjeta tarjeta-principal animate-fade-in-up delay-500">
             <div class="tarjeta-icono-grande animate-float">🎯</div>
-            <h2 class="tarjeta-titulo">Ahora la Pregunta Se Pone Interesante</h2>
+            <h2 class="tarjeta-titulo">La Pregunta Se Pone Interesante</h2>
             
             <p class="tarjeta-texto">
-                El Estudio 1 mostró que las personas <strong>responden coherentemente</strong> incluso sin 
-                instrucciones. Pero eso no prueba que la coherencia sea reforzante. Tal vez simplemente es 
-                un hábito automático.
-            </p>
-
-            <p class="tarjeta-texto">
-                Para probar si la coherencia es verdaderamente reforzante, necesitas responder esta pregunta:
+                El Estudio 1 mostró que las personas responden coherentemente incluso sin instrucciones. 
+                Pero eso no prueba que la coherencia sea reforzante.
             </p>
 
             <div class="caja-info">
                 <div class="caja-icono">🤔</div>
                 <div class="caja-contenido">
                     <h4>La Pregunta Crucial</h4>
-                    <p style="font-size: var(--text-xl); font-weight: var(--font-bold);">
-                        Si te doy a elegir entre un contexto donde puedes responder coherentemente 
-                        y otro donde NO puedes... ¿cuál preferirías?
+                    <p style="font-size: var(--text-xl); color: var(--texto-oscuro);">
+                        Si te doy a elegir entre un contexto coherente y otro incoherente... ¿cuál preferirías?
                     </p>
                 </div>
             </div>
 
-            <!-- EJEMPLO DIDÁCTICO 1: Analogía simple -->
             <div class="ejemplo-didactico">
                 <div class="ejemplo-titulo">
                     <span>💡</span>
-                    <span>Analogía: El Rompecabezas vs Las Piezas Incompatibles</span>
+                    <span>Analogía: El Rompecabezas</span>
                 </div>
                 <div class="ejemplo-contenido">
-                    <p style="margin-bottom: var(--space-6);">
-                        Imagina que te ofrecen dos mesas con rompecabezas:
-                    </p>
-
-                    <div class="grid-2" style="gap: var(--space-6); margin: var(--space-6) 0;">
+                    <div class="grid-2" style="gap: var(--space-6);">
                         <div style="background: linear-gradient(135deg, #D1FAE5, #A7F3D0); padding: var(--space-6); border-radius: var(--radius-lg);">
-                            <h4 style="font-size: var(--text-xl); font-weight: var(--font-bold); margin-bottom: var(--space-4); color: var(--texto-oscuro);">
-                                🧩 Mesa A: Coherente
-                            </h4>
-                            <p style="font-size: var(--text-lg); margin: 0;">
-                                Todas las piezas encajan. Puedes armar el rompecabezas completamente. 
-                                Tiene sentido y puedes terminarlo.
-                            </p>
+                            <h4 style="color: var(--texto-oscuro); font-weight: bold; margin-bottom: var(--space-3);">🧩 Mesa A: Coherente</h4>
+                            <p style="color: var(--texto-oscuro);">Todas las piezas encajan. Tiene sentido.</p>
                         </div>
-
                         <div style="background: linear-gradient(135deg, #FEE2E2, #FECACA); padding: var(--space-6); border-radius: var(--radius-lg);">
-                            <h4 style="font-size: var(--text-xl); font-weight: var(--font-bold); margin-bottom: var(--space-4); color: var(--texto-oscuro);">
-                                ❌ Mesa B: Incoherente
-                            </h4>
-                            <p style="font-size: var(--text-lg); margin: 0;">
-                                Faltan piezas. Hay piezas de otros rompecabezas mezcladas. 
-                                No puedes completarlo. Es frustrante.
-                            </p>
+                            <h4 style="color: var(--texto-oscuro); font-weight: bold; margin-bottom: var(--space-3);">❌ Mesa B: Incoherente</h4>
+                            <p style="color: var(--texto-oscuro);">Faltan piezas. Es frustrante.</p>
                         </div>
                     </div>
-
-                    <p style="margin-top: var(--space-6); font-weight: var(--font-bold); font-size: var(--text-xl); color: var(--acento-cyan);">
-                        ¿Cuál elegirías? Probablemente la Mesa A, ¿verdad?
-                    </p>
-
-                    <p style="margin-top: var(--space-4);">
-                        Eso es exactamente lo que este estudio investiga: <strong>¿Los humanos prefieren 
-                        contextos donde pueden responder coherentemente?</strong>
-                    </p>
                 </div>
             </div>
 
-            <h3 class="tarjeta-titulo" style="margin-top: var(--space-16);">
-                🔬 El Diseño Experimental
-            </h3>
-
-            <p class="tarjeta-texto">
-                Los investigadores usaron un procedimiento llamado <strong>"concurrent chains"</strong> 
-                (cadenas concurrentes). Suena técnico, pero es simple:
-            </p>
-
+            <h3 class="tarjeta-titulo" style="margin-top: var(--space-16);">El Diseño Experimental</h3>
+            
             <div class="grid-2" style="margin: var(--space-8) 0;">
                 <div class="stat-card" style="border-top: 6px solid #3B82F6;">
                     <div class="stat-icono">🟦</div>
-                    <div class="stat-numero" style="color: #3B82F6; font-size: var(--text-4xl);">Puerta<br>Azul</div>
-                    <div class="stat-label">Te lleva a trials COHERENTES (puedes resolver con tu aprendizaje)</div>
+                    <div class="stat-numero" style="color: #3B82F6;">Puerta Azul</div>
+                    <div class="stat-label">Te lleva a trials COHERENTES</div>
                 </div>
-
                 <div class="stat-card" style="border-top: 6px solid #F59E0B;">
                     <div class="stat-icono">🟨</div>
-                    <div class="stat-numero" style="color: #F59E0B; font-size: var(--text-4xl);">Puerta<br>Amarilla</div>
-                    <div class="stat-label">Te lleva a trials INCOHERENTES (falta la respuesta "correcta")</div>
-                </div>
-            </div>
-
-            <p class="tarjeta-texto">
-                Primero, los participantes aprendieron relaciones entre estímulos (A-B-C). 
-                Luego se les presentaron las dos puertas repetidamente. A veces podían elegir, 
-                a veces eran forzados a una puerta específica.
-            </p>
-
-            <!-- EJEMPLO DIDÁCTICO 2: Qué significa coherente vs incoherente -->
-            <div class="ejemplo-didactico">
-                <div class="ejemplo-titulo">
-                    <span>🎯</span>
-                    <span>¿Qué Significa "Trial Coherente" vs "Incoherente"?</span>
-                </div>
-                <div class="ejemplo-contenido">
-                    <p style="margin-bottom: var(--space-6);">
-                        Supongamos que aprendiste estas relaciones:
-                    </p>
-
-                    <div class="ejemplo-visual" style="margin: var(--space-6) 0; background: linear-gradient(135deg, #E6F7FF, #F0F9FF);">
-                        <span class="ejemplo-elemento">A1 = B1 = C1</span>
-                        <span class="ejemplo-elemento">A2 = B2 = C2</span>
-                        <span class="ejemplo-elemento">A3 = B3 = C3</span>
-                    </div>
-
-                    <h4 style="font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--success); margin: var(--space-8) 0 var(--space-4) 0;">
-                        ✅ Trial COHERENTE (Puerta Azul):
-                    </h4>
-                    <div style="background: linear-gradient(135deg, #D1FAE5, #A7F3D0); padding: var(--space-6); border-radius: var(--radius-lg); margin-bottom: var(--space-6);">
-                        <p style="font-size: var(--text-lg); margin-bottom: var(--space-4);">
-                            <strong>Muestra:</strong> B1
-                        </p>
-                        <p style="font-size: var(--text-lg); margin: 0;">
-                            <strong>Opciones:</strong> C1, C2, C3
-                        </p>
-                        <p style="margin-top: var(--space-4); font-weight: var(--font-bold); color: var(--success);">
-                            → Puedes elegir C1 (la respuesta coherente con tu aprendizaje) ✓
-                        </p>
-                    </div>
-
-                    <h4 style="font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--error); margin: var(--space-4) 0;">
-                        ❌ Trial INCOHERENTE (Puerta Amarilla):
-                    </h4>
-                    <div style="background: linear-gradient(135deg, #FEE2E2, #FECACA); padding: var(--space-6); border-radius: var(--radius-lg);">
-                        <p style="font-size: var(--text-lg); margin-bottom: var(--space-4);">
-                            <strong>Muestra:</strong> B1
-                        </p>
-                        <p style="font-size: var(--text-lg); margin: 0;">
-                            <strong>Opciones:</strong> A2, C2, C3
-                        </p>
-                        <p style="margin-top: var(--space-4); font-weight: var(--font-bold); color: var(--error);">
-                            → ¡No está C1! No puedes responder coherentemente. Es ambiguo y frustrante. ✗
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="caja-dato" style="margin-top: var(--space-10);">
-                <div class="caja-icono">📊</div>
-                <div class="caja-contenido">
-                    <h4>Datos del Estudio</h4>
-                    <p>
-                        <strong>76 participantes</strong> completaron el entrenamiento de clase-adquisición 
-                        (A-B-C). De estos, <strong>46 pasaron el test de transitividad</strong> y 
-                        <strong>30 no lo pasaron</strong>. Esto será importante más adelante.
-                    </p>
+                    <div class="stat-numero" style="color: #F59E0B;">Puerta Amarilla</div>
+                    <div class="stat-label">Te lleva a trials INCOHERENTES</div>
                 </div>
             </div>
         </div>
 
-        <!-- EXPERIMENTO INTERACTIVO -->
-        <div class="experimento-eleccion animate-fade-in-up delay-700" id="experimentoContainer">
-            <h3 style="font-size: var(--text-4xl); font-weight: var(--font-black); text-align: center; margin-bottom: var(--space-8); position: relative; z-index: 1;">
+        <!-- EXPERIMENTO -->
+        <div class="experimento-eleccion" id="experimento">
+            <h3 style="text-align: center; font-size: var(--text-4xl); font-weight: var(--font-black); margin-bottom: var(--space-8);">
                 🎮 Experimenta la Elección
             </h3>
 
-            <!-- Progress -->
-            <div class="trial-progress">
-                <div class="trial-progress-bar">
-                    <div class="trial-progress-fill" id="progressFill"></div>
-                </div>
-                <div class="trial-progress-text" id="progressText">Trial 1 de 10</div>
+            <div style="text-align: center; margin-bottom: var(--space-6);">
+                <strong id="trialText" style="font-size: var(--text-xl);">Trial 1 de 10</strong>
             </div>
 
-            <!-- Fase indicator -->
-            <div class="fase-indicator" id="faseIndicator">
-                <div class="fase-titulo">Fase: Elección Libre</div>
-                <div class="fase-descripcion">Elige la puerta que prefieras</div>
+            <div style="text-align: center; margin-bottom: var(--space-8);">
+                <div id="faseText" style="font-size: var(--text-2xl); font-weight: bold; color: var(--acento-cyan);">Fase: Elección Libre</div>
+                <div style="font-size: var(--text-lg); color: var(--texto-suave); margin-top: var(--space-2);">Elige la puerta que prefieras</div>
             </div>
 
-            <!-- Puertas -->
-            <div class="puertas-container" id="puertasContainer">
-                <div class="puerta azul" id="puertaAzul" onclick="elegirPuerta('azul')">
+            <div class="puertas-container">
+                <div class="puerta azul" id="puertaAzul">
                     <div class="puerta-emoji">🟦</div>
                     <div class="puerta-label">Puerta Azul</div>
-                    <div class="puerta-info">Contexto coherente</div>
+                    <p style="color: var(--texto-suave); margin-top: var(--space-3);">Contexto coherente</p>
                 </div>
 
-                <div class="puerta amarilla" id="puertaAmarilla" onclick="elegirPuerta('amarilla')">
+                <div class="puerta amarilla" id="puertaAmarilla">
                     <div class="puerta-emoji">🟨</div>
                     <div class="puerta-label">Puerta Amarilla</div>
-                    <div class="puerta-info">Contexto incoherente</div>
+                    <p style="color: var(--texto-suave); margin-top: var(--space-3);">Contexto incoherente</p>
                 </div>
             </div>
 
-            <!-- Mini matching (se muestra después de elegir) -->
-            <div class="mini-matching" id="miniMatching" style="display: none;">
-                <!-- Se llenará dinámicamente -->
+            <div class="mini-matching" id="miniMatching">
+                <div style="text-align: center; margin-bottom: var(--space-6);">
+                    <p style="font-size: var(--text-xl); font-weight: bold; color: var(--texto-oscuro);">Empareja esto:</p>
+                    <div style="font-size: 80px; margin: var(--space-4) 0;" id="muestra"></div>
+                    <p style="font-size: var(--text-lg); color: var(--texto-suave);" id="muestraLabel"></p>
+                </div>
+                <div class="mini-opciones" id="opciones"></div>
             </div>
 
-            <!-- Feedback -->
-            <div class="feedback-eleccion" id="feedbackEleccion">
-                <!-- Se llenará dinámicamente -->
-            </div>
+            <div class="feedback-eleccion" id="feedback"></div>
         </div>
 
-        <!-- Resultados -->
-        <div class="resultados-preferencia" id="resultadosPreferencia">
+        <!-- RESULTADOS -->
+        <div class="resultados-preferencia" id="resultados">
             <h3 class="tarjeta-titulo" style="text-align: center; margin-bottom: var(--space-10);">
                 📊 Tus Resultados de Preferencia
             </h3>
-
-            <div class="grafico-barras">
-                <div class="barra-container">
-                    <div class="barra-label">
+            
+            <div style="margin: var(--space-8) 0;">
+                <div style="margin-bottom: var(--space-8);">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-3); font-size: var(--text-lg); font-weight: bold;">
                         <span style="color: #3B82F6;">🟦 Puerta Azul (Coherente)</span>
-                        <span id="porcentajeAzul">0%</span>
+                        <span id="porcAzul">0%</span>
                     </div>
                     <div class="barra-visual">
-                        <div class="barra-fill azul" id="barraAzul" style="width: 0%;">
-                            <span id="conteoAzul">0</span>
+                        <div class="barra-fill azul" id="barraAzul">
+                            <span id="numAzul">0</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="barra-container">
-                    <div class="barra-label">
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-3); font-size: var(--text-lg); font-weight: bold;">
                         <span style="color: #F59E0B;">🟨 Puerta Amarilla (Incoherente)</span>
-                        <span id="porcentajeAmarilla">0%</span>
+                        <span id="porcAmarilla">0%</span>
                     </div>
                     <div class="barra-visual">
-                        <div class="barra-fill amarilla" id="barraAmarilla" style="width: 0%;">
-                            <span id="conteoAmarilla">0</span>
+                        <div class="barra-fill amarilla" id="barraAmarilla">
+                            <span id="numAmarilla">0</span>
                         </div>
                     </div>
                 </div>
@@ -622,48 +320,25 @@
             <div class="caja-insight" style="margin-top: var(--space-10);">
                 <div class="caja-icono">💡</div>
                 <div class="caja-contenido">
-                    <h4>Interpretación de tus resultados:</h4>
-                    <p id="interpretacionResultado"></p>
+                    <h4>Interpretación:</h4>
+                    <p id="interpretacion" style="font-size: var(--text-lg);"></p>
                 </div>
             </div>
         </div>
 
-        <!-- Hallazgos reales -->
         <div class="tarjeta animate-fade-in-up delay-900">
-            <h2 class="tarjeta-titulo">Los Hallazgos del Estudio Real</h2>
-
-            <p class="tarjeta-texto">
-                Los investigadores realizaron <strong>dos bloques de evaluación</strong> donde los participantes 
-                podían elegir libremente entre las dos puertas:
-            </p>
-
-            <div class="grid-2" style="margin: var(--space-10) 0;">
+            <h2 class="tarjeta-titulo">Hallazgos del Estudio Real</h2>
+            
+            <div class="grid-2" style="margin: var(--space-8) 0;">
                 <div class="stat-card">
                     <div class="stat-icono">📊</div>
                     <div class="stat-numero">39%</div>
-                    <div class="stat-label">Pre-Rule: Prefirieron coherencia en el primer bloque</div>
+                    <div class="stat-label">Pre-Rule: Prefirieron coherencia</div>
                 </div>
-
                 <div class="stat-card">
                     <div class="stat-icono">📈</div>
                     <div class="stat-numero">45%</div>
-                    <div class="stat-label">Post-Rule: Prefirieron coherencia en el segundo bloque</div>
-                </div>
-            </div>
-
-            <p class="tarjeta-texto">
-                Espera... ¿solo 39-45%? Eso no parece mucho. Pero aquí está el matiz importante:
-            </p>
-
-            <div class="caja-limitacion">
-                <div class="caja-icono">⚠️</div>
-                <div class="caja-contenido">
-                    <h4>Limitación Importante del Diseño</h4>
-                    <p>
-                        Para que la "preferencia por coherencia" sea clara, los participantes necesitaban 
-                        <strong>poder discriminar</strong> entre coherente e incoherente. Solo aquellos que 
-                        pasaron el test de transitividad pudieron hacer esta discriminación completamente.
-                    </p>
+                    <div class="stat-label">Post-Rule: Prefirieron coherencia</div>
                 </div>
             </div>
 
@@ -672,22 +347,20 @@
                 <div class="caja-contenido">
                     <h4>Hallazgo Clave #3</h4>
                     <p>
-                        Hubo una diferencia significativa entre los que eligieron coherencia 
-                        vs incoherencia. Cuando los participantes podían discriminar claramente, 
-                        <strong>eligieron coherencia sobre incoherencia</strong> de forma estadísticamente 
-                        significativa (p < .001).
+                        Hubo diferencia significativa entre quienes eligieron coherencia vs incoherencia. 
+                        Cuando los participantes podían discriminar claramente, <strong>eligieron coherencia 
+                        sobre incoherencia</strong> (p < .001).
                     </p>
                 </div>
             </div>
         </div>
 
-        <!-- Navegación -->
         <div class="navegacion animate-fade-in delay-1200">
-            <button class="btn btn-secundario btn-anterior" onclick="window.location.href='pantalla-3.html'">
+            <button class="btn btn-secundario" onclick="window.location.href='pantalla-3.html'">
                 <span>←</span>
                 <span>Anterior</span>
             </button>
-            <button class="btn btn-primario btn-siguiente" onclick="window.location.href='pantalla-5.html'">
+            <button class="btn btn-primario" onclick="window.location.href='pantalla-5.html'">
                 <span>Siguiente: El Costo</span>
                 <span>→</span>
             </button>
@@ -695,12 +368,213 @@
     </div>
 
     <script src="js/main.js"></script>
-    <script src="js/concurrent-chains.js"></script>
     <script>
-        // Configurar pantalla actual
-        const nav = new NavigationSystem();
-        nav.currentScreen = 4;
-        nav.updateProgressBar();
+        // ============================================
+        // EXPERIMENTO INLINE - SIMPLE Y FUNCIONAL
+        // ============================================
+        
+        const emojis = {
+            'B1': '⭐', 'B2': '❤️', 'B3': '🔶',
+            'C1': '📐', 'C2': '🔺', 'C3': '⭕',
+            'A2': '🔵'
+        };
+
+        let trial = 0;
+        let elecciones = [];
+        
+        // 5 libres, 4 forzadas azul, 1 forzada amarilla
+        let trials = [
+            'libre', 'forzada-azul', 'libre', 'forzada-azul', 
+            'libre', 'forzada-amarilla', 'libre', 'forzada-azul',
+            'libre', 'forzada-azul'
+        ];
+
+        function iniciar() {
+            console.log('✅ Experimento Pantalla 4 iniciado');
+            mostrarTrial();
+            
+            // Agregar eventos a las puertas
+            document.getElementById('puertaAzul').onclick = function() {
+                if (!this.classList.contains('forzada')) {
+                    elegir('azul');
+                }
+            };
+            
+            document.getElementById('puertaAmarilla').onclick = function() {
+                if (!this.classList.contains('forzada')) {
+                    elegir('amarilla');
+                }
+            };
+        }
+
+        function mostrarTrial() {
+            if (trial >= 10) {
+                finalizar();
+                return;
+            }
+
+            console.log(`Trial ${trial + 1}: ${trials[trial]}`);
+            
+            document.getElementById('trialText').textContent = `Trial ${trial + 1} de 10`;
+            document.getElementById('miniMatching').classList.remove('show');
+            document.getElementById('feedback').classList.remove('show');
+
+            const tipo = trials[trial];
+            const azul = document.getElementById('puertaAzul');
+            const amarilla = document.getElementById('puertaAmarilla');
+            const faseText = document.getElementById('faseText');
+
+            // Resetear
+            azul.classList.remove('forzada');
+            amarilla.classList.remove('forzada');
+
+            if (tipo === 'forzada-azul') {
+                amarilla.classList.add('forzada');
+                faseText.textContent = 'Fase: Forzada (Azul)';
+                setTimeout(() => elegir('azul'), 1500);
+            } else if (tipo === 'forzada-amarilla') {
+                azul.classList.add('forzada');
+                faseText.textContent = 'Fase: Forzada (Amarilla)';
+                setTimeout(() => elegir('amarilla'), 1500);
+            } else {
+                faseText.textContent = 'Fase: Elección Libre';
+            }
+        }
+
+        function elegir(puerta) {
+            console.log(`Elegiste: ${puerta}`);
+            
+            const esForzada = trials[trial].includes('forzada');
+            elecciones.push({ puerta, forzada: esForzada });
+            
+            const esCoherente = puerta === 'azul';
+            const muestras = ['B1', 'B2', 'B3'];
+            const muestra = muestras[Math.floor(Math.random() * 3)];
+            
+            let opciones;
+            if (esCoherente) {
+                opciones = ['C1', 'C2', 'C3'];
+            } else {
+                // Incoherente: falta la correcta
+                const num = muestra[1]; // '1', '2', o '3'
+                opciones = ['C1', 'C2', 'C3'].filter(c => c !== 'C' + num);
+                opciones.push('A2');
+            }
+
+            // Shuffle
+            opciones.sort(() => Math.random() - 0.5);
+
+            document.getElementById('muestra').textContent = emojis[muestra];
+            document.getElementById('muestraLabel').textContent = muestra;
+            
+            const opcionesHTML = opciones.map(op => 
+                `<div class="mini-opcion" onclick="responder()">
+                    <div class="mini-opcion-emoji">${emojis[op]}</div>
+                    <div style="font-weight: bold; font-size: var(--text-lg);">${op}</div>
+                </div>`
+            ).join('');
+            
+            document.getElementById('opciones').innerHTML = opcionesHTML;
+            document.getElementById('miniMatching').classList.add('show');
+            
+            // Scroll suave
+            setTimeout(() => {
+                document.getElementById('miniMatching').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
+        }
+
+        function responder() {
+            console.log('Respondiste al matching');
+            
+            const ultimaEleccion = elecciones[elecciones.length - 1];
+            const puerta = ultimaEleccion.puerta;
+            const color = puerta === 'azul' ? '#3B82F6' : '#F59E0B';
+            const nombre = puerta === 'azul' ? 'Azul' : 'Amarilla';
+            const tipo = puerta === 'azul' ? 'coherentemente' : 'incoherentemente';
+
+            document.getElementById('feedback').innerHTML = `
+                <div style="margin-bottom: var(--space-6);">
+                    Elegiste la <strong style="color: ${color};">Puerta ${nombre}</strong> 🟦 
+                    y pudiste responder ${tipo}.
+                </div>
+                <button class="btn btn-cyan" onclick="siguiente()" style="font-size: var(--text-lg); padding: var(--space-4) var(--space-8);">
+                    Continuar →
+                </button>
+            `;
+            document.getElementById('feedback').classList.add('show');
+            
+            // Scroll al feedback
+            setTimeout(() => {
+                document.getElementById('feedback').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
+        }
+
+        function siguiente() {
+            trial++;
+            mostrarTrial();
+        }
+
+        function finalizar() {
+            console.log('🏁 Experimento finalizado');
+            console.log('Elecciones:', elecciones);
+            
+            document.getElementById('experimento').style.display = 'none';
+            
+            const libres = elecciones.filter(e => !e.forzada);
+            const azul = libres.filter(e => e.puerta === 'azul').length;
+            const amarilla = libres.length - azul;
+            const porcAzul = libres.length > 0 ? (azul / libres.length) * 100 : 0;
+            const porcAmarilla = 100 - porcAzul;
+
+            console.log(`Resultados: Azul=${azul}, Amarilla=${amarilla}, %Azul=${porcAzul}`);
+
+            // Animar barras
+            setTimeout(() => {
+                document.getElementById('barraAzul').style.width = porcAzul + '%';
+                document.getElementById('barraAmarilla').style.width = porcAmarilla + '%';
+            }, 500);
+
+            document.getElementById('numAzul').textContent = azul;
+            document.getElementById('numAmarilla').textContent = amarilla;
+            document.getElementById('porcAzul').textContent = Math.round(porcAzul) + '%';
+            document.getElementById('porcAmarilla').textContent = Math.round(porcAmarilla) + '%';
+
+            let texto;
+            if (porcAzul > 60) {
+                texto = `Mostraste una <strong>clara preferencia por la coherencia</strong> (${Math.round(porcAzul)}%). 
+                         Esto coincide con los participantes del estudio que prefirieron contextos coherentes.`;
+            } else if (porcAzul >= 40) {
+                texto = `Tu preferencia fue <strong>moderada hacia la coherencia</strong> (${Math.round(porcAzul)}%). 
+                         Esto es similar al 39-45% del estudio real.`;
+            } else {
+                texto = `No mostraste una preferencia clara hacia la coherencia (${Math.round(porcAzul)}%). 
+                         Esto también ocurrió en el estudio real con algunos participantes.`;
+            }
+
+            document.getElementById('interpretacion').innerHTML = texto;
+            document.getElementById('resultados').classList.add('show');
+            
+            // Scroll a resultados
+            setTimeout(() => {
+                document.getElementById('resultados').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 800);
+        }
+
+        // INICIAR CUANDO CARGUE LA PÁGINA
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', iniciar);
+        } else {
+            iniciar();
+        }
     </script>
 </body>
 </html>
