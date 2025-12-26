@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudio 1 - Laboratorio de Coherencia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        /* Estilos específicos para experimento */
+        .experimento-container {
+            background: var(--fondo-tarjeta-suave);
+            border-radius: var(--radius-3xl);
+            padding: var(--space-12);
+            margin: var(--space-10) 0;
+            border: 3px dashed var(--acento-cyan);
+        }
+
+        .experimento-instruccion {
+            font-size: var(--text-lg);
+            color: var(--texto-medio);
+            text-align: center;
+            margin-bottom: var(--space-8);
+            font-weight: var(--font-medium);
+        }
+
+        .estimulo-muestra {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            text-align: center;
+            margin-bottom: var(--space-10);
+            box-shadow: var(--shadow-lg);
+            border: 3px solid var(--acento-dorado);
+        }
+
+        .estimulo-label {
+            font-size: var(--text-base);
+            color: var(--texto-suave);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .estimulo-emoji {
+            font-size: 120px;
+            margin: var(--space-6) 0;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .estimulo-nombre {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            color: var(--texto-oscuro);
+        }
+
+        .opciones-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-6);
+        }
+
+        .opcion-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            border: 3px solid transparent;
+            box-shadow: var(--shadow-md);
+        }
+
+        .opcion-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--acento-cyan);
+        }
+
+        .opcion-card.seleccionada {
+            border-color: var(--acento-cyan);
+            background: linear-gradient(135deg, #E6FFF9, #F0FFF9);
+            box-shadow: var(--shadow-cyan-lg);
+        }
+
+        .opcion-emoji {
+            font-size: 80px;
+            margin: var(--space-4) 0;
+            display: block;
+        }
+
+        .opcion-label {
+            font-size: var(--text-lg);
+            font-weight: var(--font-bold);
+            color: var(--texto-oscuro);
+        }
+
+        .feedback-container {
+            margin-top: var(--space-8);
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            font-size: var(--text-lg);
+            font-weight: var(--font-medium);
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .feedback-container.show {
+            display: block;
+        }
+
+        .feedback-neutral {
+            background: linear-gradient(135deg, #E6F7FF, #F0F9FF);
+            color: var(--texto-oscuro);
+        }
+
+        .trial-counter {
+            text-align: center;
+            font-size: var(--text-xl);
+            color: var(--texto-medio);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-6);
+        }
+
+        /* Ejemplo didáctico interactivo */
+        .ejemplo-didactico {
+            background: linear-gradient(135deg, #FFF9E6, #FFFAEB);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-10);
+            margin: var(--space-10) 0;
+            border-left: 8px solid var(--acento-dorado);
+        }
+
+        .ejemplo-titulo {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--texto-oscuro);
+            margin-bottom: var(--space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .ejemplo-contenido {
+            font-size: var(--text-lg);
+            line-height: 1.8;
+            color: var(--texto-medio);
+        }
+
+        .ejemplo-visual {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin: var(--space-6) 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-6);
+            flex-wrap: wrap;
+            font-size: var(--text-2xl);
+        }
+
+        .ejemplo-flecha {
+            color: var(--acento-cyan);
+            font-weight: var(--font-bold);
+        }
+
+        .ejemplo-elemento {
+            padding: var(--space-4) var(--space-6);
+            background: var(--fondo-tarjeta-suave);
+            border-radius: var(--radius-lg);
+            font-weight: var(--font-bold);
+            border: 2px solid var(--acento-cyan);
+        }
+
+        /* Botón de continuar experimento */
+        .btn-continuar-exp {
+            width: 100%;
+            margin-top: var(--space-6);
+            display: none;
+        }
+
+        .btn-continuar-exp.show {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Resultados finales */
+        .resultados-container {
+            display: none;
+            background: white;
+            border-radius: var(--radius-2xl);
+            padding: var(--space-10);
+            margin: var(--space-10) 0;
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .resultados-container.show {
+            display: block;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .resultado-stat {
+            text-align: center;
+            padding: var(--space-6);
+        }
+
+        .resultado-numero {
+            font-family: var(--font-display);
+            font-size: var(--text-6xl);
+            font-weight: var(--font-black);
+            color: var(--acento-cyan);
+            line-height: 1;
+        }
+
+        .resultado-label {
+            font-size: var(--text-xl);
+            color: var(--texto-medio);
+            margin-top: var(--space-3);
+        }
+
+        @media (max-width: 768px) {
+            .estimulo-emoji {
+                font-size: 80px;
+            }
+
+            .opcion-emoji {
+                font-size: 60px;
+            }
+
+            .opciones-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <button class="btn-volver">
+                <span>←</span>
+                <span>Volver al inicio</span>
+            </button>
+            
+            <div class="pill-progreso">
+                <span class="pill-texto">Progreso del Módulo</span>
+                <div class="pill-barra">
+                    <div class="pill-barra-fill"></div>
+                </div>
+                <span class="pill-texto"><strong>2/8</strong></span>
+            </div>
+        </header>
+
+        <!-- Badge de módulo -->
+        <div class="badge-modulo animate-fade-in delay-200">
+            🧪 Estudio 1: Respondiendo sin Instrucciones
+        </div>
+
+        <!-- Título principal -->
+        <h1 class="text-gradient animate-fade-in delay-300">
+            ¿Qué Pasa Cuando No Te Digo Qué Hacer?
+        </h1>
+
+        <!-- Tarjeta principal -->
+        <div class="tarjeta tarjeta-principal animate-fade-in-up delay-500">
+            <div class="tarjeta-icono-grande animate-float">🔬</div>
+            <h2 class="tarjeta-titulo">El Experimento Más Simple y Revolucionario</h2>
+            
+            <p class="tarjeta-texto">
+                Imagina que te muestro imágenes de comidas y te pido que las emparejes con formas o conceptos. 
+                Pero aquí está lo interesante: <strong>no te digo cómo hacerlo</strong>. No hay instrucciones. 
+                No hay "correcto" o "incorrecto". No hay premio por acertar.
+            </p>
+
+            <p class="tarjeta-texto">
+                La pregunta es: <strong>¿responderías al azar o encontrarías un patrón?</strong>
+            </p>
+
+            <!-- EJEMPLO DIDÁCTICO 1 -->
+            <div class="ejemplo-didactico">
+                <div class="ejemplo-titulo">
+                    <span>💡</span>
+                    <span>Ejemplo Simple: Antes de Continuar</span>
+                </div>
+                <div class="ejemplo-contenido">
+                    <p style="margin-bottom: var(--space-6);">
+                        Piensa en esto: si te muestro estas tres frutas y te pido emparejarlas con colores...
+                    </p>
+                    <div class="ejemplo-visual">
+                        <span style="font-size: 48px;">🍎</span>
+                        <span class="ejemplo-flecha">→</span>
+                        <span class="ejemplo-elemento">🔴 Rojo</span>
+                    </div>
+                    <div class="ejemplo-visual">
+                        <span style="font-size: 48px;">🍌</span>
+                        <span class="ejemplo-flecha">→</span>
+                        <span class="ejemplo-elemento">🟡 Amarillo</span>
+                    </div>
+                    <div class="ejemplo-visual">
+                        <span style="font-size: 48px;">🍇</span>
+                        <span class="ejemplo-flecha">→</span>
+                        <span class="ejemplo-elemento">🟣 Morado</span>
+                    </div>
+                    <p style="margin-top: var(--space-6); font-weight: var(--font-bold);">
+                        Aunque nadie te diga "empareja por color", tu mente automáticamente busca 
+                        ese patrón coherente. Eso es exactamente lo que este estudio investiga.
+                    </p>
+                </div>
+            </div>
+
+            <p class="tarjeta-texto">
+                Los investigadores crearon un experimento donde 81 estudiantes universitarios vieron 
+                imágenes de 27 comidas diferentes. Cada comida podía clasificarse de dos maneras:
+            </p>
+
+            <div class="caja-info">
+                <div class="caja-icono">🔷</div>
+                <div class="caja-contenido">
+                    <h4>Clasificación por Forma (topografía)</h4>
+                    <p>
+                        Líneas (espárragos, zanahoria), círculos (manzana, donut), triángulos (fresa, pizza)
+                    </p>
+                </div>
+            </div>
+
+            <div class="caja-info">
+                <div class="caja-icono">💚</div>
+                <div class="caja-contenido">
+                    <h4>Clasificación por Función (significado)</h4>
+                    <p>
+                        Saludable (brócoli, manzana), No saludable (pizza, donut), Asqueroso (comida con moho)
+                    </p>
+                </div>
+            </div>
+
+            <p class="tarjeta-texto">
+                Los participantes fueron divididos aleatoriamente en dos grupos:
+            </p>
+
+            <div class="grid-2" style="margin: var(--space-8) 0;">
+                <div class="stat-card">
+                    <div class="stat-icono">📐</div>
+                    <div class="stat-numero">37</div>
+                    <div class="stat-label">Grupo FORMAS - Solo vieron las formas geométricas</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icono">💭</div>
+                    <div class="stat-numero">44</div>
+                    <div class="stat-label">Grupo SEMÁNTICO - Primero vieron conceptos de salud</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXPERIMENTO INTERACTIVO -->
+        <div class="experimento-container animate-fade-in-up delay-700">
+            <h3 class="zona-header" style="margin-bottom: var(--space-8); text-align: center;">
+                <span style="font-size: var(--text-3xl);">🎮 Ahora Pruébalo Tú</span>
+                <span class="badge badge-interactivo" style="margin-left: var(--space-4);">Interactivo</span>
+            </h3>
+
+            <p class="experimento-instruccion">
+                Te voy a mostrar una comida. Elige con qué la emparejarías. 
+                <strong>No hay respuestas correctas o incorrectas.</strong> Solo sigue tu intuición.
+            </p>
+
+            <div class="trial-counter" id="trialCounter">Prueba 1 de 5</div>
+
+            <!-- Estímulo muestra -->
+            <div class="estimulo-muestra">
+                <div class="estimulo-label">Empareja esta comida:</div>
+                <div class="estimulo-emoji" id="estimuloMuestra">🥦</div>
+                <div class="estimulo-nombre" id="estimuloNombre">Brócoli</div>
+            </div>
+
+            <!-- Opciones -->
+            <div class="opciones-container" id="opcionesContainer">
+                <!-- Se generarán dinámicamente -->
+            </div>
+
+            <!-- Feedback -->
+            <div class="feedback-container feedback-neutral" id="feedbackContainer">
+                <p id="feedbackTexto"></p>
+            </div>
+
+            <!-- Botón continuar -->
+            <button class="btn btn-cyan btn-continuar-exp" id="btnContinuar">
+                <span>Siguiente prueba</span>
+                <span>→</span>
+            </button>
+        </div>
+
+        <!-- Resultados del usuario -->
+        <div class="resultados-container" id="resultadosContainer">
+            <h3 class="tarjeta-titulo" style="text-align: center; margin-bottom: var(--space-8);">
+                🎯 Tus Resultados
+            </h3>
+
+            <div class="grid-3">
+                <div class="resultado-stat">
+                    <div class="resultado-numero" id="resultadoConsistencia">0</div>
+                    <div class="resultado-label">% Consistencia</div>
+                </div>
+                <div class="resultado-stat">
+                    <div class="resultado-numero" id="resultadoPatron">---</div>
+                    <div class="resultado-label">Tu Patrón Detectado</div>
+                </div>
+                <div class="resultado-stat">
+                    <div class="resultado-numero" id="resultadoComparacion">0</div>
+                    <div class="resultado-label">% Similar al estudio</div>
+                </div>
+            </div>
+
+            <div class="caja-insight" style="margin-top: var(--space-8);">
+                <div class="caja-icono">💡</div>
+                <div class="caja-contenido">
+                    <h4>¿Qué Significa Esto?</h4>
+                    <p id="interpretacionResultado"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hallazgos del estudio real -->
+        <div class="tarjeta animate-fade-in-up delay-900">
+            <h2 class="tarjeta-titulo">Lo Que Encontraron los Investigadores</h2>
+
+            <p class="tarjeta-texto">
+                Aquí viene lo fascinante: <strong>73% de los participantes respondieron en patrones 
+                coherentes y consistentes</strong>, incluso sin ningún entrenamiento ni reforzamiento.
+            </p>
+
+            <!-- EJEMPLO DIDÁCTICO 2 -->
+            <div class="ejemplo-didactico">
+                <div class="ejemplo-titulo">
+                    <span>🎯</span>
+                    <span>¿Qué Significa "Patrón Coherente"?</span>
+                </div>
+                <div class="ejemplo-contenido">
+                    <p style="margin-bottom: var(--space-6);">
+                        Imagina que María está en el experimento. En la primera prueba hace esto:
+                    </p>
+                    <div class="ejemplo-visual">
+                        <span style="font-size: 40px;">🥦 Brócoli</span>
+                        <span class="ejemplo-flecha">→</span>
+                        <span class="ejemplo-elemento">Línea</span>
+                        <span style="margin: 0 var(--space-4); color: var(--texto-suave);">(porque es alargado)</span>
+                    </div>
+                    <p>Luego ve una zanahoria 🥕 y también la empareja con "Línea".</p>
+                    <p>Y después ve una manzana 🍎 y la empareja con "Círculo".</p>
+                    <p style="margin-top: var(--space-6); font-weight: var(--font-bold); color: var(--acento-cyan);">
+                        ✓ Eso es un patrón coherente: está usando la FORMA consistentemente.
+                    </p>
+                    <hr style="margin: var(--space-6) 0; border: none; border-top: 2px solid var(--acento-dorado);">
+                    <p>Si en cambio hubiera emparejado:</p>
+                    <p>🥦 Brócoli → Línea (por forma)</p>
+                    <p>🍎 Manzana → Saludable (por significado)</p>
+                    <p>🍕 Pizza → Triángulo (por forma otra vez)</p>
+                    <p style="margin-top: var(--space-6); font-weight: var(--font-bold); color: var(--acento-coral);">
+                        ✗ Eso NO sería coherente: está cambiando de regla sin patrón.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid-3" style="margin: var(--space-10) 0;">
+                <div class="stat-card">
+                    <div class="stat-icono">📊</div>
+                    <div class="stat-numero">73%</div>
+                    <div class="stat-label">Mostraron patrones coherentes en la segunda ronda</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icono">🎯</div>
+                    <div class="stat-numero">59%</div>
+                    <div class="stat-label">Ya coherentes en la primera ronda</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icono">📈</div>
+                    <div class="stat-numero">13</div>
+                    <div class="stat-label">Pasaron de "random" a coherente entre rondas</div>
+                </div>
+            </div>
+
+            <div class="caja-dato">
+                <div class="caja-icono">📌</div>
+                <div class="caja-contenido">
+                    <h4>Hallazgo Clave #1</h4>
+                    <p>
+                        La coherencia emergió <strong>sin ningún reforzamiento programado</strong>. 
+                        Los participantes simplemente... buscaron sentido por sí mismos.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación -->
+        <div class="navegacion animate-fade-in delay-1200">
+            <button class="btn btn-secundario btn-anterior">
+                <span>←</span>
+                <span>Anterior</span>
+            </button>
+            <button class="btn btn-primario btn-siguiente">
+                <span>Siguiente: Auto-Reportes</span>
+                <span>→</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/experimento.js"></script>
+    <script>
+        // Configurar pantalla actual
+        const nav = new NavigationSystem();
+        nav.currentScreen = 2;
+        nav.updateProgressBar();
+    </script>
+</body>
+</html>
