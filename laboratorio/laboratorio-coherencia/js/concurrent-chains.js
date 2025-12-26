@@ -1,6 +1,6 @@
 /* ==============================================
-   EXPERIMENTO CONCURRENT CHAINS
-   Estudio 2: Preferencia por Coherencia
+   EXPERIMENTO CONCURRENT CHAINS - REBUILD
+   Pantalla 4: Preferencia por Coherencia
    ============================================== */
 
 class ExperimentoConcurrentChains {
@@ -8,18 +8,14 @@ class ExperimentoConcurrentChains {
         this.currentTrial = 0;
         this.totalTrials = 10;
         this.elecciones = [];
-        this.faseActual = 'libre'; // 'forzada' o 'libre'
+        this.faseActual = 'libre';
         this.trials = [];
-        this.responseCost = 0; // Para Pantalla 5
         
-        // Estímulos aprendidos (simulados)
-        this.clasesAprendidas = {
-            'A1': ['B1', 'C1'],
-            'A2': ['B2', 'C2'],
-            'A3': ['B3', 'C3'],
-            'B1': ['A1', 'C1'],
-            'B2': ['A2', 'C2'],
-            'B3': ['A3', 'C3']
+        // Estímulos
+        this.emojis = {
+            'A1': '🔴', 'A2': '🔵', 'A3': '🟢',
+            'B1': '⭐', 'B2': '❤️', 'B3': '🔶',
+            'C1': '📐', 'C2': '🔺', 'C3': '⭕'
         };
 
         this.init();
@@ -31,16 +27,15 @@ class ExperimentoConcurrentChains {
     }
 
     generarSequenciaTrials() {
-        // Generar secuencia de 10 trials
-        // 40% forzados azul, 10% forzados amarilla, 50% libres
+        // 4 forzados azul, 1 forzado amarilla, 5 libres
         const secuencia = [
             'forzada-azul', 'forzada-azul', 'forzada-azul', 'forzada-azul',
             'forzada-amarilla',
             'libre', 'libre', 'libre', 'libre', 'libre'
         ];
-
-        // Shuffle
-        this.trials = Utils.shuffle(secuencia);
+        
+        // Shuffle simple
+        this.trials = secuencia.sort(() => Math.random() - 0.5);
     }
 
     mostrarTrial() {
@@ -52,10 +47,10 @@ class ExperimentoConcurrentChains {
         // Actualizar progreso
         this.actualizarProgreso();
 
-        // Obtener tipo de trial actual
+        // Tipo de trial
         const tipoTrial = this.trials[this.currentTrial];
 
-        // Configurar puertas según el tipo
+        // Configurar puertas
         if (tipoTrial === 'forzada-azul') {
             this.configurarForzada('azul');
         } else if (tipoTrial === 'forzada-amarilla') {
@@ -64,9 +59,11 @@ class ExperimentoConcurrentChains {
             this.configurarLibre();
         }
 
-        // Ocultar mini matching
+        // Ocultar mini matching y feedback
         document.getElementById('miniMatching').style.display = 'none';
-        document.getElementById('feedbackEleccion').classList.remove('show');
+        const feedback = document.getElementById('feedbackEleccion');
+        feedback.classList.remove('show');
+        feedback.innerHTML = '';
     }
 
     configurarForzada(puerta) {
@@ -75,14 +72,15 @@ class ExperimentoConcurrentChains {
         const puertaAmarilla = document.getElementById('puertaAmarilla');
         const faseIndicator = document.getElementById('faseIndicator');
 
-        // Deshabilitar la puerta no seleccionada
         if (puerta === 'azul') {
             puertaAzul.classList.remove('forzada');
             puertaAmarilla.classList.add('forzada');
-            faseIndicator.querySelector('.fase-titulo').textContent = 'Fase: Forzada (Azul)';
-            faseIndicator.querySelector('.fase-descripcion').textContent = 'Debes elegir la puerta azul';
+            faseIndicator.innerHTML = `
+                <div class="fase-titulo">Fase: Forzada (Azul)</div>
+                <div class="fase-descripcion">Debes elegir la puerta azul</div>
+            `;
             
-            // Auto-elegir después de 1 segundo
+            // Auto-elegir
             setTimeout(() => {
                 if (this.currentTrial < this.totalTrials) {
                     this.elegirPuerta('azul', true);
@@ -91,10 +89,11 @@ class ExperimentoConcurrentChains {
         } else {
             puertaAzul.classList.add('forzada');
             puertaAmarilla.classList.remove('forzada');
-            faseIndicator.querySelector('.fase-titulo').textContent = 'Fase: Forzada (Amarilla)';
-            faseIndicator.querySelector('.fase-descripcion').textContent = 'Debes elegir la puerta amarilla';
+            faseIndicator.innerHTML = `
+                <div class="fase-titulo">Fase: Forzada (Amarilla)</div>
+                <div class="fase-descripcion">Debes elegir la puerta amarilla</div>
+            `;
             
-            // Auto-elegir después de 1 segundo
             setTimeout(() => {
                 if (this.currentTrial < this.totalTrials) {
                     this.elegirPuerta('amarilla', true);
@@ -109,22 +108,23 @@ class ExperimentoConcurrentChains {
         const puertaAmarilla = document.getElementById('puertaAmarilla');
         const faseIndicator = document.getElementById('faseIndicator');
 
-        // Habilitar ambas puertas
         puertaAzul.classList.remove('forzada');
         puertaAmarilla.classList.remove('forzada');
-        faseIndicator.querySelector('.fase-titulo').textContent = 'Fase: Elección Libre';
-        faseIndicator.querySelector('.fase-descripcion').textContent = 'Elige la puerta que prefieras';
+        faseIndicator.innerHTML = `
+            <div class="fase-titulo">Fase: Elección Libre</div>
+            <div class="fase-descripcion">Elige la puerta que prefieras</div>
+        `;
     }
 
     elegirPuerta(puerta, forzada = false) {
-        // Validar si es forzada
+        // Validar
         if (this.faseActual === 'forzada') {
             const tipoTrial = this.trials[this.currentTrial];
             if (tipoTrial === 'forzada-azul' && puerta !== 'azul') return;
             if (tipoTrial === 'forzada-amarilla' && puerta !== 'amarilla') return;
         }
 
-        // Registrar elección
+        // Registrar
         this.elecciones.push({
             trial: this.currentTrial,
             puerta: puerta,
@@ -140,72 +140,61 @@ class ExperimentoConcurrentChains {
         const container = document.getElementById('miniMatching');
         container.style.display = 'block';
 
-        // Generar trial de matching
         const esCoherente = puerta === 'azul';
         
-        // Seleccionar muestra aleatoria
+        // Seleccionar muestra
         const muestras = ['B1', 'B2', 'B3'];
         const muestraId = muestras[Math.floor(Math.random() * muestras.length)];
         
         // Generar opciones
         let opciones;
         if (esCoherente) {
-            // Opciones coherentes: incluye la respuesta correcta
             opciones = ['C1', 'C2', 'C3'];
         } else {
-            // Opciones incoherentes: falta la respuesta correcta
-            // Si la muestra es B1, las opciones serían A2, C2, C3 (falta C1)
-            const numeroMuestra = muestraId[1];
-            opciones = ['A', 'C', 'C'].map((letra, i) => {
-                const num = (parseInt(numeroMuestra) + i) % 3 + 1;
-                return letra + (letra === 'C' && num === parseInt(numeroMuestra) ? ((num % 3) + 1) : num);
-            });
+            // Incoherente: falta la correcta
+            const num = muestraId[1];
+            opciones = ['C1', 'C2', 'C3'].filter(c => c !== 'C' + num);
+            opciones.push('A2'); // Agregar otra
         }
 
+        // Shuffle opciones
+        opciones = opciones.sort(() => Math.random() - 0.5);
+
         // Renderizar
-        // Renderizar
-container.innerHTML = `
-    <div class="mini-muestra">
-        <div class="mini-muestra-label">Empareja esto:</div>
-        <div class="mini-muestra-emoji">${this.getEmoji(muestraId)}</div>
-        <div class="mini-muestra-label">${muestraId}</div>
-    </div>
-    <div class="mini-opciones">
-        ${opciones.map((op, index) => `
-            <div class="mini-opcion" data-opcion="${op}" data-index="${index}">
-                <div class="mini-opcion-emoji">${this.getEmoji(op)}</div>
-                <div class="mini-opcion-label">${op}</div>
+        container.innerHTML = `
+            <div class="mini-muestra">
+                <div class="mini-muestra-label">Empareja esto:</div>
+                <div class="mini-muestra-emoji">${this.emojis[muestraId]}</div>
+                <div class="mini-muestra-label">${muestraId}</div>
             </div>
-        `).join('')}
-    </div>
-`;
+            <div class="mini-opciones" id="miniOpciones">
+                ${opciones.map(op => `
+                    <div class="mini-opcion" data-opcion="${op}">
+                        <div class="mini-opcion-emoji">${this.emojis[op] || '❓'}</div>
+                        <div class="mini-opcion-label">${op}</div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
 
-// Agregar event listeners después de renderizar
-document.querySelectorAll('.mini-opcion').forEach(opcion => {
-    opcion.addEventListener('click', () => {
-        const op = opcion.dataset.opcion;
-        this.responderMatching(op, esCoherente);
-    });
-});
+        // IMPORTANTE: Agregar eventos después de renderizar
+        setTimeout(() => {
+            const opciones = document.querySelectorAll('.mini-opcion');
+            opciones.forEach(opcion => {
+                opcion.addEventListener('click', () => {
+                    const op = opcion.getAttribute('data-opcion');
+                    this.responderMatching(op, esCoherente);
+                });
+            });
+        }, 100);
 
-        // Scroll suave
+        // Scroll
         setTimeout(() => {
             container.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100);
-    }
-
-    getEmoji(id) {
-        // Mapeo simple de IDs a emojis
-        const emojis = {
-            'A1': '🔴', 'A2': '🔵', 'A3': '🟢',
-            'B1': '⭐', 'B2': '❤️', 'B3': '🔶',
-            'C1': '📐', 'C2': '🔺', 'C3': '⭕'
-        };
-        return emojis[id] || '❓';
+        }, 200);
     }
 
     responderMatching(opcion, esCoherente) {
-        // Mostrar feedback
         const feedback = document.getElementById('feedbackEleccion');
         const puertaElegida = this.elecciones[this.elecciones.length - 1].puerta;
         
@@ -223,13 +212,22 @@ document.querySelectorAll('.mini-opcion').forEach(opcion => {
         }
 
         feedback.innerHTML = `
-            ${mensaje}
-            <br><br>
-            <button class="btn btn-cyan" onclick="experimento.siguienteTrial()" style="margin-top: var(--space-4);">
+            <div style="color: var(--texto-oscuro);">
+                ${mensaje}
+            </div>
+            <br>
+            <button class="btn btn-cyan" id="btnContinuar" style="margin-top: var(--space-4);">
                 Continuar →
             </button>
         `;
         feedback.classList.add('show');
+
+        // Agregar evento al botón
+        setTimeout(() => {
+            document.getElementById('btnContinuar').addEventListener('click', () => {
+                this.siguienteTrial();
+            });
+        }, 100);
     }
 
     siguienteTrial() {
@@ -283,35 +281,30 @@ document.querySelectorAll('.mini-opcion').forEach(opcion => {
             interpretacion = `
                 Mostraste una <strong>clara preferencia por la coherencia</strong> (${Math.round(porcAzul)}%). 
                 Esto coincide con los participantes del estudio que prefirieron contextos donde 
-                podían responder coherentemente. Tu mente busca activamente situaciones donde 
-                "tiene sentido" lo que estás haciendo.
+                podían responder coherentemente.
             `;
         } else if (porcAzul >= 40) {
             interpretacion = `
                 Tu preferencia fue <strong>moderada hacia la coherencia</strong> (${Math.round(porcAzul)}%). 
-                Esto es similar al 39-45% de participantes del estudio real que mostraron preferencia 
-                por coherencia en los primeros bloques. Algunas veces preferiste tener sentido, 
-                otras veces no te importó tanto.
+                Esto es similar al 39-45% del estudio real.
             `;
         } else {
             interpretacion = `
                 No mostraste una preferencia clara hacia la coherencia (${Math.round(porcAzul)}%). 
-                Esto también ocurrió en el estudio real. Algunas personas no muestran preferencia 
-                fuerte, especialmente si las diferencias entre las opciones no eran completamente 
-                claras para ellas.
+                Esto también ocurrió en el estudio real con algunos participantes.
             `;
         }
 
         document.getElementById('interpretacionResultado').innerHTML = interpretacion;
 
-        // Scroll a resultados
+        // Scroll
         setTimeout(() => {
             container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 800);
     }
 }
 
-// Instancia global
+// Variable global
 let experimento;
 
 // Función global para elegir puerta (llamada desde HTML)
@@ -321,11 +314,7 @@ function elegirPuerta(puerta) {
     }
 }
 
-// Inicializar cuando el DOM esté listo
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        experimento = new ExperimentoConcurrentChains();
-    });
-} else {
+// Inicializar
+document.addEventListener('DOMContentLoaded', () => {
     experimento = new ExperimentoConcurrentChains();
-}
+});
