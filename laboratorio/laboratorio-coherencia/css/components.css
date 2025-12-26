@@ -209,7 +209,7 @@
 }
 
 .tarjeta-texto {
-    font-size: var(--text-lg);
+    font-size: var(--text-lg);  /* 24px - mismo tamaño que títulos de sección */
     line-height: 1.7;
     color: var(--texto-medio);
     margin-bottom: var(--space-8);
