@@ -3,25 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Costo de la Coherencia - Laboratorio de Coherencia</title>
+    <title>Response Cost - Laboratorio de Coherencia</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
     <style>
-        /* Temporizador visual */
+        .experimento-cost {
+            background: linear-gradient(135deg, #FFF9E6, #FFFAEB);
+            border-radius: var(--radius-3xl);
+            padding: var(--space-12);
+            margin: var(--space-10) 0;
+            border: 4px solid var(--acento-dorado);
+        }
+
+        .puertas-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-10);
+            margin: var(--space-10) 0;
+        }
+
+        .puerta {
+            background: white;
+            border-radius: var(--radius-3xl);
+            padding: var(--space-12);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-xl);
+            border: 4px solid transparent;
+            position: relative;
+        }
+
+        .puerta:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .puerta.azul { border-color: #3B82F6; }
+        .puerta.amarilla { border-color: #F59E0B; }
+
+        .puerta-emoji {
+            font-size: 120px;
+            margin: var(--space-6) 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .puerta-label {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            font-weight: var(--font-black);
+            margin-top: var(--space-4);
+        }
+
+        .puerta.azul .puerta-label { color: #3B82F6; }
+        .puerta.amarilla .puerta-label { color: #F59E0B; }
+
+        .badge-delay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: white;
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-full);
+            font-size: var(--text-lg);
+            font-weight: var(--font-black);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Timer overlay */
         .timer-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(13, 77, 77, 0.95);
+            background: rgba(0, 0, 0, 0.9);
             display: none;
-            justify-content: center;
             align-items: center;
-            z-index: 10000;
-            backdrop-filter: blur(10px);
+            justify-content: center;
+            z-index: 9999;
         }
 
         .timer-overlay.show {
@@ -35,642 +98,512 @@
         }
 
         .timer-numero {
-            font-family: var(--font-display);
             font-size: 180px;
             font-weight: var(--font-black);
+            font-family: var(--font-display);
             line-height: 1;
-            background: linear-gradient(135deg, var(--acento-cyan), var(--acento-dorado));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
             animation: pulse 1s ease-in-out infinite;
         }
 
-        .timer-label {
+        .timer-texto {
             font-size: var(--text-2xl);
             margin-top: var(--space-6);
-            color: var(--texto-suave-claro);
+            opacity: 0.8;
         }
 
-        /* Indicador de costo */
-        .costo-indicator {
-            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
-            border-radius: var(--radius-2xl);
-            padding: var(--space-8);
-            margin-bottom: var(--space-8);
-            border: 4px solid var(--acento-dorado);
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .costo-titulo {
-            font-family: var(--font-display);
-            font-size: var(--text-2xl);
-            font-weight: var(--font-black);
-            color: var(--texto-oscuro);
-            margin-bottom: var(--space-4);
-        }
-
-        .costo-valor {
-            font-family: var(--font-display);
-            font-size: var(--text-6xl);
-            font-weight: var(--font-black);
-            color: var(--acento-dorado);
-            line-height: 1;
-        }
-
-        .costo-descripcion {
-            font-size: var(--text-lg);
-            color: var(--texto-medio);
-            margin-top: var(--space-4);
-        }
-
-        /* Modificación de puertas con delay */
-        .puerta.con-delay {
-            position: relative;
-        }
-
-        .puerta.con-delay::after {
-            content: '⏱️';
-            position: absolute;
-            top: var(--space-4);
-            right: var(--space-4);
-            font-size: 48px;
-            animation: float 2s ease-in-out infinite;
-        }
-
-        .delay-badge {
-            position: absolute;
-            top: var(--space-6);
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--acento-coral);
-            color: white;
-            padding: var(--space-3) var(--space-6);
-            border-radius: var(--radius-full);
-            font-weight: var(--font-bold);
-            font-size: var(--text-lg);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-            z-index: 10;
-        }
-
-        /* Gráfico de cambio de preferencia */
-        .grafico-cambio {
+        .feedback-eleccion {
             background: white;
-            border-radius: var(--radius-2xl);
-            padding: var(--space-10);
-            margin: var(--space-10) 0;
-            box-shadow: var(--shadow-xl);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            margin-top: var(--space-6);
+            text-align: center;
+            display: none;
+            color: var(--texto-oscuro);
         }
 
-        .grafico-linea {
-            position: relative;
-            height: 400px;
+        .feedback-eleccion.show { display: block; }
+
+        .resultados-cost {
+            background: white;
+            border-radius: var(--radius-3xl);
+            padding: var(--space-12);
+            margin: var(--space-10) 0;
+            box-shadow: var(--shadow-2xl);
+            display: none;
+        }
+
+        .resultados-cost.show { 
+            display: block;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .bloques-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
             margin: var(--space-8) 0;
         }
 
-        .grafico-eje-y {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            font-size: var(--text-sm);
-            color: var(--texto-suave);
-        }
-
-        .grafico-eje-x {
-            position: absolute;
-            left: 60px;
-            right: 0;
-            bottom: 0;
-            height: 40px;
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            font-size: var(--text-sm);
-            color: var(--texto-suave);
-            border-top: 2px solid var(--fondo-tarjeta-suave);
-        }
-
-        .grafico-area {
-            position: absolute;
-            left: 60px;
-            right: 0;
-            top: 0;
-            bottom: 40px;
-            background: 
-                repeating-linear-gradient(
-                    to bottom,
-                    var(--fondo-tarjeta-suave) 0px,
-                    var(--fondo-tarjeta-suave) 1px,
-                    transparent 1px,
-                    transparent 25%
-                );
-        }
-
-        .grafico-linea-path {
-            stroke: var(--acento-cyan);
-            stroke-width: 4;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .grafico-punto {
-            fill: white;
-            stroke: var(--acento-cyan);
-            stroke-width: 3;
-        }
-
-        .grafico-punto-critical {
-            fill: var(--acento-coral);
-            stroke: var(--acento-coral);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        /* Comparación por bloques */
-        .bloques-comparacion {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--space-6);
-            margin: var(--space-10) 0;
-        }
-
         .bloque-card {
-            background: white;
-            border-radius: var(--radius-xl);
-            padding: var(--space-8);
-            box-shadow: var(--shadow-lg);
+            background: var(--fondo-tarjeta-suave);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
             text-align: center;
-            transition: all var(--transition-base);
-        }
-
-        .bloque-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .bloque-numero {
-            font-family: var(--font-display);
-            font-size: var(--text-base);
-            font-weight: var(--font-bold);
-            color: var(--texto-suave);
-            margin-bottom: var(--space-4);
         }
 
         .bloque-delay {
-            font-size: var(--text-4xl);
+            font-size: var(--text-2xl);
             font-weight: var(--font-black);
-            color: var(--acento-coral);
-            margin: var(--space-4) 0;
+            color: var(--acento-dorado);
         }
 
         .bloque-preferencia {
-            font-size: var(--text-3xl);
-            font-weight: var(--font-black);
-            margin: var(--space-4) 0;
+            font-size: var(--text-lg);
+            font-weight: var(--font-bold);
+            margin-top: var(--space-2);
         }
 
-        .bloque-preferencia.alta {
-            color: var(--acento-cyan);
-        }
-
-        .bloque-preferencia.media {
-            color: var(--warning);
-        }
-
-        .bloque-preferencia.baja {
-            color: var(--acento-coral);
-        }
-
-        .bloque-descripcion {
-            font-size: var(--text-base);
-            color: var(--texto-suave);
+        .grafico-linea {
+            margin: var(--space-8) 0;
+            height: 300px;
+            background: var(--fondo-tarjeta-suave);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            position: relative;
         }
 
         @media (max-width: 768px) {
-            .timer-numero {
-                font-size: 120px;
-            }
-
-            .grafico-linea {
-                height: 300px;
-            }
-
-            .costo-valor {
-                font-size: var(--text-5xl);
-            }
+            .puertas-container { grid-template-columns: 1fr; }
+            .bloques-grid { grid-template-columns: repeat(2, 1fr); }
+            .timer-numero { font-size: 120px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <header class="header">
-            <button class="btn-volver">
+            <button class="btn-volver" onclick="window.location.href='index.html'">
                 <span>←</span>
                 <span>Volver al inicio</span>
             </button>
             
             <div class="pill-progreso">
-                <span class="pill-texto">Progreso del Módulo</span>
+                <span class="pill-texto">Progreso</span>
                 <div class="pill-barra">
-                    <div class="pill-barra-fill"></div>
+                    <div class="pill-barra-fill" style="width: 62.5%;"></div>
                 </div>
                 <span class="pill-texto"><strong>5/8</strong></span>
             </div>
         </header>
 
-        <!-- Badge de módulo -->
         <div class="badge-modulo animate-fade-in delay-200">
-            ⏱️ Response Cost: Midiendo la Fuerza de la Preferencia
+            ⏱️ Estudio 2: Response Cost
         </div>
 
-        <!-- Título principal -->
         <h1 class="text-gradient animate-fade-in delay-300">
-            ¿Cuánto Pagarías Por Tener Sentido?
+            ¿Cuánto Pagarías Por Coherencia?
         </h1>
 
-        <!-- Tarjeta principal -->
         <div class="tarjeta tarjeta-principal animate-fade-in-up delay-500">
-            <div class="tarjeta-icono-grande animate-float">⚖️</div>
-            <h2 class="tarjeta-titulo">La Prueba Definitiva de Preferencia</h2>
+            <div class="tarjeta-icono-grande animate-float">💰</div>
+            <h2 class="tarjeta-titulo">El Costo de la Coherencia</h2>
             
             <p class="tarjeta-texto">
-                En la pantalla anterior viste que algunos participantes prefirieron la coherencia. 
-                Pero aquí viene la pregunta más importante: <strong>¿qué tan fuerte es esa preferencia?</strong>
+                Vimos que las personas prefieren coherencia. Pero esa preferencia tiene límites. 
+                ¿Qué pasa si elegir coherencia tiene un <strong>costo</strong>?
             </p>
 
-            <p class="tarjeta-texto">
-                Si algo es verdaderamente reforzante, deberías estar dispuesto a "pagar un costo" por obtenerlo. 
-                Los investigadores probaron esto agregando <strong>delays progresivos</strong> a la puerta coherente.
-            </p>
+            <div class="caja-info">
+                <div class="caja-icono">⏱️</div>
+                <div class="caja-contenido">
+                    <h4>Response Cost = Delay</h4>
+                    <p style="font-size: var(--text-xl); color: var(--texto-oscuro);">
+                        En este experimento, elegir la puerta azul (coherente) implica <strong>esperar</strong> 
+                        antes de poder responder. La amarilla es inmediata.
+                    </p>
+                </div>
+            </div>
 
-            <!-- EJEMPLO DIDÁCTICO 1: Concepto de response cost -->
             <div class="ejemplo-didactico">
-                <div class="ejemplo-titulo"style="color: var(--texto-oscuro);">
+                <div class="ejemplo-titulo" style="color: var(--texto-oscuro);">
                     <span>💡</span>
-                    <span>Analogía: El Restaurante con Fila</span>
+                    <span>Analogía: El Restaurante</span>
                 </div>
                 <div class="ejemplo-contenido">
-                    <p style="margin-bottom: var(--space-6);color: var(--texto-oscuro);">
-                        Imagina dos restaurantes uno al lado del otro:
+                    <p style="color: var(--texto-oscuro); margin-bottom: var(--space-4);">
+                        Tienes dos opciones:
                     </p>
-
-                    <div class="grid-2" style="gap: var(--space-6); margin: var(--space-6) 0;">
-                        <div style="background: linear-gradient(135deg, #D1FAE5, #A7F3D0); padding: var(--space-8); border-radius: var(--radius-xl);">
-                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4); color: var(--texto-oscuro);">
-                                🍽️ Restaurante A
-                            </h4>
-                            <p style="font-size: var(--text-lg); margin-bottom: var(--space-4);">
-                                <strong>Tu favorito</strong> - La comida es exactamente como te gusta
-                            </p>
-                            <p style="font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--acento-coral);">
-                                ⏱️ Pero tiene una fila de 30 minutos
+                    <div class="grid-2" style="gap: var(--space-6);">
+                        <div style="background: linear-gradient(135deg, #D1FAE5, #A7F3D0); padding: var(--space-6); border-radius: var(--radius-lg);">
+                            <p style="color: var(--texto-oscuro);">
+                                <strong>Restaurante A:</strong> Tu comida favorita, pero hay 30 minutos de espera.
                             </p>
                         </div>
-
-                        <div style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); padding: var(--space-8); border-radius: var(--radius-xl);">
-                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4); color: var(--texto-oscuro);">
-                                🍔 Restaurante B
-                            </h4>
-                            <p style="font-size: var(--text-lg); margin-bottom: var(--space-4);">
-                                <strong>Comida OK</strong> - No es tu favorito, pero está bien
-                            </p>
-                            <p style="font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--success);">
-                                ⚡ Entras inmediatamente
+                        <div style="background: linear-gradient(135deg, #FECACA, #FEE2E2); padding: var(--space-6); border-radius: var(--radius-lg);">
+                            <p style="color: var(--texto-oscuro);">
+                                <strong>Restaurante B:</strong> Comida OK, pero es inmediato.
                             </p>
                         </div>
                     </div>
-
-                    <p style="margin-top: var(--space-6); font-weight: var(--font-bold); font-size: var(--text-xl);color: var(--texto-oscuro);">
-                        ¿Cuál eliges?
-                    </p>
-
-                    <p style="margin-top: var(--space-4);color: var(--texto-oscuro);">
-                        Si el Restaurante A fuera <em>realmente</em> reforzante para ti, estarías dispuesto 
-                        a esperar. Pero si la fila fuera de 2 horas... probablemente cambiarías al B.
-                    </p>
-
-                    <p style="margin-top: var(--space-4); font-weight: var(--font-bold); color: var(--acento-cyan);">
-                        El punto donde cambias de opinión revela <strong>qué tan reforzante es</strong> 
-                        tu restaurante favorito.
-                    </p>
-                </div>
-            </div>
-
-            <h3 class="tarjeta-titulo" style="margin-top: var(--space-16);">
-                🔬 El Diseño del Response Cost
-            </h3>
-
-            <p class="tarjeta-texto">
-                Los investigadores crearon <strong>6 bloques de evaluación</strong>. En cada bloque, 
-                eligieron la puerta azul (coherente) agregaban un delay progresivo:
-            </p>
-
-            <div class="bloques-comparacion">
-                <div class="bloque-card">
-                    <div class="bloque-numero">BLOQUE 1</div>
-                    <div class="bloque-delay">+0s</div>
-                    <div class="bloque-descripcion">Sin delay</div>
-                </div>
-
-                <div class="bloque-card">
-                    <div class="bloque-numero">BLOQUE 2</div>
-                    <div class="bloque-delay">+1s</div>
-                    <div class="bloque-descripcion">1 segundo extra</div>
-                </div>
-
-                <div class="bloque-card">
-                    <div class="bloque-numero">BLOQUE 3</div>
-                    <div class="bloque-delay">+2s</div>
-                    <div class="bloque-descripcion">2 segundos extra</div>
-                </div>
-
-                <div class="bloque-card">
-                    <div class="bloque-numero">BLOQUE 4</div>
-                    <div class="bloque-delay">+3s</div>
-                    <div class="bloque-descripcion">3 segundos extra</div>
-                </div>
-
-                <div class="bloque-card">
-                    <div class="bloque-numero">BLOQUE 5</div>
-                    <div class="bloque-delay">+5s</div>
-                    <div class="bloque-descripcion">5 segundos extra</div>
-                </div>
-
-                <div class="bloque-card">
-                    <div class="bloque-numero">BLOQUE 6</div>
-                    <div class="bloque-delay">+6s</div>
-                    <div class="bloque-descripcion">6 segundos extra</div>
-                </div>
-            </div>
-
-            <div class="caja-info">
-                <div class="caja-icono">📊</div>
-                <div class="caja-contenido">
-                    <h4>¿Por Qué Usar Delays?</h4>
-                    <p>
-                        El delay es <strong>aversivo</strong> (molesto). Si la coherencia es realmente 
-                        reforzante, los participantes deberían tolerarlo... hasta cierto punto. 
-                        Cuando el costo supera el beneficio, cambiarán de preferencia.
+                    <p style="color: var(--texto-oscuro); margin-top: var(--space-6);">
+                        Si el delay es 1 minuto, probablemente esperas. ¿Y si es 60 minutos?
                     </p>
                 </div>
             </div>
         </div>
 
-        <!-- EXPERIMENTO INTERACTIVO CON DELAYS -->
-        <div class="experimento-eleccion animate-fade-in-up delay-700" id="experimentoCosto">
-            <h3 style="font-size: var(--text-4xl); font-weight: var(--font-black); text-align: center; margin-bottom: var(--space-8); position: relative; z-index: 1;">
-                🎮 Experimenta el Response Cost
+        <!-- EXPERIMENTO -->
+        <div class="experimento-cost" id="experimento">
+            <h3 style="text-align: center; font-size: var(--text-4xl); font-weight: var(--font-black); margin-bottom: var(--space-8);">
+                ⏱️ Experimenta el Response Cost
             </h3>
 
-            <p style="font-size: var(--text-lg); text-align: center; color: var(--texto-medio); margin-bottom: var(--space-8); position: relative; z-index: 1;">
-                Ahora la puerta azul tendrá un delay. ¿Seguirás eligiéndola?
-            </p>
-
-            <!-- Indicador de costo actual -->
-            <div class="costo-indicator">
-                <div class="costo-titulo">⏱️ Delay Actual en Puerta Azul</div>
-                <div class="costo-valor" id="costoValor">+0s</div>
-                <div class="costo-descripcion" id="costoDescripcion">Sin delay todavía</div>
+            <div style="text-align: center; margin-bottom: var(--space-6);">
+                <strong id="bloqueText" style="font-size: var(--text-xl);">Bloque 1 de 6</strong>
             </div>
 
-            <!-- Progress -->
-            <div class="trial-progress">
-                <div class="trial-progress-bar">
-                    <div class="trial-progress-fill" id="progressFillCosto"></div>
+            <div style="text-align: center; margin-bottom: var(--space-8);">
+                <div style="background: linear-gradient(135deg, #FFF9E6, #FFFAEB); padding: var(--space-6); border-radius: var(--radius-xl); display: inline-block;">
+                    <span style="font-size: var(--text-lg); color: var(--texto-suave);">Delay actual:</span>
+                    <span id="delayActual" style="font-size: var(--text-3xl); font-weight: var(--font-black); color: var(--acento-dorado); margin-left: var(--space-3);">+0s</span>
                 </div>
-                <div class="trial-progress-text" id="progressTextCosto">Trial 1 de 12</div>
             </div>
 
-            <!-- Fase indicator -->
-            <div class="fase-indicator" id="faseIndicatorCosto">
-                <div class="fase-titulo">Fase: Elección Libre</div>
-                <div class="fase-descripcion">Elige la puerta que prefieras</div>
-            </div>
-
-            <!-- Puertas con delay -->
-            <div class="puertas-container" id="puertasContainerCosto">
-                <div class="puerta azul con-delay" id="puertaAzulCosto" onclick="elegirPuertaCosto('azul')">
-                    <div class="delay-badge" id="delayBadge">+0s</div>
+            <div class="puertas-container">
+                <div class="puerta azul" id="puertaAzul">
+                    <div class="badge-delay" id="badgeDelay">⏱️ +0s</div>
                     <div class="puerta-emoji">🟦</div>
                     <div class="puerta-label">Puerta Azul</div>
-                    <div class="puerta-info">Contexto coherente (con delay)</div>
+                    <p style="color: var(--texto-suave); margin-top: var(--space-3);">Coherente (con delay)</p>
                 </div>
 
-                <div class="puerta amarilla" id="puertaAmarillaCosto" onclick="elegirPuertaCosto('amarilla')">
+                <div class="puerta amarilla" id="puertaAmarilla">
                     <div class="puerta-emoji">🟨</div>
                     <div class="puerta-label">Puerta Amarilla</div>
-                    <div class="puerta-info">Contexto incoherente (sin delay)</div>
+                    <p style="color: var(--texto-suave); margin-top: var(--space-3);">Incoherente (inmediata)</p>
                 </div>
             </div>
 
-            <!-- Feedback -->
-            <div class="feedback-eleccion" id="feedbackCosto">
-                <!-- Se llenará dinámicamente -->
-            </div>
+            <div class="feedback-eleccion" id="feedback"></div>
         </div>
 
-        <!-- Timer overlay -->
+        <!-- Timer Overlay -->
         <div class="timer-overlay" id="timerOverlay">
             <div class="timer-content">
                 <div class="timer-numero" id="timerNumero">3</div>
-                <div class="timer-label">Esperando...</div>
+                <div class="timer-texto">Esperando...</div>
             </div>
         </div>
 
-        <!-- Resultados con gráfico -->
-        <div class="resultados-preferencia" id="resultadosCosto">
+        <!-- RESULTADOS -->
+        <div class="resultados-cost" id="resultados">
             <h3 class="tarjeta-titulo" style="text-align: center; margin-bottom: var(--space-10);">
-                📊 Tus Resultados: Cambio de Preferencia
+                📊 Tus Resultados: Preferencia vs Delay
             </h3>
 
-            <div class="grafico-barras">
-                <div class="barra-container">
-                    <div class="barra-label">
-                        <span style="color: #3B82F6;">🟦 Puerta Azul (Coherente)</span>
-                        <span id="porcentajeAzulCosto">0%</span>
-                    </div>
-                    <div class="barra-visual">
-                        <div class="barra-fill azul" id="barraAzulCosto" style="width: 0%;">
-                            <span id="conteoAzulCosto">0</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="bloques-grid" id="bloquesGrid"></div>
 
-                <div class="barra-container">
-                    <div class="barra-label">
-                        <span style="color: #F59E0B;">🟨 Puerta Amarilla (Incoherente)</span>
-                        <span id="porcentajeAmarillaCosto">0%</span>
-                    </div>
-                    <div class="barra-visual">
-                        <div class="barra-fill amarilla" id="barraAmarillaCosto" style="width: 0%;">
-                            <span id="conteoAmarillaCosto">0</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="grafico-linea">
+                <canvas id="graficoCanvas" width="800" height="250"></canvas>
             </div>
 
             <div class="caja-insight" style="margin-top: var(--space-10);">
                 <div class="caja-icono">💡</div>
                 <div class="caja-contenido">
                     <h4>Interpretación:</h4>
-                    <p id="interpretacionCosto"></p>
+                    <p id="interpretacion"></p>
                 </div>
             </div>
         </div>
 
-        <!-- Datos del estudio real -->
-        <div class="tarjeta animate-fade-in-up delay-900">
-            <h2 class="tarjeta-titulo">Los Hallazgos: El Punto de Quiebre</h2>
-
+        <div class="tarjeta">
+            <h2 class="tarjeta-titulo">Hallazgos del Estudio Real</h2>
             <p class="tarjeta-texto">
-                Los investigadores encontraron un patrón fascinante: la preferencia por coherencia 
-                se mantuvo estable en delays bajos, pero <strong>colapsó en delays altos</strong>.
+                En el estudio, la preferencia por coherencia <strong>colapsó dramáticamente</strong> 
+                cuando el delay aumentó de +3s a +6s. De 55% bajó a 21%.
             </p>
-
-            <!-- Datos por bloque -->
-            <h3 class="tarjeta-titulo" style="margin-top: var(--space-12);">
-                📉 Preferencia por Bloque
-            </h3>
-
-            <div class="bloques-comparacion">
-                <div class="bloque-card">
-                    <div class="bloque-numero">+0s</div>
-                    <div class="bloque-preferencia alta">54%</div>
-                    <div class="bloque-descripcion">Prefirieron coherente</div>
-                </div>
-
-                <div class="bloque-card">
-                    <div class="bloque-numero">+1s</div>
-                    <div class="bloque-preferencia alta">58%</div>
-                    <div class="bloque-descripcion">Aumentó ligeramente</div>
-                </div>
-
-                <div class="bloque-card">
-                    <div class="bloque-numero">+2s</div>
-                    <div class="bloque-preferencia alta">63%</div>
-                    <div class="bloque-descripcion">Máxima preferencia</div>
-                </div>
-
-                <div class="bloque-card">
-                    <div class="bloque-numero">+3s</div>
-                    <div class="bloque-preferencia alta">55%</div>
-                    <div class="bloque-descripcion">Empezó a bajar</div>
-                </div>
-
-                <div class="bloque-card">
-                    <div class="bloque-numero">+5s</div>
-                    <div class="bloque-preferencia media">41%</div>
-                    <div class="bloque-descripcion">Cayó significativamente</div>
-                </div>
-
-                <div class="bloque-card">
-                    <div class="bloque-numero">+6s</div>
-                    <div class="bloque-preferencia baja">21%</div>
-                    <div class="bloque-descripcion">Preferencia invertida</div>
-                </div>
-            </div>
-
-            <!-- EJEMPLO DIDÁCTICO 2: Interpretando los datos -->
-            <div class="ejemplo-didactico" style="margin-top: var(--space-10); color: var(--texto-oscuro);">
-                <div class="ejemplo-titulo"style="color: var(--texto-oscuro);">
-                    <span>🔍</span>
-                    <span>¿Qué Significa Este Patrón?</span>
-                </div>
-                <div class="ejemplo-contenido">
-                    <p style="margin-bottom: var(--space-6); font-size: var(--text-xl); font-weight: var(--font-bold);color: var(--texto-oscuro);">
-                        Observa el cambio dramático entre +3s y +6s:
-                    </p>
-
-                    <div class="grid-2" style="gap: var(--space-6); margin: var(--space-6) 0;">
-                        <div style="background: linear-gradient(135deg, #D1FAE5, #A7F3D0); padding: var(--space-8); border-radius: var(--radius-xl);">
-                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
-                                ✅ Delays Bajos (+0s a +3s)
-                            </h4>
-                            <p style="font-size: var(--text-lg); line-height: 1.7;">
-                                Los participantes <strong>toleraron el costo</strong> porque la coherencia 
-                                valía la pena. Preferencia se mantuvo entre 54-63%.
-                            </p>
-                            <p style="margin-top: var(--space-4); font-weight: var(--font-bold); color: var(--success);">
-                                → La coherencia ES reforzante ✓
-                            </p>
-                        </div>
-
-                        <div style="background: linear-gradient(135deg, #FEE2E2, #FECACA); padding: var(--space-8); border-radius: var(--radius-xl);">
-                            <h4 style="font-size: var(--text-2xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
-                                ❌ Delays Altos (+5s y +6s)
-                            </h4>
-                            <p style="font-size: var(--text-lg); line-height: 1.7;">
-                                El costo superó el beneficio. A +6s, solo 21% eligió coherente. 
-                                Ahora preferían <strong>entrar rápido aunque fuera incoherente</strong>.
-                            </p>
-                            <p style="margin-top: var(--space-4); font-weight: var(--font-bold); color: var(--error);">
-                                → Pero tiene límites ✗
-                            </p>
-                        </div>
-                    </div>
-
-                    <p style="margin-top: var(--space-8); font-size: var(--text-lg);color: var(--texto-oscuro);">
-                        Esto es <strong>exactamente lo que esperarías de un reforzador real</strong>: 
-                        es valioso, pero no infinitamente. La gente paga costos moderados por él, 
-                        pero eventualmente el costo es demasiado.
-                    </p>
-                </div>
-            </div>
-
-            <div class="caja-dato" style="margin-top: var(--space-10);">
-                <div class="caja-icono">📊</div>
+            
+            <div class="caja-dato">
+                <div class="caja-icono">🎯</div>
                 <div class="caja-contenido">
                     <h4>Hallazgo Clave #4</h4>
                     <p>
-                        Hubo un <strong>efecto significativo del response cost</strong> sobre la preferencia 
-                        (p = .0002). En el bloque de +6s, la preferencia cambió a 46% incoherente vs 
-                        21% coherente. El costo importa.
-                    </p>
-                </div>
-            </div>
-
-            <div class="caja-limitacion" style="margin-top: var(--space-8);">
-                <div class="caja-icono">⚠️</div>
-                <div class="caja-contenido">
-                    <h4>Limitación Metodológica</h4>
-                    <p>
-                        Los investigadores asumieron que el delay era aversivo basándose en 
-                        Szameitat et al. (2009), que mostró que delays en computadoras son frustrantes. 
-                        Pero <strong>no midieron directamente</strong> si los participantes lo encontraron 
-                        aversivo. Futuros estudios deberían verificar esto.
+                        El response cost <strong>moderó significativamente</strong> la preferencia por coherencia 
+                        (p = .0002). Esto demuestra que la preferencia tiene límites medibles.
                     </p>
                 </div>
             </div>
         </div>
 
-        <!-- Navegación -->
-        <div class="navegacion animate-fade-in delay-1200">
-            <button class="btn btn-secundario btn-anterior" onclick="window.location.href='pantalla-4.html'">
+        <div class="navegacion">
+            <button class="btn btn-secundario" onclick="window.location.href='pantalla-4.html'">
                 <span>←</span>
                 <span>Anterior</span>
             </button>
-            <button class="btn btn-primario btn-siguiente" onclick="window.location.href='pantalla-6.html'">
-                <span>Siguiente: Entailment</span>
+            <button class="btn btn-primario" onclick="window.location.href='pantalla-6.html'">
+                <span>Siguiente</span>
                 <span>→</span>
             </button>
         </div>
     </div>
 
     <script src="js/main.js"></script>
-    <script src="js/response-cost.js"></script>
     <script>
-        // Configurar pantalla actual
-        const nav = new NavigationSystem();
-        nav.currentScreen = 5;
-        nav.updateProgressBar();
+        // ============================================
+        // EXPERIMENTO RESPONSE COST - INLINE
+        // ============================================
+        
+        let bloqueActual = 0;
+        let elecciones = [];
+        const delays = [0, 1, 2, 3, 5, 6]; // segundos
+        const trialsPerBlock = 2;
+
+        function iniciar() {
+            console.log('✅ Experimento Response Cost iniciado');
+            mostrarBloque();
+            
+            document.getElementById('puertaAzul').onclick = () => elegir('azul');
+            document.getElementById('puertaAmarilla').onclick = () => elegir('amarilla');
+        }
+
+        function mostrarBloque() {
+            if (bloqueActual >= 6) {
+                finalizar();
+                return;
+            }
+
+            const delay = delays[bloqueActual];
+            console.log(`Bloque ${bloqueActual + 1}: Delay = ${delay}s`);
+            
+            document.getElementById('bloqueText').textContent = `Bloque ${bloqueActual + 1} de 6`;
+            document.getElementById('delayActual').textContent = `+${delay}s`;
+            document.getElementById('badgeDelay').textContent = `⏱️ +${delay}s`;
+            document.getElementById('feedback').classList.remove('show');
+        }
+
+        async function elegir(puerta) {
+            console.log(`Elegiste: ${puerta}`);
+            
+            const delay = delays[bloqueActual];
+            elecciones.push({ bloque: bloqueActual, puerta, delay });
+
+            // Si eligió azul y hay delay, mostrar timer
+            if (puerta === 'azul' && delay > 0) {
+                await mostrarTimer(delay);
+            }
+
+            mostrarFeedback(puerta);
+        }
+
+        function mostrarTimer(segundos) {
+            return new Promise(resolve => {
+                const overlay = document.getElementById('timerOverlay');
+                const numero = document.getElementById('timerNumero');
+                
+                overlay.classList.add('show');
+                let restante = segundos;
+                
+                const interval = setInterval(() => {
+                    numero.textContent = restante;
+                    restante--;
+                    
+                    if (restante < 0) {
+                        clearInterval(interval);
+                        overlay.classList.remove('show');
+                        resolve();
+                    }
+                }, 1000);
+            });
+        }
+
+        function mostrarFeedback(puerta) {
+            const delay = delays[bloqueActual];
+            const color = puerta === 'azul' ? '#3B82F6' : '#F59E0B';
+            const nombre = puerta === 'azul' ? 'Azul' : 'Amarilla';
+            
+            let mensaje = puerta === 'azul' ?
+                `Elegiste coherencia. ${delay > 0 ? `Esperaste ${delay} segundos.` : ''}` :
+                `Elegiste incoherente. Respuesta inmediata.`;
+
+            // Contar trials en este bloque
+            const trialsEnBloque = elecciones.filter(e => e.bloque === bloqueActual).length;
+            
+            let boton = '';
+            if (trialsEnBloque >= trialsPerBlock) {
+                boton = '<button class="btn btn-dorado" onclick="siguienteBloque()">Siguiente Bloque →</button>';
+            } else {
+                boton = '<button class="btn btn-cyan" onclick="siguienteTrial()">Continuar →</button>';
+            }
+
+            document.getElementById('feedback').innerHTML = `
+                <div style="margin-bottom: var(--space-6); font-size: var(--text-lg);">
+                    <strong style="color: ${color};">Puerta ${nombre}</strong><br>
+                    ${mensaje}
+                </div>
+                ${boton}
+            `;
+            document.getElementById('feedback').classList.add('show');
+        }
+
+        function siguienteTrial() {
+            document.getElementById('feedback').classList.remove('show');
+        }
+
+        function siguienteBloque() {
+            bloqueActual++;
+            mostrarBloque();
+        }
+
+        function finalizar() {
+            console.log('🏁 Experimento finalizado');
+            console.log('Elecciones:', elecciones);
+            
+            document.getElementById('experimento').style.display = 'none';
+            
+            // Calcular preferencia por bloque
+            const preferencias = delays.map((delay, idx) => {
+                const eleccionesBloque = elecciones.filter(e => e.bloque === idx);
+                const azul = eleccionesBloque.filter(e => e.puerta === 'azul').length;
+                return {
+                    bloque: idx + 1,
+                    delay,
+                    azul,
+                    total: eleccionesBloque.length,
+                    porcentaje: (azul / eleccionesBloque.length) * 100
+                };
+            });
+
+            console.log('Preferencias:', preferencias);
+
+            // Mostrar bloques
+            const grid = document.getElementById('bloquesGrid');
+            grid.innerHTML = preferencias.map(p => `
+                <div class="bloque-card">
+                    <div class="bloque-delay">+${p.delay}s</div>
+                    <div class="bloque-preferencia">${Math.round(p.porcentaje)}%</div>
+                    <div style="font-size: var(--text-sm); color: var(--texto-suave); margin-top: var(--space-2);">
+                        ${p.azul}/${p.total} azul
+                    </div>
+                </div>
+            `).join('');
+
+            // Dibujar gráfico
+            dibujarGrafico(preferencias);
+
+            // Interpretación
+            const cambio = preferencias[0].porcentaje - preferencias[5].porcentaje;
+            let texto;
+            
+            if (cambio > 40) {
+                texto = `Tu preferencia <strong>colapsó dramáticamente</strong> (${Math.round(cambio)}% de cambio). 
+                        Esto replica el hallazgo del estudio: el costo importa.`;
+            } else if (cambio > 20) {
+                texto = `Mostraste <strong>disminución moderada</strong> (${Math.round(cambio)}% de cambio). 
+                        El delay afectó tu preferencia, pero no tanto como en el estudio.`;
+            } else if (cambio < -10) {
+                texto = `Curiosamente, <strong>aumentaste</strong> tu preferencia con el delay (${Math.round(Math.abs(cambio))}%). 
+                        Esto es inusual pero posible.`;
+            } else {
+                texto = `Tu preferencia fue <strong>muy estable</strong> (${Math.round(cambio)}% de cambio). 
+                        El delay no te afectó tanto.`;
+            }
+
+            document.getElementById('interpretacion').innerHTML = texto;
+            document.getElementById('resultados').classList.add('show');
+            
+            setTimeout(() => {
+                document.getElementById('resultados').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 500);
+        }
+
+        function dibujarGrafico(datos) {
+            const canvas = document.getElementById('graficoCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Limpiar
+            ctx.clearRect(0, 0, width, height);
+            
+            // Márgenes
+            const margin = { top: 20, right: 50, bottom: 50, left: 50 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+            
+            // Escala
+            const xScale = chartWidth / (datos.length - 1);
+            const yMax = 100;
+            
+            // Ejes
+            ctx.strokeStyle = '#CBD5E1';
+            ctx.lineWidth = 2;
+            
+            // Eje Y
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, height - margin.bottom);
+            ctx.stroke();
+            
+            // Eje X
+            ctx.beginPath();
+            ctx.moveTo(margin.left, height - margin.bottom);
+            ctx.lineTo(width - margin.right, height - margin.bottom);
+            ctx.stroke();
+            
+            // Labels Y
+            ctx.fillStyle = '#64748B';
+            ctx.font = '14px Space Grotesk';
+            ctx.textAlign = 'right';
+            [0, 25, 50, 75, 100].forEach(val => {
+                const y = height - margin.bottom - (val / yMax) * chartHeight;
+                ctx.fillText(val + '%', margin.left - 10, y + 5);
+            });
+            
+            // Línea de datos
+            ctx.strokeStyle = '#3B82F6';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            datos.forEach((d, i) => {
+                const x = margin.left + i * xScale;
+                const y = height - margin.bottom - (d.porcentaje / yMax) * chartHeight;
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            
+            ctx.stroke();
+            
+            // Puntos
+            datos.forEach((d, i) => {
+                const x = margin.left + i * xScale;
+                const y = height - margin.bottom - (d.porcentaje / yMax) * chartHeight;
+                
+                ctx.fillStyle = '#3B82F6';
+                ctx.beginPath();
+                ctx.arc(x, y, 6, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Labels X
+                ctx.fillStyle = '#64748B';
+                ctx.font = 'bold 14px Space Grotesk';
+                ctx.textAlign = 'center';
+                ctx.fillText('+' + d.delay + 's', x, height - margin.bottom + 25);
+            });
+        }
+
+        // INICIAR
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', iniciar);
+        } else {
+            iniciar();
+        }
     </script>
 </body>
 </html>
