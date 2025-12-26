@@ -9,6 +9,18 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
     <style>
+        /* FIX: Asegurar que todos los textos sean legibles */
+        .tarjeta p, .tarjeta-principal p, .ejemplo-contenido p,
+        .caso-step-texto, .caso-step-titulo, .ejemplo-didactico p,
+        .caja-contenido p, .caja-dato p, .caja-insight p {
+            color: var(--texto-oscuro) !important;
+        }
+        .ejemplo-titulo, .ejemplo-titulo span {
+            color: var(--texto-oscuro) !important;
+        }
+        textarea, input[type="text"] {
+            color: var(--texto-oscuro) !important;
+        }
         /* Estilos específicos para análisis de reglas */
         .input-regla-container {
             background: white;
@@ -37,7 +49,6 @@
             resize: vertical;
             font-family: var(--font-body);
             background: var(--fondo-tarjeta-suave);
-            color: var(--texto-oscuro);
         }
 
         .input-regla:focus {
@@ -224,13 +235,17 @@
                 grid-template-columns: 1fr;
             }
         }
-    </style>
+    
+        .ejemplo-contenido p {
+            color: var(--texto-oscuro);
+        }
+        </style>
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <button class="btn-volver">
+            <button class="btn-volver" onclick="window.location.href='index.html'">
                 <span>←</span>
                 <span>Volver al inicio</span>
             </button>
@@ -257,7 +272,7 @@
         <!-- Tarjeta principal -->
         <div class="tarjeta tarjeta-principal animate-fade-in-up delay-500">
             <div class="tarjeta-icono-grande animate-float">🗣️</div>
-            <h2 class="tarjeta-titulo">Creas Reglas Incluso Cuando Nadie Te Las Da</h2>
+            <h2 class="tarjeta-titulo">Tu Mente Crea Reglas Incluso Cuando Nadie Te Las Da</h2>
             
             <p class="tarjeta-texto">
                 Después de que los participantes completaron las primeras 27 pruebas de emparejamiento, 
@@ -268,7 +283,7 @@
                 <div class="caja-icono">❓</div>
                 <div class="caja-contenido">
                     <h4>La Pregunta Clave</h4>
-                    <p style="font-size: var(--text-xl); font-style: italic;">
+                    <p style="font-size: var(--text-xl); font-style: italic;; color: var(--texto-oscuro);">
                         "¿Qué regla seguiste para emparejar las comidas con las formas?"
                     </p>
                 </div>
@@ -287,29 +302,29 @@
                     <span>Ejemplo: ¿Qué Es Una "Regla Verbal"?</span>
                 </div>
                 <div class="ejemplo-contenido">
-                    <p style="margin-bottom: var(--space-6); color: var(--texto-oscuro);">
+                    <p style="margin-bottom: var(--space-6);; color: var(--texto-oscuro);">
                         Imagina que estás jugando un videojuego nuevo sin tutorial. 
                         Después de 10 minutos, alguien te pregunta: "¿Cómo juegas?"
                     </p>
                     
-                    <div class="caso-ejemplo" style="margin: var(--space-6) 0; color: var(--texto-oscuro);">
+                    <div class="caso-ejemplo" style="margin: var(--space-6) 0;">
                         <div class="caso-step">
                             <div class="caso-numero">🎮</div>
                             <div class="caso-contenido">
-                                <p style="font-size: var(--text-lg); margin: 0; color: var(--texto-oscuro);">
+                                <p style="font-size: var(--text-lg); margin: 0;; color: var(--texto-oscuro);">
                                     <strong>Tu respuesta:</strong> "Presiono X para saltar cuando veo un obstáculo"
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <p style="margin-top: var(--space-6);color: var(--texto-oscuro);">
+                    <p style="margin-top: var(--space-6);; color: var(--texto-oscuro);">
                         Esa es una <strong>regla verbal</strong>: una descripción de tu propio comportamiento 
                         que creaste DESPUÉS de comportarte. El juego no te lo dijo. Lo descubriste solo y 
                         luego lo verbalizaste.
                     </p>
 
-                    <p style="margin-top: var(--space-4); font-weight: var(--font-bold); color: var(--acento-cyan);">
+                    <p style="margin-top: var(--space-4); font-weight: var(--font-bold); color: var(--acento-cyan);; color: var(--texto-oscuro);">
                         Eso es exactamente lo que pasó en el experimento.
                     </p>
                 </div>
@@ -318,11 +333,11 @@
 
         <!-- Prueba tú mismo -->
         <div class="input-regla-container animate-fade-in-up delay-700">
-            <h3 style="font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--texto-oscuro); margin-bottom: var(--space-6); text-align: center;">
+            <h3 style="font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--texto-oscuro); margin-bottom: var(--space-6); text-align: center;; color: var(--texto-oscuro);">
                 🤔 Ahora Tú: ¿Qué Regla Seguiste?
             </h3>
             
-            <p style="font-size: var(--text-lg); color: var(--texto-medio); text-align: center; margin-bottom: var(--space-8);">
+            <p style="font-size: var(--text-lg); color: var(--texto-medio); text-align: center; margin-bottom: var(--space-8);; color: var(--texto-oscuro);">
                 Piensa en el experimento que hiciste en la pantalla anterior. 
                 ¿Cómo decidiste emparejar las comidas? Descríbelo con tus palabras:
             </p>
@@ -332,7 +347,7 @@
             </label>
             <textarea 
                 id="inputRegla" 
-                class="input-regla" 
+                class="input-regla" style="color: var(--texto-oscuro);" 
                 placeholder="Ejemplo: 'Emparejé todas las comidas redondas con círculos y las alargadas con líneas' o 'Puse las saludables en un grupo y las no saludables en otro'..."
             ></textarea>
 
@@ -390,15 +405,15 @@
                     <span>Ejemplo: ¿Coincide Lo Que Dices Con Lo Que Haces?</span>
                 </div>
                 <div class="ejemplo-contenido">
-                    <p style="margin-bottom: var(--space-6);color: var(--texto-oscuro);">
+                    <p style="margin-bottom: var(--space-6);; color: var(--texto-oscuro);">
                         Imagina tres participantes del estudio:
                     </p>
 
-                    <div class="caso-ejemplo" style="margin: var(--space-6) 0; color: var(--texto-oscuro);">
+                    <div class="caso-ejemplo" style="margin: var(--space-6) 0;">
                         <div class="caso-step">
                             <div class="caso-numero">👤</div>
                             <div class="caso-contenido">
-                                <p style="font-size: var(--text-lg); margin: 0;color: var(--texto-oscuro);">
+                                <p style="font-size: var(--text-lg); margin: 0;; color: var(--texto-oscuro);">
                                     <strong>Ana</strong> dice: "Usé formas" → Su comportamiento: 90% basado en formas
                                     <br><span style="color: var(--success); font-weight: bold;">✓ Consistente</span>
                                 </p>
@@ -408,7 +423,7 @@
                         <div class="caso-step">
                             <div class="caso-numero">👤</div>
                             <div class="caso-contenido">
-                                <p style="font-size: var(--text-lg); margin: 0; color: var(--texto-oscuro);">
+                                <p style="font-size: var(--text-lg); margin: 0;; color: var(--texto-oscuro);">
                                     <strong>Luis</strong> dice: "Usé formas" → Su comportamiento: 40% basado en formas
                                     <br><span style="color: var(--warning); font-weight: bold;">⚠️ Inconsistente</span>
                                 </p>
@@ -418,7 +433,7 @@
                         <div class="caso-step">
                             <div class="caso-numero">👤</div>
                             <div class="caso-contenido">
-                                <p style="font-size: var(--text-lg); margin: 0;color: var(--texto-oscuro);">
+                                <p style="font-size: var(--text-lg); margin: 0;; color: var(--texto-oscuro);">
                                     <strong>María</strong> dice: "Usé significado" → Su comportamiento: 85% basado en significado
                                     <br><span style="color: var(--success); font-weight: bold;">✓ Consistente</span>
                                 </p>
@@ -426,7 +441,7 @@
                         </div>
                     </div>
 
-                    <p style="margin-top: var(--space-6); font-weight: var(--font-bold);">
+                    <p style="margin-top: var(--space-6); font-weight: var(--font-bold);; color: var(--texto-oscuro);">
                         La pregunta es: ¿Cuántos participantes fueron como Ana y María (consistentes) 
                         versus como Luis (inconsistentes)?
                     </p>
@@ -435,11 +450,11 @@
 
             <!-- Matriz de resultados -->
             <div class="matriz-consistencia">
-                <h3 class="tarjeta-titulo" style="text-align: center; margin-bottom: var(--space-6);">
+                <h3 class="tarjeta-titulo" style="color: var(--texto-oscuro);" style="text-align: center; margin-bottom: var(--space-6);">
                     📈 Matriz de Consistencia: Regla Verbal vs Comportamiento Real
                 </h3>
 
-                <p style="font-size: var(--text-lg); color: var(--texto-medio); text-align: center; margin-bottom: var(--space-8);">
+                <p style="font-size: var(--text-lg); color: var(--texto-medio); text-align: center; margin-bottom: var(--space-8);; color: var(--texto-oscuro);">
                     Esta tabla cruza lo que dijeron vs lo que hicieron:
                 </p>
 
@@ -473,7 +488,7 @@
                     <div class="caja-icono">🎯</div>
                     <div class="caja-contenido">
                         <h4>Resultado Clave: Cohen's Kappa = 0.614</h4>
-                        <p>
+                        <p style="color: var(--texto-oscuro);">
                             Esta es una medida estadística de acuerdo. Un kappa de 0.614 significa 
                             <strong>"acuerdo moderado a sustancial"</strong>. En otras palabras: 
                             <strong>60 de 81 participantes (74%) fueron consistentes</strong> entre 
@@ -484,7 +499,7 @@
             </div>
 
             <!-- Comparación entre condiciones -->
-            <h3 class="tarjeta-titulo" style="margin-top: var(--space-16);">
+            <h3 class="tarjeta-titulo" style="color: var(--texto-oscuro);" style="margin-top: var(--space-16);">
                 🔬 La Diferencia Entre Condiciones
             </h3>
 
@@ -530,25 +545,25 @@
             </div>
 
             <!-- EJEMPLO DIDÁCTICO 3: Por qué la diferencia -->
-            <div class="ejemplo-didactico" style="margin-top: var(--space-10);color: var(--texto-oscuro);">
+            <div class="ejemplo-didactico" style="margin-top: var(--space-10);">
                 <div class="ejemplo-titulo">
                     <span>🤔</span>
                     <span>¿Por Qué Esta Diferencia Importa?</span>
                 </div>
                 <div class="ejemplo-contenido">
-                    <p style="margin-bottom: var(--space-6); color: var(--texto-oscuro);">
+                    <p style="margin-bottom: var(--space-6);; color: var(--texto-oscuro);">
                         Piensa en estos dos participantes del grupo Formas:
                     </p>
 
                     <div class="caso-ejemplo" style="margin: var(--space-6) 0; background: linear-gradient(135deg, #FEE2E2, #FECACA);">
-                        <h4 style="font-size: var(--text-xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
+                        <h4 style="font-size: var(--text-xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);; color: var(--texto-oscuro);">
                             Participante #23 - El Caso de la Ambigüedad
                         </h4>
                         
                         <div class="caso-step">
                             <div class="caso-emoji">🥦</div>
                             <div class="caso-contenido">
-                                <p style="margin: 0;color: var(--texto-oscuro);">
+                                <p style="margin: 0;; color: var(--texto-oscuro);">
                                     Ve el brócoli. Piensa: "¿Es línea porque los tallos son alargados? 
                                     ¿O triángulo por la forma de la copa?"
                                 </p>
@@ -558,27 +573,27 @@
                         <div class="caso-step">
                             <div class="caso-emoji">🍕</div>
                             <div class="caso-contenido">
-                                <p style="margin: 0; color: var(--texto-oscuro);">
+                                <p style="margin: 0;; color: var(--texto-oscuro);">
                                     Ve la pizza. Piensa: "Obviamente triángulo... pero la pizza completa es círculo..."
                                 </p>
                             </div>
                         </div>
 
-                        <p style="margin-top: var(--space-6); font-weight: var(--font-bold);color: var(--texto-oscuro);">
+                        <p style="margin-top: var(--space-6); font-weight: var(--font-bold);; color: var(--texto-oscuro);">
                             Al final dice: "Usé formas", pero en realidad alternó criterios porque las formas 
                             eran demasiado ambiguas para mantener consistencia.
                         </p>
                     </div>
 
                     <div class="caso-ejemplo" style="margin: var(--space-6) 0; background: linear-gradient(135deg, #D1FAE5, #A7F3D0);">
-                        <h4 style="font-size: var(--text-xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);">
+                        <h4 style="font-size: var(--text-xl); font-weight: var(--font-bold); margin-bottom: var(--space-4);; color: var(--texto-oscuro);">
                             Participante #45 - El Caso de la Claridad
                         </h4>
                         
                         <div class="caso-step">
                             <div class="caso-emoji">🥦</div>
                             <div class="caso-contenido">
-                                <p style="margin: 0; color: var(--texto-oscuro);">
+                                <p style="margin: 0;; color: var(--texto-oscuro);">
                                     Ve el brócoli. Piensa: "Saludable, obvio."
                                 </p>
                             </div>
@@ -587,13 +602,13 @@
                         <div class="caso-step">
                             <div class="caso-emoji">🍕</div>
                             <div class="caso-contenido">
-                                <p style="margin: 0; color: var(--texto-oscuro);">
+                                <p style="margin: 0;; color: var(--texto-oscuro);">
                                     Ve la pizza. Piensa: "No saludable, claro."
                                 </p>
                             </div>
                         </div>
 
-                        <p style="margin-top: var(--space-6); font-weight: var(--font-bold);">
+                        <p style="margin-top: var(--space-6); font-weight: var(--font-bold);; color: var(--texto-oscuro);">
                             Dice: "Usé el concepto de salud" y su comportamiento es 95% consistente con eso.
                             Las funciones semánticas son menos ambiguas.
                         </p>
@@ -605,7 +620,7 @@
                 <div class="caja-icono">💡</div>
                 <div class="caja-contenido">
                     <h4>Hallazgo Clave #2</h4>
-                    <p>
+                    <p style="color: var(--texto-oscuro);">
                         Solo 1 de 81 participantes dijo "elegí al azar". Los otros 80 generaron alguna regla 
                         verbal, incluso sin instrucciones. <strong>Tu mente verbal SIEMPRE busca patrones 
                         y los verbaliza.</strong>
