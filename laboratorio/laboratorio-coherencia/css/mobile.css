@@ -1,0 +1,393 @@
+/* =============================================
+   MOBILE OPTIMIZATIONS - LABORATORIO COHERENCIA
+   Optimizado para experiencia táctil 100%
+   ============================================= */
+
+/* Media Query Principal - Móviles */
+@media (max-width: 768px) {
+    
+    /* ===== TIPOGRAFÍA MÓVIL ===== */
+    body {
+        font-size: 18px !important;
+        line-height: 1.7 !important;
+    }
+    
+    .tarjeta-texto {
+        font-size: 18px !important;
+        line-height: 1.8 !important;
+    }
+    
+    .tarjeta-titulo {
+        font-size: 28px !important;
+        line-height: 1.3 !important;
+    }
+    
+    h1, .text-gradient {
+        font-size: 36px !important;
+        line-height: 1.2 !important;
+    }
+    
+    h2 {
+        font-size: 28px !important;
+    }
+    
+    h3 {
+        font-size: 24px !important;
+    }
+    
+    /* ===== BOTONES TÁCTILES ===== */
+    .btn {
+        padding: 16px 24px !important;
+        min-height: 56px !important;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        border-radius: 16px !important;
+        gap: 12px !important;
+    }
+    
+    .btn-primario, .btn-secundario {
+        width: 100%;
+        justify-content: center !important;
+    }
+    
+    .btn-volver {
+        padding: 12px 20px !important;
+        font-size: 16px !important;
+    }
+    
+    /* ===== NAVEGACIÓN MÓVIL ===== */
+    .navegacion {
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+    
+    .header {
+        padding: 16px !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        align-items: stretch !important;
+    }
+    
+    .pill-progreso {
+        width: 100% !important;
+    }
+    
+    /* ===== GRIDS A COLUMNA ÚNICA ===== */
+    .grid-2, .grid-3, .split-grupos, 
+    .aplicaciones-grid, .proximos-pasos,
+    .bloques-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+    
+    /* ===== TARJETAS Y CONTENEDORES ===== */
+    .tarjeta, .tarjeta-principal {
+        padding: 24px !important;
+        border-radius: 24px !important;
+    }
+    
+    .container {
+        padding: 16px !important;
+    }
+    
+    /* ===== EXPERIMENTOS INTERACTIVOS ===== */
+    
+    /* Puertas */
+    .puertas-container {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    
+    .puerta {
+        padding: 32px 24px !important;
+        min-height: 220px !important;
+    }
+    
+    .puerta-emoji {
+        font-size: 100px !important;
+    }
+    
+    .puerta-label {
+        font-size: 28px !important;
+    }
+    
+    /* Opciones de Matching */
+    .opciones-container, .mini-opciones {
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+    
+    .opcion-matching, .mini-opcion {
+        min-height: 100px !important;
+        padding: 20px !important;
+        font-size: 20px !important;
+    }
+    
+    .opcion-emoji, .mini-opcion-emoji {
+        font-size: 56px !important;
+    }
+    
+    /* Muestra del experimento */
+    .estimulo-muestra {
+        padding: 24px !important;
+    }
+    
+    .estimulo-emoji {
+        font-size: 100px !important;
+    }
+    
+    /* ===== TEST INTERACTIVO (PANTALLA 6) ===== */
+    .test-opcion {
+        min-width: 100% !important;
+        padding: 24px !important;
+        min-height: 120px !important;
+    }
+    
+    .test-opcion-emoji {
+        font-size: 72px !important;
+    }
+    
+    .test-opcion-label {
+        font-size: 20px !important;
+    }
+    
+    .estimulo-pair {
+        font-size: 32px !important;
+        padding: 20px !important;
+    }
+    
+    .flecha-igual {
+        font-size: 40px !important;
+    }
+    
+    /* ===== TIMER OVERLAY (PANTALLA 5) ===== */
+    .timer-numero {
+        font-size: 140px !important;
+    }
+    
+    .timer-texto {
+        font-size: 24px !important;
+    }
+    
+    /* ===== CAJAS DE INFORMACIÓN ===== */
+    .caja-info, .caja-dato, .caja-insight, .caja-limitacion {
+        padding: 20px !important;
+        flex-direction: column !important;
+    }
+    
+    .caja-icono {
+        font-size: 48px !important;
+    }
+    
+    /* ===== STAT CARDS ===== */
+    .stat-card {
+        padding: 24px !important;
+    }
+    
+    .stat-numero {
+        font-size: 48px !important;
+    }
+    
+    .stat-label {
+        font-size: 16px !important;
+    }
+    
+    /* ===== EJEMPLOS DIDÁCTICOS ===== */
+    .ejemplo-didactico {
+        padding: 20px !important;
+    }
+    
+    .ejemplo-titulo {
+        font-size: 20px !important;
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 8px !important;
+    }
+    
+    .ejemplo-visual {
+        padding: 20px !important;
+    }
+    
+    .ejemplo-elemento {
+        font-size: 24px !important;
+    }
+    
+    /* ===== ACORDEÓN (PANTALLA 8) ===== */
+    .btn-acordeon {
+        margin: 16px 0 !important;
+    }
+    
+    .acordeon-header {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 20px !important;
+    }
+    
+    .acordeon-icono {
+        font-size: 48px !important;
+    }
+    
+    .acordeon-titulo {
+        font-size: 22px !important;
+    }
+    
+    .acordeon-subtitulo {
+        font-size: 16px !important;
+    }
+    
+    /* ===== REFERENCIAS ===== */
+    .ref-item {
+        flex-direction: column !important;
+        padding: 16px !important;
+    }
+    
+    .ref-emoji {
+        font-size: 32px !important;
+    }
+    
+    .ref-autores {
+        font-size: 16px !important;
+    }
+    
+    /* ===== TABLAS ===== */
+    .tabla-entailment {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    .tabla-entailment table {
+        min-width: 600px !important;
+    }
+    
+    .tabla-entailment th,
+    .tabla-entailment td {
+        padding: 12px 8px !important;
+        font-size: 14px !important;
+    }
+    
+    /* ===== FEEDBACK Y RESULTADOS ===== */
+    .feedback-eleccion {
+        padding: 20px !important;
+        font-size: 18px !important;
+    }
+    
+    .resultados-preferencia, .resultados-cost {
+        padding: 24px !important;
+    }
+    
+    .barra-visual {
+        height: 50px !important;
+    }
+    
+    .barra-fill {
+        font-size: 20px !important;
+    }
+    
+    /* ===== BADGES Y PILLS ===== */
+    .badge-modulo {
+        font-size: 16px !important;
+        padding: 12px 20px !important;
+    }
+    
+    .badge-delay {
+        font-size: 16px !important;
+        padding: 8px 16px !important;
+    }
+    
+    /* ===== ANIMACIONES - Reducir en móvil ===== */
+    .animate-fade-in,
+    .animate-fade-in-up,
+    .animate-float {
+        animation-duration: 0.3s !important;
+    }
+    
+    /* ===== GRÁFICOS ===== */
+    .grafico-linea {
+        height: 250px !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    canvas {
+        max-width: 100% !important;
+    }
+    
+    /* ===== SCROLL SUAVE ===== */
+    html {
+        scroll-behavior: smooth !important;
+    }
+    
+    /* ===== TOUCH FEEDBACK ===== */
+    .btn:active,
+    .puerta:active,
+    .opcion-matching:active,
+    .mini-opcion:active,
+    .test-opcion:active {
+        transform: scale(0.97) !important;
+        transition: transform 0.1s !important;
+    }
+    
+    /* ===== EVITAR ZOOM EN INPUTS ===== */
+    input, textarea, select {
+        font-size: 16px !important;
+    }
+    
+    /* ===== MODALES Y OVERLAYS ===== */
+    .modal, .timer-overlay {
+        padding: 20px !important;
+    }
+    
+    /* ===== SPACING VERTICAL ===== */
+    .tarjeta + .tarjeta {
+        margin-top: 24px !important;
+    }
+    
+    /* ===== HEADERS DE SECCIÓN ===== */
+    .fase-titulo {
+        font-size: 24px !important;
+    }
+    
+    .fase-descripcion {
+        font-size: 16px !important;
+    }
+    
+    /* ===== PROGRESS BAR ===== */
+    .trial-progress {
+        padding: 16px !important;
+    }
+    
+    .trial-progress-text {
+        font-size: 18px !important;
+    }
+}
+
+/* ===== LANDSCAPE MÓVIL ===== */
+@media (max-width: 768px) and (orientation: landscape) {
+    .puertas-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
+    .puerta {
+        min-height: 180px !important;
+    }
+    
+    .puerta-emoji {
+        font-size: 80px !important;
+    }
+}
+
+/* ===== TABLETS (768px - 1024px) ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+    body {
+        font-size: 17px;
+    }
+    
+    .btn {
+        padding: 14px 28px;
+        min-height: 52px;
+    }
+    
+    .puertas-container {
+        gap: 24px;
+    }
+}
