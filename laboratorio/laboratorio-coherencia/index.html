@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio de Coherencia - Inicio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        .portal-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-6);
+        }
+
+        .portal-emoji {
+            font-size: clamp(80px, 15vw, 160px);
+            animation: float 3s ease-in-out infinite, pulse 2s ease-in-out infinite;
+            margin-bottom: var(--space-8);
+            filter: drop-shadow(0 10px 30px rgba(0, 229, 204, 0.3));
+        }
+
+        .portal-titulo {
+            font-family: var(--font-display);
+            font-size: clamp(42px, 8vw, 86px);
+            font-weight: var(--font-black);
+            line-height: 1;
+            margin-bottom: var(--space-6);
+            background: linear-gradient(135deg, white 0%, var(--acento-cyan) 50%, var(--acento-dorado) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .portal-subtitulo {
+            font-size: clamp(var(--text-lg), 3vw, var(--text-2xl));
+            color: var(--texto-suave-claro);
+            margin-bottom: var(--space-12);
+            max-width: 700px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .portal-pregunta {
+            font-size: clamp(var(--text-xl), 4vw, var(--text-4xl));
+            font-family: var(--font-display);
+            font-weight: var(--font-bold);
+            color: white;
+            margin-bottom: var(--space-12);
+            animation: fadeIn 0.8s ease-out 0.4s both;
+            line-height: 1.3;
+            max-width: 900px;
+        }
+
+        .portal-caos {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: var(--z-below);
+            overflow: hidden;
+        }
+
+        .caos-elemento {
+            position: absolute;
+            font-size: 48px;
+            opacity: 0.3;
+            animation: floatRandom 8s ease-in-out infinite;
+        }
+
+        @keyframes floatRandom {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, -20px) rotate(5deg);
+            }
+            50% {
+                transform: translate(-10px, 10px) rotate(-5deg);
+            }
+            75% {
+                transform: translate(15px, 5px) rotate(3deg);
+            }
+        }
+
+        .portal-btn-comenzar {
+            font-size: var(--text-2xl);
+            padding: var(--space-6) var(--space-16);
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-btn-comenzar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .portal-btn-comenzar:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .portal-info {
+            margin-top: var(--space-16);
+            display: flex;
+            gap: var(--space-8);
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeIn 0.8s ease-out 0.8s both;
+        }
+
+        .portal-info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .portal-info-emoji {
+            font-size: 32px;
+        }
+
+        .portal-info-text {
+            font-size: var(--text-sm);
+            color: var(--texto-suave-claro);
+            font-weight: var(--font-medium);
+        }
+
+        @media (max-width: 768px) {
+            .portal-pregunta {
+                font-size: var(--text-xl);
+            }
+
+            .portal-btn-comenzar {
+                font-size: var(--text-lg);
+                padding: var(--space-5) var(--space-10);
+            }
+
+            .portal-info {
+                flex-direction: column;
+                gap: var(--space-4);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Elementos caóticos de fondo -->
+    <div class="portal-caos" id="caosContainer"></div>
+
+    <div class="portal-container">
+        <div class="portal-emoji">🧩</div>
+        
+        <h1 class="portal-titulo">
+            Laboratorio de<br>Coherencia
+        </h1>
+        
+        <p class="portal-subtitulo">
+            Un viaje interactivo a través del primer estudio que probó<br>
+            la asunción más fundamental de RFT
+        </p>
+
+        <p class="portal-pregunta">
+            ¿Por qué los humanos necesitamos<br>
+            que las cosas tengan sentido?
+        </p>
+
+        <button class="btn btn-primario portal-btn-comenzar" onclick="comenzarExperiencia()">
+            <span>Explorar el misterio</span>
+            <span>→</span>
+        </button>
+
+        <div class="portal-info">
+            <div class="portal-info-item">
+                <div class="portal-info-emoji">⏱️</div>
+                <div class="portal-info-text">15-20 minutos</div>
+            </div>
+            <div class="portal-info-item">
+                <div class="portal-info-emoji">🎮</div>
+                <div class="portal-info-text">8 pantallas interactivas</div>
+            </div>
+            <div class="portal-info-item">
+                <div class="portal-info-emoji">🧪</div>
+                <div class="portal-info-text">Experimentos reales</div>
+            </div>
+            <div class="portal-info-item">
+                <div class="portal-info-emoji">📊</div>
+                <div class="portal-info-text">Datos del estudio</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Generar elementos caóticos
+        function generarCaos() {
+            const container = document.getElementById('caosContainer');
+            const emojis = ['🔄', '❓', '🔀', '⚡', '💭', '🎯', '🔍', '✨', '🌀'];
+            const numElementos = 15;
+
+            for (let i = 0; i < numElementos; i++) {
+                const elemento = document.createElement('div');
+                elemento.className = 'caos-elemento';
+                elemento.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                elemento.style.left = `${Math.random() * 100}%`;
+                elemento.style.top = `${Math.random() * 100}%`;
+                elemento.style.animationDelay = `${Math.random() * 4}s`;
+                elemento.style.animationDuration = `${6 + Math.random() * 4}s`;
+                container.appendChild(elemento);
+            }
+
+            // Ordenar gradualmente los elementos
+            setTimeout(() => {
+                ordenarCaos();
+            }, 2000);
+        }
+
+        function ordenarCaos() {
+            const elementos = document.querySelectorAll('.caos-elemento');
+            elementos.forEach((elem, index) => {
+                setTimeout(() => {
+                    elem.style.transition = 'all 2s ease-out';
+                    elem.style.opacity = '0.1';
+                    const angulo = (index / elementos.length) * Math.PI * 2;
+                    const radio = 300;
+                    const x = 50 + Math.cos(angulo) * radio / window.innerWidth * 100;
+                    const y = 50 + Math.sin(angulo) * radio / window.innerHeight * 100;
+                    elem.style.left = `${x}%`;
+                    elem.style.top = `${y}%`;
+                }, index * 100);
+            });
+        }
+
+        function comenzarExperiencia() {
+            // Animación de salida
+            document.body.style.transition = 'opacity 0.5s ease-out';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                window.location.href = 'pantalla-1.html';
+            }, 500);
+        }
+
+        // Inicializar
+        generarCaos();
+
+        // Easter egg: click en el emoji principal
+        let clickCount = 0;
+        document.querySelector('.portal-emoji').addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 5) {
+                alert('🎉 ¡Has desbloqueado el modo investigador! Los datos completos del paper estarán resaltados.');
+                localStorage.setItem('coherencia_modo_investigador', 'true');
+            }
+        });
+    </script>
+</body>
+</html>
