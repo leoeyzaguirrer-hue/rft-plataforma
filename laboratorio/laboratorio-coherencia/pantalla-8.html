@@ -9,6 +9,18 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
     <style>
+        /* FIX: Asegurar que todos los textos sean legibles */
+        .tarjeta p, .tarjeta-principal p, .ejemplo-contenido p,
+        .caso-step-texto, .caso-step-titulo, .ejemplo-didactico p,
+        .caja-contenido p, .caja-dato p, .caja-insight p {
+            color: var(--texto-oscuro) !important;
+        }
+        .ejemplo-titulo, .ejemplo-titulo span {
+            color: var(--texto-oscuro) !important;
+        }
+        textarea, input[type="text"] {
+            color: var(--texto-oscuro) !important;
+        }
         /* Acordeón Premium */
         .btn-acordeon {
             width: 100%;
@@ -196,13 +208,17 @@
                 flex-direction: column;
             }
         }
-    </style>
+    
+        .ejemplo-contenido p {
+            color: var(--texto-oscuro);
+        }
+        </style>
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <button class="btn-volver">
+            <button class="btn-volver" onclick="window.location.href='index.html'">
                 <span>←</span>
                 <span>Volver al inicio</span>
             </button>
@@ -247,7 +263,7 @@
                     <div class="caja-icono">✅</div>
                     <div class="caja-contenido">
                         <h4>Lo Que Se Probó</h4>
-                        <p style="font-size: var(--text-lg);">
+                        <p style="font-size: var(--text-lg);; color: var(--texto-oscuro);">
                             • Responding coherente emerge sin entrenamiento<br>
                             • Existe preferencia significativa por coherencia<br>
                             • Las personas verbalizan reglas espontáneamente<br>
@@ -260,7 +276,7 @@
                     <div class="caja-icono">⚠️</div>
                     <div class="caja-contenido">
                         <h4>Limitaciones Honestas</h4>
-                        <p style="font-size: var(--text-lg);">
+                        <p style="font-size: var(--text-lg);; color: var(--texto-oscuro);">
                             • No midió aversión del delay directamente<br>
                             • Grupo semántico tuvo más exposición<br>
                             • Preferencia ≠ reforzamiento probado<br>
@@ -274,7 +290,7 @@
                 <div class="caja-icono">🎯</div>
                 <div class="caja-contenido">
                     <h4>El Hallazgo Más Importante</h4>
-                    <p style="font-size: var(--text-xl); line-height: 1.8;">
+                    <p style="font-size: var(--text-xl); line-height: 1.8;; color: var(--texto-oscuro);">
                         <strong>El entailment combinatorio es un moderador crucial.</strong> No puedes preferir 
                         coherencia si no puedes discriminarla completamente.
                     </p>
@@ -288,7 +304,7 @@
                 📚 Referencias Bibliográficas
             </h2>
 
-            <p style="font-size: var(--text-lg); text-align: center; color: var(--texto-medio); margin-bottom: var(--space-10);">
+            <p style="font-size: var(--text-lg); text-align: center; color: var(--texto-medio); margin-bottom: var(--space-10);; color: var(--texto-oscuro);">
                 Todas las fuentes académicas citadas en este laboratorio
             </p>
 
