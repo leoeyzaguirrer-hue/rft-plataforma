@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implicaciones - Laboratorio de Coherencia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        /* Cards de aplicación clickeables */
+        .aplicaciones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-8);
+            margin: var(--space-10) 0;
+        }
+
+        .aplicacion-card {
+            background: white;
+            border-radius: var(--radius-3xl);
+            padding: var(--space-10);
+            box-shadow: var(--shadow-xl);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid transparent;
+        }
+
+        .aplicacion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--acento-cyan), var(--acento-dorado));
+        }
+
+        .aplicacion-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-2xl);
+            border-color: var(--acento-cyan);
+        }
+
+        .aplicacion-card.activa {
+            border-color: var(--acento-cyan);
+            box-shadow: var(--shadow-cyan-lg);
+        }
+
+        .aplicacion-icono {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: var(--space-6);
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .aplicacion-titulo {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-black);
+            color: var(--texto-oscuro);
+            text-align: center;
+            margin-bottom: var(--space-4);
+        }
+
+        .aplicacion-preview {
+            font-size: var(--text-base);
+            color: var(--texto-suave);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Modal de aplicación detallada */
+        .aplicacion-modal {
+            display: none;
+            background: white;
+            border-radius: var(--radius-3xl);
+            padding: var(--space-12);
+            margin: var(--space-10) 0;
+            box-shadow: var(--shadow-2xl);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .aplicacion-modal.show {
+            display: block;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+            padding-bottom: var(--space-6);
+            border-bottom: 3px solid var(--fondo-tarjeta-suave);
+        }
+
+        .modal-icono {
+            font-size: 64px;
+        }
+
+        .modal-titulo {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: var(--font-black);
+            color: var(--texto-oscuro);
+        }
+
+        .caso-practico {
+            background: linear-gradient(135deg, #F0F9FF, #E6F7FF);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            margin: var(--space-8) 0;
+            border-left: 6px solid var(--info);
+        }
+
+        .caso-practico-titulo {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--texto-oscuro);
+            margin-bottom: var(--space-4);
+        }
+
+        .caso-steps {
+            margin-top: var(--space-6);
+        }
+
+        .caso-step {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin: var(--space-4) 0;
+            display: flex;
+            gap: var(--space-4);
+            align-items: flex-start;
+        }
+
+        .caso-step-numero {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            font-weight: var(--font-black);
+            color: var(--acento-cyan);
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .caso-step-contenido {
+            flex: 1;
+        }
+
+        .caso-step-titulo {
+            font-weight: var(--font-bold);
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-2);
+        }
+
+        .caso-step-texto {
+            font-size: var(--text-base);
+            line-height: 1.7;
+            color: var(--texto-medio);
+        }
+
+        /* Conexión con RFT/CBS */
+        .conexion-teoria {
+            background: linear-gradient(135deg, #FFF9E6, #FFFAEB);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            margin: var(--space-8) 0;
+            border-left: 6px solid var(--acento-dorado);
+        }
+
+        .conexion-titulo {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--texto-oscuro);
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .referencias-lista {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-4) 0;
+        }
+
+        .referencias-lista li {
+            padding: var(--space-3) 0;
+            padding-left: var(--space-6);
+            position: relative;
+            font-size: var(--text-base);
+            line-height: 1.7;
+        }
+
+        .referencias-lista li::before {
+            content: '📄';
+            position: absolute;
+            left: 0;
+        }
+
+        .btn-cerrar-modal {
+            margin-top: var(--space-8);
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Implicaciones para diseño experimental */
+        .implicaciones-ciencia {
+            background: linear-gradient(135deg, #F3E8FF, #E9D5FF);
+            border-radius: var(--radius-3xl);
+            padding: var(--space-12);
+            margin: var(--space-10) 0;
+            border: 4px solid var(--acento-violeta);
+        }
+
+        .ciencia-item {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin: var(--space-6) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .ciencia-item-titulo {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--acento-violeta);
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        @media (max-width: 768px) {
+            .aplicaciones-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <button class="btn-volver">
+                <span>←</span>
+                <span>Volver al inicio</span>
+            </button>
+            
+            <div class="pill-progreso">
+                <span class="pill-texto">Progreso del Módulo</span>
+                <div class="pill-barra">
+                    <div class="pill-barra-fill"></div>
+                </div>
+                <span class="pill-texto"><strong>7/8</strong></span>
+            </div>
+        </header>
+
+        <!-- Badge de módulo -->
+        <div class="badge-modulo animate-fade-in delay-200">
+            🌍 Del Laboratorio al Mundo Real
+        </div>
+
+        <!-- Título principal -->
+        <h1 class="text-gradient animate-fade-in delay-300">
+            ¿Y Ahora Qué? Implicaciones
+        </h1>
+
+        <!-- Tarjeta principal -->
+        <div class="tarjeta tarjeta-principal animate-fade-in-up delay-500">
+            <div class="tarjeta-icono-grande animate-float">💡</div>
+            <h2 class="tarjeta-titulo">Por Qué Este Estudio Importa</h2>
+            
+            <p class="tarjeta-texto">
+                Este no es solo un experimento curioso sobre preferencias. Es la <strong>primera evidencia 
+                empírica directa</strong> de una de las asunciones más fundamentales de RFT: que la coherencia 
+                funciona como reforzador.
+            </p>
+
+            <p class="tarjeta-texto">
+                Esto tiene consecuencias enormes para entender:
+            </p>
+
+            <div class="grid-2" style="margin: var(--space-8) 0;">
+                <div class="stat-card">
+                    <div class="stat-icono">🧠</div>
+                    <div class="stat-label">Por qué buscamos patrones incluso cuando nos hacen daño</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icono">💊</div>
+                    <div class="stat-label">Cómo diseñar intervenciones terapéuticas más efectivas</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icono">📚</div>
+                    <div class="stat-label">Cómo crear mejores experiencias de aprendizaje</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icono">🔬</div>
+                    <div class="stat-label">Cómo mejorar el diseño de experimentos futuros</div>
+                </div>
+            </div>
+
+            <div class="caja-insight">
+                <div class="caja-icono">🎯</div>
+                <div class="caja-contenido">
+                    <h4>Lo Que Probó Este Estudio</h4>
+                    <p>
+                        1️⃣ Las personas responden coherentemente <strong>sin entrenamiento ni reforzamiento</strong> (73%)
+                        <br><br>
+                        2️⃣ La mayoría de la gente <strong>verbaliza reglas</strong> incluso sin instrucciones (80/81)
+                        <br><br>
+                        3️⃣ Hay <strong>preferencia significativa por coherencia</strong> (p < .001)
+                        <br><br>
+                        4️⃣ Esta preferencia <strong>tiene límites</strong> (colapsa con response cost alto)
+                        <br><br>
+                        5️⃣ El <strong>entailment combinatorio modera</strong> esta preferencia
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aplicaciones Clínicas y Aplicadas -->
+        <div class="tarjeta animate-fade-in-up delay-700">
+            <h2 class="tarjeta-titulo">🌟 Aplicaciones en el Mundo Real</h2>
+
+            <p class="tarjeta-texto">
+                Haz clic en cada aplicación para explorar cómo estos hallazgos se traducen a situaciones reales:
+            </p>
+
+            <div class="aplicaciones-grid">
+                <!-- Aplicación 1: ACT/Terapia -->
+                <div class="aplicacion-card" onclick="mostrarAplicacion(1)">
+                    <div class="aplicacion-icono">💊</div>
+                    <div class="aplicacion-titulo">Terapia ACT</div>
+                    <div class="aplicacion-preview">
+                        Por qué tu mente busca coherencia incluso en patrones destructivos
+                    </div>
+                </div>
+
+                <!-- Aplicación 2: Fake News -->
+                <div class="aplicacion-card" onclick="mostrarAplicacion(2)">
+                    <div class="aplicacion-icono">📰</div>
+                    <div class="aplicacion-titulo">Desinformación</div>
+                    <div class="aplicacion-preview">
+                        Por qué creemos información que "encaja" con lo que ya pensamos
+                    </div>
+                </div>
+
+                <!-- Aplicación 3: Educación -->
+                <div class="aplicacion-card" onclick="mostrarAplicacion(3)">
+                    <div class="aplicacion-icono">🎓</div>
+                    <div class="aplicacion-titulo">Diseño Educativo</div>
+                    <div class="aplicacion-preview">
+                        Cómo aprovechar la búsqueda natural de patrones en el aprendizaje
+                    </div>
+                </div>
+
+                <!-- Aplicación 4: Relaciones -->
+                <div class="aplicacion-card" onclick="mostrarAplicacion(4)">
+                    <div class="aplicacion-icono">❤️</div>
+                    <div class="aplicacion-titulo">Relaciones</div>
+                    <div class="aplicacion-preview">
+                        Por qué necesitamos narrativas coherentes sobre las personas
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Aplicación 1: ACT -->
+        <div class="aplicacion-modal" id="modal-1">
+            <div class="modal-header">
+                <div class="modal-icono">💊</div>
+                <div class="modal-titulo">Terapia ACT y Coherencia Psicológica</div>
+            </div>
+
+            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);">
+                En ACT, muchos de los problemas psicológicos surgen porque la mente busca coherencia 
+                incluso cuando esa coherencia es destructiva.
+            </p>
+
+            <div class="caso-practico">
+                <div class="caso-practico-titulo">📋 Caso Clínico: Ansiedad Social</div>
+                
+                <div class="caso-steps">
+                    <div class="caso-step">
+                        <div class="caso-step-numero">1️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">La Regla Verbal</div>
+                            <div class="caso-step-texto">
+                                María tiene la regla: "Si hablo en público, todos notarán que estoy nerviosa 
+                                y pensarán que soy incompetente."
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">2️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Búsqueda de Coherencia</div>
+                            <div class="caso-step-texto">
+                                Su mente busca evidencia que confirme esta regla. Nota cada vez que tiembla, 
+                                interpreta expresiones neutrales como juicio negativo.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">3️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Evitación como "Coherencia"</div>
+                            <div class="caso-step-texto">
+                                Evitar hablar en público se vuelve <strong>coherente</strong> con la regla. 
+                                Es la "respuesta lógica" si la premisa es verdadera.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">4️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">El Costo de la Coherencia</div>
+                            <div class="caso-step-texto">
+                                María pierde oportunidades laborales, relaciones, experiencias valiosas. 
+                                Pero su mente la "recompensa" con coherencia: todo tiene sentido dentro 
+                                del marco de la regla.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="conexion-teoria">
+                <div class="conexion-titulo">
+                    <span>🔗</span>
+                    <span>Conexión con el Estudio</span>
+                </div>
+                <p style="font-size: var(--text-lg); line-height: 1.7;">
+                    Este estudio muestra que la coherencia es <strong>intrínsecamente reforzante</strong>. 
+                    Eso explica por qué patrones destructivos son tan persistentes: no es que María "quiera" 
+                    sufrir, es que su mente está haciendo lo que está diseñada para hacer: <strong>buscar 
+                    coherencia</strong>.
+                </p>
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);">
+                    <strong>Implicación clínica:</strong> En lugar de "desafiar pensamientos irracionales", 
+                    ACT trabaja con la <strong>defusión</strong>: ayudar al cliente a ver la regla como una 
+                    regla (no como verdad), y elegir acciones basadas en valores incluso cuando la regla 
+                    esté presente.
+                </p>
+            </div>
+
+            <button class="btn btn-secundario btn-cerrar-modal" onclick="cerrarModal(1)">
+                ← Volver a aplicaciones
+            </button>
+        </div>
+
+        <!-- Modal Aplicación 2: Fake News -->
+        <div class="aplicacion-modal" id="modal-2">
+            <div class="modal-header">
+                <div class="modal-icono">📰</div>
+                <div class="modal-titulo">Desinformación y Sesgo de Confirmación</div>
+            </div>
+
+            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);">
+                La búsqueda de coherencia explica por qué somos tan vulnerables a información 
+                que "encaja" con nuestras creencias previas.
+            </p>
+
+            <div class="caso-practico">
+                <div class="caso-practico-titulo">📋 Ejemplo: Noticias Políticas</div>
+                
+                <div class="caso-steps">
+                    <div class="caso-step">
+                        <div class="caso-step-numero">1️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Marco Relacional Existente</div>
+                            <div class="caso-step-texto">
+                                Juan tiene un marco: "El partido X = corrupto = peligroso para el país"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">2️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Información Coherente (Fake News)</div>
+                            <div class="caso-step-texto">
+                                Ve un titular: "Miembro del partido X involucrado en escándalo financiero" 
+                                (aunque la noticia sea falsa o exagerada).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">3️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Reforzamiento por Coherencia</div>
+                            <div class="caso-step-texto">
+                                La información es <strong>coherente</strong> con su marco. Su mente la acepta 
+                                rápidamente porque "tiene sentido" (deriva lógicamente de sus premisas).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">4️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Información Incoherente (Verdad)</div>
+                            <div class="caso-step-texto">
+                                Más tarde lee: "Miembro del partido X recibe premio por transparencia". 
+                                Esta información es <strong>incoherente</strong>. Su mente la rechaza 
+                                o la reinterpreta ("debe ser una fachada").
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="conexion-teoria">
+                <div class="conexion-titulo">
+                    <span>🔗</span>
+                    <span>Conexión con el Estudio</span>
+                </div>
+                <p style="font-size: var(--text-lg); line-height: 1.7;">
+                    El estudio mostró que las personas <strong>prefieren contextos coherentes</strong> 
+                    sobre incoherentes. En redes sociales y noticias, esto se traduce en:
+                </p>
+                <ul class="referencias-lista">
+                    <li>Compartir información que refuerza creencias existentes (puerta azul = coherente)</li>
+                    <li>Evitar o descartar información contradictoria (puerta amarilla = incoherente)</li>
+                    <li>Buscar activamente fuentes que confirmen el marco relacional previo</li>
+                </ul>
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);">
+                    <strong>Implicación social:</strong> El problema no es solo "falta de pensamiento crítico". 
+                    Es que la coherencia es reforzante a nivel básico del procesamiento relacional. 
+                    Contramedidas efectivas deben trabajar con esto, no contra esto.
+                </p>
+            </div>
+
+            <button class="btn btn-secundario btn-cerrar-modal" onclick="cerrarModal(2)">
+                ← Volver a aplicaciones
+            </button>
+        </div>
+
+        <!-- Modal Aplicación 3: Educación -->
+        <div class="aplicacion-modal" id="modal-3">
+            <div class="modal-header">
+                <div class="modal-icono">🎓</div>
+                <div class="modal-titulo">Diseño Educativo y Aprendizaje</div>
+            </div>
+
+            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);">
+                Los estudiantes buscan patrones automáticamente. Podemos diseñar experiencias 
+                de aprendizaje que aprovechen esta tendencia natural.
+            </p>
+
+            <div class="caso-practico">
+                <div class="caso-practico-titulo">📋 Principios de Diseño Educativo</div>
+                
+                <div class="caso-steps">
+                    <div class="caso-step">
+                        <div class="caso-step-numero">1️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Presentar Ejemplos Antes de Reglas</div>
+                            <div class="caso-step-texto">
+                                El estudio mostró que participantes derivaron patrones SIN instrucciones. 
+                                Implicación: Muestra ejemplos múltiples y deja que los estudiantes 
+                                descubran el patrón antes de dar la "regla formal".
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">2️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Promover Verbalización</div>
+                            <div class="caso-step-texto">
+                                80/81 participantes generaron reglas verbales. Implicación: Pide a los 
+                                estudiantes que expliquen "cómo lo resolvieron" o "qué patrón ven". 
+                                La verbalización consolida el aprendizaje.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">3️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Construir sobre Entailment Combinatorio</div>
+                            <div class="caso-step-texto">
+                                Solo los que tenían entailment combinatorio pudieron discriminar completamente. 
+                                Implicación: Enseña habilidades relacionales básicas (si-entonces, 
+                                transitividad) antes de contenido complejo.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">4️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Coherencia vs Dificultad</div>
+                            <div class="caso-step-texto">
+                                La preferencia por coherencia tiene límites (response cost). Implicación: 
+                                Tareas demasiado difíciles rompen la coherencia y desmotivan. Diseña 
+                                progresión que mantenga coherencia percibida.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="conexion-teoria">
+                <div class="conexion-titulo">
+                    <span>🔗</span>
+                    <span>Conexión con el Estudio</span>
+                </div>
+                <p style="font-size: var(--text-lg); line-height: 1.7;">
+                    Este estudio valida el enfoque de <strong>aprendizaje por descubrimiento guiado</strong>. 
+                    Los humanos no son tablas rasas esperando instrucciones; son máquinas de buscar patrones. 
+                    La educación efectiva trabaja CON esta tendencia.
+                </p>
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);">
+                    <strong>Implicación práctica:</strong> Diseña experiencias donde descubrir el patrón 
+                    sea reforzante por sí mismo (coherencia como reforzador intrínseco), no solo por 
+                    calificaciones o elogios (reforzadores extrínsecos).
+                </p>
+            </div>
+
+            <button class="btn btn-secundario btn-cerrar-modal" onclick="cerrarModal(3)">
+                ← Volver a aplicaciones
+            </button>
+        </div>
+
+        <!-- Modal Aplicación 4: Relaciones -->
+        <div class="aplicacion-modal" id="modal-4">
+            <div class="modal-header">
+                <div class="modal-icono">❤️</div>
+                <div class="modal-titulo">Relaciones Interpersonales</div>
+            </div>
+
+            <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8);">
+                Necesitamos narrativas coherentes sobre las personas en nuestras vidas. 
+                Cuando esas narrativas se rompen, causa malestar significativo.
+            </p>
+
+            <div class="caso-practico">
+                <div class="caso-practico-titulo">📋 Ejemplo: Ruptura de Coherencia</div>
+                
+                <div class="caso-steps">
+                    <div class="caso-step">
+                        <div class="caso-step-numero">1️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Marco Coherente Inicial</div>
+                            <div class="caso-step-texto">
+                                Ana ve a su pareja como: "Honesto = confiable = mi persona segura"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">2️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Información Incoherente</div>
+                            <div class="caso-step-texto">
+                                Descubre una mentira pequeña. Esto es <strong>incoherente</strong> 
+                                con "honesto = confiable".
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">3️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Malestar por Incoherencia</div>
+                            <div class="caso-step-texto">
+                                El malestar NO es solo por la mentira en sí, sino por la 
+                                <strong>ruptura de coherencia</strong>. Todo el marco necesita revisarse.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-step">
+                        <div class="caso-step-numero">4️⃣</div>
+                        <div class="caso-step-contenido">
+                            <div class="caso-step-titulo">Restauración de Coherencia</div>
+                            <div class="caso-step-texto">
+                                Ana tiene opciones: (A) Reinterpretar la mentira como excepción 
+                                ("estaba protegiendo mis sentimientos"), o (B) Revisar todo el marco 
+                                ("quizás no es tan confiable"). Ambas restauran coherencia.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="conexion-teoria">
+                <div class="conexion-titulo">
+                    <span>🔗</span>
+                    <span>Conexión con el Estudio</span>
+                </div>
+                <p style="font-size: var(--text-lg); line-height: 1.7;">
+                    El estudio mostró que las personas evitan activamente contextos incoherentes 
+                    cuando pueden. En relaciones, esto se manifiesta como:
+                </p>
+                <ul class="referencias-lista">
+                    <li>Resistencia a información que contradice nuestra narrativa sobre alguien</li>
+                    <li>Malestar intenso cuando la coherencia se rompe (no solo por el evento)</li>
+                    <li>Motivación fuerte para restaurar coherencia (explicar, justificar, o revisar)</li>
+                </ul>
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-top: var(--space-4);">
+                    <strong>Implicación terapéutica:</strong> Cuando clientes presentan conflictos 
+                    relacionales, evalúa las <strong>rupturas de coherencia</strong> en sus marcos 
+                    relacionales, no solo los eventos específicos.
+                </p>
+            </div>
+
+            <button class="btn btn-secundario btn-cerrar-modal" onclick="cerrarModal(4)">
+                ← Volver a aplicaciones
+            </button>
+        </div>
+
+        <!-- Implicaciones para Ciencia Básica -->
+        <div class="implicaciones-ciencia animate-fade-in-up delay-900">
+            <h2 class="tarjeta-titulo" style="text-align: center; color: var(--acento-violeta); margin-bottom: var(--space-10);">
+                🔬 Implicaciones para la Ciencia Básica
+            </h2>
+
+            <div class="ciencia-item">
+                <div class="ciencia-item-titulo">
+                    <span>1️⃣</span>
+                    <span>Diseño Experimental: El Problema del Pre-Test</span>
+                </div>
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);">
+                    Tradicionalmente, los pre-tests asumen que los participantes responden aleatoriamente 
+                    antes del entrenamiento. Este estudio mostró que <strong>73% responden coherentemente 
+                    SIN entrenamiento</strong>.
+                </p>
+                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);">
+                    → Implicación: Los pre-tests pueden estar comprometidos. Los investigadores deberían 
+                    considerar que la "línea base" ya contiene responding relacional.
+                </p>
+            </div>
+
+            <div class="ciencia-item">
+                <div class="ciencia-item-titulo">
+                    <span>2️⃣</span>
+                    <span>Interpretación de "Failures": No es Random</span>
+                </div>
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);">
+                    Cuando alguien "falla" un test de equivalencia, tradicionalmente se asume responding aleatorio. 
+                    Este estudio sugiere que pueden tener <strong>patrones coherentes idiográficos</strong> 
+                    (Holth & Arntzen, 1998: 15/21 "non-passers" tenían patrones consistentes).
+                </p>
+                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);">
+                    → Implicación: Analiza los patrones de "failures", no solo los descartes como ruido.
+                </p>
+            </div>
+
+            <div class="ciencia-item">
+                <div class="ciencia-item-titulo">
+                    <span>3️⃣</span>
+                    <span>Validación de RFT Sin Class-Acquisition</span>
+                </div>
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);">
+                    El Estudio 1 mostró responding coherente <strong>sin entrenamiento de clases</strong>. 
+                    Esto es la primera evidencia de derivación relacional espontánea en este tipo de paradigma.
+                </p>
+                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);">
+                    → Implicación: RFT predice esto (historia de reforzamiento por coherencia), 
+                    pero nunca se había mostrado tan claramente.
+                </p>
+            </div>
+
+            <div class="ciencia-item">
+                <div class="ciencia-item-titulo">
+                    <span>4️⃣</span>
+                    <span>Moderadores: Entailment Combinatorio es Clave</span>
+                </div>
+                <p style="font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-4);">
+                    El hallazgo más importante: <strong>solo los que podían hacer entailment combinatorio 
+                    mostraron preferencia consistente</strong>. Esto no se había identificado como moderador antes.
+                </p>
+                <p style="font-size: var(--text-lg); line-height: 1.7; color: var(--acento-violeta); font-weight: var(--font-bold);">
+                    → Implicación: Futuros estudios sobre coherencia deben medir repertorios relacionales 
+                    de los participantes. No todos pueden discriminar coherencia de la misma manera.
+                </p>
+            </div>
+        </div>
+
+        <!-- Navegación -->
+        <div class="navegacion animate-fade-in delay-1200">
+            <button class="btn btn-secundario btn-anterior">
+                <span>←</span>
+                <span>Anterior</span>
+            </button>
+            <button class="btn btn-primario btn-siguiente">
+                <span>Siguiente: Conclusión</span>
+                <span>→</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Configurar pantalla actual
+        const nav = new NavigationSystem();
+        nav.currentScreen = 7;
+        nav.updateProgressBar();
+
+        // Gestión de modales
+        let modalActual = null;
+
+        function mostrarAplicacion(numero) {
+            // Cerrar modal anterior si existe
+            if (modalActual) {
+                document.getElementById(`modal-${modalActual}`).classList.remove('show');
+                document.querySelectorAll('.aplicacion-card')[modalActual - 1].classList.remove('activa');
+            }
+
+            // Mostrar nuevo modal
+            const modal = document.getElementById(`modal-${numero}`);
+            modal.classList.add('show');
+            
+            // Marcar card como activa
+            document.querySelectorAll('.aplicacion-card')[numero - 1].classList.add('activa');
+            
+            modalActual = numero;
+
+            // Scroll al modal
+            setTimeout(() => {
+                modal.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function cerrarModal(numero) {
+            document.getElementById(`modal-${numero}`).classList.remove('show');
+            document.querySelectorAll('.aplicacion-card')[numero - 1].classList.remove('activa');
+            modalActual = null;
+
+            // Scroll a las cards
+            setTimeout(() => {
+                document.querySelector('.aplicaciones-grid').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
+        }
+
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalActual) {
+                cerrarModal(modalActual);
+            }
+        });
+    </script>
+</body>
+</html>
