@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROE - La Nueva Unidad - RFT Actualizada</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #4FB3D9 0%, #2E8BA6 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+        
+        .btn-back {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+        
+        .progress-indicator {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .screen {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .content-card {
+            background: #FFD93D;
+            border-radius: 25px;
+            padding: 35px 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-badge {
+            display: inline-block;
+            background: #2E8BA6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            color: #000;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        
+        .content-text {
+            color: #000;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .content-text strong {
+            font-weight: 700;
+            color: #2E8BA6;
+        }
+        
+        .ejemplo-box {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .ejemplo-label {
+            color: #2E8BA6;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ejemplo-content {
+            color: #000;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .highlight-box {
+            background: rgba(46, 139, 166, 0.1);
+            border-left: 4px solid #2E8BA6;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .highlight-box p {
+            color: #000;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        /* Logo ROE animado */
+        .roe-logo-container {
+            text-align: center;
+            margin: 25px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f9f9f9, #e8f4f8);
+            border-radius: 15px;
+        }
+        
+        .roe-logo {
+            display: inline-flex;
+            gap: 20px;
+            font-size: 48px;
+            font-weight: 700;
+            align-items: center;
+        }
+        
+        .roe-letter {
+            display: inline-block;
+            animation: bounce 2s infinite ease-in-out;
+        }
+        
+        .roe-letter.r {
+            color: #FF6B6B;
+            animation-delay: 0s;
+        }
+        
+        .roe-letter.o {
+            color: #4ECDC4;
+            animation-delay: 0.3s;
+        }
+        
+        .roe-letter.e {
+            color: #FFD93D;
+            animation-delay: 0.6s;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .roe-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        
+        /* Componentes ROE */
+        .componente-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 6px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .componente-card.r { border-left-color: #FF6B6B; }
+        .componente-card.o { border-left-color: #4ECDC4; }
+        .componente-card.e { border-left-color: #FFD93D; }
+        
+        .componente-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .componente-card.active {
+            background: #f5f5f5;
+        }
+        
+        .componente-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .componente-icon {
+            font-size: 32px;
+        }
+        
+        .componente-title {
+            color: #000;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .componente-desc {
+            color: #666;
+            font-size: 13px;
+        }
+        
+        .componente-detail {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+            display: none;
+        }
+        
+        .componente-detail.show {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        /* Animación ROE en acción */
+        .roe-animation {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            min-height: 200px;
+        }
+        
+        .animation-stage {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .stage-element {
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s ease;
+        }
+        
+        .stage-element.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .stage-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .stage-label {
+            color: #000;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        .arrow {
+            font-size: 32px;
+            color: #2E8BA6;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        
+        .arrow.show {
+            opacity: 1;
+        }
+        
+        .play-btn {
+            background: #2E8BA6;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+        }
+        
+        .play-btn:hover {
+            background: #236A7F;
+            transform: scale(1.05);
+        }
+        
+        /* Escenarios de vida cotidiana */
+        .escenario-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .escenario-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #e0e0e0;
+        }
+        
+        .escenario-card:hover {
+            border-color: #2E8BA6;
+            transform: scale(1.03);
+        }
+        
+        .escenario-card.active {
+            border-color: #FFD93D;
+            background: #fffbf0;
+        }
+        
+        .escenario-emoji {
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .escenario-title {
+            color: #000;
+            font-weight: 700;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .escenario-detail {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 15px;
+            display: none;
+        }
+        
+        .escenario-detail.show {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        /* Experimento identificación */
+        .experimento-item {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 3px solid #e0e0e0;
+        }
+        
+        .experimento-item.completed {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        
+        .experimento-scenario {
+            color: #000;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+        
+        .identificar-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .identificar-btn {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .identificar-btn:hover {
+            border-color: #2E8BA6;
+        }
+        
+        .identificar-btn.selected {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        
+        .identificar-btn.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+        
+        /* Self verbal */
+        .self-slider-container {
+            margin: 25px 0;
+        }
+        
+        .self-scale {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .scale-label {
+            color: #000;
+            font-size: 13px;
+            font-weight: 700;
+            min-width: 80px;
+        }
+        
+        .scale-bar {
+            flex: 1;
+            height: 40px;
+            background: linear-gradient(to right, #e8f4f8, #FFD93D);
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .scale-marker {
+            position: absolute;
+            width: 4px;
+            height: 100%;
+            background: #2E8BA6;
+            transition: left 0.3s ease;
+        }
+        
+        .scale-marker.trivial { left: 10%; }
+        .scale-marker.fundamental { left: 90%; }
+        
+        /* Campo visualización */
+        .campo-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .campo-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .campo-view {
+            padding: 20px;
+            border-radius: 12px;
+            min-height: 200px;
+        }
+        
+        .view-marcos {
+            background: #f5f5f5;
+            border: 3px solid #ccc;
+        }
+        
+        .view-campo {
+            background: linear-gradient(135deg, #e8f4f8, #fff9e6);
+            border: 3px solid #2E8BA6;
+        }
+        
+        .view-title {
+            color: #2E8BA6;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .marcos-elements {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .marco-box {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            text-align: center;
+            font-size: 13px;
+            color: #000;
+        }
+        
+        .campo-network {
+            position: relative;
+            height: 150px;
+        }
+        
+        .network-node {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            border: 3px solid #2E8BA6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        .network-node:nth-child(1) {
+            top: 10%; left: 20%;
+            animation-delay: 0s;
+        }
+        
+        .network-node:nth-child(2) {
+            top: 50%; left: 70%;
+            animation-delay: 0.5s;
+        }
+        
+        .network-node:nth-child(3) {
+            top: 70%; left: 30%;
+            animation-delay: 1s;
+        }
+        
+        .network-node:nth-child(4) {
+            top: 30%; right: 10%;
+            animation-delay: 1.5s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(5px, -5px); }
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            background: white;
+            color: #2E8BA6;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .nav-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .nav-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .nav-btn.primary {
+            background: #2E8BA6;
+            color: white;
+        }
+        
+        .nav-btn.primary:hover {
+            background: #236A7F;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body { padding: 15px; }
+            .content-card { padding: 25px 20px; }
+            h1 { font-size: 24px; }
+            .roe-logo { font-size: 36px; gap: 15px; }
+            .escenario-grid { grid-template-columns: 1fr; }
+            .campo-comparison { grid-template-columns: 1fr; }
+            .identificar-grid { grid-template-columns: 1fr; }
+            .nav-btn { padding: 12px 20px; font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="seccion-3.html" class="btn-back">← Volver</a>
+        <div class="progress-indicator">
+            Sección 4 • Pantalla <span id="currentScreen">1</span>/6
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- PANTALLA 4.1: Presentando el ROE -->
+        <div class="screen active" id="screen-1">
+            <div class="content-card">
+                <div class="section-badge">🎯 ROE - La Nueva Unidad</div>
+                <h1>Presentando el ROE</h1>
+                
+                <div class="roe-logo-container">
+                    <div class="roe-logo">
+                        <span class="roe-letter r">R</span>
+                        <span class="roe-letter o">O</span>
+                        <span class="roe-letter e">E</span>
+                    </div>
+                    <p class="roe-subtitle">
+                        <strong>Relating • Orienting • Evoking</strong>
+                    </p>
+                </div>
+                
+                <p class="content-text">
+                    La investigación reciente ha llevado a conceptualizar eventos psicológicos en humanos verbales como involucrando un <strong>flujo conductual constante</strong> de tres procesos interconectados: <strong>ROE-ing</strong> (pronunciado "rowing" - como remar).
+                </p>
+                
+                <p class="content-text">
+                    El ROE es una <strong>nueva unidad conceptual de análisis</strong> basada en RFT que captura la forma distintiva en la que los humanos con lenguaje navegamos nuestros mundos psicológicos.
+                </p>
+                
+                <div class="highlight-box">
+                    <p>
+                        <strong>Los tres elementos del ROE no son unidades enteramente separables</strong>, sino que trabajan juntos en virtualmente cada acto psicológico emitido por un humano con capacidad verbal. Desde lo más trivial (apagar una luz) hasta lo más fundamental (decisiones de vida o muerte).
+                    </p>
+                </div>
+                
+                <!-- Por qué es revolucionario -->
+                <div class="ejemplo-box">
+                    <div class="ejemplo-label">⚡ ¿Por Qué es Revolucionario?</div>
+                    <div class="ejemplo-content">
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            El ROE cambia cómo entendemos el comportamiento humano:
+                        </p>
+                        
+                        <div style="background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 12px;">
+                            <h4 style="color: #2E8BA6; margin-bottom: 10px;">❌ Enfoque Tradicional</h4>
+                            <p style="color: #000; font-size: 14px; margin: 0;">
+                                Analiza "pensamientos", "emociones" y "conductas" como cosas separadas.<br>
+                                <em style="opacity: 0.7;">→ Fragmenta la experiencia humana</em>
+                            </p>
+                        </div>
+                        
+                        <div style="background: #e8f4f8; padding: 20px; border-radius: 12px;">
+                            <h4 style="color: #2E8BA6; margin-bottom: 10px;">✓ Enfoque ROE</h4>
+                            <p style="color: #000; font-size: 14px; margin: 0;">
+                                Analiza <strong>"actos de significado"</strong> completos donde relacionar, orientar y evocar ocurren simultáneamente en contexto.<br>
+                                <em style="opacity: 0.7;">→ Captura la experiencia como proceso dinámico</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="content-text">
+                    En las siguientes pantallas exploraremos cada componente del ROE y veremos cómo trabajan juntos en la vida cotidiana.
+                </p>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 4.2: Los Tres Componentes -->
+        <div class="screen" id="screen-2">
+            <div class="content-card">
+                <div class="section-badge">🔍 Los Tres Componentes</div>
+                <h1>R • O • E</h1>
+                
+                <p class="content-text">
+                    Cada componente del ROE captura un aspecto diferente pero interrelacionado del "acto de significado":
+                </p>
+                
+                <p class="content-text" style="font-size: 14px; margin: 20px 0 15px 0;">
+                    👆 <strong>Toca cada componente</strong> para ver su definición y ejemplo:
+                </p>
+                
+                <!-- Componente R -->
+                <div class="componente-card r" onclick="toggleComponente('r')">
+                    <div class="componente-header">
+                        <div class="componente-icon">🔗</div>
+                        <div style="flex: 1;">
+                            <div class="componente-title">R - Relating (Relacionar)</div>
+                            <div class="componente-desc">Las múltiples formas de relacionar eventos</div>
+                        </div>
+                        <div style="font-size: 20px; color: #FF6B6B;">▼</div>
+                    </div>
+                    <div class="componente-detail" id="detail-r">
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            Se refiere a las <strong>múltiples formas complejas</strong> en las que los humanos con lenguaje podemos relacionar estímulos y eventos - desde equivalencia simple hasta redes relacionales masivas.
+                        </p>
+                        <div style="background: #fff5f5; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 13px; margin-bottom: 8px;">
+                                <strong>🍋 Ejemplo: "Esta fruta es como un limón"</strong>
+                            </p>
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                Relacionas la fruta desconocida con "limón" (coordinación/similitud)<br>
+                                → Activas red: amarillo, ácido, cítrico, vitamina C<br>
+                                → Relacionas con experiencias pasadas con limones<br>
+                                <em style="opacity: 0.7;">Múltiples relaciones emergen instantáneamente</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Componente O -->
+                <div class="componente-card o" onclick="toggleComponente('o')">
+                    <div class="componente-header">
+                        <div class="componente-icon">👁️</div>
+                        <div style="flex: 1;">
+                            <div class="componente-title">O - Orienting (Orientar)</div>
+                            <div class="componente-desc">Notar, atender al estímulo</div>
+                        </div>
+                        <div style="font-size: 20px; color: #4ECDC4;">▼</div>
+                    </div>
+                    <div class="componente-detail" id="detail-o">
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            Se refiere a <strong>notar o atender</strong> a un estímulo o evento. No todos los estímulos nos orientan por igual - algunos capturan nuestra atención automáticamente.
+                        </p>
+                        <div style="background: #f0fffe; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 13px; margin-bottom: 8px;">
+                                <strong>🍋 Ejemplo: La fruta llama tu atención</strong>
+                            </p>
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                Una vez relacionada con "limón", la fruta se vuelve saliente<br>
+                                → Tu atención se dirige hacia ella<br>
+                                → La notas entre otras frutas<br>
+                                → Si alguien menciona "limones", volteas<br>
+                                <em style="opacity: 0.7;">La relación transforma la función de orientación</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Componente E -->
+                <div class="componente-card e" onclick="toggleComponente('e')">
+                    <div class="componente-header">
+                        <div class="componente-icon">💓</div>
+                        <div style="flex: 1;">
+                            <div class="componente-title">E - Evoking (Evocar)</div>
+                            <div class="componente-desc">Reacción apetitiva/aversiva</div>
+                        </div>
+                        <div style="font-size: 20px; color: #FFD93D;">▼</div>
+                    </div>
+                    <div class="componente-detail" id="detail-e">
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            Se refiere a si un estímulo notado es <strong>apetitivo</strong> (te atrae/deseas), <strong>aversivo</strong> (te repele/evitas), o relativamente neutral.
+                        </p>
+                        <div style="background: #fffbf0; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 13px; margin-bottom: 8px;">
+                                <strong>🍋 Ejemplo: Anticipas sabor ácido</strong>
+                            </p>
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                La relación "como limón" evoca una respuesta:<br>
+                                → Anticipas sabor ácido (aversivo leve)<br>
+                                → Salivación preparatoria<br>
+                                → Decides si la comes o no<br>
+                                → Si te gustan cosas ácidas: apetitivo<br>
+                                <em style="opacity: 0.7;">La función evocada depende de tu historia</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box" style="margin-top: 25px;">
+                    <p>
+                        <strong>Importante:</strong> Estos tres componentes no ocurren en secuencia lineal, sino que interactúan <strong>dinámicamente</strong>. Orientar puede producir relacionar, que lleva a evocar. O evocar puede aumentar orientación, que facilita nuevo relacionar. Es un proceso continuo y fluido.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 4.3: Animación ROE en Acción -->
+        <div class="screen" id="screen-3">
+            <div class="content-card">
+                <div class="section-badge">🎬 ROE en Acción</div>
+                <h1>Ver el ROE en Movimiento</h1>
+                
+                <p class="content-text">
+                    Veamos cómo R, O, y E trabajan juntos en un ejemplo del artículo original:
+                </p>
+                
+                <div class="roe-animation">
+                    <h3 style="color: #2E8BA6; text-align: center; margin-bottom: 20px;">
+                        Escenario: Caminando en un día caluroso 🌞
+                    </h3>
+                    
+                    <p style="color: #666; font-size: 14px; text-align: center; margin-bottom: 25px;">
+                        "Llevas horas sin beber agua, caminando por un área comercial en una ciudad nueva..."
+                    </p>
+                    
+                    <div class="animation-stage" id="animation-stage">
+                        <div class="stage-element" id="stage-1">
+                            <div class="stage-icon">👁️</div>
+                            <div class="stage-label">ORIENTAS</div>
+                            <p style="font-size: 12px; color: #666; margin-top: 5px;">
+                                Notas anuncio de helado
+                            </p>
+                        </div>
+                        
+                        <div class="arrow" id="arrow-1">→</div>
+                        
+                        <div class="stage-element" id="stage-2">
+                            <div class="stage-icon">💓</div>
+                            <div class="stage-label">EVOCA</div>
+                            <p style="font-size: 12px; color: #666; margin-top: 5px;">
+                                Respuesta apetitiva fuerte
+                            </p>
+                        </div>
+                        
+                        <div class="arrow" id="arrow-2">→</div>
+                        
+                        <div class="stage-element" id="stage-3">
+                            <div class="stage-icon">🔗</div>
+                            <div class="stage-label">RELACIONAS</div>
+                            <p style="font-size: 12px; color: #666; margin-top: 5px;">
+                                "Voy a entrar y comprar"
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <button class="play-btn" onclick="playAnimation()">
+                        ▶ Ver Animación
+                    </button>
+                    
+                    <div id="animation-explanation" style="margin-top: 25px; padding: 20px; background: #f9f9f9; border-radius: 12px; display: none;">
+                        <p style="color: #000; font-size: 14px; line-height: 1.8; margin: 0;">
+                            <strong>Análisis ROE completo:</strong><br><br>
+                            
+                            <strong style="color: #4ECDC4;">O (Orienting):</strong> El anuncio de helado <em>orienta</em> tu atención - lo notas entre muchos estímulos<br><br>
+                            
+                            <strong style="color: #FFD93D;">E (Evoking):</strong> Esto <em>evoca</em> una respuesta apetitiva fuerte (deseo de helado) porque tienes sed y calor<br><br>
+                            
+                            <strong style="color: #FF6B6B;">R (Relating):</strong> Emites una red relacional: "Voy a parar aquí y entrar a comprarme un helado"<br><br>
+                            
+                            <em style="color: #666;">→ Los tres componentes interactúan sinérgicamente en este "acto de significado"</em>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="ejemplo-box" style="margin-top: 25px;">
+                    <div class="ejemplo-label">🔄 Interacción Dinámica</div>
+                    <div class="ejemplo-content">
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            El orden puede variar según el contexto:
+                        </p>
+                        
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+                            <p style="color: #000; font-size: 14px; margin: 0;">
+                                <strong>Secuencia 1:</strong> O → E → R<br>
+                                <em style="font-size: 13px; opacity: 0.7;">Primero notas, luego sientes, luego piensas</em>
+                            </p>
+                        </div>
+                        
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+                            <p style="color: #000; font-size: 14px; margin: 0;">
+                                <strong>Secuencia 2:</strong> R → O → E<br>
+                                <em style="font-size: 13px; opacity: 0.7;">Un pensamiento te hace notar algo, que evoca emoción</em>
+                            </p>
+                        </div>
+                        
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 14px; margin: 0;">
+                                <strong>Secuencia 3:</strong> E → R → O<br>
+                                <em style="font-size: 13px; opacity: 0.7;">Una emoción genera pensamientos que orientan tu atención</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 4.4: ROE en Vida Cotidiana -->
+        <div class="screen" id="screen-4">
+            <div class="content-card">
+                <div class="section-badge">🌍 ROE en la Vida</div>
+                <h1>Ejemplos Cotidianos</h1>
+                
+                <p class="content-text">
+                    El ROE está presente en cada momento de nuestra vida diaria. Veamos ejemplos variados:
+                </p>
+                
+                <p class="content-text" style="font-size: 14px; margin: 20px 0 15px 0;">
+                    👆 <strong>Toca cada escenario</strong> para ver el análisis ROE:
+                </p>
+                
+                <div class="escenario-grid">
+                    <div class="escenario-card" onclick="mostrarEscenario(1)">
+                        <div class="escenario-emoji">💡</div>
+                        <div class="escenario-title">Apagar la luz</div>
+                    </div>
+                    
+                    <div class="escenario-card" onclick="mostrarEscenario(2)">
+                        <div class="escenario-emoji">⚠️</div>
+                        <div class="escenario-title">Señal de peligro</div>
+                    </div>
+                    
+                    <div class="escenario-card" onclick="mostrarEscenario(3)">
+                        <div class="escenario-emoji">🎵</div>
+                        <div class="escenario-title">Música favorita</div>
+                    </div>
+                    
+                    <div class="escenario-card" onclick="mostrarEscenario(4)">
+                        <div class="escenario-emoji">📱</div>
+                        <div class="escenario-title">Mensaje de texto</div>
+                    </div>
+                </div>
+                
+                <div class="escenario-detail" id="escenario-detail">
+                    <!-- Contenido dinámico -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 4.5: Experimento ROE + Self Verbal -->
+        <div class="screen" id="screen-5">
+            <div class="content-card">
+                <div class="section-badge">🎮 Experimento + Self</div>
+                <h1>Identifica R-O-E + El Yo Verbal</h1>
+                
+                <p class="content-text">
+                    Ahora practica identificando cada componente. Recuerda: pueden ocurrir en cualquier orden y repetirse.
+                </p>
+                
+                <!-- Experimento simplificado -->
+                <div class="ejemplo-box">
+                    <div class="ejemplo-label">🧪 Identifica los Componentes</div>
+                    <div class="ejemplo-content" id="experimento-content">
+                        <!-- Se llenará con JS -->
+                    </div>
+                </div>
+                
+                <!-- Self Verbal -->
+                <h2 style="color: #2E8BA6; margin-top: 30px;">El "Yo" Verbal en el ROE</h2>
+                
+                <p class="content-text">
+                    Del artículo: <em>"Una vez establecido un yo verbal en el repertorio conductual, se convierte en un estímulo o evento continuo que <strong>participa en virtualmente cada ROE</strong>."</em>
+                </p>
+                
+                <div class="self-slider-container">
+                    <p class="content-text" style="font-size: 14px; margin-bottom: 15px;">
+                        El "yo" verbal participa desde actos triviales hasta fundamentales:
+                    </p>
+                    
+                    <div class="self-scale">
+                        <div class="scale-label">TRIVIAL</div>
+                        <div class="scale-bar">
+                            <div class="scale-marker trivial"></div>
+                        </div>
+                        <div class="scale-label">FUNDAMENTAL</div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+                        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                <strong>Trivial:</strong> "Yo" apago la luz para dormir<br>
+                                <em style="opacity: 0.7;">→ Aún participa el yo verbal</em>
+                            </p>
+                        </div>
+                        
+                        <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                <strong>Fundamental:</strong> "Yo" no puedo más<br>
+                                <em style="opacity: 0.7;">→ Self-focalizado, vital</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <p>
+                        El ciclo diario constante e iterativo de ROE-ing, desde lo más trivial hasta lo más fundamental, crea lo que filósofos llaman <strong>sentido de propósito o significado</strong> en la vida.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 4.6: Campo de Interactuantes -->
+        <div class="screen" id="screen-6">
+            <div class="content-card">
+                <div class="section-badge">🌊 El Campo</div>
+                <h1>Campo de Interactuantes</h1>
+                
+                <p class="content-text">
+                    El ROE no es un conjunto de elementos aislados, sino un <strong>proceso dinámico continuo</strong> dentro de un campo de interacciones.
+                </p>
+                
+                <p class="content-text">
+                    Del artículo: <em>"Los estímulos no existen independientemente - se definen por su participación en el campo. <strong>El evento psicológico ES el campo.</strong>"</em>
+                </p>
+                
+                <div class="campo-container">
+                    <h3 style="color: #2E8BA6; text-align: center; margin-bottom: 20px;">
+                        Comparación Visual
+                    </h3>
+                    
+                    <div class="campo-comparison">
+                        <div class="campo-view view-marcos">
+                            <div class="view-title">🖼️ Marcos Aislados</div>
+                            <div class="marcos-elements">
+                                <div class="marco-box">Marco 1<br>A = B</div>
+                                <div class="marco-box">Marco 2<br>B > C</div>
+                                <div class="marco-box">Marco 3<br>C ≠ D</div>
+                            </div>
+                            <p style="color: #666; font-size: 12px; text-align: center; margin-top: 15px;">
+                                Elementos separados, estáticos
+                            </p>
+                        </div>
+                        
+                        <div class="campo-view view-campo">
+                            <div class="view-title">🌊 Campo Dinámico</div>
+                            <div class="campo-network">
+                                <div class="network-node">R</div>
+                                <div class="network-node">O</div>
+                                <div class="network-node">E</div>
+                                <div class="network-node">Yo</div>
+                            </div>
+                            <p style="color: #666; font-size: 12px; text-align: center; margin-top: 15px;">
+                                Interacciones continuas, fluidas
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ejemplo-box">
+                    <div class="ejemplo-label">💡 Implicaciones</div>
+                    <div class="ejemplo-content">
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            ¿Qué significa esto para la terapia y la comprensión humana?
+                        </p>
+                        
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; line-height: 1.8;">
+                            <p style="color: #000; font-size: 14px; margin: 0;">
+                                <strong>1.</strong> No analizamos "pensamientos" aislados, sino <strong>actos de significado</strong> completos<br><br>
+                                
+                                <strong>2.</strong> El contexto no es "fondo", sino parte integral del evento<br><br>
+                                
+                                <strong>3.</strong> Cambiar cualquier aspecto del campo (R, O, o E) puede transformar todo el sistema<br><br>
+                                
+                                <strong>4.</strong> La experiencia humana es fundamentalmente <strong>relacional y dinámica</strong>, no estática
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <p style="text-align: center; font-size: 16px;">
+                        <strong>🎯 El ROE captura la esencia del lenguaje y la cognición humana:</strong><br>
+                        Un flujo continuo de relacionar, orientar y evocar en un campo dinámico de interacciones, donde el "yo" verbal participa constantemente.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Continuación en JS -->
+        
+        <div class="navigation">
+            <button class="nav-btn" id="btnPrev" onclick="previousScreen()" disabled>
+                ← Anterior
+            </button>
+            <button class="nav-btn primary" id="btnNext" onclick="nextScreen()">
+                Siguiente →
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        let currentScreen = 1;
+        const totalScreens = 6;
+        
+        function updateScreen() {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${currentScreen}`).classList.add('active');
+            document.getElementById('currentScreen').textContent = currentScreen;
+            document.getElementById('btnPrev').disabled = currentScreen === 1;
+            
+            const btnNext = document.getElementById('btnNext');
+            if (currentScreen === totalScreens) {
+                btnNext.innerHTML = 'Finalizar →';
+                btnNext.onclick = () => window.location.href = 'index.html';
+            } else {
+                btnNext.innerHTML = 'Siguiente →';
+                btnNext.onclick = nextScreen;
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function nextScreen() {
+            if (currentScreen < totalScreens) {
+                currentScreen++;
+                updateScreen();
+            }
+        }
+        
+        function previousScreen() {
+            if (currentScreen > 1) {
+                currentScreen--;
+                updateScreen();
+            }
+        }
+        
+        // PANTALLA 2: Toggle componentes
+        function toggleComponente(id) {
+            const detail = document.getElementById(`detail-${id}`);
+            const card = event.currentTarget;
+            
+            if (card.classList.contains('active')) {
+                card.classList.remove('active');
+                detail.classList.remove('show');
+            } else {
+                document.querySelectorAll('.componente-card').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.componente-detail').forEach(d => d.classList.remove('show'));
+                card.classList.add('active');
+                detail.classList.add('show');
+            }
+        }
+        
+        // PANTALLA 3: Animación
+        function playAnimation() {
+            const elements = ['stage-1', 'arrow-1', 'stage-2', 'arrow-2', 'stage-3'];
+            elements.forEach(id => document.getElementById(id).classList.remove('show'));
+            document.getElementById('animation-explanation').style.display = 'none';
+            
+            setTimeout(() => document.getElementById('stage-1').classList.add('show'), 300);
+            setTimeout(() => document.getElementById('arrow-1').classList.add('show'), 900);
+            setTimeout(() => document.getElementById('stage-2').classList.add('show'), 1200);
+            setTimeout(() => document.getElementById('arrow-2').classList.add('show'), 1800);
+            setTimeout(() => document.getElementById('stage-3').classList.add('show'), 2100);
+            setTimeout(() => document.getElementById('animation-explanation').style.display = 'block', 2700);
+        }
+        
+        // PANTALLA 4: Escenarios
+        function mostrarEscenario(num) {
+            const detail = document.getElementById('escenario-detail');
+            document.querySelectorAll('.escenario-card').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            detail.classList.add('show');
+            
+            const esc = {
+                1: {t: '💡 Apagar la Luz', r: 'R: "Si apago, dormiré mejor"', o: 'O: Notas interruptor', e: 'E: Neutral', n: 'Trivial pero yo-verbal participa'},
+                2: {t: '⚠️ Señal Peligro', r: 'R: Símbolo = peligro', o: 'O: Orienta inmediato', e: 'E: Aversivo leve', n: 'R→O→E: Relación hace orientar'},
+                3: {t: '🎵 Música Favorita', r: 'R: "De mi adolescencia"', o: 'O: Captura atención', e: 'E: Apetitivo fuerte', n: 'O→E→R: Notas, sientes, recuerdas'},
+                4: {t: '📱 Mensaje Texto', r: 'R: Palabras = significados', o: 'O: Ciertas palabras llaman', e: 'E: Apetitivo o aversivo', n: 'Dinámico: R-O-E retroalimentan'}
+            }[num];
+            
+            detail.innerHTML = `<h4 style="color: #2E8BA6; margin-bottom: 15px;">${esc.t}</h4>
+                <div style="background: white; padding: 20px; border-radius: 12px; line-height: 2;">
+                    <p style="color: #000; font-size: 14px; margin-bottom: 10px;"><strong style="color: #FF6B6B;">${esc.r}</strong></p>
+                    <p style="color: #000; font-size: 14px; margin-bottom: 10px;"><strong style="color: #4ECDC4;">${esc.o}</strong></p>
+                    <p style="color: #000; font-size: 14px; margin-bottom: 15px;"><strong style="color: #FFD93D;">${esc.e}</strong></p>
+                    <p style="color: #666; font-size: 13px; font-style: italic; border-top: 2px solid #f0f0f0; padding-top: 15px; margin: 0;">💡 ${esc.n}</p>
+                </div>`;
+        }
+        
+        // PANTALLA 5: Experimento
+        const exps = [
+            {s: 'Ves araña 🕷️', opts: [{l: 'Relacionas con peligro', t: 'r'}, {l: 'Se fija atención', t: 'o'}, {l: 'Sientes miedo', t: 'e'}]},
+            {s: 'Hueles café ☕', opts: [{l: 'Relacionas con energía', t: 'r'}, {l: 'El olor orienta', t: 'o'}, {l: 'Sientes deseo', t: 'e'}]}
+        ];
+        let curExp = 0;
+        
+        function loadExperiment() {
+            const content = document.getElementById('experimento-content');
+            if (!content) return;
+            const e = exps[curExp];
+            content.innerHTML = `<p style="margin-bottom: 15px; font-weight: 600; color: #000;">Escenario: ${e.s}</p>
+                ${e.opts.map((o, i) => `<button class="identificar-btn" onclick="checkROE(${i}, '${o.t}')" id="b-${i}" style="width: 100%; margin: 5px 0;">${o.l}</button>`).join('')}
+                <button class="play-btn" onclick="nextExp()" style="margin-top: 15px;">${curExp < exps.length - 1 ? 'Siguiente →' : '✓ Completar'}</button>`;
+        }
+        
+        function checkROE(i, t) {
+            const btn = document.getElementById(`b-${i}`);
+            const c = {r: '#FF6B6B', o: '#4ECDC4', e: '#FFD93D'}[t];
+            btn.style.borderColor = c;
+            btn.style.background = c + '20';
+            btn.textContent = `${t.toUpperCase()} - ${btn.textContent}`;
+        }
+        
+        function nextExp() {
+            if (curExp < exps.length - 1) { curExp++; loadExperiment(); }
+        }
+        
+        updateScreen();
+        setTimeout(loadExperiment, 100);
+    </script>
+</body>
+</html>
