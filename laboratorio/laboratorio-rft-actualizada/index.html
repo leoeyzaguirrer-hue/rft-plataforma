@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFT Actualizada: Más Campo que Marco | Laboratorio RFT</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', 'Coco Gothic', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            background: linear-gradient(135deg, #4FB3D9 0%, #2E8BA6 100%);
+            position: relative;
+        }
+        
+        /* Fondo animado con figuras geométricas */
+        .background-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape.circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: white;
+        }
+        
+        .shape.triangle {
+            width: 0;
+            height: 0;
+            border-left: 75px solid transparent;
+            border-right: 75px solid transparent;
+            border-bottom: 130px solid white;
+        }
+        
+        .shape.square {
+            width: 120px;
+            height: 120px;
+            background: white;
+            transform: rotate(45deg);
+        }
+        
+        .shape:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+        
+        .shape:nth-child(2) {
+            top: 60%;
+            left: 80%;
+            animation-delay: 5s;
+            animation-duration: 30s;
+        }
+        
+        .shape:nth-child(3) {
+            top: 80%;
+            left: 15%;
+            animation-delay: 10s;
+            animation-duration: 20s;
+        }
+        
+        .shape:nth-child(4) {
+            top: 30%;
+            left: 85%;
+            animation-delay: 15s;
+            animation-duration: 35s;
+        }
+        
+        .shape:nth-child(5) {
+            top: 45%;
+            left: 50%;
+            animation-delay: 8s;
+            animation-duration: 28s;
+        }
+        
+        .shape:nth-child(6) {
+            top: 15%;
+            left: 60%;
+            animation-delay: 3s;
+            animation-duration: 22s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-30px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(-50px) rotate(180deg);
+            }
+            75% {
+                transform: translateY(-30px) rotate(270deg);
+            }
+        }
+        
+        /* Contenedor principal */
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        /* Logo LEO en esquina superior */
+        .logo-corner {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 60px;
+            height: auto;
+            z-index: 20;
+            opacity: 0.9;
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        /* Tarjeta principal */
+        .main-card {
+            background: #FFD93D;
+            border-radius: 30px;
+            padding: 40px 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+            margin-bottom: 30px;
+        }
+        
+        .subtitle {
+            color: #000;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+        
+        h1 {
+            color: #000;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .highlight {
+            color: #2E8BA6;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #2E8BA6;
+            animation: expandWidth 1.5s ease-out 0.5s forwards;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+        
+        @keyframes expandWidth {
+            to {
+                transform: scaleX(1);
+            }
+        }
+        
+        .description {
+            color: #000;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.85;
+        }
+        
+        .btn-start {
+            background: #2E8BA6;
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(46, 139, 166, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-start:hover {
+            background: #236A7F;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(46, 139, 166, 0.4);
+        }
+        
+        .btn-start:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Referencia académica */
+        .reference-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px 25px;
+            max-width: 500px;
+            width: 100%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 1.2s ease-out;
+        }
+        
+        .reference-label {
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .reference-text {
+            color: white;
+            font-size: 13px;
+            line-height: 1.6;
+            text-align: left;
+        }
+        
+        .reference-text strong {
+            font-weight: 700;
+        }
+        
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 480px) {
+            .logo-corner {
+                width: 50px;
+                top: 15px;
+                left: 15px;
+            }
+            
+            .main-card {
+                padding: 30px 20px;
+                border-radius: 25px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .description {
+                font-size: 15px;
+            }
+            
+            .btn-start {
+                padding: 15px 40px;
+                font-size: 16px;
+            }
+            
+            .reference-box {
+                padding: 15px 20px;
+            }
+            
+            .reference-text {
+                font-size: 12px;
+            }
+        }
+        
+        /* Efecto de pulso sutil en el botón */
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 8px 20px rgba(46, 139, 166, 0.3);
+            }
+            50% {
+                box-shadow: 0 8px 30px rgba(46, 139, 166, 0.5);
+            }
+        }
+        
+        .btn-start {
+            animation: pulse 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondo con figuras animadas -->
+    <div class="background-shapes">
+        <div class="shape circle"></div>
+        <div class="shape triangle"></div>
+        <div class="shape square"></div>
+        <div class="shape circle"></div>
+        <div class="shape triangle"></div>
+        <div class="shape square"></div>
+    </div>
+    
+    <!-- Logo LEO -->
+    <svg class="logo-corner" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" fill="#FFD93D"/>
+        <text x="50" y="65" font-family="'Quicksand', sans-serif" font-size="40" font-weight="700" fill="#2E8BA6" text-anchor="middle">LEO</text>
+    </svg>
+    
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Tarjeta principal -->
+        <div class="main-card">
+            <div class="subtitle">🔬 Laboratorio RFT</div>
+            <h1>
+                RFT Actualizada:<br>
+                <span class="highlight">Más Campo que Marco</span>
+            </h1>
+            <p class="description">
+                Explora la evolución de la Teoría de los Marcos Relacionales hacia una visión dinámica y multidimensional del lenguaje y la cognición humana.
+            </p>
+            <button class="btn-start" onclick="comenzarExperiencia()">
+                ¡Comenzar la Experiencia!
+            </button>
+        </div>
+        
+        <!-- Referencia académica -->
+        <div class="reference-box">
+            <div class="reference-label">📚 Basado en:</div>
+            <div class="reference-text">
+                <strong>Barnes-Holmes, D., Barnes-Holmes, Y., McEnteggart, C., & Harte, C.</strong> (2021). 
+                "Back to the future with an up-dated version of RFT: More field than frame?" 
+                <em>Revista Perspectivas</em>, Early View RFT Special Volume, pp. 001-019.
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function comenzarExperiencia() {
+            // Animación de salida
+            document.querySelector('.container').style.animation = 'fadeOut 0.5s ease-out forwards';
+            
+            setTimeout(() => {
+                window.location.href = 'seccion-1.html';
+            }, 500);
+        }
+        
+        // Animación de salida
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                to {
+                    opacity: 0;
+                    transform: translateY(-30px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
