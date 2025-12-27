@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDML Framework - RFT Actualizada</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #4FB3D9 0%, #2E8BA6 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+        
+        .btn-back {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+        
+        .progress-indicator {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .screen {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .content-card {
+            background: #FFD93D;
+            border-radius: 25px;
+            padding: 35px 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-badge {
+            display: inline-block;
+            background: #2E8BA6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            color: #000;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            color: #2E8BA6;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 25px 0 15px 0;
+        }
+        
+        .content-text {
+            color: #000;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .content-text strong {
+            font-weight: 700;
+            color: #2E8BA6;
+        }
+        
+        .ejemplo-box {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .ejemplo-label {
+            color: #2E8BA6;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ejemplo-content {
+            color: #000;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .highlight-box {
+            background: rgba(46, 139, 166, 0.1);
+            border-left: 4px solid #2E8BA6;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .highlight-box p {
+            color: #000;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        /* Descomposición visual */
+        .decompose-visual {
+            background: linear-gradient(135deg, #f9f9f9, #e8f4f8);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .mdml-logo {
+            display: inline-block;
+            background: linear-gradient(135deg, #2E8BA6, #4FB3D9);
+            color: white;
+            padding: 20px 35px;
+            border-radius: 15px;
+            font-size: 28px;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+            margin-bottom: 20px;
+        }
+        
+        .decompose-parts {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .decompose-part {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 5px solid #2E8BA6;
+            text-align: left;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .decompose-part:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .decompose-part.active {
+            background: #e8f4f8;
+            border-left-color: #FFD93D;
+        }
+        
+        /* Niveles clickeables */
+        .nivel-item {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 6px solid #2E8BA6;
+        }
+        
+        .nivel-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nivel-item.active {
+            background: #e8f4f8;
+            border-left-color: #FFD93D;
+        }
+        
+        .nivel-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .nivel-number {
+            background: #2E8BA6;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .nivel-item.active .nivel-number {
+            background: #FFD93D;
+            color: #000;
+        }
+        
+        .nivel-info {
+            flex: 1;
+        }
+        
+        .nivel-title {
+            color: #000;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .nivel-desc {
+            color: #666;
+            font-size: 13px;
+        }
+        
+        .nivel-icon {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nivel-item.active .nivel-icon {
+            transform: rotate(180deg);
+        }
+        
+        .nivel-ejemplo {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .nivel-ejemplo.show {
+            display: block;
+        }
+        
+        /* Progresión interactiva */
+        .progresion-container {
+            margin: 25px 0;
+        }
+        
+        .progresion-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .progresion-step {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            border: 3px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .progresion-step:hover {
+            border-color: #2E8BA6;
+            transform: scale(1.02);
+        }
+        
+        .progresion-step.active {
+            border-color: #FFD93D;
+            background: #fffbf0;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #2E8BA6;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+        
+        .progresion-step.active .step-number {
+            background: #FFD93D;
+            color: #000;
+        }
+        
+        .progresion-display {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 15px;
+            min-height: 150px;
+            display: none;
+        }
+        
+        .progresion-display.show {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        /* Dimensiones interactivas */
+        .dimension-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #e0e0e0;
+        }
+        
+        .dimension-card:hover {
+            border-color: #2E8BA6;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .dimension-card.active {
+            border-color: #FFD93D;
+            background: #fffbf0;
+        }
+        
+        .dimension-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dimension-title {
+            color: #2E8BA6;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .dimension-icon {
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+        
+        .dimension-card.active .dimension-icon {
+            transform: rotate(180deg);
+        }
+        
+        .dimension-content {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .dimension-content.show {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        /* Sliders */
+        .slider-container {
+            margin: 20px 0;
+        }
+        
+        .slider-label {
+            color: #000;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .slider-value {
+            color: #2E8BA6;
+            font-size: 18px;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+            margin: 10px 0;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #2E8BA6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider::-webkit-slider-thumb:hover {
+            background: #236A7F;
+            transform: scale(1.2);
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #2E8BA6;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .resultado-box {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border-left: 4px solid #2E8BA6;
+        }
+        
+        /* Tabla interactiva */
+        .tabla-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .tabla-mdml {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 6px;
+        }
+        
+        .tabla-mdml th {
+            background: #2E8BA6;
+            color: white;
+            padding: 12px 8px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .tabla-mdml th.header-niveles {
+            background: #FFD93D;
+            color: #000;
+        }
+        
+        .tabla-mdml td {
+            background: #f5f5f5;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-size: 11px;
+            color: #000;
+        }
+        
+        .tabla-mdml td:hover {
+            background: #e8f4f8;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .tabla-mdml td.selected {
+            background: #FFD93D;
+            font-weight: 700;
+        }
+        
+        .cell-number {
+            display: block;
+            font-weight: 700;
+            color: #2E8BA6;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .tabla-mdml .row-header {
+            background: #2E8BA6;
+            color: white;
+            text-align: left;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        
+        .cell-detail {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            border-left: 4px solid #2E8BA6;
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .cell-detail.show {
+            display: block;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            background: white;
+            color: #2E8BA6;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .nav-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .nav-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .nav-btn.primary {
+            background: #2E8BA6;
+            color: white;
+        }
+        
+        .nav-btn.primary:hover {
+            background: #236A7F;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @media (max-width: 480px) {
+            body { padding: 15px; }
+            .content-card { padding: 25px 20px; }
+            h1 { font-size: 24px; }
+            .mdml-logo { font-size: 22px; padding: 15px 25px; }
+            .tabla-mdml th, .tabla-mdml td { padding: 8px 6px; font-size: 10px; }
+            .nav-btn { padding: 12px 20px; font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="seccion-1.html" class="btn-back">← Volver</a>
+        <div class="progress-indicator">
+            Sección 2 • Pantalla <span id="currentScreen">1</span>/5
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- PANTALLA 2.1: ¿Qué es MDML? -->
+        <div class="screen active" id="screen-1">
+            <div class="content-card">
+                <div class="section-badge">📊 MDML Framework</div>
+                <h1>¿Qué es el MDML?</h1>
+                
+                <p class="content-text">
+                    En un esfuerzo por sistematizar el análisis de RFT y enfatizar las dinámicas comportamentales relevantes, se ofreció el marco <strong>MDML</strong> para analizar el AARRing (responder relacional arbitrariamente aplicable).
+                </p>
+                
+                <p class="content-text">
+                    Según este marco, el AARRing puede conceptualizarse como desarrollándose en un sentido amplio desde: (i) implicación mutua, hasta (ii) redes simples involucradas en el enmarcado, hasta (iii) redes más complejas involucradas en reglas e instrucciones, hasta (iv) el relacionar de relaciones involucrado en el razonamiento analógico, y finalmente hasta (v) el relacionar redes relacionales, que típicamente está involucrado en entender y producir narrativas extendidas y resolución de problemas avanzada.
+                </p>
+                
+                <!-- Mini-experimento: Mismo comportamiento, múltiples análisis -->
+                <div class="ejemplo-box">
+                    <div class="ejemplo-label">🔬 Experimento: El Mismo Comportamiento, Múltiples Ventanas</div>
+                    <div class="ejemplo-content">
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            Situación: María dice "Los perros son mejores que los gatos" 🐕
+                        </p>
+                        <p style="margin-bottom: 15px; font-size: 14px;">
+                            👇 Toca cada "ventana de análisis" para ver cómo cambia:
+                        </p>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                            <button class="compare-btn" onclick="showAnalisisVentana('nivel')" style="padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.3s; background: #e0e0e0; color: #666;">
+                                🏗️ Nivel
+                            </button>
+                            <button class="compare-btn" onclick="showAnalisisVentana('coherencia')" style="padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.3s; background: #e0e0e0; color: #666;">
+                                🎯 Coherencia
+                            </button>
+                            <button class="compare-btn" onclick="showAnalisisVentana('complejidad')" style="padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.3s; background: #e0e0e0; color: #666;">
+                                🧩 Complejidad
+                            </button>
+                            <button class="compare-btn" onclick="showAnalisisVentana('flexibilidad')" style="padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.3s; background: #e0e0e0; color: #666;">
+                                🔄 Flexibilidad
+                            </button>
+                        </div>
+                        
+                        <div id="ventana-display" style="background: #f9f9f9; padding: 20px; border-radius: 12px; min-height: 120px; display: none;">
+                            <!-- Contenido dinámico -->
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="content-text">
+                    Al identificar estos como diferentes niveles, el marco MDML <strong>no debe verse como indicando que son etapas rígidas o invariantes</strong>. Más bien, los niveles inferiores se ven como conteniendo patrones de AARRing que pueden proporcionar un contexto histórico importante para los patrones de AARRing que ocurren en los niveles superiores.
+                </p>
+                
+                <div class="highlight-box">
+                    <p>
+                        <strong>El marco también conceptualiza cada uno de estos niveles como teniendo múltiples dimensiones:</strong> coherencia, complejidad, derivación y flexibilidad. Cada uno de los niveles se ve como intersectándose con cada una de las dimensiones, produciendo un marco que consiste de <strong>20 unidades de análisis</strong> para conceptualizar y estudiar las dinámicas del AARRing.
+                    </p>
+                </div>
+                
+                <!-- Descomposición visual interactiva -->
+                <div class="decompose-visual">
+                    <div class="mdml-logo">MDML</div>
+                    <p style="color: #000; margin-bottom: 20px; font-size: 14px;">
+                        👆 Toca cada parte para explorar:
+                    </p>
+                    
+                    <div class="decompose-parts">
+                        <div class="decompose-part" onclick="showDecompose(1)">
+                            <strong style="color: #2E8BA6;">Multi-Dimensional</strong>
+                            <p style="margin: 8px 0 0 0; font-size: 14px; color: #000;">
+                                📐 Cuatro dimensiones de análisis
+                            </p>
+                        </div>
+                        
+                        <div class="decompose-part" onclick="showDecompose(2)">
+                            <strong style="color: #000;">Multi-Level</strong>
+                            <p style="margin: 8px 0 0 0; font-size: 14px; color: #000;">
+                                🏗️ Cinco niveles de complejidad
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="resultado-box" id="decompose-result" style="display: none; margin-top: 20px;">
+                        <!-- Contenido dinámico -->
+                    </div>
+                </div>
+                
+                <!-- Visualización animada de 20 unidades -->
+                <div class="ejemplo-box">
+                    <div class="ejemplo-label">💡 Visualización: ¿Por qué 20 Unidades?</div>
+                    <div class="ejemplo-content">
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            Imagina analizar: "El perro es más grande que el gato" 🐕 vs 🐱
+                        </p>
+                        
+                        <div style="background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 15px;">
+                            <p style="color: #000; font-size: 14px; margin-bottom: 15px;">
+                                👇 <strong>Selecciona cómo quieres analizarlo:</strong>
+                            </p>
+                            
+                            <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+                                <button class="analisis-selector" onclick="mostrarAnalisis('nivel', 'simple')" style="flex: 1; min-width: 120px; padding: 10px; border: 2px solid #e0e0e0; border-radius: 10px; background: white; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.3s;">
+                                    Nivel Simple
+                                </button>
+                                <button class="analisis-selector" onclick="mostrarAnalisis('nivel', 'complejo')" style="flex: 1; min-width: 120px; padding: 10px; border: 2px solid #e0e0e0; border-radius: 10px; background: white; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.3s;">
+                                    Nivel Complejo
+                                </button>
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+                                <button class="analisis-selector" onclick="mostrarAnalisis('dimension', 'coherencia')" style="flex: 1; min-width: 120px; padding: 10px; border: 2px solid #e0e0e0; border-radius: 10px; background: white; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.3s;">
+                                    🎯 Coherencia
+                                </button>
+                                <button class="analisis-selector" onclick="mostrarAnalisis('dimension', 'flexibilidad')" style="flex: 1; min-width: 120px; padding: 10px; border: 2px solid #e0e0e0; border-radius: 10px; background: white; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.3s;">
+                                    🔄 Flexibilidad
+                                </button>
+                            </div>
+                            
+                            <div id="analisis-resultado" style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #2E8BA6; display: none; animation: fadeIn 0.4s;">
+                                <!-- Contenido dinámico -->
+                            </div>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #e8f4f8, #fff9e6); padding: 15px; border-radius: 10px; text-align: center;">
+                            <p style="color: #000; font-size: 14px; margin: 0;">
+                                <strong style="color: #2E8BA6; font-size: 18px;">5 niveles × 4 dimensiones = 20 ventanas</strong><br>
+                                <span style="font-size: 13px; opacity: 0.8;">Cada combinación revela algo diferente sobre el mismo comportamiento</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 2.2: Los 5 Niveles -->
+        <div class="screen" id="screen-2">
+            <div class="content-card">
+                <div class="section-badge">🏗️ Los 5 Niveles</div>
+                <h1>Niveles de Complejidad</h1>
+                
+                <p class="content-text">
+                    En general, los diferentes niveles se basan en una combinación de supuestos bien establecidos dentro de RFT y, donde es posible, evidencia empírica.
+                </p>
+                
+                <p class="content-text">
+                    Los niveles inferiores se ven como conteniendo patrones de AARRing que pueden proporcionar un <strong>contexto histórico importante</strong> para los patrones de AARRing que ocurren en los niveles superiores.
+                </p>
+                
+                <p class="content-text" style="font-size: 14px; margin: 20px 0 15px 0;">
+                    👆 <strong>Toca cada nivel</strong> para ver ejemplos concretos:
+                </p>
+                
+                <!-- Nivel 1 -->
+                <div class="nivel-item" onclick="toggleNivel(1)">
+                    <div class="nivel-header">
+                        <div class="nivel-number">1</div>
+                        <div class="nivel-info">
+                            <div class="nivel-title">Mutually Entailing</div>
+                            <div class="nivel-desc">Implicación mutua bidireccional</div>
+                        </div>
+                        <div class="nivel-icon" id="icon-nivel-1">▼</div>
+                    </div>
+                    <div class="nivel-ejemplo" id="ejemplo-nivel-1">
+                        <h4 style="color: #2E8BA6; margin-bottom: 10px;">🍎 Ejemplo Cotidiano</h4>
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            Si aprendes que esta fruta (🍎) se llama <strong>"manzana"</strong>,<br>
+                            automáticamente emerge que <strong>"manzana"</strong> se refiere a esta fruta (🍎)
+                        </p>
+                        <div style="background: white; padding: 15px; border-radius: 10px; margin-top: 12px;">
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                💬 Si A = B, entonces B = A<br>
+                                <em style="opacity: 0.7;">La relación bidireccional más básica</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nivel 2 -->
+                <div class="nivel-item" onclick="toggleNivel(2)">
+                    <div class="nivel-header">
+                        <div class="nivel-number">2</div>
+                        <div class="nivel-info">
+                            <div class="nivel-title">Relational Framing</div>
+                            <div class="nivel-desc">Marcos relacionales específicos</div>
+                        </div>
+                        <div class="nivel-icon" id="icon-nivel-2">▼</div>
+                    </div>
+                    <div class="nivel-ejemplo" id="ejemplo-nivel-2">
+                        <h4 style="color: #2E8BA6; margin-bottom: 10px;">📏 Ejemplo Cotidiano</h4>
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            Si <strong>elefante > ratón</strong> (en tamaño),<br>
+                            automáticamente emerge que <strong>ratón < elefante</strong>
+                        </p>
+                        <div style="background: white; padding: 15px; border-radius: 10px; margin-top: 12px;">
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                🔄 Marco de comparación: La relación inversa emerge sin entrenamiento<br>
+                                <em style="opacity: 0.7;">Tipos: coordinación, oposición, distinción, comparación, jerarquía...</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nivel 3 -->
+                <div class="nivel-item" onclick="toggleNivel(3)">
+                    <div class="nivel-header">
+                        <div class="nivel-number">3</div>
+                        <div class="nivel-info">
+                            <div class="nivel-title">Relational Networking</div>
+                            <div class="nivel-desc">Combinaciones de marcos múltiples</div>
+                        </div>
+                        <div class="nivel-icon" id="icon-nivel-3">▼</div>
+                    </div>
+                    <div class="nivel-ejemplo" id="ejemplo-nivel-3">
+                        <h4 style="color: #2E8BA6; margin-bottom: 10px;">🧩 Ejemplo Cotidiano</h4>
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            <strong>"Estudiar"</strong> es opuesto a <strong>"Procrastinar"</strong><br>
+                            <strong>"Procrastinar"</strong> lleva a <strong>"Bajas calificaciones"</strong><br>
+                            Por tanto: <strong>"Estudiar"</strong> previene <strong>"Bajas calificaciones"</strong>
+                        </p>
+                        <div style="background: white; padding: 15px; border-radius: 10px; margin-top: 12px;">
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                🎯 Red de múltiples relaciones (oposición + causalidad) combinadas coherentemente
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nivel 4 -->
+                <div class="nivel-item" onclick="toggleNivel(4)">
+                    <div class="nivel-header">
+                        <div class="nivel-number">4</div>
+                        <div class="nivel-info">
+                            <div class="nivel-title">Relating Relations</div>
+                            <div class="nivel-desc">Razonamiento analógico</div>
+                        </div>
+                        <div class="nivel-icon" id="icon-nivel-4">▼</div>
+                    </div>
+                    <div class="nivel-ejemplo" id="ejemplo-nivel-4">
+                        <h4 style="color: #2E8BA6; margin-bottom: 10px;">🔄 Ejemplo Cotidiano</h4>
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            "La <strong>mente</strong> es al <strong>cuerpo</strong><br>
+                            como el <strong>software</strong> es al <strong>hardware</strong>"
+                        </p>
+                        <div style="background: white; padding: 15px; border-radius: 10px; margin-top: 12px;">
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                ⚡ No solo relacionamos mente-cuerpo, sino que relacionamos <em>esa relación completa</em> con otra relación (software-hardware)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nivel 5 -->
+                <div class="nivel-item" onclick="toggleNivel(5)">
+                    <div class="nivel-header">
+                        <div class="nivel-number">5</div>
+                        <div class="nivel-info">
+                            <div class="nivel-title">Relating Relational Networks</div>
+                            <div class="nivel-desc">Narrativas y resolución compleja</div>
+                        </div>
+                        <div class="nivel-icon" id="icon-nivel-5">▼</div>
+                    </div>
+                    <div class="nivel-ejemplo" id="ejemplo-nivel-5">
+                        <h4 style="color: #2E8BA6; margin-bottom: 10px;">📖 Ejemplo Cotidiano</h4>
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            Entender una película compleja requiere relacionar simultáneamente:
+                        </p>
+                        <ul style="margin-left: 20px; line-height: 1.8; color: #000; font-size: 14px;">
+                            <li>Red del pasado del protagonista</li>
+                            <li>Red de sus motivaciones actuales</li>
+                            <li>Red de consecuencias futuras</li>
+                            <li>Red de otros personajes</li>
+                            <li>Red de símbolos y metáforas</li>
+                        </ul>
+                        <div style="background: white; padding: 15px; border-radius: 10px; margin-top: 12px;">
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                🎬 Todas estas redes interactúan dinámicamente para <em>comprender</em> la narrativa
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progresión con tema familiar -->
+                <div class="ejemplo-box" style="margin-top: 25px;">
+                    <div class="ejemplo-label">💡 Progresión con Tema Familiar: "Comida"</div>
+                    <div class="ejemplo-content">
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            👆 Toca cada paso para ver cómo aumenta la complejidad:
+                        </p>
+                        
+                        <div class="progresion-steps">
+                            <div class="progresion-step" onclick="showProgresion(1)">
+                                <span class="step-number">1</span>
+                                <span style="font-weight: 600; color: #000;">Implicación mutua</span>
+                            </div>
+                            <div class="progresion-step" onclick="showProgresion(2)">
+                                <span class="step-number">2</span>
+                                <span style="font-weight: 600; color: #000;">Marco relacional</span>
+                            </div>
+                            <div class="progresion-step" onclick="showProgresion(3)">
+                                <span class="step-number">3</span>
+                                <span style="font-weight: 600; color: #000;">Red relacional</span>
+                            </div>
+                            <div class="progresion-step" onclick="showProgresion(4)">
+                                <span class="step-number">4</span>
+                                <span style="font-weight: 600; color: #000;">Relacionar relaciones</span>
+                            </div>
+                            <div class="progresion-step" onclick="showProgresion(5)">
+                                <span class="step-number">5</span>
+                                <span style="font-weight: 600; color: #000;">Relacionar redes</span>
+                            </div>
+                        </div>
+                        
+                        <div class="progresion-display" id="progresion-display">
+                            <!-- Contenido dinámico -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 2.3: Las 4 Dimensiones -->
+        <div class="screen" id="screen-3">
+            <div class="content-card">
+                <div class="section-badge">📐 Las 4 Dimensiones</div>
+                <h1>Dimensiones de Análisis</h1>
+                
+                <p class="content-text">
+                    El marco también conceptualiza cada uno de los niveles como teniendo <strong>múltiples dimensiones</strong>: coherencia, complejidad, derivación y flexibilidad.
+                </p>
+                
+                <p class="content-text">
+                    Una breve descripción de cada una de las cuatro dimensiones es como sigue (del artículo original):
+                </p>
+                
+                <p class="content-text" style="font-size: 14px; margin: 20px 0 15px 0;">
+                    👆 <strong>Toca cada dimensión</strong> para ver su definición y ejemplos:
+                </p>
+                
+                <!-- Coherencia -->
+                <div class="dimension-card" onclick="toggleDimension(1)">
+                    <div class="dimension-header">
+                        <div class="dimension-title">🎯 Coherencia</div>
+                        <div class="dimension-icon" id="icon-dim-1">▼</div>
+                    </div>
+                    <div class="dimension-content" id="content-dim-1">
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            <strong>Definición:</strong> Se refiere a la medida en que patrones específicos de AARRing son generalmente <strong>consistentes con otros patrones de AARRing</strong>.
+                        </p>
+                        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 14px; margin-bottom: 10px;">
+                                <strong>Ejemplo:</strong> La afirmación "Una uva es más grande que una naranja"
+                            </p>
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                ❌ <strong>Baja coherencia:</strong> No es consistente con las redes relacionales que operan en la comunidad verbal<br>
+                                ✓ <strong>Alta coherencia:</strong> Podría ser coherente en ciertos contextos (ej: juego de "todo es opuesto")
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Complejidad -->
+                <div class="dimension-card" onclick="toggleDimension(2)">
+                    <div class="dimension-header">
+                        <div class="dimension-title">🧩 Complejidad</div>
+                        <div class="dimension-icon" id="icon-dim-2">▼</div>
+                    </div>
+                    <div class="dimension-content" id="content-dim-2">
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            <strong>Definición:</strong> Se refiere al <strong>nivel de detalle o densidad</strong> de un patrón particular de AARRing.
+                        </p>
+                        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 14px; margin-bottom: 10px;">
+                                <strong>Ejemplo:</strong> Comparando dos relaciones
+                            </p>
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                📊 <strong>Menos complejo:</strong> Coordinación (A = B, entonces B = A) - solo un tipo de relación<br>
+                                📊 <strong>Más complejo:</strong> Comparación (A > B, entonces B < A) - dos tipos de relaciones
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Derivación -->
+                <div class="dimension-card" onclick="toggleDimension(3)">
+                    <div class="dimension-header">
+                        <div class="dimension-title">⚡ Derivación</div>
+                        <div class="dimension-icon" id="icon-dim-3">▼</div>
+                    </div>
+                    <div class="dimension-content" id="content-dim-3">
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            <strong>Definición:</strong> Se refiere a <strong>qué tan practicado</strong> se ha vuelto un patrón particular de AARRing.
+                        </p>
+                        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 14px; margin-bottom: 10px;">
+                                <strong>Ejemplo:</strong> Aprender una nueva palabra
+                            </p>
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                🆕 <strong>Alta derivación:</strong> La primera vez que derives una relación, es altamente derivada (novel, emergente)<br>
+                                🔄 <strong>Baja derivación:</strong> Después de practicar, se vuelve menos derivada (más automática)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flexibilidad -->
+                <div class="dimension-card" onclick="toggleDimension(4)">
+                    <div class="dimension-header">
+                        <div class="dimension-title">🔄 Flexibilidad</div>
+                        <div class="dimension-icon" id="icon-dim-4">▼</div>
+                    </div>
+                    <div class="dimension-content" id="content-dim-4">
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            <strong>Definición:</strong> Se refiere a la medida en que una instancia dada de AARRing puede ser <strong>modificada por variables contextuales actuales</strong>.
+                        </p>
+                        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 14px; margin-bottom: 10px;">
+                                <strong>Ejemplo:</strong> Pregunta: "¿Cuál es más grande, una uva o una naranja?"
+                            </p>
+                            <p style="color: #000; font-size: 13px; margin: 0;">
+                                🔒 <strong>Baja flexibilidad:</strong> Niño responde "naranja" incluso en juego de "respuestas incorrectas"<br>
+                                🔓 <strong>Alta flexibilidad:</strong> Niño puede fácilmente responder "uva" cuando el contexto lo requiere
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ejemplo didáctico adicional -->
+                <div class="ejemplo-box" style="margin-top: 25px;">
+                    <div class="ejemplo-label">💡 Las Dimensiones en la Vida Real</div>
+                    <div class="ejemplo-content">
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            Situación: Un estudiante universitario piensa "No soy bueno para las matemáticas"
+                        </p>
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-top: 12px;">
+                            <p style="color: #000; font-size: 14px; line-height: 1.8; margin: 0;">
+                                <strong>Coherencia:</strong> ¿Es consistente con todas sus experiencias o solo con algunas?<br>
+                                <strong>Complejidad:</strong> ¿Es una relación simple o involucra múltiples redes (autoestima, historia familiar, comparaciones sociales)?<br>
+                                <strong>Derivación:</strong> ¿Es una creencia nueva o repetida miles de veces?<br>
+                                <strong>Flexibilidad:</strong> ¿Puede modificarla ante evidencia contraria o es completamente rígida?
+                            </p>
+                        </div>
+                        <p style="margin-top: 12px; font-size: 13px; color: #666; font-style: italic;">
+                            Cada dimensión ofrece un ángulo diferente para entender y potencialmente intervenir en este patrón relacional.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 2.4: Experimento Interactivo -->
+        <div class="screen" id="screen-4">
+            <div class="content-card">
+                <div class="section-badge">🧪 Experimento</div>
+                <h1>Manipula las Dimensiones</h1>
+                
+                <p class="content-text">
+                    Las dimensiones del MDML no son propiedades de los estímulos en sí, sino del <strong>comportamiento relacional en contexto</strong>. Ahora puedes experimentar cómo varían.
+                </p>
+                
+                <div class="ejemplo-box">
+                    <div class="ejemplo-label">🎮 Laboratorio Interactivo</div>
+                    <div class="ejemplo-content">
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            Situación: Un niño de 5 años aprende "Una uva es más pequeña que una naranja"
+                        </p>
+                        <p style="margin-bottom: 20px; font-size: 14px;">
+                            👇 Ajusta las dimensiones y observa cómo cambia el comportamiento:
+                        </p>
+                        
+                        <!-- Slider Coherencia -->
+                        <div class="slider-container">
+                            <div class="slider-label">
+                                <span>Coherencia con otras relaciones:</span>
+                                <span class="slider-value" id="val-coherencia">Alta</span>
+                            </div>
+                            <input type="range" min="0" max="2" value="2" class="slider" id="slider-coherencia" oninput="updateExperiment()">
+                            <div class="slider-labels">
+                                <span>Baja</span>
+                                <span>Media</span>
+                                <span>Alta</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Slider Flexibilidad -->
+                        <div class="slider-container">
+                            <div class="slider-label">
+                                <span>Flexibilidad contextual:</span>
+                                <span class="slider-value" id="val-flexibilidad">Alta</span>
+                            </div>
+                            <input type="range" min="0" max="2" value="2" class="slider" id="slider-flexibilidad" oninput="updateExperiment()">
+                            <div class="slider-labels">
+                                <span>Baja</span>
+                                <span>Media</span>
+                                <span>Alta</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Resultado -->
+                        <div class="resultado-box" id="experiment-result">
+                            <h4 style="color: #2E8BA6; margin-bottom: 10px;">📝 Predicción Conductual:</h4>
+                            <p id="experiment-text" style="color: #000; font-size: 14px; line-height: 1.7; margin: 0;">
+                                <!-- Dinámico -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <p>
+                        <strong>Punto clave del artículo:</strong> Las dimensiones no son propiedades absolutas de los estímulos, sino del comportamiento relacional en su contexto histórico y actual. Un mismo estímulo puede variar dramáticamente en estas dimensiones según la historia de aprendizaje y el contexto presente.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 2.5: Tabla 20 Intersecciones -->
+        <div class="screen" id="screen-5">
+            <div class="content-card">
+                <div class="section-badge">🎯 Las 20 Unidades</div>
+                <h1>Tabla de Intersecciones MDML</h1>
+                
+                <p class="content-text">
+                    El marco MDML especifica 20 intersecciones entre los niveles ampliamente reconocidos de AARRing identificados en RFT y las dimensiones bien establecidas a lo largo de las cuales los niveles han sido o podrían ser estudiados.
+                </p>
+                
+                <p class="content-text">
+                    Las 20 intersecciones identificadas dentro del marco MDML especifican las <strong>unidades de análisis experimental</strong>, no los niveles o las dimensiones per se.
+                </p>
+                
+                <p class="content-text" style="font-size: 14px; margin: 20px 0 15px 0;">
+                    👆 <strong>Toca cualquier celda</strong> para ver un ejemplo de análisis:
+                </p>
+                
+                <div class="tabla-container">
+                    <table class="tabla-mdml">
+                        <thead>
+                            <tr>
+                                <th class="header-niveles">Niveles ↓<br>Dimensiones →</th>
+                                <th>Coherencia</th>
+                                <th>Complejidad</th>
+                                <th>Derivación</th>
+                                <th>Flexibilidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="row-header">1. Mutually<br>Entailing</td>
+                                <td onclick="showCell(1, 1)">
+                                    <span class="cell-number">1</span>
+                                    Coherencia
+                                </td>
+                                <td onclick="showCell(1, 2)">
+                                    <span class="cell-number">2</span>
+                                    Complejidad
+                                </td>
+                                <td onclick="showCell(1, 3)">
+                                    <span class="cell-number">3</span>
+                                    Derivación
+                                </td>
+                                <td onclick="showCell(1, 4)">
+                                    <span class="cell-number">4</span>
+                                    Flexibilidad
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">2. Relational<br>Framing</td>
+                                <td onclick="showCell(2, 1)">
+                                    <span class="cell-number">5</span>
+                                    Coherencia
+                                </td>
+                                <td onclick="showCell(2, 2)">
+                                    <span class="cell-number">6</span>
+                                    Complejidad
+                                </td>
+                                <td onclick="showCell(2, 3)">
+                                    <span class="cell-number">7</span>
+                                    Derivación
+                                </td>
+                                <td onclick="showCell(2, 4)">
+                                    <span class="cell-number">8</span>
+                                    Flexibilidad
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">3. Relational<br>Networking</td>
+                                <td onclick="showCell(3, 1)">
+                                    <span class="cell-number">9</span>
+                                    Coherencia
+                                </td>
+                                <td onclick="showCell(3, 2)">
+                                    <span class="cell-number">10</span>
+                                    Complejidad
+                                </td>
+                                <td onclick="showCell(3, 3)">
+                                    <span class="cell-number">11</span>
+                                    Derivación
+                                </td>
+                                <td onclick="showCell(3, 4)">
+                                    <span class="cell-number">12</span>
+                                    Flexibilidad
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">4. Relating<br>Relations</td>
+                                <td onclick="showCell(4, 1)">
+                                    <span class="cell-number">13</span>
+                                    Coherencia
+                                </td>
+                                <td onclick="showCell(4, 2)">
+                                    <span class="cell-number">14</span>
+                                    Complejidad
+                                </td>
+                                <td onclick="showCell(4, 3)">
+                                    <span class="cell-number">15</span>
+                                    Derivación
+                                </td>
+                                <td onclick="showCell(4, 4)">
+                                    <span class="cell-number">16</span>
+                                    Flexibilidad
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">5. Relating<br>Networks</td>
+                                <td onclick="showCell(5, 1)">
+                                    <span class="cell-number">17</span>
+                                    Coherencia
+                                </td>
+                                <td onclick="showCell(5, 2)">
+                                    <span class="cell-number">18</span>
+                                    Complejidad
+                                </td>
+                                <td onclick="showCell(5, 3)">
+                                    <span class="cell-number">19</span>
+                                    Derivación
+                                </td>
+                                <td onclick="showCell(5, 4)">
+                                    <span class="cell-number">20</span>
+                                    Flexibilidad
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="cell-detail" id="cell-detail">
+                    <!-- Contenido dinámico -->
+                </div>
+                
+                <div class="highlight-box">
+                    <p style="text-align: center;">
+                        💡 <strong>Del artículo:</strong> "Estas 20 intersecciones especifican las unidades de análisis experimental. No necesitas memorizarlas - solo entender que RFT ofrece múltiples ventanas para analizar el mismo comportamiento relacional."
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn" id="btnPrev" onclick="previousScreen()" disabled>
+                ← Anterior
+            </button>
+            <button class="nav-btn primary" id="btnNext" onclick="nextScreen()">
+                Siguiente →
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        let currentScreen = 1;
+        const totalScreens = 5;
+        
+        function updateScreen() {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${currentScreen}`).classList.add('active');
+            document.getElementById('currentScreen').textContent = currentScreen;
+            document.getElementById('btnPrev').disabled = currentScreen === 1;
+            
+            const btnNext = document.getElementById('btnNext');
+            if (currentScreen === totalScreens) {
+                btnNext.innerHTML = 'Continuar a DAARRE →';
+                btnNext.onclick = () => window.location.href = 'seccion-3.html';
+            } else {
+                btnNext.innerHTML = 'Siguiente →';
+                btnNext.onclick = nextScreen;
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function nextScreen() {
+            if (currentScreen < totalScreens) {
+                currentScreen++;
+                updateScreen();
+            }
+        }
+        
+        function previousScreen() {
+            if (currentScreen > 1) {
+                currentScreen--;
+                updateScreen();
+            }
+        }
+        
+        // PANTALLA 1: Mini-experimento ventanas de análisis
+        function showAnalisisVentana(tipo) {
+            const display = document.getElementById('ventana-display');
+            const btns = document.querySelectorAll('.compare-btn');
+            
+            btns.forEach(btn => {
+                btn.style.background = '#e0e0e0';
+                btn.style.color = '#666';
+            });
+            event.target.style.background = '#2E8BA6';
+            event.target.style.color = 'white';
+            
+            display.style.display = 'block';
+            
+            const analisis = {
+                nivel: {
+                    icon: '🏗️',
+                    title: 'Análisis por NIVEL',
+                    content: '¿Es una comparación simple (Nivel 2: Relational Framing) o forma parte de una red compleja sobre preferencias de mascotas (Nivel 3: Relational Networking)?'
+                },
+                coherencia: {
+                    icon: '🎯',
+                    title: 'Análisis por COHERENCIA',
+                    content: '¿Es consistente con otras experiencias de María con animales? ¿O contradice otras cosas que ha dicho sobre gatos?'
+                },
+                complejidad: {
+                    icon: '🧩',
+                    title: 'Análisis por COMPLEJIDAD',
+                    content: '¿Solo compara tamaño/preferencia o involucra múltiples propiedades (lealtad, independencia, cuidados, experiencias personales)?'
+                },
+                flexibilidad: {
+                    icon: '🔄',
+                    title: 'Análisis por FLEXIBILIDAD',
+                    content: '¿Puede María cambiar esta afirmación en otros contextos? Por ejemplo, si está con amantes de gatos, ¿es rígida o flexible?'
+                }
+            };
+            
+            const a = analisis[tipo];
+            display.innerHTML = `
+                <div style="text-align: center; margin-bottom: 12px; font-size: 32px;">${a.icon}</div>
+                <h4 style="color: #2E8BA6; margin-bottom: 10px; text-align: center;">${a.title}</h4>
+                <p style="color: #000; font-size: 14px; line-height: 1.7; margin: 0;">${a.content}</p>
+            `;
+        }
+        
+        // PANTALLA 1: Visualización 20 unidades
+        function mostrarAnalisis(tipo, subtipo) {
+            const resultado = document.getElementById('analisis-resultado');
+            const btns = document.querySelectorAll('.analisis-selector');
+            
+            btns.forEach(btn => {
+                btn.style.borderColor = '#e0e0e0';
+                btn.style.background = 'white';
+            });
+            event.target.style.borderColor = '#2E8BA6';
+            event.target.style.background = '#e8f4f8';
+            
+            resultado.style.display = 'block';
+            
+            const analisis = {
+                'nivel-simple': {
+                    title: '📊 Nivel 2: Relational Framing',
+                    content: 'Analizar como <strong>marco de comparación simple</strong>:<br><br>"perro > gato" → emerge "gato < perro"<br><br><em>Es una relación de comparación bidireccional básica</em>'
+                },
+                'nivel-complejo': {
+                    title: '📊 Nivel 3: Relational Networking',
+                    content: 'Analizar como <strong>red relacional compleja</strong>:<br><br>"perro > gato" + "perro = leal" + "gato = independiente" + "lealtad > independencia (para mí)"<br><br><em>Red de múltiples relaciones interconectadas</em>'
+                },
+                'dimension-coherencia': {
+                    title: '🎯 Dimensión: Coherencia',
+                    content: '<strong>Alta coherencia:</strong> Es consistente con otras creencias sobre tamaño de animales<br><br><strong>Baja coherencia:</strong> Si la persona también dice "los gatos son enormes"<br><br><em>¿Qué tan consistente con otras relaciones?</em>'
+                },
+                'dimension-flexibilidad': {
+                    title: '🔄 Dimensión: Flexibilidad',
+                    content: '<strong>Alta flexibilidad:</strong> En un juego de "opuestos" puede decir "gato > perro"<br><br><strong>Baja flexibilidad:</strong> Insiste en "perro > gato" incluso cuando el contexto pide lo contrario<br><br><em>¿Qué tan modificable por el contexto?</em>'
+                }
+            };
+            
+            const key = `${tipo}-${subtipo}`;
+            const a = analisis[key];
+            
+            if (a) {
+                resultado.innerHTML = `
+                    <h4 style="color: #2E8BA6; margin-bottom: 10px;">${a.title}</h4>
+                    <p style="color: #000; font-size: 13px; line-height: 1.7; margin: 0;">${a.content}</p>
+                `;
+            }
+        }
+        
+        // PANTALLA 1: Descomposición
+        function showDecompose(part) {
+            const result = document.getElementById('decompose-result');
+            const parts = document.querySelectorAll('.decompose-part');
+            
+            parts.forEach(p => p.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            result.style.display = 'block';
+            
+            if (part === 1) {
+                result.innerHTML = `
+                    <h4 style="color: #2E8BA6; margin-bottom: 12px;">📐 Multi-Dimensional</h4>
+                    <p style="color: #000; font-size: 14px; line-height: 1.7;">
+                        <strong>Cuatro dimensiones</strong> a lo largo de las cuales varía el responder relacional:<br><br>
+                        <strong>1. Coherencia:</strong> ¿Qué tan consistente con otras relaciones?<br>
+                        <strong>2. Complejidad:</strong> Nivel de detalle o densidad de la red<br>
+                        <strong>3. Derivación:</strong> ¿Qué tan practicada está la relación?<br>
+                        <strong>4. Flexibilidad:</strong> ¿Qué tan modificable por el contexto?
+                    </p>
+                `;
+            } else {
+                result.innerHTML = `
+                    <h4 style="color: #2E8BA6; margin-bottom: 12px;">🏗️ Multi-Level</h4>
+                    <p style="color: #000; font-size: 14px; line-height: 1.7;">
+                        <strong>Cinco niveles</strong> de complejidad creciente:<br><br>
+                        <strong>1.</strong> Mutually Entailing (Implicación mutua)<br>
+                        <strong>2.</strong> Relational Framing (Enmarcado relacional)<br>
+                        <strong>3.</strong> Relational Networking (Redes relacionales)<br>
+                        <strong>4.</strong> Relating Relations (Relacionar relaciones)<br>
+                        <strong>5.</strong> Relating Relational Networks (Relacionar redes)
+                    </p>
+                `;
+            }
+        }
+        
+        // PANTALLA 2: Niveles
+        function toggleNivel(num) {
+            const item = event.currentTarget;
+            const ejemplo = document.getElementById(`ejemplo-nivel-${num}`);
+            
+            if (item.classList.contains('active')) {
+                item.classList.remove('active');
+                ejemplo.classList.remove('show');
+            } else {
+                document.querySelectorAll('.nivel-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.nivel-ejemplo').forEach(e => e.classList.remove('show'));
+                
+                item.classList.add('active');
+                ejemplo.classList.add('show');
+            }
+        }
+        
+        function showProgresion(num) {
+            const steps = document.querySelectorAll('.progresion-step');
+            const display = document.getElementById('progresion-display');
+            
+            steps.forEach(s => s.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            display.classList.add('show');
+            
+            const ejemplos = {
+                1: { title: '🍕 Nivel 1: Implicación Mutua', content: 'Este objeto redondo se llama <strong>"pizza"</strong>. Automáticamente: <strong>"pizza"</strong> se refiere a este objeto.<br><br><em>Relación bidireccional básica</em>' },
+                2: { title: '🍕 Nivel 2: Marco Relacional', content: '<strong>Pizza</strong> es más grande que <strong>hamburguesa</strong>. Emerge: <strong>hamburguesa</strong> es más pequeña que <strong>pizza</strong>.<br><br><em>Marco de comparación</em>' },
+                3: { title: '🍕 Nivel 3: Red Relacional', content: '<strong>Pizza</strong> opuesto a <strong>saludable</strong>, <strong>saludable</strong> lleva a <strong>bienestar</strong>. Red combinada.<br><br><em>Múltiples relaciones</em>' },
+                4: { title: '🍕 Nivel 4: Relacionar Relaciones', content: '"<strong>Pizza</strong> es a Italia como <strong>sushi</strong> es a Japón"<br><br><em>Analogía: relacionamos relaciones</em>' },
+                5: { title: '🍕 Nivel 5: Relacionar Redes', content: 'Decidir "¿pedimos pizza?" requiere relacionar: preferencias, dieta, contexto social, experiencias, consecuencias.<br><br><em>Todas las redes interactuando</em>' }
+            };
+            
+            const ej = ejemplos[num];
+            display.innerHTML = `<h4 style="color: #2E8BA6; margin-bottom: 12px;">${ej.title}</h4><p style="color: #000; font-size: 14px; line-height: 1.8; margin: 0;">${ej.content}</p>`;
+        }
+        
+        // PANTALLA 3: Dimensiones
+        function toggleDimension(num) {
+            const card = event.currentTarget;
+            const content = document.getElementById(`content-dim-${num}`);
+            
+            if (card.classList.contains('active')) {
+                card.classList.remove('active');
+                content.classList.remove('show');
+            } else {
+                document.querySelectorAll('.dimension-card').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.dimension-content').forEach(c => c.classList.remove('show'));
+                card.classList.add('active');
+                content.classList.add('show');
+            }
+        }
+        
+        // PANTALLA 4: Experimento
+        function updateExperiment() {
+            const coherencia = document.getElementById('slider-coherencia').value;
+            const flexibilidad = document.getElementById('slider-flexibilidad').value;
+            const labels = ['Baja', 'Media', 'Alta'];
+            
+            document.getElementById('val-coherencia').textContent = labels[coherencia];
+            document.getElementById('val-flexibilidad').textContent = labels[flexibilidad];
+            
+            const resultText = document.getElementById('experiment-text');
+            
+            if (coherencia == 2 && flexibilidad == 2) {
+                resultText.innerHTML = 'Con <strong>coherencia y flexibilidad altas</strong>, el niño aplicará fácilmente esta relación a nuevos contextos. Podrá cambiar respuestas en juegos de "opuestos". 🎯';
+            } else if (coherencia == 0 && flexibilidad == 0) {
+                resultText.innerHTML = 'Con <strong>coherencia y flexibilidad bajas</strong>, la relación es inconsistente y rígida. Confusión fácil en nuevos contextos. 😕';
+            } else if (coherencia == 2 && flexibilidad == 0) {
+                resultText.innerHTML = 'Con <strong>alta coherencia pero baja flexibilidad</strong>, sabe que es correcto pero no puede modificarlo según contexto. 🔒';
+            } else if (coherencia == 0 && flexibilidad == 2) {
+                resultText.innerHTML = 'Con <strong>baja coherencia pero alta flexibilidad</strong>, cambia fácilmente pero puede llevar a inconsistencias. 🔄';
+            } else {
+                resultText.innerHTML = 'Con niveles <strong>medios/mixtos</strong>, desempeño típico - no perfectamente consistente ni totalmente adaptable. ⚖️';
+            }
+        }
+        
+        // PANTALLA 5: Tabla
+        function showCell(row, col) {
+            const detail = document.getElementById('cell-detail');
+            const cells = document.querySelectorAll('.tabla-mdml td:not(.row-header)');
+            
+            cells.forEach(c => c.classList.remove('selected'));
+            event.target.classList.add('selected');
+            
+            const cellNum = (row - 1) * 4 + col;
+            const ejemplos = {
+                1: { title: 'Unidad 1: Mutually Entailing - Coherencia', content: '¿Qué tan consistente es la relación bidireccional?<br><br>Ejemplo: "perro" = "dog" es coherente.' },
+                4: { title: 'Unidad 4: Mutually Entailing - Flexibilidad', content: '¿Qué tan fácil modificar la relación?<br><br>Juego de "opuestos": ¿puede cambiarla?' },
+                8: { title: 'Unidad 8: Relational Framing - Flexibilidad', content: '¿Modificar el marco según contexto?<br><br>Niño flexible: "naranja más pequeña" en juego de opuestos.' },
+                20: { title: 'Unidad 20: Relating Networks - Flexibilidad', content: '¿Modificar narrativas complejas?<br><br>Alta flexibilidad: reinterpretar historia personal.' }
+            };
+            
+            const ej = ejemplos[cellNum] || { title: `Unidad ${cellNum}`, content: 'Esta unidad combina el nivel con la dimensión para análisis específico.' };
+            
+            detail.classList.add('show');
+            detail.innerHTML = `<h4 style="color: #2E8BA6; margin-bottom: 12px;">${ej.title}</h4><p style="color: #000; font-size: 14px; line-height: 1.7; margin: 0;">${ej.content}</p>`;
+            
+            setTimeout(() => detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+        }
+        
+        updateScreen();
+        updateExperiment();
+    </script>
+</body>
+</html>
