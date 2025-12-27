@@ -14,233 +14,301 @@
         }
         
         body {
-            font-family: 'Quicksand', 'Coco Gothic', sans-serif;
-            overflow: hidden;
-            height: 100vh;
+            font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
             background: linear-gradient(135deg, #4FB3D9 0%, #2E8BA6 100%);
             position: relative;
+            padding: 20px;
         }
         
-        /* Fondo animado con figuras geométricas */
-        .background-shapes {
-            position: absolute;
+        /* Partículas flotantes de fondo */
+        .particles {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
             z-index: 1;
+            pointer-events: none;
         }
         
-        .shape {
+        .particle {
             position: absolute;
-            opacity: 0.15;
-            animation: float 20s infinite ease-in-out;
-        }
-        
-        .shape.circle {
-            width: 150px;
-            height: 150px;
+            width: 4px;
+            height: 4px;
+            background: white;
             border-radius: 50%;
-            background: white;
+            opacity: 0.6;
+            animation: float-particle 15s infinite ease-in-out;
         }
         
-        .shape.triangle {
-            width: 0;
-            height: 0;
-            border-left: 75px solid transparent;
-            border-right: 75px solid transparent;
-            border-bottom: 130px solid white;
-        }
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 25%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 40%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 55%; animation-delay: 1s; }
+        .particle:nth-child(5) { left: 70%; animation-delay: 3s; }
+        .particle:nth-child(6) { left: 85%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 15%; animation-delay: 6s; }
+        .particle:nth-child(8) { left: 60%; animation-delay: 2.5s; }
         
-        .shape.square {
-            width: 120px;
-            height: 120px;
-            background: white;
-            transform: rotate(45deg);
-        }
-        
-        .shape:nth-child(1) {
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-            animation-duration: 25s;
-        }
-        
-        .shape:nth-child(2) {
-            top: 60%;
-            left: 80%;
-            animation-delay: 5s;
-            animation-duration: 30s;
-        }
-        
-        .shape:nth-child(3) {
-            top: 80%;
-            left: 15%;
-            animation-delay: 10s;
-            animation-duration: 20s;
-        }
-        
-        .shape:nth-child(4) {
-            top: 30%;
-            left: 85%;
-            animation-delay: 15s;
-            animation-duration: 35s;
-        }
-        
-        .shape:nth-child(5) {
-            top: 45%;
-            left: 50%;
-            animation-delay: 8s;
-            animation-duration: 28s;
-        }
-        
-        .shape:nth-child(6) {
-            top: 15%;
-            left: 60%;
-            animation-delay: 3s;
-            animation-duration: 22s;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
             }
-            25% {
-                transform: translateY(-30px) rotate(90deg);
+            10% {
+                opacity: 0.6;
             }
-            50% {
-                transform: translateY(-50px) rotate(180deg);
+            90% {
+                opacity: 0.6;
             }
-            75% {
-                transform: translateY(-30px) rotate(270deg);
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
             }
         }
         
-        /* Contenedor principal */
+        /* Container principal */
         .container {
             position: relative;
             z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
         }
         
-        /* Logo LEO en esquina superior */
-        .logo-corner {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 60px;
-            height: auto;
-            z-index: 20;
-            opacity: 0.9;
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin-bottom: 50px;
             animation: fadeInDown 1s ease-out;
         }
         
-        /* Tarjeta principal */
-        .main-card {
+        .logo {
+            width: 80px;
+            height: 80px;
             background: #FFD93D;
-            border-radius: 30px;
-            padding: 40px 30px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 1s ease-out;
-            margin-bottom: 30px;
-        }
-        
-        .subtitle {
-            color: #000;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            opacity: 0.7;
-        }
-        
-        h1 {
-            color: #000;
-            font-size: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 32px;
             font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .highlight {
             color: #2E8BA6;
-            position: relative;
-            display: inline-block;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: pulse-logo 2s infinite ease-in-out;
         }
         
-        .highlight::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: #2E8BA6;
-            animation: expandWidth 1.5s ease-out 0.5s forwards;
-            transform-origin: left;
-            transform: scaleX(0);
-        }
-        
-        @keyframes expandWidth {
-            to {
-                transform: scaleX(1);
+        @keyframes pulse-logo {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(255, 217, 61, 0.4);
             }
         }
         
-        .description {
-            color: #000;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            opacity: 0.85;
+        h1 {
+            color: white;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            line-height: 1.2;
         }
         
-        .btn-start {
-            background: #2E8BA6;
-            color: white;
+        .subtitle {
+            color: rgba(255,255,255,0.95);
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* Botón principal */
+        .btn-primary {
+            background: #FFD93D;
+            color: #2E8BA6;
             border: none;
-            padding: 18px 50px;
+            padding: 18px 45px;
             font-size: 18px;
             font-weight: 700;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(46, 139, 166, 0.3);
+            box-shadow: 0 8px 25px rgba(255, 217, 61, 0.4);
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 20px;
         }
         
-        .btn-start:hover {
-            background: #236A7F;
+        .btn-primary:hover {
+            background: #ffd11a;
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(46, 139, 166, 0.4);
+            box-shadow: 0 12px 35px rgba(255, 217, 61, 0.5);
         }
         
-        .btn-start:active {
-            transform: translateY(-1px);
+        .or-text {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            margin: 20px 0 25px 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         
-        /* Referencia académica */
-        .reference-box {
-            background: rgba(255, 255, 255, 0.15);
+        /* Grid de secciones */
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4FB3D9, #2E8BA6);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .section-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .section-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        
+        .section-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #4FB3D9, #2E8BA6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(46, 139, 166, 0.3);
+        }
+        
+        .section-title {
+            color: #2E8BA6;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-desc {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .section-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .screen-count {
+            color: #999;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .section-arrow {
+            color: #2E8BA6;
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .section-card:hover .section-arrow {
+            transform: translateX(5px);
+        }
+        
+        /* Progress tracker */
+        .progress-section {
+            background: rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 20px 25px;
-            max-width: 500px;
-            width: 100%;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            animation: fadeInUp 1.2s ease-out;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .progress-title {
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .progress-bar-container {
+            background: rgba(0,0,0,0.2);
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #FFD93D, #ffd11a);
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 1s ease-out;
+            box-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+        }
+        
+        .progress-text {
+            color: rgba(255,255,255,0.9);
+            font-size: 13px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        /* Referencia */
+        .reference {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid rgba(255,255,255,0.2);
+            margin-top: 30px;
         }
         
         .reference-label {
@@ -249,22 +317,27 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 10px;
-            opacity: 0.9;
+            margin-bottom: 12px;
         }
         
         .reference-text {
-            color: white;
-            font-size: 13px;
-            line-height: 1.6;
-            text-align: left;
-        }
-        
-        .reference-text strong {
-            font-weight: 700;
+            color: rgba(255,255,255,0.95);
+            font-size: 14px;
+            line-height: 1.7;
         }
         
         /* Animaciones */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -276,103 +349,153 @@
             }
         }
         
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 0.9;
-                transform: translateY(0);
-            }
+        .sections-grid {
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+        
+        .reference {
+            animation: fadeInUp 1s ease-out 0.5s backwards;
         }
         
         /* Responsive */
-        @media (max-width: 480px) {
-            .logo-corner {
-                width: 50px;
-                top: 15px;
-                left: 15px;
-            }
-            
-            .main-card {
-                padding: 30px 20px;
-                border-radius: 25px;
-            }
-            
+        @media (max-width: 600px) {
             h1 {
-                font-size: 28px;
+                font-size: 32px;
             }
             
-            .description {
-                font-size: 15px;
-            }
-            
-            .btn-start {
-                padding: 15px 40px;
+            .subtitle {
                 font-size: 16px;
             }
             
-            .reference-box {
-                padding: 15px 20px;
+            .sections-grid {
+                grid-template-columns: 1fr;
             }
             
-            .reference-text {
-                font-size: 12px;
+            .section-card {
+                padding: 25px;
             }
-        }
-        
-        /* Efecto de pulso sutil en el botón */
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 8px 20px rgba(46, 139, 166, 0.3);
-            }
-            50% {
-                box-shadow: 0 8px 30px rgba(46, 139, 166, 0.5);
-            }
-        }
-        
-        .btn-start {
-            animation: pulse 2s infinite ease-in-out;
         }
     </style>
 </head>
 <body>
-    <!-- Fondo con figuras animadas -->
-    <div class="background-shapes">
-        <div class="shape circle"></div>
-        <div class="shape triangle"></div>
-        <div class="shape square"></div>
-        <div class="shape circle"></div>
-        <div class="shape triangle"></div>
-        <div class="shape square"></div>
+    <!-- Partículas flotantes -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
     </div>
     
-    <!-- Logo LEO -->
-    <svg class="logo-corner" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="45" fill="#FFD93D"/>
-        <text x="50" y="65" font-family="'Quicksand', sans-serif" font-size="40" font-weight="700" fill="#2E8BA6" text-anchor="middle">LEO</text>
-    </svg>
-    
-    <!-- Contenedor principal -->
     <div class="container">
-        <!-- Tarjeta principal -->
-        <div class="main-card">
-            <div class="subtitle">🔬 Laboratorio RFT</div>
-            <h1>
-                RFT Actualizada:<br>
-                <span class="highlight">Más Campo que Marco</span>
-            </h1>
-            <p class="description">
-                Explora la evolución de la Teoría de los Marcos Relacionales hacia una visión dinámica y multidimensional del lenguaje y la cognición humana.
+        <!-- Hero -->
+        <div class="hero">
+            <div class="logo">LEO</div>
+            <h1>RFT Actualizada:<br>Más Campo que Marco</h1>
+            <p class="subtitle">
+                Explora la evolución de la Teoría de los Marcos Relacionales<br>
+                hacia una visión dinámica y multidimensional
             </p>
-            <button class="btn-start" onclick="comenzarExperiencia()">
-                ¡Comenzar la Experiencia!
+            <button class="btn-primary" onclick="comenzarDesdeInicio()">
+                🚀 Comenzar desde el Inicio
             </button>
+            <p class="or-text">— O elige una sección —</p>
         </div>
         
-        <!-- Referencia académica -->
-        <div class="reference-box">
+        <!-- Progress tracker -->
+        <div class="progress-section">
+            <div class="progress-title">📊 Tu Progreso</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-text">
+                <span id="progressText">0 de 5 secciones completadas</span>
+            </div>
+        </div>
+        
+        <!-- Grid de secciones -->
+        <div class="sections-grid">
+            <!-- Sección 1 -->
+            <div class="section-card" onclick="irASeccion('seccion-1.html')">
+                <div class="section-number">1</div>
+                <div class="section-title">
+                    🎯 Introducción
+                </div>
+                <div class="section-desc">
+                    Fundamentos filosóficos, AARR, y la evolución histórica de RFT hacia una perspectiva de campo.
+                </div>
+                <div class="section-meta">
+                    <div class="screen-count">3 pantallas</div>
+                    <div class="section-arrow">→</div>
+                </div>
+            </div>
+            
+            <!-- Sección 2 -->
+            <div class="section-card" onclick="irASeccion('seccion-2.html')">
+                <div class="section-number">2</div>
+                <div class="section-title">
+                    📊 MDML Framework
+                </div>
+                <div class="section-desc">
+                    Marco Multi-Dimensional Multi-Nivel: 5 niveles × 4 dimensiones para analizar el responder relacional.
+                </div>
+                <div class="section-meta">
+                    <div class="screen-count">5 pantallas</div>
+                    <div class="section-arrow">→</div>
+                </div>
+            </div>
+            
+            <!-- Sección 3 -->
+            <div class="section-card" onclick="irASeccion('seccion-3.html')">
+                <div class="section-number">3</div>
+                <div class="section-title">
+                    ⚡ DAARRE Model
+                </div>
+                <div class="section-desc">
+                    Énfasis en propiedades funcionales: Crel (relaciones) vs Cfunc (orientación/evocación).
+                </div>
+                <div class="section-meta">
+                    <div class="screen-count">4 pantallas</div>
+                    <div class="section-arrow">→</div>
+                </div>
+            </div>
+            
+            <!-- Sección 4 -->
+            <div class="section-card" onclick="irASeccion('seccion-4.html')">
+                <div class="section-number">4</div>
+                <div class="section-title">
+                    🎯 ROE - La Nueva Unidad
+                </div>
+                <div class="section-desc">
+                    Relating • Orienting • Evoking: La unidad central que captura "actos de significado" completos.
+                </div>
+                <div class="section-meta">
+                    <div class="screen-count">6 pantallas</div>
+                    <div class="section-arrow">→</div>
+                </div>
+            </div>
+            
+            <!-- Sección 5 -->
+            <div class="section-card" onclick="irASeccion('seccion-5.html')">
+                <div class="section-number">5</div>
+                <div class="section-title">
+                    🌊 Campo e Implicaciones
+                </div>
+                <div class="section-desc">
+                    Campo vs Marco, aplicaciones clínicas, y el viaje continuo de la investigación en RFT.
+                </div>
+                <div class="section-meta">
+                    <div class="screen-count">4 pantallas</div>
+                    <div class="section-arrow">→</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Referencia -->
+        <div class="reference">
             <div class="reference-label">📚 Basado en:</div>
             <div class="reference-text">
                 <strong>Barnes-Holmes, D., Barnes-Holmes, Y., McEnteggart, C., & Harte, C.</strong> (2021). 
@@ -383,12 +506,36 @@
     </div>
     
     <script>
-        function comenzarExperiencia() {
-            // Animación de salida
-            document.querySelector('.container').style.animation = 'fadeOut 0.5s ease-out forwards';
+        // Simular progreso guardado (localStorage)
+        function cargarProgreso() {
+            const completadas = JSON.parse(localStorage.getItem('rft_secciones_completadas') || '[]');
+            const progreso = (completadas.length / 5) * 100;
             
+            document.getElementById('progressBar').style.width = progreso + '%';
+            document.getElementById('progressText').textContent = 
+                `${completadas.length} de 5 secciones completadas`;
+            
+            // Marcar cards como completadas
+            completadas.forEach(num => {
+                const cards = document.querySelectorAll('.section-card');
+                if (cards[num - 1]) {
+                    cards[num - 1].style.background = 'linear-gradient(135deg, #e8f5e9, #c8e6c9)';
+                    cards[num - 1].querySelector('.section-number').innerHTML = '✓';
+                }
+            });
+        }
+        
+        function comenzarDesdeInicio() {
+            document.body.style.animation = 'fadeOut 0.5s ease-out forwards';
             setTimeout(() => {
                 window.location.href = 'seccion-1.html';
+            }, 500);
+        }
+        
+        function irASeccion(url) {
+            document.body.style.animation = 'fadeOut 0.5s ease-out forwards';
+            setTimeout(() => {
+                window.location.href = url;
             }, 500);
         }
         
@@ -398,11 +545,20 @@
             @keyframes fadeOut {
                 to {
                     opacity: 0;
-                    transform: translateY(-30px);
+                    transform: scale(0.95);
                 }
             }
         `;
         document.head.appendChild(style);
+        
+        // Cargar progreso al inicio
+        cargarProgreso();
+        
+        // Animar barra de progreso al cargar
+        setTimeout(() => {
+            const bar = document.getElementById('progressBar');
+            bar.style.transition = 'width 1.5s ease-out';
+        }, 100);
     </script>
 </body>
 </html>
