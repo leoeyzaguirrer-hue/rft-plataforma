@@ -21,7 +21,6 @@
             color: white;
         }
         
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -60,13 +59,11 @@
             font-weight: 600;
         }
         
-        /* Contenedor principal */
         .container {
             max-width: 600px;
             margin: 0 auto;
         }
         
-        /* Pantallas */
         .screen {
             display: none;
             animation: fadeIn 0.6s ease-out;
@@ -76,7 +73,6 @@
             display: block;
         }
         
-        /* Tarjeta de contenido */
         .content-card {
             background: #FFD93D;
             border-radius: 25px;
@@ -118,66 +114,11 @@
             color: #2E8BA6;
         }
         
-        .highlight-box {
-            background: rgba(46, 139, 166, 0.1);
-            border-left: 4px solid #2E8BA6;
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-        
-        .highlight-box p {
-            color: #000;
-            font-size: 15px;
-            line-height: 1.6;
-            margin: 0;
-        }
-        
-        /* Timeline visual */
-        .timeline {
-            margin: 25px 0;
-        }
-        
-        .timeline-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            animation: slideInLeft 0.6s ease-out backwards;
-        }
-        
-        .timeline-item:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .timeline-item:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        .timeline-year {
-            background: #2E8BA6;
-            color: white;
-            font-weight: 700;
-            font-size: 16px;
-            padding: 12px 20px;
-            border-radius: 15px;
-            min-width: 80px;
-            text-align: center;
-            margin-right: 15px;
-        }
-        
-        .timeline-content {
-            flex: 1;
-            color: #000;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        
-        /* Ejemplo didáctico */
         .ejemplo-box {
             background: white;
             border-radius: 20px;
             padding: 25px;
-            margin-top: 20px;
+            margin: 20px 0;
         }
         
         .ejemplo-label {
@@ -198,7 +139,511 @@
             line-height: 1.6;
         }
         
-        /* Navegación */
+        .highlight-box {
+            background: rgba(46, 139, 166, 0.1);
+            border-left: 4px solid #2E8BA6;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .highlight-box p {
+            color: #000;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        /* Timeline interactiva */
+        .timeline-item {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid #2E8BA6;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-item.active {
+            background: #e8f4f8;
+            border-left-color: #FFD93D;
+        }
+        
+        .timeline-year {
+            background: #2E8BA6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            min-width: 90px;
+            text-align: center;
+        }
+        
+        .timeline-item.active .timeline-year {
+            background: #FFD93D;
+            color: #000;
+        }
+        
+        .timeline-text {
+            flex: 1;
+            color: #000;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .timeline-detail {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .timeline-detail.show {
+            display: block;
+        }
+        
+        .timeline-detail h3 {
+            color: #2E8BA6;
+            font-size: 17px;
+            margin-bottom: 12px;
+        }
+        
+        .timeline-detail p {
+            color: #000;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 8px 0;
+        }
+        
+        /* Botones de comparación */
+        .compare-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .compare-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #e0e0e0;
+            color: #666;
+        }
+        
+        .compare-btn.active {
+            background: #2E8BA6;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(46, 139, 166, 0.3);
+        }
+        
+        .compare-display {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            min-height: 150px;
+            display: none;
+        }
+        
+        .compare-display.show {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        /* Visualización marco vs campo */
+        .vision-toggle {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .vision-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #e0e0e0;
+            color: #666;
+        }
+        
+        .vision-btn.active {
+            background: #2E8BA6;
+            color: white;
+        }
+        
+        .vision-display {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 15px;
+            min-height: 250px;
+        }
+        
+        .vision-content {
+            display: none;
+        }
+        
+        .vision-content.show {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .vision-icon {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 60px;
+        }
+        
+        .campo-visual {
+            position: relative;
+            text-align: center;
+        }
+        
+        .campo-element {
+            display: inline-block;
+            font-size: 30px;
+            animation: float 3s infinite ease-in-out;
+            margin: 0 8px;
+        }
+        
+        .campo-element:nth-child(1) { animation-delay: 0s; }
+        .campo-element:nth-child(2) { animation-delay: 0.5s; }
+        .campo-element:nth-child(3) { animation-delay: 1s; }
+        .campo-element:nth-child(4) { animation-delay: 1.5s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Checkboxes expandibles */
+        .expandible-item {
+            margin-bottom: 12px;
+        }
+        
+        .expandible-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .expandible-label:hover {
+            background: #f0f0f0;
+        }
+        
+        .expandible-label input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+        
+        .expandible-content {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            background: #e8f4f8;
+            border-left: 3px solid #2E8BA6;
+            border-radius: 8px;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .expandible-content.show {
+            display: block;
+        }
+        
+        /* Drag and drop */
+        .clasificacion-container {
+            margin-top: 25px;
+        }
+        
+        .instruccion-drag {
+            color: #000;
+            font-size: 14px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(46, 139, 166, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .opciones-pool {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            min-height: 80px;
+        }
+        
+        .pool-label {
+            color: #666;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .opciones-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .opcion-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            cursor: grab;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            color: #000;
+            user-select: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .opcion-item:hover {
+            border-color: #2E8BA6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .opcion-item:active {
+            cursor: grabbing;
+        }
+        
+        .opcion-item.dragging {
+            opacity: 0.5;
+        }
+        
+        .zonas-clasificacion {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .zona-drop {
+            background: #f9f9f9;
+            border: 3px dashed #ccc;
+            border-radius: 15px;
+            padding: 15px;
+            min-height: 180px;
+            transition: all 0.3s ease;
+        }
+        
+        .zona-drop.drag-over {
+            background: #e8f4f8;
+            border-color: #2E8BA6;
+            border-style: solid;
+        }
+        
+        .zona-drop h4 {
+            color: #2E8BA6;
+            font-size: 15px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .zona-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-height: 100px;
+        }
+        
+        .btn-verificar {
+            background: #2E8BA6;
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+            box-shadow: 0 4px 12px rgba(46, 139, 166, 0.3);
+        }
+        
+        .btn-verificar:hover {
+            background: #236A7F;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(46, 139, 166, 0.4);
+        }
+        
+        .feedback-clasificacion {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            display: none;
+        }
+        
+        .feedback-clasificacion.show {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .feedback-clasificacion.correcto {
+            background: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .feedback-clasificacion.incorrecto {
+            background: #fff3e0;
+            border-left: 4px solid #FF9800;
+        }
+        
+        /* Tarjetas expandibles */
+        .card-expandible {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #2E8BA6;
+        }
+        
+        .card-expandible:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .card-expandible.expanded {
+            border-color: #FFD93D;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-icon {
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+        
+        .card-expandible.expanded .card-icon {
+            transform: rotate(180deg);
+        }
+        
+        .card-content {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .card-content.show {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        /* Ecuación animada */
+        .ecuacion-container {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f5f5, #e8f4f8);
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .ecuacion {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .ecuacion-part {
+            padding: 15px 25px;
+            border-radius: 12px;
+            animation: pulse 2s infinite;
+        }
+        
+        .part-mdml {
+            background: #2E8BA6;
+            color: white;
+        }
+        
+        .part-daarre {
+            background: #FFD93D;
+            color: #000;
+            animation-delay: 0.5s;
+        }
+        
+        .part-hdml {
+            background: linear-gradient(135deg, #2E8BA6, #FFD93D);
+            color: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            animation-delay: 1s;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Quiz */
+        .quiz-option {
+            margin-bottom: 10px;
+        }
+        
+        .quiz-label {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .quiz-label:hover {
+            border-color: #2E8BA6;
+            background: #f9f9f9;
+        }
+        
+        .quiz-label.correct {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        
+        .quiz-label.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+        
         .navigation {
             display: flex;
             justify-content: space-between;
@@ -249,7 +694,6 @@
             background: #236A7F;
         }
         
-        /* Animaciones */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -272,532 +716,401 @@
             }
         }
         
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        /* Timeline Interactiva */
-        .timeline-item.clickable {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .timeline-item.clickable:hover {
-            transform: translateX(5px);
-        }
-        
-        .timeline-item.clickable:hover .timeline-year {
-            background: #236A7F;
-            transform: scale(1.05);
-        }
-        
-        .timeline-info-box {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 15px;
-            animation: fadeIn 0.4s ease-out;
-        }
-        
-        .timeline-detail {
-            display: none;
-        }
-        
-        .timeline-detail.active {
-            display: block;
-            animation: fadeIn 0.4s ease-out;
-        }
-        
-        .timeline-detail h3 {
-            font-size: 16px;
-        }
-        
-        .timeline-detail p {
-            color: #000;
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 8px 0;
-        }
-        
-        /* Botones de demostración */
-        .demo-btn.active {
-            background: #2E8BA6 !important;
-            color: white !important;
-            border-color: #2E8BA6 !important;
-        }
-        
-        /* Vision buttons */
-        .vision-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        /* Animación de elementos flotantes */
-        @keyframes float-element {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-10px) rotate(5deg);
-            }
-        }
-        
-        /* Animación pulse para ecuación */
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-        
-        /* Cards interactivas */
-        .card-interactive:hover {
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
-            transform: translateY(-2px);
-        }
-        
-        .card-interactive.expanded {
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
-        }
-        
-        /* Responsive */
         @media (max-width: 480px) {
-            body {
-                padding: 15px;
-            }
-            
-            .content-card {
-                padding: 25px 20px;
-            }
-            
-            h1 {
-                font-size: 24px;
-            }
-            
-            .content-text {
-                font-size: 15px;
-            }
-            
-            .timeline-year {
-                min-width: 70px;
-                font-size: 14px;
-                padding: 10px 15px;
-            }
-            
-            .timeline-content {
-                font-size: 13px;
-            }
-            
-            .nav-btn {
-                padding: 12px 20px;
-                font-size: 15px;
-            }
-            
-            .equation-part {
-                padding: 12px 20px !important;
-                font-size: 16px !important;
-            }
+            body { padding: 15px; }
+            .content-card { padding: 25px 20px; }
+            h1 { font-size: 24px; }
+            .zonas-clasificacion { grid-template-columns: 1fr; }
+            .ecuacion { font-size: 16px; }
+            .ecuacion-part { padding: 12px 20px; }
+            .nav-btn { padding: 12px 20px; font-size: 15px; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <div class="header">
-        <a href="index.html" class="btn-back">
-            ← Volver
-        </a>
+        <a href="index.html" class="btn-back">← Volver</a>
         <div class="progress-indicator">
             Sección 1 • Pantalla <span id="currentScreen">1</span>/3
         </div>
     </div>
     
     <div class="container">
-        <!-- PANTALLA 1.1: ¿Por qué actualizar RFT? -->
+        <!-- PANTALLA 1.1 -->
         <div class="screen active" id="screen-1">
             <div class="content-card">
                 <div class="section-badge">📚 Introducción</div>
                 <h1>¿Por qué actualizar RFT?</h1>
                 
                 <p class="content-text">
-                    La <strong>Teoría de los Marcos Relacionales (RFT)</strong> nació hace más de 50 años con el trabajo pionero de Sidman sobre relaciones de equivalencia. Desde entonces, se ha convertido en una poderosa herramienta para entender el lenguaje y la cognición humana.
+                    El estudio de las relaciones de estímulo derivadas comenzó hace casi medio siglo con el estudio seminal de <strong>Sidman (1971)</strong> sobre relaciones de equivalencia.
                 </p>
                 
-                <!-- Timeline Interactiva -->
-                <div class="timeline-interactive" style="margin: 25px 0;">
-                    <p class="content-text" style="font-size: 14px; margin-bottom: 15px; opacity: 0.9;">
+                <p class="content-text">
+                    La investigación temprana tendió a enfocarse en estudios de <strong>"demostración de principio"</strong> - mostrar que un patrón estaba presente o ausente.
+                </p>
+                
+                <div class="highlight-box">
+                    <p>
+                        <strong>El problema:</strong> Necesitamos ir más allá y explorar las <strong>dinámicas comportamentales</strong> del responder relacional derivado en sí mismo.
+                    </p>
+                </div>
+                
+                <!-- Timeline clickeable -->
+                <div style="margin: 25px 0;">
+                    <p class="content-text" style="font-size: 14px; margin-bottom: 15px;">
                         👆 <strong>Toca cada etapa</strong> para ver qué sucedió:
                     </p>
-                    <div class="timeline">
-                        <div class="timeline-item clickable" onclick="showTimelineInfo(1)">
-                            <div class="timeline-year">1971</div>
-                            <div class="timeline-content">
-                                <strong>Sidman</strong> 🔬
-                            </div>
-                        </div>
-                        <div class="timeline-item clickable" onclick="showTimelineInfo(2)">
-                            <div class="timeline-year">1989-2001</div>
-                            <div class="timeline-content">
-                                <strong>Hayes & cols.</strong> 📚
-                            </div>
-                        </div>
-                        <div class="timeline-item clickable" onclick="showTimelineInfo(3)">
-                            <div class="timeline-year">2020+</div>
-                            <div class="timeline-content">
-                                <strong>Barnes-Holmes</strong> ⚡
-                            </div>
-                        </div>
+                    
+                    <div class="timeline-item" onclick="showTimeline(1)">
+                        <div class="timeline-year">1971</div>
+                        <div class="timeline-text">Sidman 🔬</div>
                     </div>
                     
-                    <div class="timeline-info-box" id="timelineInfo" style="display: none;">
-                        <div class="timeline-detail" id="detail-1">
-                            <h3 style="color: #2E8BA6; margin-bottom: 10px;">🔬 1971 - Murray Sidman</h3>
-                            <p>Descubrió las <strong>relaciones de equivalencia</strong> estudiando cómo personas con discapacidad intelectual aprendían a leer. Si enseñabas A→B y B→C, emergía A→C sin entrenamiento directo.</p>
-                            <p style="margin-top: 10px;"><em>"¡Momento eureka!"</em> - Conducta derivada sin reforzamiento directo 🎯</p>
-                        </div>
-                        <div class="timeline-detail" id="detail-2">
-                            <h3 style="color: #2E8BA6; margin-bottom: 10px;">📚 1989-2001 - Steven Hayes</h3>
-                            <p>Expandió la equivalencia a múltiples tipos de relaciones: <strong>coordinación, oposición, comparación, jerarquía...</strong></p>
-                            <p style="margin-top: 10px;">Nació la Teoría de los <strong>Marcos Relacionales</strong> - el lenguaje como responder relacional arbitrariamente aplicable 🗣️</p>
-                        </div>
-                        <div class="timeline-detail" id="detail-3">
-                            <h3 style="color: #2E8BA6; margin-bottom: 10px;">⚡ 2020+ - Barnes-Holmes</h3>
-                            <p>Propone ir <strong>más allá de marcos individuales</strong> hacia las dinámicas del responder relacional.</p>
-                            <p style="margin-top: 10px;">Énfasis en el <strong>"campo"</strong> de interacciones verbales, no solo estructuras aisladas 🌊</p>
-                        </div>
+                    <div class="timeline-item" onclick="showTimeline(2)">
+                        <div class="timeline-year">1989-2001</div>
+                        <div class="timeline-text">Hayes & cols. 📚</div>
+                    </div>
+                    
+                    <div class="timeline-item" onclick="showTimeline(3)">
+                        <div class="timeline-year">2020+</div>
+                        <div class="timeline-text">Barnes-Holmes ⚡</div>
+                    </div>
+                    
+                    <div class="timeline-detail" id="timeline-1">
+                        <h3>🔬 1971 - Murray Sidman</h3>
+                        <p>Descubrió las relaciones de equivalencia estudiando cómo personas aprendían a leer. Si enseñabas A→B y B→C, emergía A→C sin entrenamiento directo.</p>
+                        <p style="margin-top: 10px;"><em>¡Conducta derivada sin reforzamiento directo!</em> 🎯</p>
+                    </div>
+                    
+                    <div class="timeline-detail" id="timeline-2">
+                        <h3>📚 1989-2001 - Steven Hayes</h3>
+                        <p>Expandió la equivalencia a múltiples tipos de relaciones: coordinación, oposición, comparación, jerarquía...</p>
+                        <p style="margin-top: 10px;">Nació la <strong>Teoría de los Marcos Relacionales</strong> 🗣️</p>
+                    </div>
+                    
+                    <div class="timeline-detail" id="timeline-3">
+                        <h3>⚡ 2020+ - Barnes-Holmes</h3>
+                        <p>Propone ir más allá de marcos individuales hacia las dinámicas del responder relacional.</p>
+                        <p style="margin-top: 10px;">Énfasis en el <strong>"campo"</strong> de interacciones verbales 🌊</p>
                     </div>
                 </div>
                 
-                <!-- Mini Experimento: Demostración vs Dinámicas -->
-                <div class="ejemplo-box" style="margin-top: 25px;">
-                    <div class="ejemplo-label">
-                        🧪 Mini-Laboratorio: ¿Presente o Ausente vs. ¿Cómo?
-                    </div>
+                <!-- Comparación interactiva -->
+                <div class="ejemplo-box">
+                    <div class="ejemplo-label">🧪 Comparación Interactiva</div>
                     <div class="ejemplo-content">
-                        <p style="margin-bottom: 15px;">
-                            <strong>Investigación temprana:</strong> ¿Existe la relación derivada? ✅ o ❌
-                        </p>
-                        <p style="margin-bottom: 15px;">
-                            <strong>Investigación actual:</strong> ¿Cómo se comporta esa relación? 📊
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            👆 Toca para comparar los dos enfoques:
                         </p>
                         
-                        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px; margin-top: 15px;">
-                            <p style="margin-bottom: 10px; font-weight: 600;">👉 Toca los círculos para comparar:</p>
-                            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                                <button class="demo-btn" onclick="showDemoType('old')" style="flex: 1; padding: 12px; background: #e0e0e0; border: 2px solid #999; border-radius: 10px; cursor: pointer; font-weight: 600;">
-                                    🔍 Enfoque Antiguo
-                                </button>
-                                <button class="demo-btn" onclick="showDemoType('new')" style="flex: 1; padding: 12px; background: #e0e0e0; border: 2px solid #999; border-radius: 10px; cursor: pointer; font-weight: 600;">
-                                    ⚡ Enfoque Nuevo
-                                </button>
-                            </div>
-                            <div id="demoDisplay" style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px; min-height: 80px; display: none;">
-                            </div>
+                        <div class="compare-buttons">
+                            <button class="compare-btn" onclick="showCompare('old')">
+                                🔍 Enfoque Antiguo
+                            </button>
+                            <button class="compare-btn" onclick="showCompare('new')">
+                                ⚡ Enfoque Nuevo
+                            </button>
+                        </div>
+                        
+                        <div class="compare-display" id="compare-display">
+                            <!-- Contenido dinámico -->
                         </div>
                     </div>
-                </div>
-                
-                <div class="highlight-box" style="margin-top: 20px;">
-                    <p>
-                        💡 <strong>La actualización:</strong> Pasar de preguntar "¿existe?" a preguntar "¿cómo funciona dinámicamente?"
-                    </p>
                 </div>
             </div>
         </div>
         
-        <!-- PANTALLA 1.2: De "Marco" a "Campo" -->
+        <!-- PANTALLA 1.2 -->
         <div class="screen" id="screen-2">
             <div class="content-card">
                 <div class="section-badge">🔄 Cambio de Perspectiva</div>
                 <h1>De "Marco" a "Campo"</h1>
                 
                 <p class="content-text">
-                    El nombre "Teoría de los <strong>Marcos</strong> Relacionales" enfatiza estructuras individuales y aisladas. La actualización propone pensar en términos de <strong>campo de interactuantes verbales</strong>.
+                    Hemos argumentado que <strong>la metáfora del marco podría ser útilmente reemplazada por la metáfora del "campo"</strong> de interactuantes verbales.
                 </p>
                 
-                <!-- Visualización Interactiva: Marco vs Campo -->
+                <p class="content-text">
+                    Estamos retrocediendo a los primeros días de RFT, cuando se enfocaba más en <strong>redes relacionales complejas</strong> involucradas en la conducta gobernada por reglas.
+                </p>
+                
+                <!-- Visualización interactiva -->
                 <div class="ejemplo-box">
-                    <div class="ejemplo-label">
-                        🎨 Visualización Interactiva
-                    </div>
+                    <div class="ejemplo-label">🎨 Visualización Interactiva</div>
                     <div class="ejemplo-content">
-                        <p style="margin-bottom: 15px;">
-                            👆 <strong>Toca cada visión</strong> para ver cómo cambia la perspectiva:
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            👆 Alterna entre las dos perspectivas:
                         </p>
                         
-                        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                            <button class="vision-btn" id="btnMarco" onclick="showVision('marco')" 
-                                    style="flex: 1; padding: 12px; background: #2E8BA6; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; transition: all 0.3s;">
-                                🖼️ Visión MARCO
+                        <div class="vision-toggle">
+                            <button class="vision-btn active" id="btn-marco" onclick="showVision('marco')">
+                                🖼️ Marco
                             </button>
-                            <button class="vision-btn" id="btnCampo" onclick="showVision('campo')" 
-                                    style="flex: 1; padding: 12px; background: #e0e0e0; color: #666; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; transition: all 0.3s;">
-                                🌊 Visión CAMPO
+                            <button class="vision-btn" id="btn-campo" onclick="showVision('campo')">
+                                🌊 Campo
                             </button>
                         </div>
                         
-                        <div id="visionDisplay" style="background: #f9f9f9; padding: 20px; border-radius: 12px; min-height: 200px;">
-                            <!-- Marco view -->
-                            <div id="marcoView" class="vision-content">
-                                <div style="text-align: center; margin-bottom: 15px;">
-                                    <div style="display: inline-block; width: 120px; height: 120px; border: 4px solid #2E8BA6; border-radius: 8px; background: white; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px;">
-                                            📸
-                                        </div>
-                                    </div>
-                                </div>
-                                <h4 style="color: #2E8BA6; margin-bottom: 10px; text-align: center;">Marco Aislado</h4>
-                                <ul style="list-style: none; padding: 0; font-size: 14px; line-height: 1.8;">
-                                    <li>🔹 Objeto independiente</li>
+                        <div class="vision-display">
+                            <div class="vision-content show" id="vision-marco">
+                                <div class="vision-icon">🖼️</div>
+                                <h4 style="color: #2E8BA6; text-align: center; margin-bottom: 15px;">Elemento Aislado</h4>
+                                <ul style="list-style: none; padding: 0; color: #000; font-size: 14px; line-height: 2;">
+                                    <li>🔹 Analizado independientemente</li>
                                     <li>🔹 Propiedades fijas</li>
-                                    <li>🔹 Análisis estático</li>
-                                    <li>🔹 Existe por sí mismo</li>
+                                    <li>🔹 Presente o ausente</li>
+                                    <li>🔹 Sin contexto dinámico</li>
                                 </ul>
                             </div>
                             
-                            <!-- Campo view -->
-                            <div id="campoView" class="vision-content" style="display: none;">
-                                <div style="text-align: center; margin-bottom: 15px; position: relative;">
-                                    <div class="campo-element" style="position: absolute; top: -10px; left: 20%; animation: float-element 3s infinite;">💡</div>
-                                    <div class="campo-element" style="position: absolute; top: -5px; right: 15%; animation: float-element 3.5s infinite;">👁️</div>
-                                    <div class="campo-element" style="position: absolute; bottom: 10px; left: 15%; animation: float-element 4s infinite;">💭</div>
-                                    <div class="campo-element" style="position: absolute; bottom: 5px; right: 20%; animation: float-element 3.2s infinite;">🧠</div>
-                                    
-                                    <div style="display: inline-block; width: 120px; height: 120px; border: 4px dashed #2E8BA6; border-radius: 8px; background: linear-gradient(45deg, rgba(46,139,166,0.1), rgba(255,217,61,0.1)); position: relative; box-shadow: 0 0 20px rgba(46,139,166,0.3);">
-                                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px;">
-                                            📸
-                                        </div>
-                                    </div>
+                            <div class="vision-content" id="vision-campo">
+                                <div class="campo-visual" style="margin-bottom: 20px;">
+                                    <span class="campo-element">💡</span>
+                                    <span class="campo-element">👁️</span>
+                                    <span class="campo-element">💭</span>
+                                    <span class="campo-element">🧠</span>
                                 </div>
-                                <h4 style="color: #2E8BA6; margin-bottom: 10px; text-align: center;">Campo de Interacciones</h4>
-                                <ul style="list-style: none; padding: 0; font-size: 14px; line-height: 1.8;">
+                                <h4 style="color: #2E8BA6; text-align: center; margin-bottom: 15px;">Red de Interacciones</h4>
+                                <ul style="list-style: none; padding: 0; color: #000; font-size: 14px; line-height: 2;">
                                     <li>🌊 Definido por relaciones</li>
                                     <li>🌊 Propiedades emergentes</li>
-                                    <li>🌊 Análisis dinámico</li>
-                                    <li>🌊 Existe EN el contexto</li>
+                                    <li>🌊 Dinámico y contextual</li>
+                                    <li>🌊 El evento ES el campo</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Ejemplo Didáctico Interactivo -->
-                <div class="ejemplo-box" style="margin-top: 20px;">
-                    <div class="ejemplo-label">
-                        💡 Experimenta la Diferencia
-                    </div>
+                <!-- Ejemplo clínico expandible -->
+                <div class="ejemplo-box">
+                    <div class="ejemplo-label">💡 Ejemplo Clínico</div>
                     <div class="ejemplo-content">
-                        <p style="margin-bottom: 15px;">
-                            <strong>Situación:</strong> Una persona dice "No puedo hacerlo" 😰
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            Situación: Un cliente dice "No puedo hacerlo" 😰
+                        </p>
+                        <p style="margin-bottom: 15px; font-size: 14px;">
+                            👇 Marca cada análisis para ver la diferencia:
                         </p>
                         
-                        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px;">
-                            <div class="analisis-toggle" style="margin-bottom: 15px;">
-                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px; background: white; border-radius: 8px;">
-                                    <input type="checkbox" id="toggleMarcoAnalisis" onchange="toggleAnalisis('marco')" style="width: 20px; height: 20px;">
-                                    <span style="font-weight: 600;">🖼️ Análisis tipo "MARCO"</span>
-                                </label>
-                                <div id="marcoAnalisis" class="analisis-content" style="display: none; margin-top: 10px; padding: 12px; background: #e8f4f8; border-left: 3px solid #2E8BA6; border-radius: 5px;">
-                                    Se identifica un <strong>marco de coordinación</strong>:<br>
-                                    "Yo" = "No puedo"<br>
-                                    <em style="font-size: 13px; opacity: 0.8;">→ Análisis del marco aislado ✓</em>
-                                </div>
+                        <div class="expandible-item">
+                            <label class="expandible-label">
+                                <input type="checkbox" onchange="toggleExpand('marco-analisis')">
+                                <span style="font-weight: 600;">🖼️ Análisis tipo MARCO</span>
+                            </label>
+                            <div class="expandible-content" id="marco-analisis">
+                                <p style="color: #000; font-size: 14px; margin: 0;">
+                                    Se identifica un <strong>marco de coordinación</strong>: "Yo" = "No puedo"<br>
+                                    <em style="opacity: 0.7;">→ Análisis del marco aislado</em>
+                                </p>
                             </div>
-                            
-                            <div class="analisis-toggle">
-                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px; background: white; border-radius: 8px;">
-                                    <input type="checkbox" id="toggleCampoAnalisis" onchange="toggleAnalisis('campo')" style="width: 20px; height: 20px;">
-                                    <span style="font-weight: 600;">🌊 Análisis tipo "CAMPO"</span>
-                                </label>
-                                <div id="campoAnalisis" class="analisis-content" style="display: none; margin-top: 10px; padding: 12px; background: #fff9e6; border-left: 3px solid #FFD93D; border-radius: 5px;">
-                                    Campo de interacciones:<br>
+                        </div>
+                        
+                        <div class="expandible-item">
+                            <label class="expandible-label">
+                                <input type="checkbox" onchange="toggleExpand('campo-analisis')">
+                                <span style="font-weight: 600;">🌊 Análisis tipo CAMPO</span>
+                            </label>
+                            <div class="expandible-content" id="campo-analisis">
+                                <p style="color: #000; font-size: 14px; margin: 0; line-height: 1.8;">
+                                    Campo completo de interactuantes:<br>
                                     • Historia de fracasos (pasado) 📚<br>
                                     • Tono de voz y postura (presente) 😔<br>
                                     • Consecuencias anticipadas (futuro) 😨<br>
-                                    • Personas observando (social) 👥<br>
-                                    • Función del "no puedo" en este contexto 🎯<br>
-                                    <em style="font-size: 13px; opacity: 0.8;">→ Análisis del campo completo de interactuantes ⚡</em>
-                                </div>
+                                    • Presencia del terapeuta (social) 👥<br>
+                                    • Función del "no puedo" en contexto 🎯<br>
+                                    <em style="opacity: 0.7;">→ Análisis del campo completo</em>
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="highlight-box" style="margin-top: 20px;">
+                <div class="highlight-box">
                     <p>
-                        🎯 <strong>La clave:</strong> En el <strong>campo de interactuantes verbales</strong>, los elementos no existen independientemente - se definen por su participación en el campo. El evento psicológico ES el campo.
+                        En el <strong>campo de interactuantes verbales</strong>, los elementos no existen independientemente - se actualizan por su participación en el campo. <strong>El evento psicológico ES el campo.</strong>
                     </p>
+                </div>
+                
+                <!-- Actividad drag & drop -->
+                <div class="clasificacion-container">
+                    <h2 style="color: #2E8BA6; font-size: 20px; margin-bottom: 15px;">
+                        🎮 Actividad: Clasifica los Ejemplos
+                    </h2>
+                    
+                    <div class="instruccion-drag">
+                        <strong>Instrucciones:</strong> Arrastra cada ejemplo a la categoría correspondiente
+                    </div>
+                    
+                    <div class="opciones-pool">
+                        <div class="pool-label">📦 Ejemplos para clasificar:</div>
+                        <div class="opciones-items" id="pool-opciones">
+                            <div class="opcion-item" draggable="true" data-correct="marco">
+                                Analizar solo A=B sin contexto
+                            </div>
+                            <div class="opcion-item" draggable="true" data-correct="campo">
+                                Considerar cómo A=B cambia según quién pregunta
+                            </div>
+                            <div class="opcion-item" draggable="true" data-correct="marco">
+                                Estudiar una palabra como unidad independiente
+                            </div>
+                            <div class="opcion-item" draggable="true" data-correct="campo">
+                                Analizar la palabra en su red de relaciones
+                            </div>
+                            <div class="opcion-item" draggable="true" data-correct="campo">
+                                Observar cómo la historia afecta el significado
+                            </div>
+                            <div class="opcion-item" draggable="true" data-correct="marco">
+                                Identificar si existe o no una relación
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="zonas-clasificacion">
+                        <div class="zona-drop" data-tipo="marco">
+                            <h4>🖼️ Marco Aislado</h4>
+                            <div class="zona-items" id="zona-marco"></div>
+                        </div>
+                        
+                        <div class="zona-drop" data-tipo="campo">
+                            <h4>🌊 Campo de Interactuantes</h4>
+                            <div class="zona-items" id="zona-campo"></div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-verificar" onclick="verificarClasificacion()">
+                        ✓ Verificar Respuestas
+                    </button>
+                    
+                    <div class="feedback-clasificacion" id="feedback"></div>
                 </div>
             </div>
         </div>
         
-        <!-- PANTALLA 1.3: El viaje conceptual -->
+        <!-- PANTALLA 1.3 -->
         <div class="screen" id="screen-3">
             <div class="content-card">
                 <div class="section-badge">🗺️ Mapa del Viaje</div>
                 <h1>El Viaje Conceptual</h1>
                 
                 <p class="content-text">
-                    La actualización de RFT integra dos desarrollos conceptuales recientes para lograr esta visión de "campo":
+                    Se describe la <strong>integración de dos desarrollos conceptuales recientes</strong> dentro de RFT:
                 </p>
                 
-                <!-- Tarjetas interactivas MDML y DAARRE -->
-                <div style="margin: 25px 0;">
-                    <p style="font-size: 14px; margin-bottom: 15px; color: #000; opacity: 0.9;">
-                        👆 <strong>Toca cada tarjeta</strong> para explorar:
+                <!-- Tarjetas expandibles -->
+                <p class="content-text" style="font-size: 14px; margin: 20px 0 15px 0;">
+                    👆 <strong>Toca cada tarjeta</strong> para explorar:
+                </p>
+                
+                <div class="card-expandible" onclick="toggleCard('mdml')">
+                    <div class="card-header">
+                        <div>
+                            <div style="font-size: 24px; margin-bottom: 5px;">1️⃣</div>
+                            <h3 style="color: #2E8BA6; margin: 0;">MDML Framework</h3>
+                        </div>
+                        <div class="card-icon" id="icon-mdml">▼</div>
+                    </div>
+                    <div class="card-content" id="content-mdml">
+                        <p style="color: #000; margin-bottom: 12px;">
+                            <strong>Multi-Dimensional Multi-Level</strong>
+                        </p>
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            Sistematiza el responder relacional en:
+                        </p>
+                        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 14px; margin: 8px 0;">
+                                <strong>5 niveles</strong> de complejidad +<br>
+                                <strong>4 dimensiones</strong> de análisis =<br>
+                                <strong style="color: #2E8BA6; font-size: 18px;">20 unidades</strong>
+                            </p>
+                        </div>
+                        <p style="color: #666; font-size: 13px; font-style: italic; margin-top: 12px;">
+                            Enfoque: Propiedades relacionales (Crel)
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="card-expandible" onclick="toggleCard('daarre')">
+                    <div class="card-header">
+                        <div>
+                            <div style="font-size: 24px; margin-bottom: 5px;">2️⃣</div>
+                            <h3 style="color: #000; margin: 0;">Modelo DAARRE</h3>
+                        </div>
+                        <div class="card-icon" id="icon-daarre">▼</div>
+                    </div>
+                    <div class="card-content" id="content-daarre">
+                        <p style="color: #000; margin-bottom: 12px;">
+                            <strong>Differential Arbitrarily Applicable Relational Responding Effects</strong>
+                        </p>
+                        <p style="color: #000; font-size: 14px; margin-bottom: 12px;">
+                            Añade énfasis en transformación de funciones:
+                        </p>
+                        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px;">
+                            <p style="color: #000; font-size: 14px; margin: 8px 0;">
+                                👁️ <strong>Orientación:</strong> Notar/atender<br>
+                                💓 <strong>Evocación:</strong> Apetitivo/aversivo
+                            </p>
+                        </div>
+                        <p style="color: #666; font-size: 13px; font-style: italic; margin-top: 12px;">
+                            Enfoque: Propiedades funcionales (Cfunc)
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Ecuación animada -->
+                <div class="ecuacion-container">
+                    <div class="ecuacion">
+                        <div class="ecuacion-part part-mdml">MDML</div>
+                        <div style="font-size: 30px; color: #000;">+</div>
+                        <div class="ecuacion-part part-daarre">DAARRE</div>
+                        <div style="font-size: 30px; color: #000;">=</div>
+                        <div class="ecuacion-part part-hdml">HDML</div>
+                    </div>
+                    <p style="margin-top: 15px; color: #000; font-size: 14px;">
+                        <strong>Hyper-Dimensional Multi-Level Framework</strong>
                     </p>
-                    
-                    <div class="card-interactive" onclick="toggleCard('mdml')" 
-                         style="background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; cursor: pointer; border: 3px solid #2E8BA6; transition: all 0.3s;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <div style="font-size: 24px; margin-bottom: 5px;">1️⃣</div>
-                                <h3 style="color: #2E8BA6; margin: 0;">MDML Framework</h3>
-                            </div>
-                            <div id="mdmlIcon" style="font-size: 24px; transition: transform 0.3s;">▼</div>
-                        </div>
-                        <div id="mdmlContent" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 2px solid #f0f0f0;">
-                            <p style="color: #000; margin-bottom: 10px;">
-                                <strong>Multi-Dimensional Multi-Level</strong>
-                            </p>
-                            <p style="color: #000; font-size: 14px; line-height: 1.6; margin-bottom: 12px;">
-                                Sistematiza el responder relacional en:
-                            </p>
-                            <div style="background: #f5f5f5; padding: 12px; border-radius: 8px; margin-bottom: 10px;">
-                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                                    <span style="background: #2E8BA6; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">5</span>
-                                    <span style="color: #000; font-size: 14px;">Niveles de complejidad</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                                    <span style="background: #2E8BA6; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">4</span>
-                                    <span style="color: #000; font-size: 14px;">Dimensiones de análisis</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <span style="background: #FFD93D; color: #000; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px;">20</span>
-                                    <span style="color: #000; font-size: 14px; font-weight: 700;">= Unidades de análisis total</span>
-                                </div>
-                            </div>
-                            <p style="color: #000; font-size: 13px; font-style: italic; opacity: 0.8;">
-                                🎯 Enfoque principal: Propiedades relacionales (Crel)
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="card-interactive" onclick="toggleCard('daarre')" 
-                         style="background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; cursor: pointer; border: 3px solid #FFD93D; transition: all 0.3s;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <div style="font-size: 24px; margin-bottom: 5px;">2️⃣</div>
-                                <h3 style="color: #000; margin: 0;">Modelo DAARRE</h3>
-                            </div>
-                            <div id="daarreIcon" style="font-size: 24px; transition: transform 0.3s;">▼</div>
-                        </div>
-                        <div id="daarreContent" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 2px solid #f0f0f0;">
-                            <p style="color: #000; margin-bottom: 10px;">
-                                <strong>Differential Arbitrarily Applicable Relational Responding Effects</strong>
-                            </p>
-                            <p style="color: #000; font-size: 14px; line-height: 1.6; margin-bottom: 12px;">
-                                Añade énfasis en transformación de funciones:
-                            </p>
-                            <div style="background: #f5f5f5; padding: 12px; border-radius: 8px; margin-bottom: 10px;">
-                                <div style="margin-bottom: 8px;">
-                                    <span style="font-size: 20px;">👁️</span>
-                                    <strong style="color: #000; margin-left: 8px;">Orientación</strong>
-                                    <p style="color: #000; font-size: 13px; margin: 5px 0 0 32px;">Notar o atender al estímulo</p>
-                                </div>
-                                <div>
-                                    <span style="font-size: 20px;">💓</span>
-                                    <strong style="color: #000; margin-left: 8px;">Evocación</strong>
-                                    <p style="color: #000; font-size: 13px; margin: 5px 0 0 32px;">Reacción apetitiva/aversiva</p>
-                                </div>
-                            </div>
-                            <p style="color: #000; font-size: 13px; font-style: italic; opacity: 0.8;">
-                                🎯 Enfoque principal: Propiedades funcionales (Cfunc)
-                            </p>
-                        </div>
-                    </div>
                 </div>
                 
-                <!-- Ecuación Interactiva -->
-                <div class="ejemplo-box" style="margin-top: 25px;">
-                    <div class="ejemplo-label">
-                        ⚡ La Integración Mágica
-                    </div>
-                    <div class="ejemplo-content">
-                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #f5f5f5, #e8f4f8); border-radius: 12px;">
-                            <div style="display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; font-size: 20px; font-weight: 700;">
-                                <div class="equation-part" style="background: #2E8BA6; color: white; padding: 15px 25px; border-radius: 12px; animation: pulse 2s infinite;">
-                                    MDML
-                                </div>
-                                <div style="font-size: 30px; color: #000;">+</div>
-                                <div class="equation-part" style="background: #FFD93D; color: #000; padding: 15px 25px; border-radius: 12px; animation: pulse 2s infinite 0.5s;">
-                                    DAARRE
-                                </div>
-                                <div style="font-size: 30px; color: #000;">=</div>
-                                <div class="equation-part" style="background: linear-gradient(135deg, #2E8BA6, #FFD93D); color: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); animation: pulse 2s infinite 1s;">
-                                    HDML
-                                </div>
-                            </div>
-                            <p style="margin-top: 20px; color: #000; font-size: 14px;">
-                                <strong>Hyper-Dimensional Multi-Level</strong> Framework
-                            </p>
-                        </div>
-                    </div>
+                <div class="highlight-box">
+                    <p>
+                        El HDML genera una <strong>nueva unidad conceptual</strong>: el <strong>ROE</strong> (Relacionar-Orientar-Evocar) involucrado en virtualmente todos los eventos psicológicos.
+                    </p>
                 </div>
                 
-                <!-- Mini Quiz Interactivo -->
-                <div class="ejemplo-box" style="margin-top: 20px;">
-                    <div class="ejemplo-label">
-                        🎮 ¿Entendiste? - Verifica tu comprensión
-                    </div>
+                <!-- Quiz interactivo -->
+                <div class="ejemplo-box">
+                    <div class="ejemplo-label">🎮 Verifica tu Comprensión</div>
                     <div class="ejemplo-content">
-                        <p style="margin-bottom: 15px; color: #000; font-size: 15px;">
-                            <strong>Pregunta:</strong> ¿Qué aporta principalmente cada desarrollo?
+                        <p style="margin-bottom: 15px; font-weight: 600;">
+                            ¿Qué aporta principalmente cada desarrollo?
                         </p>
                         
                         <div style="background: #f5f5f5; padding: 15px; border-radius: 10px;">
-                            <div style="margin-bottom: 12px;">
-                                <label style="display: flex; align-items: start; gap: 10px; cursor: pointer; padding: 10px; background: white; border-radius: 8px; border: 2px solid transparent; transition: all 0.3s;" 
-                                       onclick="checkAnswer(this, false)">
-                                    <input type="radio" name="quiz1" style="margin-top: 3px;">
-                                    <span style="color: #000; font-size: 14px;">MDML enfatiza funciones y DAARRE enfatiza relaciones</span>
+                            <div class="quiz-option">
+                                <label class="quiz-label" onclick="checkQuiz(this, false)">
+                                    <input type="radio" name="quiz1">
+                                    <span style="font-size: 14px;">MDML enfatiza funciones y DAARRE enfatiza relaciones</span>
                                 </label>
                             </div>
-                            <div style="margin-bottom: 12px;">
-                                <label style="display: flex; align-items: start; gap: 10px; cursor: pointer; padding: 10px; background: white; border-radius: 8px; border: 2px solid transparent; transition: all 0.3s;" 
-                                       onclick="checkAnswer(this, true)">
-                                    <input type="radio" name="quiz1" style="margin-top: 3px;">
-                                    <span style="color: #000; font-size: 14px;">MDML enfatiza relaciones (Crel) y DAARRE enfatiza funciones (Cfunc)</span>
+                            
+                            <div class="quiz-option">
+                                <label class="quiz-label" onclick="checkQuiz(this, true)">
+                                    <input type="radio" name="quiz1">
+                                    <span style="font-size: 14px;">MDML enfatiza relaciones (Crel) y DAARRE enfatiza funciones (Cfunc)</span>
                                 </label>
                             </div>
-                            <div>
-                                <label style="display: flex; align-items: start; gap: 10px; cursor: pointer; padding: 10px; background: white; border-radius: 8px; border: 2px solid transparent; transition: all 0.3s;" 
-                                       onclick="checkAnswer(this, false)">
-                                    <input type="radio" name="quiz1" style="margin-top: 3px;">
-                                    <span style="color: #000; font-size: 14px;">Ambos enfatizan lo mismo, solo cambia la metodología</span>
+                            
+                            <div class="quiz-option">
+                                <label class="quiz-label" onclick="checkQuiz(this, false)">
+                                    <input type="radio" name="quiz1">
+                                    <span style="font-size: 14px;">Ambos enfatizan lo mismo, solo cambia la metodología</span>
                                 </label>
                             </div>
-                            <div id="quizFeedback" style="margin-top: 15px; padding: 12px; border-radius: 8px; display: none;"></div>
+                            
+                            <div id="quiz-feedback" style="margin-top: 15px; padding: 15px; border-radius: 10px; display: none;"></div>
                         </div>
                     </div>
-                </div>
-                
-                <p class="content-text" style="margin-top: 25px;">
-                    De esta integración nace una nueva unidad de análisis: el <strong>ROE</strong> (Relacionar-Orientar-Evocar) 🎯
-                </p>
-                
-                <div class="highlight-box">
-                    <p style="text-align: center;">
-                        🚀 <strong>Próximo paso:</strong> Exploraremos el MDML Framework en detalle - los 5 niveles y 4 dimensiones que forman la base de esta actualización.
-                    </p>
                 </div>
             </div>
         </div>
@@ -816,24 +1129,19 @@
     <script>
         let currentScreen = 1;
         const totalScreens = 3;
+        let draggedElement = null;
         
-        // ===== NAVEGACIÓN =====
+        // NAVEGACIÓN
         function updateScreen() {
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(`screen-${currentScreen}`).classList.add('active');
             document.getElementById('currentScreen').textContent = currentScreen;
-            
             document.getElementById('btnPrev').disabled = currentScreen === 1;
             
             const btnNext = document.getElementById('btnNext');
             if (currentScreen === totalScreens) {
                 btnNext.innerHTML = 'Continuar a MDML →';
-                btnNext.onclick = () => {
-                    window.location.href = 'seccion-2.html';
-                };
+                btnNext.onclick = () => window.location.href = 'seccion-2.html';
             } else {
                 btnNext.innerHTML = 'Siguiente →';
                 btnNext.onclick = nextScreen;
@@ -856,31 +1164,24 @@
             }
         }
         
-        // ===== PANTALLA 1: TIMELINE INTERACTIVA =====
-        function showTimelineInfo(period) {
-            const infoBox = document.getElementById('timelineInfo');
-            const details = document.querySelectorAll('.timeline-detail');
+        // PANTALLA 1: TIMELINE
+        function showTimeline(num) {
+            document.querySelectorAll('.timeline-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.timeline-detail').forEach(detail => detail.classList.remove('show'));
             
-            // Ocultar todos los detalles
-            details.forEach(detail => detail.classList.remove('active'));
-            
-            // Mostrar el detalle seleccionado
-            document.getElementById(`detail-${period}`).classList.add('active');
-            
-            // Mostrar la caja de info
-            infoBox.style.display = 'block';
+            event.currentTarget.classList.add('active');
+            document.getElementById(`timeline-${num}`).classList.add('show');
         }
         
-        function showDemoType(type) {
-            const display = document.getElementById('demoDisplay');
-            const btns = document.querySelectorAll('.demo-btn');
+        // PANTALLA 1: COMPARACIÓN
+        function showCompare(type) {
+            const display = document.getElementById('compare-display');
+            const btns = document.querySelectorAll('.compare-btn');
             
-            // Actualizar botones
             btns.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Mostrar contenido
-            display.style.display = 'block';
+            display.classList.add('show');
             
             if (type === 'old') {
                 display.innerHTML = `
@@ -888,9 +1189,9 @@
                         <div style="font-size: 40px; margin-bottom: 15px;">❓</div>
                         <h4 style="color: #2E8BA6; margin-bottom: 10px;">Pregunta del Enfoque Antiguo:</h4>
                         <p style="color: #000; font-size: 15px; line-height: 1.6;">
-                            "¿Existe la relación derivada A→C después de entrenar A→B y B→C?"
+                            "¿Existe la relación derivada A→C?"
                         </p>
-                        <div style="margin-top: 15px; padding: 12px; background: #f5f5f5; border-radius: 8px;">
+                        <div style="margin-top: 15px; padding: 12px; background: white; border-radius: 8px;">
                             <p style="color: #000; font-size: 14px; margin: 0;">
                                 Respuesta: <strong>SÍ ✓</strong> o <strong>NO ✗</strong>
                             </p>
@@ -902,129 +1203,163 @@
                     <div style="text-align: center;">
                         <div style="font-size: 40px; margin-bottom: 15px;">📊</div>
                         <h4 style="color: #2E8BA6; margin-bottom: 10px;">Preguntas del Enfoque Nuevo:</h4>
-                        <p style="color: #000; font-size: 15px; line-height: 1.6; margin-bottom: 12px;">
-                            "¿Con qué <strong>velocidad</strong> emerge la relación?"<br>
-                            "¿Qué tan <strong>coherente</strong> es con otras relaciones?"<br>
-                            "¿Qué tan <strong>flexible</strong> es ante cambios de contexto?"<br>
-                            "¿Qué funciones se <strong>transforman</strong> en el proceso?"
+                        <p style="color: #000; font-size: 15px; line-height: 1.8;">
+                            "¿Con qué <strong>velocidad</strong> emerge?"<br>
+                            "¿Qué tan <strong>coherente</strong> es?"<br>
+                            "¿Qué tan <strong>flexible</strong> es?"<br>
+                            "¿Qué <strong>funciones</strong> se transforman?"
                         </p>
                         <div style="margin-top: 15px; padding: 12px; background: #e8f4f8; border-radius: 8px;">
                             <p style="color: #000; font-size: 14px; margin: 0;">
-                                Respuesta: <strong>Análisis dinámico completo 📈</strong>
+                                Respuesta: <strong>Análisis dinámico 📈</strong>
                             </p>
                         </div>
                     </div>
                 `;
             }
-            
-            display.style.animation = 'fadeIn 0.4s ease-out';
         }
         
-        // ===== PANTALLA 2: VISIÓN MARCO VS CAMPO =====
+        // PANTALLA 2: VISIÓN
         function showVision(type) {
-            const marcoView = document.getElementById('marcoView');
-            const campoView = document.getElementById('campoView');
-            const btnMarco = document.getElementById('btnMarco');
-            const btnCampo = document.getElementById('btnCampo');
+            document.querySelectorAll('.vision-content').forEach(v => v.classList.remove('show'));
+            document.querySelectorAll('.vision-btn').forEach(btn => btn.classList.remove('active'));
             
-            if (type === 'marco') {
-                marcoView.style.display = 'block';
-                campoView.style.display = 'none';
-                btnMarco.style.background = '#2E8BA6';
-                btnMarco.style.color = 'white';
-                btnCampo.style.background = '#e0e0e0';
-                btnCampo.style.color = '#666';
-            } else {
-                marcoView.style.display = 'none';
-                campoView.style.display = 'block';
-                btnCampo.style.background = '#2E8BA6';
-                btnCampo.style.color = 'white';
-                btnMarco.style.background = '#e0e0e0';
-                btnMarco.style.color = '#666';
-            }
+            document.getElementById(`vision-${type}`).classList.add('show');
+            document.getElementById(`btn-${type}`).classList.add('active');
         }
         
-        function toggleAnalisis(type) {
-            const checkbox = document.getElementById(`toggle${type.charAt(0).toUpperCase() + type.slice(1)}Analisis`);
-            const content = document.getElementById(`${type}Analisis`);
+        // PANTALLA 2: EXPANDIBLES
+        function toggleExpand(id) {
+            const content = document.getElementById(id);
+            const checkbox = event.target;
             
             if (checkbox.checked) {
-                content.style.display = 'block';
-                content.style.animation = 'fadeIn 0.4s ease-out';
+                content.classList.add('show');
             } else {
-                content.style.display = 'none';
+                content.classList.remove('show');
             }
         }
         
-        // ===== PANTALLA 3: CARDS Y QUIZ =====
-        function toggleCard(cardType) {
-            const content = document.getElementById(`${cardType}Content`);
-            const icon = document.getElementById(`${cardType}Icon`);
-            const card = event.currentTarget;
+        // PANTALLA 2: DRAG & DROP
+        document.addEventListener('DOMContentLoaded', function() {
+            const opciones = document.querySelectorAll('.opcion-item');
+            const zonas = document.querySelectorAll('.zona-drop');
             
-            if (content.style.display === 'none' || content.style.display === '') {
-                content.style.display = 'block';
-                content.style.animation = 'fadeIn 0.4s ease-out';
-                icon.style.transform = 'rotate(180deg)';
-                card.classList.add('expanded');
-            } else {
-                content.style.display = 'none';
-                icon.style.transform = 'rotate(0deg)';
-                card.classList.remove('expanded');
-            }
-        }
-        
-        function checkAnswer(element, isCorrect) {
-            const feedback = document.getElementById('quizFeedback');
-            const labels = document.querySelectorAll('label');
-            
-            // Resetear todos los labels
-            labels.forEach(label => {
-                label.style.borderColor = 'transparent';
-                label.style.background = 'white';
+            opciones.forEach(opcion => {
+                opcion.addEventListener('dragstart', e => {
+                    draggedElement = opcion;
+                    opcion.classList.add('dragging');
+                });
+                opcion.addEventListener('dragend', () => {
+                    opcion.classList.remove('dragging');
+                });
             });
             
-            // Marcar el seleccionado
+            zonas.forEach(zona => {
+                zona.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    zona.classList.add('drag-over');
+                });
+                zona.addEventListener('dragleave', () => {
+                    zona.classList.remove('drag-over');
+                });
+                zona.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zona.classList.remove('drag-over');
+                    const zonaItems = zona.querySelector('.zona-items');
+                    if (draggedElement && zonaItems) {
+                        zonaItems.appendChild(draggedElement);
+                    }
+                    document.getElementById('feedback').classList.remove('show');
+                });
+            });
+        });
+        
+        function verificarClasificacion() {
+            const zonaMarco = document.getElementById('zona-marco');
+            const zonaCampo = document.getElementById('zona-campo');
+            const feedback = document.getElementById('feedback');
+            
+            const itemsMarco = Array.from(zonaMarco.children);
+            const itemsCampo = Array.from(zonaCampo.children);
+            
+            let correctos = 0;
+            let total = itemsMarco.length + itemsCampo.length;
+            
+            itemsMarco.forEach(item => {
+                if (item.dataset.correct === 'marco') correctos++;
+            });
+            
+            itemsCampo.forEach(item => {
+                if (item.dataset.correct === 'campo') correctos++;
+            });
+            
+            feedback.classList.add('show');
+            
+            if (correctos === total && total === 6) {
+                feedback.className = 'feedback-clasificacion show correcto';
+                feedback.innerHTML = `
+                    <h4 style="color: #2E7D32;">✓ ¡Perfecto! Clasificación correcta</h4>
+                    <p style="color: #000; font-size: 14px;">Los análisis tipo <strong>"marco"</strong> estudian relaciones aisladas. Los análisis tipo <strong>"campo"</strong> consideran las interacciones dinámicas completas.</p>
+                `;
+            } else {
+                feedback.className = 'feedback-clasificacion show incorrecto';
+                feedback.innerHTML = `
+                    <h4 style="color: #E65100;">💡 Tienes ${correctos} de ${total} correctos</h4>
+                    <p style="color: #000; font-size: 14px;"><strong>Marco:</strong> Análisis sin contexto. <strong>Campo:</strong> Considera el contexto completo de interacciones.</p>
+                `;
+            }
+        }
+        
+        // PANTALLA 3: TARJETAS
+        function toggleCard(type) {
+            const card = event.currentTarget;
+            const content = document.getElementById(`content-${type}`);
+            const icon = document.getElementById(`icon-${type}`);
+            
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                card.classList.remove('expanded');
+            } else {
+                content.classList.add('show');
+                card.classList.add('expanded');
+            }
+        }
+        
+        // PANTALLA 3: QUIZ
+        function checkQuiz(element, isCorrect) {
+            const feedback = document.getElementById('quiz-feedback');
+            const labels = document.querySelectorAll('.quiz-label');
+            
+            labels.forEach(label => {
+                label.classList.remove('correct', 'incorrect');
+            });
+            
             if (isCorrect) {
-                element.style.borderColor = '#4CAF50';
-                element.style.background = '#e8f5e9';
+                element.classList.add('correct');
                 feedback.style.display = 'block';
                 feedback.style.background = '#e8f5e9';
                 feedback.style.borderLeft = '4px solid #4CAF50';
                 feedback.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <span style="font-size: 24px;">✓</span>
-                        <div>
-                            <strong style="color: #2E7D32;">¡Correcto!</strong>
-                            <p style="color: #000; font-size: 13px; margin: 5px 0 0 0;">
-                                MDML se enfoca en las propiedades relacionales (entailment/Crel), mientras que DAARRE añade énfasis en las funciones de orientación y evocación (Cfunc).
-                            </p>
-                        </div>
-                    </div>
+                    <strong style="color: #2E7D32;">✓ ¡Correcto!</strong>
+                    <p style="color: #000; font-size: 13px; margin: 5px 0 0 0;">
+                        MDML enfatiza relaciones (Crel) y DAARRE enfatiza funciones (Cfunc).
+                    </p>
                 `;
             } else {
-                element.style.borderColor = '#f44336';
-                element.style.background = '#ffebee';
+                element.classList.add('incorrect');
                 feedback.style.display = 'block';
                 feedback.style.background = '#fff3e0';
                 feedback.style.borderLeft = '4px solid #FF9800';
                 feedback.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <span style="font-size: 24px;">💡</span>
-                        <div>
-                            <strong style="color: #E65100;">Intenta de nuevo</strong>
-                            <p style="color: #000; font-size: 13px; margin: 5px 0 0 0;">
-                                Recuerda: ¿Cuál framework enfatiza las relaciones y cuál las funciones?
-                            </p>
-                        </div>
-                    </div>
+                    <strong style="color: #E65100;">💡 Intenta de nuevo</strong>
+                    <p style="color: #000; font-size: 13px; margin: 5px 0 0 0;">
+                        Piensa: ¿Cuál enfatiza las relaciones y cuál las funciones?
+                    </p>
                 `;
             }
-            
-            feedback.style.animation = 'fadeIn 0.4s ease-out';
         }
         
-        // Inicializar
         updateScreen();
     </script>
 </body>
