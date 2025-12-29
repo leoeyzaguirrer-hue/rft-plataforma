@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso Integrador Final | Lab Metáforas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #1B5E20;
+            --bg-dark-2: #2E7D32;
+            --bg-dark-3: #388E3C;
+            
+            --card-lavender: #F3E5F5;
+            
+            --accent-purple: #AB47BC;
+            --accent-purple-dark: #8E24AA;
+            --accent-purple-light: #CE93D8;
+            
+            --color-correct: #4CAF50;
+            --color-partial: #FF9800;
+            --color-wrong: #F44336;
+            
+            --text-dark: #1B1B1B;
+            --text-white: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-2) 50%, var(--bg-dark-3) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            color: var(--text-white);
+            padding-bottom: 40px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(27, 94, 32, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 2px solid rgba(171, 71, 188, 0.3);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(0.95);
+        }
+
+        .progress-indicator {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .part-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .theory-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .theory-card p {
+            color: var(--text-dark);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .theory-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .theory-card strong {
+            color: var(--accent-purple-dark);
+        }
+
+        /* Case Presentation */
+        .case-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .case-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .case-emoji {
+            font-size: 48px;
+        }
+
+        .case-title {
+            color: var(--text-dark);
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .case-info {
+            background: rgba(171, 71, 188, 0.08);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .case-info p {
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .case-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Decision Sections */
+        .decision-section {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            opacity: 0.5;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .decision-section.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .decision-section.completed {
+            opacity: 1;
+            pointer-events: none;
+            border: 3px solid var(--color-correct);
+        }
+
+        .decision-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .decision-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .decision-title {
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 800;
+            flex: 1;
+        }
+
+        .decision-prompt {
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        /* Options */
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid var(--accent-purple-light);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .option-btn:active {
+            transform: scale(0.98);
+        }
+
+        .option-btn.selected {
+            border-color: var(--accent-purple);
+            background: rgba(171, 71, 188, 0.1);
+        }
+
+        .option-btn.correct {
+            border-color: var(--color-correct);
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .option-btn.partial {
+            border-color: var(--color-partial);
+            background: rgba(255, 152, 0, 0.05);
+        }
+
+        .option-btn.wrong {
+            border-color: var(--color-wrong);
+            background: rgba(244, 67, 54, 0.05);
+        }
+
+        .option-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .option-letter {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-purple-light);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            color: var(--text-dark);
+            font-size: 15px;
+            font-weight: 600;
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .option-feedback {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .option-btn.selected .option-feedback {
+            display: block;
+        }
+
+        .feedback-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .feedback-badge.correct { background: var(--color-correct); }
+        .feedback-badge.partial { background: var(--color-partial); }
+        .feedback-badge.wrong { background: var(--color-wrong); }
+
+        /* Text Input */
+        .text-input-container {
+            margin-bottom: 16px;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 14px;
+            border: 3px solid var(--accent-purple-light);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+        }
+
+        /* Checklist Styles */
+        .checklist-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: white;
+            border: 2px solid var(--accent-purple-light);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .checklist-item:hover {
+            border-color: var(--accent-purple);
+            background: rgba(171, 71, 188, 0.05);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .checkbox-custom {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--accent-purple-light);
+            border-radius: 6px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .checklist-item input[type="checkbox"]:checked + .checkbox-custom {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        .checklist-item input[type="checkbox"]:checked + .checkbox-custom::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .checklist-item.result-correct {
+            border-color: var(--color-correct);
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .checklist-item.result-wrong {
+            border-color: var(--color-wrong);
+            background: rgba(244, 67, 54, 0.05);
+        }
+
+        .checklist-item.result-missed {
+            border-color: var(--color-partial);
+            background: rgba(255, 152, 0, 0.05);
+        }
+
+        .checklist-text {
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .result-icon {
+            display: none;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item.result-correct .result-icon,
+        .checklist-item.result-wrong .result-icon,
+        .checklist-item.result-missed .result-icon {
+            display: block;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Score Card */
+        .score-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 32px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            display: none;
+        }
+
+        .score-card.show {
+            display: block;
+        }
+
+        .score-emoji {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .score-title {
+            color: var(--text-dark);
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .score-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+        }
+
+        .score-message {
+            color: var(--text-dark);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .score-breakdown {
+            background: rgba(171, 71, 188, 0.08);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .breakdown-label {
+            color: var(--text-dark);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .breakdown-points {
+            color: var(--accent-purple-dark);
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 32px 0 24px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent-purple-light);
+            width: 24px;
+            border-radius: 5px;
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.4);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .cta-button.show {
+            display: block;
+        }
+
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 12px rgba(171, 71, 188, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='pantalla-3-1.html'">◄ Atrás</button>
+        <div class="progress-indicator">Pantalla 8 de 8</div>
+    </div>
+
+    <div class="container">
+        <div class="title-section">
+            <span class="part-badge">🎯 Ejercicio Final</span>
+            <h1>Caso Integrador</h1>
+            <p class="subtitle">Crea una metáfora clínica completa</p>
+        </div>
+
+        <!-- Instructions -->
+        <div class="theory-card">
+            <p>
+                <strong>Instrucciones:</strong> Vas a crear una metáfora clínica para un caso real 
+                aplicando TODO lo que aprendiste.
+            </p>
+            <p>
+                Tomarás <strong>4 decisiones</strong> que serán evaluadas. 
+                Al final recibirás tu puntaje y feedback personalizado.
+            </p>
+        </div>
+
+        <!-- Case Presentation -->
+        <div class="case-card">
+            <div class="case-header">
+                <span class="case-emoji">👨‍💼</span>
+                <h2 class="case-title">Caso: Roberto</h2>
+            </div>
+
+            <div class="case-info">
+                <p><strong>Perfil:</strong> Roberto, 42 años, ejecutivo de marketing</p>
+                <p><strong>Motivo de consulta:</strong> Agotamiento extremo, problemas de sueño, irritabilidad</p>
+                <p><strong>Patrón principal:</strong> Trabaja 12-14 horas diarias incluyendo fines de semana. 
+                No puede "desconectarse". Revisa emails constantemente. Siente que "si para, todo se derrumba".</p>
+                <p><strong>Consecuencias:</strong> Relación deteriorada con su familia, agotamiento físico, 
+                sensación de vacío a pesar de "logros". Cuanto más trabaja, más trabajo encuentra.</p>
+                <p><strong>Contexto importante:</strong> Es corredor amateur. Solía correr maratones.</p>
+            </div>
+        </div>
+
+        <!-- Decision 1: TARGET -->
+        <div class="decision-section active" id="decision1">
+            <div class="decision-header">
+                <div class="decision-number">1</div>
+                <h3 class="decision-title">Identifica la META (Target)</h3>
+            </div>
+            <p class="decision-prompt">
+                ¿Qué fenómeno debería ser la META de tu metáfora? 
+                Recuerda: debe ser funcionalmente relevante para Roberto.
+            </p>
+
+            <div class="options-container">
+                <button class="option-btn" onclick="selectOption(1, 'A', 3)">
+                    <div class="option-content">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Su patrón de trabajar excesivamente sin poder parar</div>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge correct">✓ EXCELENTE (3 puntos)</span>
+                        <p>
+                            Esta es la conducta funcionalmente relevante. Es observable, recurrente, 
+                            y es lo que mantiene sus problemas. Perfecta elección de META.
+                        </p>
+                    </div>
+                </button>
+
+                <button class="option-btn" onclick="selectOption(1, 'B', 1)">
+                    <div class="option-content">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Su sensación de vacío y agotamiento</div>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge partial">~ PARCIAL (1 punto)</span>
+                        <p>
+                            Esto es una CONSECUENCIA, no la conducta problemática. 
+                            Aunque importante, no es la mejor META porque es resultado del patrón, no el patrón mismo.
+                        </p>
+                    </div>
+                </button>
+
+                <button class="option-btn" onclick="selectOption(1, 'C', 0)">
+                    <div class="option-content">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Su miedo a que "todo se derrumbe"</div>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge wrong">✗ NO RECOMENDABLE (0 puntos)</span>
+                        <p>
+                            Este es el ANTECEDENTE (lo que dispara), no la conducta. 
+                            Además, es un evento privado difícil de observar. La META debe ser la conducta visible.
+                        </p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Decision 2: SOURCE -->
+        <div class="decision-section" id="decision2">
+            <div class="decision-header">
+                <div class="decision-number">2</div>
+                <h3 class="decision-title">Elige el VEHÍCULO (Source)</h3>
+            </div>
+            <p class="decision-prompt">
+                ¿Qué VEHÍCULO usarías para iluminar "trabajar excesivamente sin parar"? 
+                Considera los 3 principios.
+            </p>
+
+            <div class="options-container">
+                <button class="option-btn" onclick="selectOption(2, 'A', 4)">
+                    <div class="option-content">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">"Correr una maratón sin línea de meta"</div>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge correct">✓ PERFECTA (4 puntos)</span>
+                        <p>
+                            ✅ Funcionalmente relevante: Captura el patrón<br>
+                            ✅ Resuena: Roberto es corredor de maratones<br>
+                            ✅ Propiedad saliente: "Sin meta" = nunca termina, agotamiento inevitable<br><br>
+                            💡 Esta metáfora usa su identidad (corredor) para mostrar el absurdo de correr infinitamente.
+                        </p>
+                    </div>
+                </button>
+
+                <button class="option-btn" onclick="selectOption(2, 'B', 2)">
+                    <div class="option-content">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">"Motor sobrecalentado que no se apaga"</div>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge partial">~ ACEPTABLE (2 puntos)</span>
+                        <p>
+                            ✅ Funcionalmente relevante<br>
+                            ⚠️ Resuena moderadamente: Es genérico<br>
+                            ✅ Propiedad saliente: "Sobrecalentado" = consecuencia clara<br><br>
+                            No es mala, pero no usa información específica de Roberto (corredor).
+                        </p>
+                    </div>
+                </button>
+
+                <button class="option-btn" onclick="selectOption(2, 'C', 0)">
+                    <div class="option-content">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">"Eres como una vela que se consume"</div>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge wrong">✗ DÉBIL (0 puntos)</span>
+                        <p>
+                            ⚠️ Funcionalmente relevante: Débil, no captura el patrón activo<br>
+                            ❌ No resuena: Demasiado poética, no conecta con Roberto<br>
+                            ❌ Propiedad poco saliente: "Consumirse" es pasivo<br><br>
+                            Esta metáfora no tiene "bite" clínico.
+                        </p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Decision 3: 3 Principles Checklist -->
+        <div class="decision-section" id="decision3">
+            <div class="decision-header">
+                <div class="decision-number">3</div>
+                <h3 class="decision-title">Evalúa: ¿Por qué funciona?</h3>
+            </div>
+            <p class="decision-prompt">
+                Marca <strong>TODAS</strong> las afirmaciones correctas sobre la metáfora 
+                "Correr una maratón sin línea de meta" con Roberto.
+            </p>
+
+            <div class="checklist-container">
+                <label class="checklist-item">
+                    <input type="checkbox" value="correct" data-id="1">
+                    <span class="checkbox-custom"></span>
+                    <span class="checklist-text">La META es funcionalmente relevante porque trabajar excesivamente es el patrón que mantiene sus problemas</span>
+                </label>
+
+                <label class="checklist-item">
+                    <input type="checkbox" value="correct" data-id="2">
+                    <span class="checkbox-custom"></span>
+                    <span class="checklist-text">El VEHÍCULO resuena porque Roberto es corredor de maratones</span>
+                </label>
+
+                <label class="checklist-item">
+                    <input type="checkbox" value="correct" data-id="3">
+                    <span class="checkbox-custom"></span>
+                    <span class="checklist-text">La propiedad "sin meta" es más saliente que simplemente decir "trabajas mucho"</span>
+                </label>
+
+                <label class="checklist-item">
+                    <input type="checkbox" value="wrong" data-id="4">
+                    <span class="checkbox-custom"></span>
+                    <span class="checklist-text">Esta metáfora funciona con cualquier cliente independiente de su contexto</span>
+                </label>
+
+                <label class="checklist-item">
+                    <input type="checkbox" value="correct" data-id="5">
+                    <span class="checkbox-custom"></span>
+                    <span class="checklist-text">"Sin línea de meta" muestra claramente que nunca termina = agotamiento inevitable</span>
+                </label>
+
+                <label class="checklist-item">
+                    <input type="checkbox" value="wrong" data-id="6">
+                    <span class="checkbox-custom"></span>
+                    <span class="checklist-text">No importa si Roberto corre o no, la metáfora funciona igual de bien</span>
+                </label>
+
+                <label class="checklist-item">
+                    <input type="checkbox" value="correct" data-id="7">
+                    <span class="checkbox-custom"></span>
+                    <span class="checklist-text">Usar su identidad (corredor) hace la metáfora más poderosa y personalizada</span>
+                </label>
+
+                <label class="checklist-item">
+                    <input type="checkbox" value="wrong" data-id="8">
+                    <span class="checkbox-custom"></span>
+                    <span class="checklist-text">La metáfora solo necesita "sonar bien" para ser efectiva clínicamente</span>
+                </label>
+            </div>
+
+            <button class="submit-btn" onclick="submitChecklist()">Validar Respuestas</button>
+            
+            <div class="option-feedback" id="principles-feedback" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 2px solid rgba(0,0,0,0.1);">
+                <span class="feedback-badge correct" id="principles-badge">✓ EVALUADO</span>
+                <p id="principles-result"></p>
+            </div>
+        </div>
+
+        <!-- Decision 4: Shifting -->
+        <div class="decision-section" id="decision4">
+            <div class="decision-header">
+                <div class="decision-number">4</div>
+                <h3 class="decision-title">Aplica: Shifting</h3>
+            </div>
+            <p class="decision-prompt">
+                Roberto menciona que también: revisa emails compulsivamente, 
+                no puede relajarse en vacaciones, y se siente culpable cuando descansa.
+                <br><br>
+                ¿Cómo aplicarías la metáfora de "maratón sin meta" a estas conductas?
+            </p>
+
+            <div class="options-container">
+                <button class="option-btn" onclick="selectOption(4, 'A', 3)">
+                    <div class="option-content">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">"¿También estás corriendo sin meta con los emails? ¿Y en vacaciones sigues corriendo?"</div>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge correct">✓ EXCELENTE (3 puntos)</span>
+                        <p>
+                            Perfecto shifting. Usas la MISMA metáfora para revelar que múltiples conductas 
+                            (trabajo, emails, vacaciones) tienen la misma función: correr sin parar.
+                            <br><br>
+                            Roberto puede ver el patrón general de su vida.
+                        </p>
+                    </div>
+                </button>
+
+                <button class="option-btn" onclick="selectOption(4, 'B', 1)">
+                    <div class="option-content">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">"Los emails son otra fuente de estrés que debes evitar"</div>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge partial">~ NO USA METÁFORA (1 punto)</span>
+                        <p>
+                            Aunque es válido, perdiste la oportunidad de usar la metáfora establecida. 
+                            El shifting es usar el MISMO vehículo para múltiples metas relacionadas.
+                        </p>
+                    </div>
+                </button>
+
+                <button class="option-btn" onclick="selectOption(4, 'C', 0)">
+                    <div class="option-content">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">"Necesitas crear metáforas nuevas para cada problema"</div>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge wrong">✗ INCORRECTO (0 puntos)</span>
+                        <p>
+                            No. El shifting es precisamente lo OPUESTO: usar la MISMA metáfora 
+                            para revelar que diferentes conductas tienen la misma función.
+                        </p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Score Card -->
+        <div class="score-card" id="scoreCard">
+            <div class="score-emoji" id="scoreEmoji">🎉</div>
+            <h2 class="score-title">Tu Puntuación Final</h2>
+            <div class="score-number"><span id="totalScore">0</span> / 13</div>
+            <p class="score-message" id="scoreMessage"></p>
+            
+            <div class="score-breakdown">
+                <div class="breakdown-item">
+                    <span class="breakdown-label">1. Identificar META</span>
+                    <span class="breakdown-points" id="score1">0 / 3</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">2. Elegir VEHÍCULO</span>
+                    <span class="breakdown-points" id="score2">0 / 4</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">3. Aplicar 3 Principios</span>
+                    <span class="breakdown-points" id="score3">0 / 3</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">4. Usar Shifting</span>
+                    <span class="breakdown-points" id="score4">0 / 3</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot active"></div>
+        </div>
+
+        <button class="cta-button" id="finalBtn" onclick="nextModule()">
+            Siguiente: Análisis Funcional con Metáforas →
+        </button>
+    </div>
+
+    <script>
+        let scores = [0, 0, 0, 0];
+        let currentDecision = 1;
+
+        function selectOption(decisionNum, option, points) {
+            const section = document.getElementById(`decision${decisionNum}`);
+            const buttons = section.querySelectorAll('.option-btn');
+            
+            buttons.forEach(btn => {
+                btn.classList.remove('selected');
+                const letter = btn.querySelector('.option-letter').textContent;
+                if (points === 4 || points === 3) btn.classList.add('correct');
+                else if (points === 2 || points === 1) btn.classList.add('partial');
+                else btn.classList.add('wrong');
+            });
+            
+            event.currentTarget.classList.add('selected');
+            
+            scores[decisionNum - 1] = points;
+            document.getElementById(`score${decisionNum}`).textContent = `${points} / ${decisionNum === 2 ? 4 : 3}`;
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(points >= 2 ? [30, 50, 30] : 50);
+            }
+            
+            setTimeout(() => {
+                section.classList.remove('active');
+                section.classList.add('completed');
+                
+                if (decisionNum < 4) {
+                    if (decisionNum === 2) {
+                        document.getElementById('decision3').classList.add('active');
+                    } else {
+                        const nextSection = document.getElementById(`decision${decisionNum + 1}`);
+                        if (nextSection) {
+                            nextSection.classList.add('active');
+                            nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                }
+            }, 2000);
+        }
+
+        function submitChecklist() {
+            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+            let correctChecked = 0;
+            let wrongChecked = 0;
+            let correctMissed = 0;
+            
+            checkboxes.forEach((checkbox, index) => {
+                const item = checkbox.closest('.checklist-item');
+                const isCorrect = checkbox.value === 'correct';
+                const isChecked = checkbox.checked;
+                
+                // Remove previous result classes
+                item.classList.remove('result-correct', 'result-wrong', 'result-missed');
+                
+                // Remove previous result icon if exists
+                const oldIcon = item.querySelector('.result-icon');
+                if (oldIcon) oldIcon.remove();
+                
+                // Add result icon
+                const icon = document.createElement('span');
+                icon.className = 'result-icon';
+                
+                if (isCorrect && isChecked) {
+                    // Correct answer checked
+                    item.classList.add('result-correct');
+                    icon.textContent = '✓';
+                    correctChecked++;
+                } else if (!isCorrect && isChecked) {
+                    // Wrong answer checked
+                    item.classList.add('result-wrong');
+                    icon.textContent = '✗';
+                    wrongChecked++;
+                } else if (isCorrect && !isChecked) {
+                    // Correct answer missed
+                    item.classList.add('result-missed');
+                    icon.textContent = '!';
+                    correctMissed++;
+                }
+                
+                item.appendChild(icon);
+                checkbox.disabled = true;
+            });
+            
+            // Calculate points
+            let points = 0;
+            let feedback = '';
+            const totalCorrect = 5;
+            
+            if (correctChecked === 5 && wrongChecked === 0) {
+                points = 3;
+                feedback = '¡PERFECTO! Identificaste las 5 afirmaciones correctas y evitaste todas las trampas. Dominas los 3 principios.';
+            } else if (correctChecked === 4 && wrongChecked === 0) {
+                points = 2;
+                feedback = `MUY BIEN. Identificaste 4 de 5 correctas sin marcar trampas. Te faltó identificar ${correctMissed} afirmación correcta.`;
+            } else if (correctChecked >= 3 && wrongChecked <= 1) {
+                points = 2;
+                feedback = `BIEN. Marcaste ${correctChecked} correctas, pero también marcaste ${wrongChecked} trampa${wrongChecked > 1 ? 's' : ''}. Revisa los 3 principios.`;
+            } else if (correctChecked >= 3 && wrongChecked >= 2) {
+                points = 1;
+                feedback = `ACEPTABLE. Identificaste ${correctChecked} correctas, pero marcaste ${wrongChecked} trampas. Necesitas repasar qué hace efectiva una metáfora.`;
+            } else {
+                points = 1;
+                feedback = `INSUFICIENTE. Solo identificaste ${correctChecked} de 5 correctas y marcaste ${wrongChecked} trampas. Repasa: META relevante, VEHÍCULO resuena, propiedad saliente.`;
+            }
+            
+            scores[2] = points;
+            document.getElementById('score3').textContent = `${points} / 3`;
+            
+            const badge = document.getElementById('principles-badge');
+            badge.className = points === 3 ? 'feedback-badge correct' : (points === 2 ? 'feedback-badge partial' : 'feedback-badge wrong');
+            badge.textContent = points === 3 ? '✓ PERFECTO' : (points === 2 ? '~ BIEN' : '⚠️ ACEPTABLE');
+            
+            document.getElementById('principles-result').innerHTML = `
+                <strong>${feedback}</strong><br><br>
+                ✓ Correctas marcadas: ${correctChecked}<br>
+                ✗ Trampas marcadas: ${wrongChecked}<br>
+                ! Correctas perdidas: ${correctMissed}<br><br>
+                <em>Las 5 afirmaciones correctas cubren los 3 principios:</em><br>
+                • Principio 1: META funcionalmente relevante<br>
+                • Principio 2: VEHÍCULO resuena con el cliente<br>
+                • Principio 3: Propiedad saliente en el VEHÍCULO
+            `;
+            
+            document.getElementById('principles-feedback').style.display = 'block';
+            
+            // Disable submit button
+            event.target.disabled = true;
+            event.target.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                document.getElementById('decision3').classList.remove('active');
+                document.getElementById('decision3').classList.add('completed');
+                document.getElementById('decision4').classList.add('active');
+                document.getElementById('decision4').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 3000);
+        }
+
+        function calculateFinalScore() {
+            const total = scores.reduce((a, b) => a + b, 0);
+            document.getElementById('totalScore').textContent = total;
+            
+            let emoji, message;
+            if (total >= 11) {
+                emoji = '🏆';
+                message = '¡EXCEPCIONAL! Dominas la creación de metáforas clínicas. Aplicaste correctamente todos los principios y demostraste comprensión profunda del análisis funcional.';
+            } else if (total >= 8) {
+                emoji = '🎯';
+                message = '¡MUY BIEN! Tienes una comprensión sólida de las metáforas clínicas. Con un poco más de práctica, perfeccionarás la técnica.';
+            } else if (total >= 5) {
+                emoji = '📚';
+                message = 'ACEPTABLE. Comprendes los conceptos básicos, pero necesitas practicar más la aplicación de los 3 principios y el shifting.';
+            } else {
+                emoji = '🔄';
+                message = 'Necesitas repasar el contenido. Revisa especialmente los 3 principios y cómo identificar la META funcionalmente relevante.';
+            }
+            
+            document.getElementById('scoreEmoji').textContent = emoji;
+            document.getElementById('scoreMessage').textContent = message;
+            document.getElementById('scoreCard').classList.add('show');
+            document.getElementById('finalBtn').classList.add('show');
+            
+            document.getElementById('scoreCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Check if all decisions are completed
+        setInterval(() => {
+            const allCompleted = scores.every((score, index) => {
+                if (index === 0) return score > 0;
+                if (index === 1) return score > 0;
+                if (index === 2) return score > 0;
+                if (index === 3) return score > 0;
+                return true;
+            });
+            
+            if (allCompleted && !document.getElementById('scoreCard').classList.contains('show')) {
+                setTimeout(() => calculateFinalScore(), 1000);
+            }
+        }, 500);
+
+        function nextModule() {
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+            alert('🎯 Módulo Completado!\n\nPróximo: Análisis Funcional con Metáforas\n(A→B→C Contingencias)\n\n(En desarrollo)');
+            // window.location.href = 'modulo-analisis-funcional.html';
+        }
+    </script>
+</body>
+</html>
