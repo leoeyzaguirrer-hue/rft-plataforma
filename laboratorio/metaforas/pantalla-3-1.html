@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shifting: Expandiendo la Metáfora | Lab Metáforas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #1B5E20;
+            --bg-dark-2: #2E7D32;
+            --bg-dark-3: #388E3C;
+            
+            --card-lavender: #F3E5F5;
+            
+            --accent-purple: #AB47BC;
+            --accent-purple-dark: #8E24AA;
+            --accent-purple-light: #CE93D8;
+            
+            --color-vehiculo: #FF6B35;
+            
+            --text-dark: #1B1B1B;
+            --text-white: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-2) 50%, var(--bg-dark-3) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            color: var(--text-white);
+            padding-bottom: 40px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(27, 94, 32, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 2px solid rgba(171, 71, 188, 0.3);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(0.95);
+        }
+
+        .progress-indicator {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 32px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .part-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .theory-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .theory-card:nth-child(3) { animation-delay: 0.2s; }
+        .theory-card:nth-child(4) { animation-delay: 0.3s; }
+        .theory-card:nth-child(5) { animation-delay: 0.4s; }
+        .theory-card:nth-child(6) { animation-delay: 0.5s; }
+        .theory-card:nth-child(7) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theory-card p {
+            color: var(--text-dark);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .theory-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .theory-card strong {
+            color: var(--accent-purple-dark);
+        }
+
+        .highlight-box {
+            background: rgba(255, 107, 53, 0.1);
+            border-left: 4px solid var(--color-vehiculo);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .highlight-box strong {
+            color: var(--color-vehiculo);
+        }
+
+        /* Network Visualization - SIMPLIFIED */
+        .network-container {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out 0.4s backwards;
+        }
+
+        .network-title {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .network-visual {
+            background: rgba(171, 71, 188, 0.06);
+            border: 2px solid var(--accent-purple-light);
+            border-radius: 16px;
+            padding: 32px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .center-node {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--color-vehiculo), #FF8C5A);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
+            animation: centerPulse 2s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes centerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .center-label {
+            position: absolute;
+            bottom: -30px;
+            background: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-dark);
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .arrows-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .arrow {
+            font-size: 32px;
+            color: var(--accent-purple);
+            animation: arrowBounce 2s ease-in-out infinite;
+        }
+
+        .arrow:nth-child(2) { animation-delay: 0.2s; }
+        .arrow:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes arrowBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
+        .targets-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .target-card {
+            background: linear-gradient(135deg, var(--accent-purple-light), var(--accent-purple));
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(171, 71, 188, 0.3);
+            animation: popIn 0.5s ease-out backwards;
+        }
+
+        .target-card:nth-child(1) { animation-delay: 0.6s; }
+        .target-card:nth-child(2) { animation-delay: 0.8s; }
+        .target-card:nth-child(3) { animation-delay: 1.0s; }
+        .target-card:nth-child(4) { animation-delay: 1.2s; }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .target-emoji {
+            font-size: 32px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .target-label {
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        /* Dialogue Examples */
+        .examples-section {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out 0.5s backwards;
+        }
+
+        .examples-title {
+            color: var(--text-dark);
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .example-bubble {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            animation: slideInLeft 0.5s ease-out backwards;
+        }
+
+        .example-bubble:nth-child(2) { animation-delay: 1.4s; }
+        .example-bubble:nth-child(3) { animation-delay: 1.6s; }
+        .example-bubble:nth-child(4) { animation-delay: 1.8s; }
+        .example-bubble:nth-child(5) { animation-delay: 2.0s; }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .example-bubble:last-child {
+            margin-bottom: 0;
+        }
+
+        .speaker {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--accent-purple-dark);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .example-text {
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .insight {
+            background: linear-gradient(135deg, rgba(171, 71, 188, 0.15), rgba(206, 147, 216, 0.15));
+            border-left: 4px solid var(--accent-purple-dark);
+        }
+
+        /* Interactive Demo 2 */
+        .demo2-section {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out 0.6s backwards;
+        }
+
+        .demo2-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .demo2-emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .demo2-title {
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .demo2-subtitle {
+            color: var(--text-dark);
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .scenario {
+            background: rgba(171, 71, 188, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .scenario p {
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .scenario p:last-child {
+            margin-bottom: 0;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .choice-btn {
+            background: white;
+            border: 3px solid var(--accent-purple-light);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .choice-btn:active {
+            transform: scale(0.98);
+        }
+
+        .choice-btn.selected {
+            border-color: var(--accent-purple);
+            background: rgba(171, 71, 188, 0.1);
+        }
+
+        .choice-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .choice-emoji {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .choice-text {
+            color: var(--text-dark);
+            font-size: 15px;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .choice-feedback {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .choice-btn.selected .choice-feedback {
+            display: block;
+        }
+
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 32px 0 24px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent-purple-light);
+            width: 24px;
+            border-radius: 5px;
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 12px rgba(171, 71, 188, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='pantalla-2-3.html'">◄ Atrás</button>
+        <div class="progress-indicator">Pantalla 7 de 8</div>
+    </div>
+
+    <div class="container">
+        <div class="title-section">
+            <span class="part-badge">🔄 Parte 3: Análisis Funcional</span>
+            <h1>Shifting</h1>
+            <p class="subtitle">Expandiendo la metáfora</p>
+        </div>
+
+        <!-- Intro -->
+        <div class="theory-card">
+            <p>
+                Una metáfora efectiva no se usa solo <strong>una vez</strong>. 
+                Puede aplicarse a <strong>múltiples conductas</strong> del cliente que comparten la misma función.
+            </p>
+            <p>
+                A esto se le llama <strong>"shifting"</strong>: usar el mismo VEHÍCULO 
+                para iluminar diferentes METAS relacionadas.
+            </p>
+            <div class="highlight-box">
+                <p>
+                    <strong>🚗 Ejemplo:</strong> Si "estacionarse" funciona con Barry para 
+                    "no llamar al hermano", puede usarse para OTRAS conductas de evitación.
+                </p>
+            </div>
+        </div>
+
+        <!-- Network Visualization -->
+        <div class="network-container">
+            <h3 class="network-title">🌐 Una Metáfora → Múltiples Conductas</h3>
+            
+            <div class="network-visual">
+                <div class="center-node">
+                    🚗
+                    <div class="center-label">"Estacionarse"</div>
+                </div>
+
+                <div class="arrows-container">
+                    <span class="arrow">↓</span>
+                    <span class="arrow">↓</span>
+                    <span class="arrow">↓</span>
+                </div>
+
+                <div class="targets-grid">
+                    <div class="target-card">
+                        <span class="target-emoji">📞</span>
+                        <div class="target-label">No llamar<br>hermano</div>
+                    </div>
+                    <div class="target-card">
+                        <span class="target-emoji">🏠</span>
+                        <div class="target-label">No salir<br>de casa</div>
+                    </div>
+                    <div class="target-card">
+                        <span class="target-emoji">💬</span>
+                        <div class="target-label">No expresar<br>emociones</div>
+                    </div>
+                    <div class="target-card">
+                        <span class="target-emoji">🎯</span>
+                        <div class="target-label">No hacer<br>ejercicio</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dialogue Examples -->
+        <div class="examples-section">
+            <h4 class="examples-title">💬 Cómo suena en terapia:</h4>
+
+            <div class="example-bubble">
+                <div class="speaker">👩‍⚕️ Terapeuta</div>
+                <p class="example-text">"¿Te estacionaste de nuevo con tu hermano?"</p>
+            </div>
+
+            <div class="example-bubble">
+                <div class="speaker">👩‍⚕️ Terapeuta</div>
+                <p class="example-text">"Cuando decides quedarte en casa por el dolor, ¿también te estás estacionando?"</p>
+            </div>
+
+            <div class="example-bubble">
+                <div class="speaker">👩‍⚕️ Terapeuta</div>
+                <p class="example-text">"Y con tu esposa, cuando no le dices lo que sientes, ¿es otro estacionamiento?"</p>
+            </div>
+
+            <div class="example-bubble insight">
+                <div class="speaker">💡 Barry descubre</div>
+                <p class="example-text">"Wow... me estaciono en todas partes de mi vida. No solo con mi hermano, ¡lo hago en TODO!"</p>
+            </div>
+        </div>
+
+        <!-- Theory Benefits -->
+        <div class="theory-card">
+            <p>
+                <strong>💡 ¿Por qué es poderoso el shifting?</strong>
+            </p>
+            <p>
+                1. <strong>Encapsulación:</strong> El cliente ve que diferentes conductas tienen la misma función. 
+                No son problemas separados, sino manifestaciones del mismo patrón.
+            </p>
+            <p>
+                2. <strong>Lenguaje compartido:</strong> "Estacionarse" se convierte en una palabra clave 
+                que terapeuta y cliente usan para identificar la evitación rápidamente.
+            </p>
+            <p>
+                3. <strong>Auto-observación:</strong> El cliente empieza a notar por sí mismo: 
+                "Ah, me estoy estacionando otra vez."
+            </p>
+        </div>
+
+        <!-- Interactive Demo 2 -->
+        <div class="demo2-section">
+            <div class="demo2-header">
+                <div class="demo2-emoji">🎮</div>
+                <h3 class="demo2-title">Demo: Practica el Shifting</h3>
+                <p class="demo2-subtitle">¿Puedes identificar otras conductas donde Barry se "estaciona"?</p>
+            </div>
+
+            <div class="scenario">
+                <p>
+                    <strong>Contexto:</strong> Barry menciona que no ha ido al gimnasio en meses, 
+                    aunque su médico le recomendó actividad física para ayudar con el dolor crónico.
+                </p>
+                <p>
+                    <strong>Barry:</strong> "Sé que debería ir, pero con este dolor... no tiene sentido. 
+                    Tal vez cuando me sienta mejor."
+                </p>
+            </div>
+
+            <div class="buttons-container">
+                <button class="choice-btn" onclick="selectChoice(this, 'A')">
+                    <div class="choice-content">
+                        <span class="choice-emoji">🚗</span>
+                        <span class="choice-text">"¿Te estás estacionando con el gimnasio también?"</span>
+                    </div>
+                    <div class="choice-feedback">
+                        <strong>✅ EXCELENTE - Shifting aplicado correctamente</strong><br><br>
+                        Usas la misma metáfora para una NUEVA conducta (no ir al gimnasio) que tiene la 
+                        misma función: evitar actividad valiosa culpando al dolor. Barry puede reconocer 
+                        inmediatamente el patrón.
+                    </div>
+                </button>
+
+                <button class="choice-btn" onclick="selectChoice(this, 'B')">
+                    <div class="choice-content">
+                        <span class="choice-emoji">🏋️</span>
+                        <span class="choice-text">"¿Por qué no intentas ir solo 10 minutos?"</span>
+                    </div>
+                    <div class="choice-feedback">
+                        <strong>⚠️ SOLUCIÓN PREMATURA</strong><br><br>
+                        Saltas directo a una solución sin ayudar a Barry a VER el patrón primero. 
+                        El shifting ayuda a la consciencia antes de la acción.
+                    </div>
+                </button>
+
+                <button class="choice-btn" onclick="selectChoice(this, 'C')">
+                    <div class="choice-content">
+                        <span class="choice-emoji">💭</span>
+                        <span class="choice-text">"¿Qué te impide ir realmente?"</span>
+                    </div>
+                    <div class="choice-feedback">
+                        <strong>⚠️ ANÁLISIS SIN METÁFORA</strong><br><br>
+                        Es una pregunta válida, pero pierdes la oportunidad de usar el lenguaje 
+                        compartido que ya estableciste. La metáfora hace el insight más rápido.
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="theory-card">
+            <p>
+                <strong>🎓 Resumen:</strong> El shifting convierte una metáfora específica 
+                en una herramienta de análisis funcional que abarca múltiples áreas de la vida del cliente.
+            </p>
+            <p>
+                En el ejercicio final, integrarás TODO lo aprendido 
+                para crear y aplicar una metáfora completa desde cero.
+            </p>
+        </div>
+
+        <div class="progress-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+        </div>
+
+        <button class="cta-button" onclick="nextScreen()">
+            Ejercicio Final Integrador →
+        </button>
+    </div>
+
+    <script>
+        function selectChoice(button, choice) {
+            document.querySelectorAll('.choice-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            button.classList.add('selected');
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(choice === 'A' ? [30, 50, 30] : 50);
+            }
+            
+            setTimeout(() => {
+                button.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+
+        function nextScreen() {
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+            alert('🎯 Última pantalla: Caso Integrador Final\n\n(En desarrollo)');
+        }
+    </script>
+</body>
+</html>
