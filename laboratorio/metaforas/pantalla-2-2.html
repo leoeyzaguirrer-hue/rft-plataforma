@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso Barry | Lab Metáforas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #1B5E20;
+            --bg-dark-2: #2E7D32;
+            --bg-dark-3: #388E3C;
+            
+            --card-lavender: #F3E5F5;
+            --card-lavender-alt: #E1BEE7;
+            
+            --accent-purple: #AB47BC;
+            --accent-purple-dark: #8E24AA;
+            --accent-purple-light: #CE93D8;
+            
+            --color-vehiculo: #FF6B35;
+            --color-meta: #4ECDC4;
+            
+            --color-terapeuta: #7B68EE;
+            --color-barry: #20B2AA;
+            
+            --text-dark: #1B1B1B;
+            --text-white: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-2) 50%, var(--bg-dark-3) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            color: var(--text-white);
+            padding-bottom: 40px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Header sticky */
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(27, 94, 32, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 2px solid rgba(171, 71, 188, 0.3);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(0.95);
+        }
+
+        .progress-indicator {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* Title Section */
+        .title-section {
+            text-align: center;
+            margin-bottom: 32px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .part-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Case Card */
+        .case-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .case-card:nth-child(3) { animation-delay: 0.2s; }
+        .case-card:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .case-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .case-emoji {
+            font-size: 48px;
+        }
+
+        .case-title {
+            color: var(--text-dark);
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .case-card p {
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .case-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .case-card strong {
+            color: var(--accent-purple-dark);
+        }
+
+        .info-box {
+            background: rgba(171, 71, 188, 0.08);
+            border-left: 4px solid var(--accent-purple);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .info-box p {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* Dialogue Section */
+        .dialogue-section {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out 0.4s backwards;
+        }
+
+        .dialogue-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .dialogue-emoji {
+            font-size: 36px;
+        }
+
+        .dialogue-title h3 {
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .dialogue-instruction {
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Dialogue Bubbles */
+        .dialogue-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .dialogue-bubble {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        .dialogue-bubble.therapist {
+            animation-delay: 0.5s;
+        }
+
+        .dialogue-bubble.barry-1 {
+            animation-delay: 1.2s;
+        }
+
+        .dialogue-bubble.therapist-2 {
+            animation-delay: 2s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .avatar.therapist {
+            background: linear-gradient(135deg, var(--color-terapeuta), #9B88EE);
+        }
+
+        .avatar.barry {
+            background: linear-gradient(135deg, var(--color-barry), #48C9B0);
+        }
+
+        .bubble-content {
+            flex: 1;
+        }
+
+        .speaker-name {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .speaker-name.therapist {
+            color: var(--color-terapeuta);
+        }
+
+        .speaker-name.barry {
+            color: var(--color-barry);
+        }
+
+        .bubble-text {
+            background: white;
+            padding: 14px 16px;
+            border-radius: 12px;
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.6;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .bubble-text.highlight {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 140, 90, 0.15));
+            border: 2px solid var(--color-vehiculo);
+            font-weight: 700;
+        }
+
+        /* Analysis Section */
+        .analysis-section {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out 2.5s backwards;
+        }
+
+        .analysis-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .analysis-emoji {
+            font-size: 36px;
+        }
+
+        .analysis-title h3 {
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .tap-reveal-box {
+            background: rgba(171, 71, 188, 0.06);
+            border: 2px dashed var(--accent-purple-light);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+        }
+
+        .tap-reveal-box:active {
+            transform: scale(0.98);
+        }
+
+        .tap-reveal-box.revealed {
+            border-style: solid;
+            border-color: var(--accent-purple);
+            background: rgba(171, 71, 188, 0.12);
+            cursor: default;
+        }
+
+        .tap-instruction {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--accent-purple-dark);
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .tap-emoji {
+            font-size: 24px;
+            animation: tap 1.5s ease-in-out infinite;
+        }
+
+        @keyframes tap {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .tap-reveal-box.revealed .tap-instruction {
+            display: none;
+        }
+
+        .reveal-question {
+            color: var(--text-dark);
+            font-size: 17px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .reveal-content {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .tap-reveal-box.revealed .reveal-content {
+            opacity: 1;
+            max-height: 1000px;
+        }
+
+        /* Network boxes */
+        .network-box {
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .network-box.vehiculo {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 140, 90, 0.15));
+            border: 2px solid var(--color-vehiculo);
+        }
+
+        .network-box.meta {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.15), rgba(111, 217, 208, 0.15));
+            border: 2px solid var(--color-meta);
+        }
+
+        .network-label {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .network-label.vehiculo {
+            background: var(--color-vehiculo);
+        }
+
+        .network-label.meta {
+            background: var(--color-meta);
+        }
+
+        .network-content {
+            color: var(--text-dark);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .network-explanation {
+            color: var(--text-dark);
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        /* Animated Understanding */
+        .understanding-visual {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+
+        .visual-title {
+            text-align: center;
+            color: var(--accent-purple-dark);
+            font-weight: 800;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .parking-animation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .road-visual {
+            width: 100%;
+            position: relative;
+        }
+
+        .truck {
+            font-size: 48px;
+            display: inline-block;
+            animation: driveAndPark 3s ease-in-out infinite;
+        }
+
+        @keyframes driveAndPark {
+            0% { transform: translateX(0); }
+            40% { transform: translateX(100px); }
+            60%, 100% { transform: translateX(100px); }
+        }
+
+        .destination {
+            text-align: center;
+            font-size: 32px;
+            margin-top: 12px;
+        }
+
+        .arrow-down {
+            font-size: 32px;
+            color: var(--accent-purple);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .consequence-text {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.6;
+        }
+
+        /* Why it works */
+        .why-works {
+            background: rgba(171, 71, 188, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .why-title {
+            color: var(--accent-purple-dark);
+            font-weight: 800;
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .why-list {
+            color: var(--text-dark);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .why-list li {
+            margin-bottom: 8px;
+        }
+
+        .why-list strong {
+            color: var(--accent-purple-dark);
+        }
+
+        /* Progress Dots */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 32px 0 24px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent-purple-light);
+            width: 24px;
+            border-radius: 5px;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            width: 100%;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 12px rgba(171, 71, 188, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='pantalla-2-1.html'">◄ Atrás</button>
+        <div class="progress-indicator">Pantalla 5 de 8</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Title Section -->
+        <div class="title-section">
+            <span class="part-badge">🎯 Parte 2: Anatomía Clínica</span>
+            <h1>Caso Barry</h1>
+            <p class="subtitle">El camionero que se estaciona</p>
+        </div>
+
+        <!-- Case Introduction -->
+        <div class="case-card">
+            <div class="case-header">
+                <span class="case-emoji">🚚</span>
+                <h2 class="case-title">Conoce a Barry</h2>
+            </div>
+            <p>
+                <strong>Barry</strong> es un camionero retirado de 62 años que sufre de 
+                <strong>dolor crónico</strong> y <strong>depresión</strong>.
+            </p>
+            <p>
+                Ha explicado a su terapeuta que <strong>deja de hacer cosas</strong> que antes hacía 
+                y que quiere retomar, pero siempre encuentra una razón para no hacerlas.
+            </p>
+            <div class="info-box">
+                <p>
+                    📋 <strong>Patrón recurrente:</strong> Culpa al dolor y al desánimo por no realizar 
+                    actos que realmente desea hacer.
+                </p>
+            </div>
+        </div>
+
+        <!-- Dialogue Section -->
+        <div class="dialogue-section">
+            <div class="dialogue-title">
+                <span class="dialogue-emoji">💬</span>
+                <h3>El Diálogo Clave</h3>
+            </div>
+            <p class="dialogue-instruction">
+                Observa cómo la terapeuta usa una metáfora en el momento preciso...
+            </p>
+
+            <div class="dialogue-container">
+                <!-- Therapist question -->
+                <div class="dialogue-bubble therapist">
+                    <div class="avatar therapist">👩‍⚕️</div>
+                    <div class="bubble-content">
+                        <div class="speaker-name therapist">Terapeuta</div>
+                        <div class="bubble-text">
+                            ¿Cómo te fue con llamar a tu hermano? ¿Hablaste con él?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barry response -->
+                <div class="dialogue-bubble barry-1">
+                    <div class="avatar barry">👨</div>
+                    <div class="bubble-content">
+                        <div class="speaker-name barry">Barry</div>
+                        <div class="bubble-text">
+                            No, no llegué a hacerlo. Lo haré en otro momento. 
+                            La semana pasada tenía tanto dolor que simplemente no podía molestarme.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Therapist metaphor -->
+                <div class="dialogue-bubble therapist-2">
+                    <div class="avatar therapist">👩‍⚕️</div>
+                    <div class="bubble-content">
+                        <div class="speaker-name therapist">Terapeuta</div>
+                        <div class="bubble-text highlight">
+                            Okay. Así que simplemente te <strong>estacionaste</strong>. 🚗
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Section 1: Identifying -->
+        <div class="analysis-section">
+            <div class="analysis-title">
+                <span class="analysis-emoji">🔍</span>
+                <h3>Análisis Paso a Paso</h3>
+            </div>
+
+            <!-- Reveal META -->
+            <div class="tap-reveal-box" onclick="revealBox(1)">
+                <div class="tap-instruction">
+                    <span class="tap-emoji">👆</span>
+                    <span>Toca para revelar la META</span>
+                </div>
+                <div class="reveal-question">
+                    ¿Qué fenómeno quiere iluminar la terapeuta?
+                </div>
+                <div class="reveal-content">
+                    <div class="network-box meta">
+                        <div class="network-label meta">🎯 META (Target)</div>
+                        <div class="network-content">
+                            "No llamar al hermano"
+                        </div>
+                        <div class="network-explanation">
+                            Este NO es un evento aislado. Es una <strong>instancia más</strong> 
+                            de un patrón recurrente: Barry evita acciones que desea realizar, 
+                            culpando al dolor y el desánimo.
+                            <br><br>
+                            La terapeuta eligió esto porque es <strong>funcionalmente relevante</strong> 
+                            para el problema de Barry.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reveal VEHÍCULO -->
+            <div class="tap-reveal-box" onclick="revealBox(2)">
+                <div class="tap-instruction">
+                    <span class="tap-emoji">👆</span>
+                    <span>Toca para revelar el VEHÍCULO</span>
+                </div>
+                <div class="reveal-question">
+                    ¿Qué imagen usa la terapeuta?
+                </div>
+                <div class="reveal-content">
+                    <div class="network-box vehiculo">
+                        <div class="network-label vehiculo">🚗 VEHÍCULO (Source)</div>
+                        <div class="network-content">
+                            "Estacionarse" / "Parquear"
+                        </div>
+                        <div class="network-explanation">
+                            La terapeuta eligió esta imagen porque:
+                            <br><br>
+                            ✅ Barry fue <strong>camionero</strong> → la metáfora resuena
+                            <br>
+                            ✅ "Estacionarse" es <strong>concreto</strong> y familiar
+                            <br>
+                            ✅ Tiene propiedades <strong>más salientes</strong> que "no llamar"
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reveal Understanding -->
+            <div class="tap-reveal-box" onclick="revealBox(3)">
+                <div class="tap-instruction">
+                    <span class="tap-emoji">👆</span>
+                    <span>Toca para ver qué hace la metáfora</span>
+                </div>
+                <div class="reveal-question">
+                    ¿Por qué funciona "estacionarse"?
+                </div>
+                <div class="reveal-content">
+                    <div class="understanding-visual">
+                        <div class="visual-title">🎯 La Consecuencia se Hace Visible</div>
+                        
+                        <div class="parking-animation">
+                            <div class="road-visual">
+                                <div class="truck">🚚</div>
+                            </div>
+                            <div class="arrow-down">↓</div>
+                            <div class="destination">🏠 Destino (hablar con hermano)</div>
+                        </div>
+
+                        <div class="consequence-text">
+                            Si te estacionas... <strong>NO AVANZAS</strong> hacia donde quieres ir.
+                        </div>
+                    </div>
+
+                    <div class="why-works">
+                        <div class="why-title">
+                            💡 ¿Por qué esta metáfora es efectiva?
+                        </div>
+                        <ul class="why-list">
+                            <li>
+                                <strong>Hace evidente la consecuencia:</strong> "No llamar" suena pasivo, 
+                                pero "estacionarse" muestra claramente que NO hay progreso.
+                            </li>
+                            <li>
+                                <strong>Resuena con su identidad:</strong> Barry fue camionero. 
+                                Él SABE lo que significa estacionarse en lugar de avanzar.
+                            </li>
+                            <li>
+                                <strong>Desafía la justificación:</strong> "Tengo dolor" justifica no llamar, 
+                                pero ¿justifica estacionarse cuando quieres llegar a casa?
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="case-card">
+            <p>
+                <strong>🎭 Resumen:</strong> La metáfora "estacionarse" transforma 
+                la conducta de Barry de algo vago ("no llegué a hacerlo") 
+                a algo con <strong>consecuencias claras y visibles</strong>.
+            </p>
+            <p>
+                En la siguiente pantalla veremos los <strong>3 principios</strong> 
+                que hacen que esta metáfora funcione...
+            </p>
+        </div>
+
+        <!-- Progress Dots -->
+        <div class="progress-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <!-- CTA Button -->
+        <button class="cta-button" onclick="nextScreen()">
+            Ver los 3 Principios →
+        </button>
+    </div>
+
+    <script>
+        let revealedBoxes = new Set();
+
+        function revealBox(boxNum) {
+            const box = event.currentTarget;
+            
+            if (box.classList.contains('revealed')) return;
+            
+            box.classList.add('revealed');
+            revealedBoxes.add(boxNum);
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate([30, 50, 30]);
+            }
+            
+            // Scroll suave
+            setTimeout(() => {
+                const revealDiv = box.querySelector('.reveal-content');
+                if (revealDiv) {
+                    revealDiv.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'nearest' 
+                    });
+                }
+            }, 300);
+        }
+
+        function nextScreen() {
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+            
+            alert('🎯 Próxima pantalla: Los 3 Principios\n\n(En desarrollo)');
+            // window.location.href = 'pantalla-2-3.html';
+        }
+    </script>
+</body>
+</html>
