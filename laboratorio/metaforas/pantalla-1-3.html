@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experimento de Marcos | Lab Metáforas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #1B5E20;
+            --bg-dark-2: #2E7D32;
+            --bg-dark-3: #388E3C;
+            
+            --card-lavender: #F3E5F5;
+            --card-lavender-alt: #E1BEE7;
+            
+            --accent-purple: #AB47BC;
+            --accent-purple-dark: #8E24AA;
+            --accent-purple-light: #CE93D8;
+            
+            --text-dark: #1B1B1B;
+            --text-white: #FFFFFF;
+            
+            --color-coordination: #4CAF50;
+            --color-comparison: #2196F3;
+            --color-hierarchy: #FF9800;
+            --color-causal: #E91E63;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-2) 50%, var(--bg-dark-3) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            color: var(--text-white);
+            padding-bottom: 40px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Header sticky */
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(27, 94, 32, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 2px solid rgba(171, 71, 188, 0.3);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(0.95);
+        }
+
+        .progress-indicator {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* Title Section */
+        .title-section {
+            text-align: center;
+            margin-bottom: 32px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .part-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Intro Card */
+        .intro-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out 0.2s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-card p {
+            color: var(--text-dark);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .intro-card strong {
+            color: var(--accent-purple-dark);
+        }
+
+        /* Example Container */
+        .example-container {
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .example-container:nth-child(3) { animation-delay: 0.3s; }
+        .example-container:nth-child(4) { animation-delay: 0.4s; }
+        .example-container:nth-child(5) { animation-delay: 0.5s; }
+        .example-container:nth-child(6) { animation-delay: 0.6s; }
+        .example-container:nth-child(7) { animation-delay: 0.7s; }
+
+        .example-number {
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+
+        .example-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 28px 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .example-card:active {
+            transform: scale(0.98);
+        }
+
+        .example-card.revealed {
+            cursor: default;
+        }
+
+        .example-quote {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(171, 71, 188, 0.06);
+            border-left: 4px solid var(--accent-purple);
+            border-radius: 12px;
+        }
+
+        .example-emoji {
+            font-size: 32px;
+            margin-right: 12px;
+        }
+
+        .tap-instruction {
+            text-align: center;
+            color: var(--accent-purple-dark);
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+            background: rgba(171, 71, 188, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .tap-emoji {
+            font-size: 24px;
+            animation: tap 1.5s ease-in-out infinite;
+        }
+
+        @keyframes tap {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .example-card.revealed .tap-instruction {
+            display: none;
+        }
+
+        /* Reveal Answer */
+        .reveal-answer {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .example-card.revealed .reveal-answer {
+            opacity: 1;
+            max-height: 500px;
+            margin-top: 20px;
+        }
+
+        .answer-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .answer-header.coordination {
+            background: linear-gradient(135deg, var(--color-coordination), #66BB6A);
+        }
+
+        .answer-header.comparison {
+            background: linear-gradient(135deg, var(--color-comparison), #42A5F5);
+        }
+
+        .answer-header.hierarchy {
+            background: linear-gradient(135deg, var(--color-hierarchy), #FFA726);
+        }
+
+        .answer-header.causal {
+            background: linear-gradient(135deg, var(--color-causal), #EC407A);
+        }
+
+        .answer-icon {
+            font-size: 36px;
+        }
+
+        .answer-title {
+            flex: 1;
+        }
+
+        .answer-title h3 {
+            color: white;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .answer-title .frame-type {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .answer-explanation {
+            background: rgba(171, 71, 188, 0.08);
+            padding: 16px;
+            border-radius: 12px;
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.7;
+            animation: fadeIn 0.6s ease-out 0.3s backwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .answer-explanation strong {
+            color: var(--accent-purple-dark);
+        }
+
+        /* Visual diagram */
+        .visual-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 16px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            animation: fadeIn 0.6s ease-out 0.5s backwards;
+        }
+
+        .diagram-part {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .diagram-symbol {
+            font-size: 32px;
+            color: var(--accent-purple);
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-top: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out 0.8s backwards;
+        }
+
+        .summary-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .summary-emoji {
+            font-size: 36px;
+        }
+
+        .summary-title h3 {
+            color: var(--text-dark);
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .summary-text {
+            color: var(--text-dark);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .frame-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(171, 71, 188, 0.06);
+            border-radius: 8px;
+        }
+
+        .legend-icon {
+            font-size: 24px;
+        }
+
+        .legend-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* Progress Dots */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 32px 0 24px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent-purple-light);
+            width: 24px;
+            border-radius: 5px;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            width: 100%;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .cta-button.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 12px rgba(171, 71, 188, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='pantalla-1-2.html'">◄ Atrás</button>
+        <div class="progress-indicator">Pantalla 3 de 8</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Title Section -->
+        <div class="title-section">
+            <span class="part-badge">🧪 Parte 1: Teoría RFT</span>
+            <h1>Observa los Marcos</h1>
+            <p class="subtitle">Experimento guiado paso a paso</p>
+        </div>
+
+        <!-- Intro Card -->
+        <div class="intro-card">
+            <p>
+                Ahora que conoces los 4 marcos relacionales, veamos cómo <strong>aparecen naturalmente</strong> 
+                en el lenguaje cotidiano y terapéutico.
+            </p>
+            <p>
+                <strong>👉 Toca cada frase</strong> para revelar qué marco relacional se está usando 
+                y por qué es importante en terapia.
+            </p>
+        </div>
+
+        <!-- EJEMPLO 1: Coordinación -->
+        <div class="example-container">
+            <div class="example-number">Ejemplo 1 de 5</div>
+            <div class="example-card" onclick="revealAnswer(1, 'coordination')">
+                <div class="example-quote">
+                    <span class="example-emoji">💬</span>
+                    "Cuando digo <strong>'ansiedad'</strong>, ¿qué experimentas?"
+                </div>
+                <div class="tap-instruction">
+                    <span class="tap-emoji">👆</span>
+                    <span>Toca para revelar el marco</span>
+                </div>
+                <div class="reveal-answer">
+                    <div class="answer-header coordination">
+                        <div class="answer-icon">🔗</div>
+                        <div class="answer-title">
+                            <h3>Coordinación</h3>
+                            <div class="frame-type">A = B</div>
+                        </div>
+                    </div>
+                    <div class="visual-diagram">
+                        <div class="diagram-part">"Ansiedad"</div>
+                        <div class="diagram-symbol">=</div>
+                        <div class="diagram-part">😰 Experiencia</div>
+                    </div>
+                    <div class="answer-explanation">
+                        La <strong>palabra</strong> "ansiedad" se coordina con tu <strong>experiencia interna</strong>. 
+                        No son lo mismo, pero actuamos como si lo fueran. 
+                        <br><br>
+                        En terapia, esto es fundamental: las palabras evocan experiencias, 
+                        y podemos usar palabras nuevas para cambiar cómo el cliente se relaciona con su experiencia.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EJEMPLO 2: Comparación -->
+        <div class="example-container">
+            <div class="example-number">Ejemplo 2 de 5</div>
+            <div class="example-card" onclick="revealAnswer(2, 'comparison')">
+                <div class="example-quote">
+                    <span class="example-emoji">⚖️</span>
+                    "Este problema es <strong>más grande</strong> que tu capacidad de manejarlo"
+                </div>
+                <div class="tap-instruction">
+                    <span class="tap-emoji">👆</span>
+                    <span>Toca para revelar el marco</span>
+                </div>
+                <div class="reveal-answer">
+                    <div class="answer-header comparison">
+                        <div class="answer-icon">⚖️</div>
+                        <div class="answer-title">
+                            <h3>Comparación</h3>
+                            <div class="frame-type">A > B</div>
+                        </div>
+                    </div>
+                    <div class="visual-diagram">
+                        <div class="diagram-part">Problema</div>
+                        <div class="diagram-symbol">&gt;</div>
+                        <div class="diagram-part">Capacidad</div>
+                    </div>
+                    <div class="answer-explanation">
+                        El cliente compara dos cosas <strong>sin tamaño físico</strong>: "el problema" y "mi capacidad".
+                        <br><br>
+                        Esta comparación puede ser <strong>paralizante</strong>. 
+                        En terapia, podemos usar metáforas comparativas diferentes: 
+                        "¿Y si tu capacidad es como un músculo que crece con el ejercicio?"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EJEMPLO 3: Jerarquía -->
+        <div class="example-container">
+            <div class="example-number">Ejemplo 3 de 5</div>
+            <div class="example-card" onclick="revealAnswer(3, 'hierarchy')">
+                <div class="example-quote">
+                    <span class="example-emoji">🌳</span>
+                    "Tus pensamientos son <strong>parte de</strong> ti, no todo tú"
+                </div>
+                <div class="tap-instruction">
+                    <span class="tap-emoji">👆</span>
+                    <span>Toca para revelar el marco</span>
+                </div>
+                <div class="reveal-answer">
+                    <div class="answer-header hierarchy">
+                        <div class="answer-icon">🌳</div>
+                        <div class="answer-title">
+                            <h3>Jerarquía</h3>
+                            <div class="frame-type">A contiene B</div>
+                        </div>
+                    </div>
+                    <div class="visual-diagram">
+                        <div class="diagram-part">TÚ</div>
+                        <div class="diagram-symbol">⊃</div>
+                        <div class="diagram-part">Pensamientos</div>
+                    </div>
+                    <div class="answer-explanation">
+                        Este marco es <strong>clave en ACT</strong>. 
+                        Los pensamientos son <strong>parte de</strong> tu experiencia, pero hay un "tú" más amplio que los observa.
+                        <br><br>
+                        🎭 Metáforas como el <strong>"autobús con pasajeros"</strong> usan jerarquía: 
+                        TÚ conduces, los pensamientos son pasajeros. No eres los pasajeros.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EJEMPLO 4: Causal -->
+        <div class="example-container">
+            <div class="example-number">Ejemplo 4 de 5</div>
+            <div class="example-card" onclick="revealAnswer(4, 'causal')">
+                <div class="example-quote">
+                    <span class="example-emoji">⚡</span>
+                    "Si evitas la conversación, <strong>entonces</strong> la ansiedad se mantendrá"
+                </div>
+                <div class="tap-instruction">
+                    <span class="tap-emoji">👆</span>
+                    <span>Toca para revelar el marco</span>
+                </div>
+                <div class="reveal-answer">
+                    <div class="answer-header causal">
+                        <div class="answer-icon">⚡</div>
+                        <div class="answer-title">
+                            <h3>Causal</h3>
+                            <div class="frame-type">A → B</div>
+                        </div>
+                    </div>
+                    <div class="visual-diagram">
+                        <div class="diagram-part">Evitar</div>
+                        <div class="diagram-symbol">→</div>
+                        <div class="diagram-part">Ansiedad ↑</div>
+                    </div>
+                    <div class="answer-explanation">
+                        Este es el <strong>marco causal</strong>: una acción lleva a una consecuencia.
+                        <br><br>
+                        Las metáforas de <strong>análisis funcional</strong> usan esto constantemente:
+                        <br>
+                        "Si sigues cavando, el hoyo será más profundo"
+                        <br>
+                        "Si te estacionas, no avanzas hacia donde quieres ir"
+                        <br><br>
+                        Ayuda al cliente a ver <strong>contingencias</strong> (relaciones A→B→C).
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EJEMPLO 5: Múltiples marcos -->
+        <div class="example-container">
+            <div class="example-number">Ejemplo 5 de 5 - ¡Bonus!</div>
+            <div class="example-card" onclick="revealAnswer(5, 'multiple')">
+                <div class="example-quote">
+                    <span class="example-emoji">🎭</span>
+                    "Estás <strong>cavando un hoyo</strong> para salir del pozo"
+                </div>
+                <div class="tap-instruction">
+                    <span class="tap-emoji">👆</span>
+                    <span>Toca para revelar los marcos</span>
+                </div>
+                <div class="reveal-answer">
+                    <div class="answer-header causal">
+                        <div class="answer-icon">🎭</div>
+                        <div class="answer-title">
+                            <h3>¡Metáfora Completa!</h3>
+                            <div class="frame-type">Múltiples marcos combinados</div>
+                        </div>
+                    </div>
+                    <div class="answer-explanation">
+                        Esta metáfora clásica combina varios marcos:
+                        <br><br>
+                        🔗 <strong>Coordinación:</strong> "Cavar" = tus intentos de solución
+                        <br>
+                        ⚖️ <strong>Comparación:</strong> El hoyo se hace "más profundo"
+                        <br>
+                        ⚡ <strong>Causal:</strong> Cavar → Hoyo más profundo → Más atrapado
+                        <br>
+                        🌳 <strong>Jerarquía:</strong> Tú estás EN el hoyo (parte de la situación)
+                        <br><br>
+                        💡 <strong>Las metáforas clínicas potentes usan MÚLTIPLES marcos relacionales a la vez.</strong>
+                        ¡Por eso funcionan tan bien!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Card -->
+        <div class="summary-card" id="summary" style="display: none;">
+            <div class="summary-title">
+                <span class="summary-emoji">✨</span>
+                <h3>¡Completaste la Parte 1!</h3>
+            </div>
+            <p class="summary-text">
+                Ahora entiendes cómo los humanos relacionamos cosas de forma <strong>arbitraria</strong> 
+                usando diferentes <strong>marcos relacionales</strong>.
+            </p>
+            <p class="summary-text">
+                En la siguiente parte veremos cómo crear <strong>metáforas clínicas efectivas</strong> 
+                usando estos principios de RFT.
+            </p>
+            <div class="frame-legend">
+                <div class="legend-item">
+                    <span class="legend-icon">🔗</span>
+                    <span class="legend-text">Coordinación<br>A = B</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon">⚖️</span>
+                    <span class="legend-text">Comparación<br>A > B</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon">🌳</span>
+                    <span class="legend-text">Jerarquía<br>A ⊃ B</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon">⚡</span>
+                    <span class="legend-text">Causal<br>A → B</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Dots -->
+        <div class="progress-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <!-- CTA Button -->
+        <button class="cta-button" id="nextBtn" onclick="nextScreen()">
+            Siguiente: SOURCE y TARGET →
+        </button>
+    </div>
+
+    <script>
+        let revealedCount = 0;
+        const totalExamples = 5;
+
+        function revealAnswer(exampleNum, frameType) {
+            const card = event.currentTarget;
+            
+            // Si ya está revelado, no hacer nada
+            if (card.classList.contains('revealed')) return;
+            
+            // Marcar como revelado
+            card.classList.add('revealed');
+            revealedCount++;
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate([30, 50, 30]);
+            }
+            
+            // Scroll suave al contenido revelado
+            setTimeout(() => {
+                const revealDiv = card.querySelector('.reveal-answer');
+                revealDiv.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 300);
+            
+            // Si revelaron todos, mostrar resumen y activar botón
+            if (revealedCount === totalExamples) {
+                setTimeout(() => {
+                    document.getElementById('summary').style.display = 'block';
+                    document.getElementById('nextBtn').classList.add('active');
+                    
+                    // Scroll al resumen
+                    setTimeout(() => {
+                        document.getElementById('summary').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }, 300);
+                }, 600);
+            }
+        }
+
+        function nextScreen() {
+            if (revealedCount < totalExamples) {
+                alert('👀 Explora todos los ejemplos primero\n\n' + revealedCount + '/' + totalExamples + ' completados');
+                return;
+            }
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+            
+            alert('🎯 Próxima pantalla: SOURCE y TARGET\nParte 2: Anatomía Clínica\n\n(En desarrollo)');
+            // window.location.href = 'pantalla-2-1.html';
+        }
+    </script>
+</body>
+</html>
