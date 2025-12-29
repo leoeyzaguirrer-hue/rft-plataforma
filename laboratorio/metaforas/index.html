@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio de Metáforas Clínicas | LEO RFT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Paleta Verde Bosque + Lavanda */
+            --bg-dark: #1B5E20;
+            --bg-dark-2: #2E7D32;
+            --bg-dark-3: #388E3C;
+            
+            --card-lavender: #F3E5F5;
+            --card-lavender-alt: #E1BEE7;
+            --card-lavender-dark: #CE93D8;
+            
+            --accent-purple: #AB47BC;
+            --accent-purple-dark: #8E24AA;
+            --accent-purple-light: #CE93D8;
+            
+            --text-dark: #1B1B1B;
+            --text-white: #FFFFFF;
+            --text-muted: #757575;
+            
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.15);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-2) 50%, var(--bg-dark-3) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            color: var(--text-white);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Canvas para animación de red */
+        #metaphor-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        /* Símbolos flotantes */
+        .floating-symbol {
+            position: fixed;
+            font-size: 24px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 2;
+            animation: floatSymbol 15s infinite ease-in-out;
+        }
+
+        .symbol-1 { top: 15%; left: 10%; animation-delay: 0s; }
+        .symbol-2 { top: 30%; right: 15%; animation-delay: 3s; }
+        .symbol-3 { bottom: 25%; left: 20%; animation-delay: 6s; }
+        .symbol-4 { top: 60%; right: 10%; animation-delay: 9s; }
+        .symbol-5 { bottom: 15%; right: 25%; animation-delay: 12s; }
+
+        @keyframes floatSymbol {
+            0%, 100% { 
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.1;
+            }
+            25% { 
+                transform: translate(15px, -20px) rotate(5deg);
+                opacity: 0.2;
+            }
+            50% { 
+                transform: translate(-10px, 10px) rotate(-3deg);
+                opacity: 0.15;
+            }
+            75% { 
+                transform: translate(20px, 15px) rotate(8deg);
+                opacity: 0.18;
+            }
+        }
+
+        /* Orbes flotantes decorativos */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb1 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent-purple-light);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 250px;
+            height: 250px;
+            background: var(--accent-purple);
+            bottom: -50px;
+            left: -80px;
+            animation-delay: 7s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .logo-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 24px rgba(171, 71, 188, 0.4);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 24px rgba(171, 71, 188, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 12px 32px rgba(171, 71, 188, 0.6); }
+        }
+
+        .logo-circle svg {
+            width: 45px;
+            height: 45px;
+            fill: white;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            opacity: 0.95;
+            line-height: 1.5;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Main Module Card */
+        .main-module {
+            background: var(--card-lavender);
+            border-radius: 24px;
+            padding: 32px 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-module::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-purple-light));
+        }
+
+        .main-module:active {
+            transform: scale(0.98);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(171, 71, 188, 0.3);
+        }
+
+        .module-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .module-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .module-description {
+            font-size: 15px;
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            opacity: 0.85;
+        }
+
+        .module-parts {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .part {
+            background: rgba(171, 71, 188, 0.08);
+            border-left: 4px solid var(--accent-purple);
+            padding: 14px 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .part-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .part-content h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .part-content p {
+            font-size: 13px;
+            color: var(--text-dark);
+            opacity: 0.75;
+            line-height: 1.4;
+        }
+
+        .module-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(171, 71, 188, 0.05);
+            border-radius: 12px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .meta-item svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--accent-purple);
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.4);
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 12px rgba(171, 71, 188, 0.3);
+        }
+
+        /* Coming Soon Cards */
+        .coming-soon-section {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            opacity: 0.9;
+        }
+
+        .coming-soon-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .coming-soon-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 24px 20px;
+            position: relative;
+            overflow: hidden;
+            opacity: 0.7;
+        }
+
+        .coming-soon-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(171, 71, 188, 0.05) 10px,
+                rgba(171, 71, 188, 0.05) 20px
+            );
+            pointer-events: none;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--text-muted), #9E9E9E);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .coming-soon-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .coming-soon-card p {
+            font-size: 14px;
+            color: var(--text-dark);
+            opacity: 0.7;
+            line-height: 1.5;
+        }
+
+        .lock-icon {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-muted);
+        }
+
+        /* Back button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .back-button:active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(-4px);
+        }
+
+        .back-button svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        /* Responsive enhancements */
+        @media (max-width: 400px) {
+            .container {
+                padding: 16px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .module-title {
+                font-size: 22px;
+            }
+        }
+
+        /* Loading animation on page load */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-module {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .coming-soon-card:nth-child(1) {
+            animation: fadeInUp 0.6s ease-out 0.1s backwards;
+        }
+
+        .coming-soon-card:nth-child(2) {
+            animation: fadeInUp 0.6s ease-out 0.2s backwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Canvas para red de metáforas animada -->
+    <canvas id="metaphor-network"></canvas>
+    
+    <!-- Símbolos flotantes -->
+    <div class="floating-symbol symbol-1">🎭</div>
+    <div class="floating-symbol symbol-2">🔗</div>
+    <div class="floating-symbol symbol-3">↔️</div>
+    <div class="floating-symbol symbol-4">⚡</div>
+    <div class="floating-symbol symbol-5">🌉</div>
+
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <div class="container">
+        <!-- Back Button -->
+        <a href="../index.html" class="back-button">
+            <svg viewBox="0 0 24 24">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Volver al inicio
+        </a>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-circle">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+            </div>
+            <h1>Laboratorio de<br>Metáforas Clínicas</h1>
+            <p class="subtitle">Aprende a crear metáforas terapéuticas poderosas basadas en RFT</p>
+        </div>
+
+        <!-- Main Available Module -->
+        <div class="main-module">
+            <span class="badge">✨ DISPONIBLE</span>
+            
+            <span class="module-icon">🎭</span>
+            
+            <h2 class="module-title">Fundamentos RFT y Análisis Funcional</h2>
+            
+            <p class="module-description">
+                Descubre cómo funcionan las metáforas desde la perspectiva de la Teoría del Marco Relacional 
+                y aprende a crear metáforas clínicas efectivas para el análisis funcional.
+            </p>
+
+            <div class="module-parts">
+                <div class="part">
+                    <div class="part-number">1</div>
+                    <div class="part-content">
+                        <h4>Teoría RFT</h4>
+                        <p>¿Qué hace que una metáfora funcione desde RFT?</p>
+                    </div>
+                </div>
+
+                <div class="part">
+                    <div class="part-number">2</div>
+                    <div class="part-content">
+                        <h4>Anatomía Clínica</h4>
+                        <p>SOURCE, TARGET y los 3 principios esenciales</p>
+                    </div>
+                </div>
+
+                <div class="part">
+                    <div class="part-number">3</div>
+                    <div class="part-content">
+                        <h4>Aplicación Práctica</h4>
+                        <p>Caso clínico interactivo completo: Barry</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-meta">
+                <div class="meta-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
+                    50-65 min
+                </div>
+                <div class="meta-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
+                    </svg>
+                    Törneke Cap 4 & 8
+                </div>
+                <div class="meta-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    Paso 1 - Flexibilidad
+                </div>
+            </div>
+
+            <a href="modulo-completo.html" class="cta-button">
+                Comenzar módulo →
+            </a>
+        </div>
+
+        <!-- Coming Soon Section -->
+        <div class="coming-soon-section">
+            <h3 class="section-title">Próximamente</h3>
+            
+            <div class="coming-soon-grid">
+                <div class="coming-soon-card">
+                    <span class="coming-soon-badge">🔒 Próximamente</span>
+                    <h3>
+                        <svg class="lock-icon" viewBox="0 0 24 24">
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                        </svg>
+                        Metáforas para Distancia Observacional
+                    </h3>
+                    <p>Bus metaphor, pasajeros, y el yo observador. Basado en Törneke Cap 9.</p>
+                </div>
+
+                <div class="coming-soon-card">
+                    <span class="coming-soon-badge">🔒 Próximamente</span>
+                    <h3>
+                        <svg class="lock-icon" viewBox="0 0 24 24">
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                        </svg>
+                        Biblioteca de Metáforas ACT
+                    </h3>
+                    <p>Colección de metáforas clásicas con análisis funcional completo y casos de uso.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // ANIMATED METAPHOR NETWORK BACKGROUND
+        // ============================================
+        const canvas = document.getElementById('metaphor-network');
+        const ctx = canvas.getContext('2d');
+
+        // Setup canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Network nodes (representing concepts in metaphors)
+        class Node {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.radius = Math.random() * 3 + 2;
+                this.opacity = Math.random() * 0.3 + 0.2;
+                this.pulsePhase = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                // Move nodes
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off walls
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                // Keep within bounds
+                this.x = Math.max(0, Math.min(canvas.width, this.x));
+                this.y = Math.max(0, Math.min(canvas.height, this.y));
+
+                // Pulse effect
+                this.pulsePhase += 0.02;
+                this.currentRadius = this.radius + Math.sin(this.pulsePhase) * 0.5;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.currentRadius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(206, 147, 216, ${this.opacity})`; // Lavender glow
+                ctx.fill();
+                
+                // Glow effect
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.currentRadius + 3, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(171, 71, 188, ${this.opacity * 0.3})`;
+                ctx.fill();
+            }
+        }
+
+        // Create nodes
+        const nodes = [];
+        const nodeCount = window.innerWidth < 768 ? 15 : 25; // Fewer on mobile
+        for (let i = 0; i < nodeCount; i++) {
+            nodes.push(new Node(
+                Math.random() * canvas.width,
+                Math.random() * canvas.height
+            ));
+        }
+
+        // Draw connections between nearby nodes
+        function drawConnections() {
+            const maxDistance = 150;
+            
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < maxDistance) {
+                        const opacity = (1 - distance / maxDistance) * 0.15;
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.strokeStyle = `rgba(171, 71, 188, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+
+                        // Arrow in the middle (representing relational frames)
+                        if (Math.random() > 0.7) { // Only some connections have arrows
+                            const midX = (nodes[i].x + nodes[j].x) / 2;
+                            const midY = (nodes[i].y + nodes[j].y) / 2;
+                            const angle = Math.atan2(dy, dx);
+                            
+                            ctx.save();
+                            ctx.translate(midX, midY);
+                            ctx.rotate(angle + Math.PI);
+                            
+                            // Small arrow
+                            ctx.beginPath();
+                            ctx.moveTo(0, 0);
+                            ctx.lineTo(-6, -3);
+                            ctx.lineTo(-6, 3);
+                            ctx.closePath();
+                            ctx.fillStyle = `rgba(206, 147, 216, ${opacity * 0.8})`;
+                            ctx.fill();
+                            
+                            ctx.restore();
+                        }
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw connections first (behind nodes)
+            drawConnections();
+
+            // Update and draw nodes
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // ============================================
+        // OTHER INTERACTIONS
+        // ============================================
+        
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add haptic feedback on mobile (if supported)
+        if ('vibrate' in navigator) {
+            document.querySelectorAll('.cta-button, .back-button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    navigator.vibrate(10);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
