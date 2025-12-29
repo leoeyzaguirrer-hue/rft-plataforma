@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dos Formas de Relacionar | Lab Metáforas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #1B5E20;
+            --bg-dark-2: #2E7D32;
+            --bg-dark-3: #388E3C;
+            
+            --card-lavender: #F3E5F5;
+            --card-lavender-alt: #E1BEE7;
+            
+            --accent-purple: #AB47BC;
+            --accent-purple-dark: #8E24AA;
+            --accent-purple-light: #CE93D8;
+            
+            --text-dark: #1B1B1B;
+            --text-white: #FFFFFF;
+            --text-muted: #757575;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-2) 50%, var(--bg-dark-3) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            color: var(--text-white);
+            padding-bottom: 40px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Header sticky */
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(27, 94, 32, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 2px solid rgba(171, 71, 188, 0.3);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(0.95);
+        }
+
+        .progress-indicator {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* Title Section */
+        .title-section {
+            text-align: center;
+            margin-bottom: 32px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .part-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Theory Card */
+        .theory-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out 0.2s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .theory-card p {
+            color: var(--text-dark);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .theory-card strong {
+            color: var(--accent-purple-dark);
+        }
+
+        /* Experiment Cards */
+        .experiment {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .experiment:nth-child(3) { animation-delay: 0.3s; }
+        .experiment:nth-child(4) { animation-delay: 0.4s; }
+
+        .experiment::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-purple-light));
+        }
+
+        .experiment-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .experiment-title .emoji {
+            font-size: 32px;
+        }
+
+        .experiment-title h3 {
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .experiment-description {
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            opacity: 0.85;
+        }
+
+        /* Interactive Demo Area */
+        .demo-area {
+            background: rgba(171, 71, 188, 0.06);
+            border: 2px dashed var(--accent-purple-light);
+            border-radius: 16px;
+            padding: 32px 20px;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .demo-area.active {
+            background: rgba(171, 71, 188, 0.12);
+            border-color: var(--accent-purple);
+        }
+
+        /* Apples Demo */
+        .apples-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px 0;
+        }
+
+        .apple {
+            font-size: 80px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .apple:active {
+            transform: scale(0.9) rotate(-5deg);
+        }
+
+        .apple.correct {
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-20px) scale(1.1); }
+            50% { transform: translateY(-10px); }
+            75% { transform: translateY(-5px); }
+        }
+
+        /* Symbols Demo */
+        .symbols-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 24px 0;
+        }
+
+        .symbol {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--accent-purple-light), var(--accent-purple));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.4);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+        }
+
+        .symbol:active {
+            transform: scale(0.95);
+        }
+
+        .symbol.selected {
+            animation: pulse 0.6s ease;
+            box-shadow: 0 8px 30px rgba(171, 71, 188, 0.7);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .symbol-label {
+            position: absolute;
+            bottom: -30px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-purple-dark);
+            white-space: nowrap;
+        }
+
+        /* Instructions */
+        .instruction {
+            color: var(--accent-purple-dark);
+            font-size: 16px;
+            font-weight: 700;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .instruction .emoji {
+            font-size: 24px;
+            animation: pointDown 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pointDown {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
+        /* Feedback Box */
+        .feedback {
+            background: var(--card-lavender-alt);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .feedback.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .feedback-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent-purple-dark);
+            margin-bottom: 8px;
+        }
+
+        .feedback-text {
+            color: var(--text-dark);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out 0.5s backwards;
+        }
+
+        .summary-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .summary-title .emoji {
+            font-size: 32px;
+        }
+
+        .summary-title h3 {
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .comparison-item {
+            background: rgba(171, 71, 188, 0.08);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .comparison-item .label {
+            font-weight: 800;
+            color: var(--accent-purple-dark);
+            font-size: 14px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .comparison-item .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 24px;
+        }
+
+        .comparison-item .description {
+            font-size: 12px;
+            color: var(--text-dark);
+            margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        /* Progress Dots */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 32px 0 24px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent-purple-light);
+            width: 24px;
+            border-radius: 5px;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            width: 100%;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 12px rgba(171, 71, 188, 0.3);
+        }
+
+        /* Hidden state */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='index.html'">◄ Atrás</button>
+        <div class="progress-indicator">Pantalla 1 de 8</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Title Section -->
+        <div class="title-section">
+            <span class="part-badge">🧠 Parte 1: Teoría RFT</span>
+            <h1>Dos Formas de Relacionar</h1>
+            <p class="subtitle">El superpoder humano del lenguaje</p>
+        </div>
+
+        <!-- Theory Card -->
+        <div class="theory-card">
+            <p>
+                Todos los seres vivos relacionamos cosas. Un perro sabe que su plato es más grande que su pelota. 
+                Un bebé reconoce el rostro de su madre entre otros rostros.
+            </p>
+            <br>
+            <p>
+                Pero los humanos tenemos un <strong>superpoder único</strong>: podemos relacionar 
+                <strong>cualquier cosa con cualquier cosa</strong> usando símbolos y palabras, 
+                sin necesidad de que exista una conexión física real.
+            </p>
+            <br>
+            <p>
+                Veamos la diferencia con dos experimentos...
+            </p>
+        </div>
+
+        <!-- EXPERIMENTO 1: Relación Directa -->
+        <div class="experiment">
+            <div class="experiment-title">
+                <span class="emoji">🔬</span>
+                <h3>Experimento 1: Relación Directa</h3>
+            </div>
+            <p class="experiment-description">
+                Este tipo de relación depende de las propiedades físicas que puedes percibir directamente. 
+                ¡Todos los animales pueden hacer esto!
+            </p>
+
+            <div class="demo-area" id="demo1">
+                <div class="instruction">
+                    <span class="emoji">👇</span>
+                    <span>Toca la manzana MÁS GRANDE</span>
+                </div>
+                <div class="apples-container">
+                    <div class="apple" data-size="small" onclick="checkApple('small')">🍎</div>
+                    <div class="apple" data-size="large" onclick="checkApple('large')" style="font-size: 100px;">🍎</div>
+                </div>
+                <div class="feedback" id="feedback1">
+                    <div class="feedback-title">
+                        <span>✅</span>
+                        <span>¡Correcto! Esto es RELACIÓN DIRECTA</span>
+                    </div>
+                    <p class="feedback-text">
+                        Comparaste <strong>propiedades físicas</strong> que puedes ver: el tamaño real de las manzanas. 
+                        No necesitaste palabras ni símbolos. Tu cerebro procesó la información visual directamente.
+                        <br><br>
+                        🐕 Un perro también podría hacer esto
+                        <br>
+                        🐵 Un mono también
+                        <br>
+                        👶 ¡Incluso un bebé de 6 meses!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXPERIMENTO 2: Relación Arbitraria -->
+        <div class="experiment">
+            <div class="experiment-title">
+                <span class="emoji">🎭</span>
+                <h3>Experimento 2: Relación Arbitraria</h3>
+            </div>
+            <p class="experiment-description">
+                Ahora algo diferente. Estos símbolos NO tienen valor real, pero te voy a pedir que actúes como si lo tuvieran...
+            </p>
+
+            <div class="demo-area" id="demo2">
+                <p style="color: var(--accent-purple-dark); font-weight: 700; margin-bottom: 16px;">
+                    Te digo: "∆ vale <strong>$10,000</strong>"<br>
+                    Te digo: "φ vale el <strong>DOBLE</strong> que ∆"
+                </p>
+                
+                <div class="instruction">
+                    <span class="emoji">👇</span>
+                    <span>¿Cuál símbolo prefieres?</span>
+                </div>
+
+                <div class="symbols-container">
+                    <div class="symbol" onclick="checkSymbol('delta')">
+                        ∆
+                        <span class="symbol-label">$10,000</span>
+                    </div>
+                    <div class="symbol" onclick="checkSymbol('phi')">
+                        φ
+                        <span class="symbol-label">$20,000</span>
+                    </div>
+                </div>
+
+                <div class="feedback" id="feedback2">
+                    <div class="feedback-title">
+                        <span>✨</span>
+                        <span>¡Eso es RELACIÓN ARBITRARIA!</span>
+                    </div>
+                    <p class="feedback-text">
+                        <strong>φ no vale realmente $20,000.</strong> Es solo un símbolo en una pantalla. 
+                        Pero actuaste como si tuviera ese valor porque yo te lo dije con <strong>palabras</strong>.
+                        <br><br>
+                        🎯 No comparaste propiedades físicas
+                        <br>
+                        💬 Usaste el <strong>contexto social</strong> (mis palabras)
+                        <br>
+                        🧠 Tu cerebro "movió" propiedades entre objetos
+                        <br><br>
+                        <strong>¡Este es el superpoder del lenguaje humano!</strong> 🎭
+                        <br>
+                        Ningún animal puede hacer esto. Solo los humanos.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary-card">
+            <div class="summary-title">
+                <span class="emoji">💡</span>
+                <h3>¿Ves la diferencia?</h3>
+            </div>
+            <p style="color: var(--text-dark); font-size: 15px; line-height: 1.6; margin-bottom: 20px;">
+                Las <strong>metáforas clínicas</strong> funcionan precisamente porque podemos crear 
+                <strong>relaciones arbitrarias</strong>. Cuando un terapeuta dice "estás cavando un hoyo", 
+                no hay hoyo real, pero el cliente actúa como si lo hubiera.
+            </p>
+
+            <div class="comparison">
+                <div class="comparison-item">
+                    <div class="label">Directa</div>
+                    <div class="flow">
+                        <span>👁️</span>
+                        <span>↓</span>
+                        <span>🧠</span>
+                    </div>
+                    <p class="description">Ves propiedades físicas</p>
+                </div>
+                <div class="comparison-item">
+                    <div class="label">Arbitraria</div>
+                    <div class="flow">
+                        <span>💬</span>
+                        <span>↓</span>
+                        <span>🎭</span>
+                    </div>
+                    <p class="description">Contexto social crea realidad</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Dots -->
+        <div class="progress-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <!-- CTA Button -->
+        <button class="cta-button" onclick="nextScreen()">
+            Siguiente: Marcos Relacionales →
+        </button>
+    </div>
+
+    <script>
+        // Experimento 1: Manzanas
+        let exp1Complete = false;
+
+        function checkApple(size) {
+            if (exp1Complete) return;
+            
+            const demo = document.getElementById('demo1');
+            const feedback = document.getElementById('feedback1');
+            
+            if (size === 'large') {
+                // Correct answer
+                event.target.classList.add('correct');
+                demo.classList.add('active');
+                feedback.classList.add('show');
+                exp1Complete = true;
+                
+                // Vibration feedback
+                if (navigator.vibrate) {
+                    navigator.vibrate([50, 100, 50]);
+                }
+            } else {
+                // Wrong answer - shake animation
+                event.target.style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    event.target.style.animation = '';
+                }, 500);
+                
+                if (navigator.vibrate) {
+                    navigator.vibrate(100);
+                }
+            }
+        }
+
+        // Shake animation for wrong answers
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Experimento 2: Símbolos
+        let exp2Complete = false;
+
+        function checkSymbol(symbol) {
+            if (exp2Complete) return;
+            
+            const demo = document.getElementById('demo2');
+            const feedback = document.getElementById('feedback2');
+            
+            // Both answers are "correct" for demonstration purposes
+            event.target.classList.add('selected');
+            demo.classList.add('active');
+            
+            setTimeout(() => {
+                feedback.classList.add('show');
+                exp2Complete = true;
+            }, 400);
+            
+            // Vibration feedback
+            if (navigator.vibrate) {
+                navigator.vibrate([30, 50, 30, 50, 30]);
+            }
+        }
+
+        // Navigation
+        function nextScreen() {
+            // In a real implementation, this would navigate to pantalla-1-2.html
+            alert('🎯 Próxima pantalla: Marcos Relacionales\n\n(En desarrollo)');
+            // window.location.href = 'pantalla-1-2.html';
+        }
+
+        // Haptic feedback for button
+        document.querySelector('.cta-button').addEventListener('click', () => {
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        });
+    </script>
+</body>
+</html>
