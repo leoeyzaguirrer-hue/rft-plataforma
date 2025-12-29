@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los 3 Principios | Lab Metáforas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #1B5E20;
+            --bg-dark-2: #2E7D32;
+            --bg-dark-3: #388E3C;
+            
+            --card-lavender: #F3E5F5;
+            --card-lavender-alt: #E1BEE7;
+            
+            --accent-purple: #AB47BC;
+            --accent-purple-dark: #8E24AA;
+            --accent-purple-light: #CE93D8;
+            
+            --color-correct: #4CAF50;
+            --color-wrong: #F44336;
+            --color-partial: #FF9800;
+            
+            --text-dark: #1B1B1B;
+            --text-white: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-2) 50%, var(--bg-dark-3) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            color: var(--text-white);
+            padding-bottom: 40px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Header sticky */
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(27, 94, 32, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 2px solid rgba(171, 71, 188, 0.3);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(0.95);
+        }
+
+        .progress-indicator {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* Title Section */
+        .title-section {
+            text-align: center;
+            margin-bottom: 32px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .part-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Theory Cards */
+        .theory-card {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .theory-card:nth-child(3) { animation-delay: 0.2s; }
+        .theory-card:nth-child(4) { animation-delay: 0.3s; }
+        .theory-card:nth-child(5) { animation-delay: 0.4s; }
+        .theory-card:nth-child(6) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theory-card p {
+            color: var(--text-dark);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .theory-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .theory-card strong {
+            color: var(--accent-purple-dark);
+        }
+
+        /* Principles List */
+        .principles-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .principle-box {
+            background: rgba(171, 71, 188, 0.08);
+            border-left: 4px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .principle-box:active {
+            transform: scale(0.98);
+        }
+
+        .principle-box.revealed {
+            background: rgba(171, 71, 188, 0.15);
+            border-color: var(--accent-purple-dark);
+        }
+
+        .principle-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .principle-number {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-purple-light);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .principle-box.revealed .principle-number {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+        }
+
+        .tap-hint {
+            color: var(--accent-purple-dark);
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tap-emoji {
+            font-size: 18px;
+            animation: tap 1.5s ease-in-out infinite;
+        }
+
+        @keyframes tap {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .principle-box.revealed .tap-hint {
+            display: none;
+        }
+
+        .principle-title {
+            color: var(--text-dark);
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .principle-content {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .principle-box.revealed .principle-content {
+            opacity: 1;
+            max-height: 500px;
+        }
+
+        .principle-explanation {
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .barry-example {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .barry-example-title {
+            color: var(--accent-purple-dark);
+            font-weight: 800;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .barry-example-text {
+            color: var(--text-dark);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Interactive Demo Section */
+        .demo-section {
+            background: var(--card-lavender);
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out 0.6s backwards;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .demo-emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .demo-title {
+            color: var(--text-dark);
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .demo-subtitle {
+            color: var(--text-dark);
+            font-size: 15px;
+            opacity: 0.8;
+        }
+
+        /* Case presentation */
+        .case-presentation {
+            background: rgba(171, 71, 188, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .case-presentation h4 {
+            color: var(--accent-purple-dark);
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .case-presentation p {
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .case-presentation p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight-box {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            border-left: 4px solid var(--accent-purple);
+        }
+
+        .highlight-box strong {
+            color: var(--accent-purple-dark);
+        }
+
+        /* Question */
+        .question-box {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .question-text {
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        /* Options */
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .option-card {
+            background: white;
+            border: 3px solid transparent;
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .option-card:active {
+            transform: scale(0.98);
+        }
+
+        .option-card.selected {
+            border-color: var(--accent-purple);
+            background: rgba(171, 71, 188, 0.05);
+        }
+
+        .option-card.correct {
+            border-color: var(--color-correct);
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .option-card.wrong {
+            border-color: var(--color-wrong);
+            background: rgba(244, 67, 54, 0.05);
+        }
+
+        .option-card.partial {
+            border-color: var(--color-partial);
+            background: rgba(255, 152, 0, 0.05);
+        }
+
+        .option-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .option-emoji {
+            font-size: 32px;
+        }
+
+        .option-text {
+            color: var(--text-dark);
+            font-size: 17px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .option-feedback {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .option-card.revealed .option-feedback {
+            opacity: 1;
+            max-height: 300px;
+        }
+
+        .feedback-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .feedback-badge.correct {
+            background: var(--color-correct);
+        }
+
+        .feedback-badge.wrong {
+            background: var(--color-wrong);
+        }
+
+        .feedback-badge.partial {
+            background: var(--color-partial);
+        }
+
+        .feedback-text {
+            color: var(--text-dark);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* Progress Dots */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 32px 0 24px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent-purple-light);
+            width: 24px;
+            border-radius: 5px;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            width: 100%;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 12px rgba(171, 71, 188, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='pantalla-2-2.html'">◄ Atrás</button>
+        <div class="progress-indicator">Pantalla 6 de 8</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Title Section -->
+        <div class="title-section">
+            <span class="part-badge">🎯 Parte 2: Anatomía Clínica</span>
+            <h1>Los 3 Principios</h1>
+            <p class="subtitle">Para crear metáforas clínicas efectivas</p>
+        </div>
+
+        <!-- Intro Card -->
+        <div class="theory-card">
+            <p>
+                Viste cómo funcionó la metáfora con Barry. Ahora veamos los <strong>3 principios fundamentales</strong> 
+                que toda metáfora clínica efectiva debe cumplir.
+            </p>
+            <p>
+                <strong>👇 Toca cada principio</strong> para ver la explicación con el ejemplo de Barry.
+            </p>
+        </div>
+
+        <!-- Principles -->
+        <div class="theory-card">
+            <div class="principles-container">
+                
+                <!-- Principle 1 -->
+                <div class="principle-box" onclick="revealPrinciple(1)">
+                    <div class="principle-header">
+                        <div class="principle-number">1</div>
+                        <div class="tap-hint">
+                            <span class="tap-emoji">👆</span>
+                            <span>Toca aquí</span>
+                        </div>
+                    </div>
+                    <div class="principle-title">
+                        🎯 La META debe ser funcionalmente relevante
+                    </div>
+                    <div class="principle-content">
+                        <p class="principle-explanation">
+                            El fenómeno que eliges iluminar (META) debe tener una <strong>función importante</strong> 
+                            en el problema del cliente. No eliges metáforas al azar.
+                        </p>
+                        <div class="barry-example">
+                            <div class="barry-example-title">
+                                🚚 Ejemplo con Barry:
+                            </div>
+                            <p class="barry-example-text">
+                                "No llamar al hermano" NO es un evento aislado. Es una <strong>instancia más</strong> 
+                                de su patrón recurrente: evitar acciones importantes culpando al dolor.
+                                <br><br>
+                                ✅ Esto es <strong>funcionalmente relevante</strong> → mantiene su depresión y aislamiento.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Principle 2 -->
+                <div class="principle-box" onclick="revealPrinciple(2)">
+                    <div class="principle-header">
+                        <div class="principle-number">2</div>
+                        <div class="tap-hint">
+                            <span class="tap-emoji">👆</span>
+                            <span>Toca aquí</span>
+                        </div>
+                    </div>
+                    <div class="principle-title">
+                        🚗 El VEHÍCULO debe resonar con el cliente
+                    </div>
+                    <div class="principle-content">
+                        <p class="principle-explanation">
+                            La imagen que uses (VEHÍCULO) debe <strong>corresponder a la experiencia</strong> del cliente. 
+                            El cliente debe reconocerse en la metáfora.
+                        </p>
+                        <div class="barry-example">
+                            <div class="barry-example-title">
+                                🚚 Ejemplo con Barry:
+                            </div>
+                            <p class="barry-example-text">
+                                La terapeuta eligió "estacionarse" porque Barry fue <strong>camionero</strong>. 
+                                Él SABE visceralmente qué significa estacionarse vs. avanzar.
+                                <br><br>
+                                ❌ Si Barry nunca hubiera manejado, esta metáfora NO funcionaría.
+                                <br>
+                                ✅ Con un camionero → resuena profundamente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Principle 3 -->
+                <div class="principle-box" onclick="revealPrinciple(3)">
+                    <div class="principle-header">
+                        <div class="principle-number">3</div>
+                        <div class="tap-hint">
+                            <span class="tap-emoji">👆</span>
+                            <span>Toca aquí</span>
+                        </div>
+                    </div>
+                    <div class="principle-title">
+                        ⚡ El VEHÍCULO tiene propiedades MÁS SALIENTES
+                    </div>
+                    <div class="principle-content">
+                        <p class="principle-explanation">
+                            El VEHÍCULO debe tener una propiedad o función que es <strong>más evidente ahí</strong> 
+                            que en la META. Esto es el "bite" de la metáfora, su poder transformador.
+                        </p>
+                        <div class="barry-example">
+                            <div class="barry-example-title">
+                                🚚 Ejemplo con Barry:
+                            </div>
+                            <p class="barry-example-text">
+                                "No llamar al hermano" → vago, fácil de justificar
+                                <br>
+                                "Estacionarse" → <strong>EVIDENTEMENTE</strong> significa no avanzar
+                                <br><br>
+                                💡 La propiedad "no hay progreso" es <strong>más saliente</strong> en "estacionarse" 
+                                que en "no llamar". Por eso la metáfora <strong>ilumina</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Interactive Demo -->
+        <div class="demo-section">
+            <div class="demo-header">
+                <div class="demo-emoji">🎮</div>
+                <h3 class="demo-title">Ahora Tú: Demo Interactiva</h3>
+                <p class="demo-subtitle">Aplica los 3 principios con un caso nuevo</p>
+            </div>
+
+            <!-- New Case -->
+            <div class="case-presentation">
+                <h4>📋 Caso: Laura</h4>
+                <p>
+                    <strong>Laura</strong>, 28 años, desarrolladora de software. 
+                    Viene a terapia por <strong>ansiedad y perfeccionismo</strong>.
+                </p>
+                <p>
+                    Describe que revisa su código una y otra vez antes de hacer un "commit" al proyecto. 
+                    A veces pasa <strong>horas revisando</strong> lo mismo, buscando errores que "podrían estar ahí".
+                </p>
+                <div class="highlight-box">
+                    <p>
+                        <strong>🎯 META:</strong> Su conducta de revisar compulsivamente (rumiar buscando errores)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Question -->
+            <div class="question-box">
+                <p class="question-text">
+                    ¿Qué VEHÍCULO (metáfora) usarías con Laura?
+                    <br>
+                    👇 Elige una opción:
+                </p>
+            </div>
+
+            <!-- Options -->
+            <div class="options-container">
+                
+                <!-- Option A - BEST -->
+                <div class="option-card" onclick="selectOption('A')">
+                    <div class="option-header">
+                        <span class="option-emoji">🔍</span>
+                        <span class="option-text">"Estás revisando el mismo código con lupa"</span>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge correct">✓ EXCELENTE</span>
+                        <p class="feedback-text">
+                            ✅ <strong>Principio 1:</strong> Funcionalmente relevante (revisar = su problema)
+                            <br>
+                            ✅ <strong>Principio 2:</strong> Resuena (ella es developer, conoce code reviews)
+                            <br>
+                            ✅ <strong>Principio 3:</strong> Propiedad saliente = "Ya lo revisaste, seguir mirando no revela nada nuevo"
+                            <br><br>
+                            💡 Esta metáfora hace evidente que <strong>más revisión ≠ más claridad</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Option B - PARTIAL -->
+                <div class="option-card" onclick="selectOption('B')">
+                    <div class="option-header">
+                        <span class="option-emoji">🏃‍♀️</span>
+                        <span class="option-text">"Es como correr en una cinta sin fin"</span>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge partial">~ PARCIAL</span>
+                        <p class="feedback-text">
+                            ⚠️ <strong>Principio 1:</strong> ✓ Funcionalmente relevante (repetición sin progreso)
+                            <br>
+                            ⚠️ <strong>Principio 2:</strong> ? No resuena específicamente con su identidad
+                            <br>
+                            ⚠️ <strong>Principio 3:</strong> ✓ Tiene propiedad saliente (esfuerzo sin avance)
+                            <br><br>
+                            💡 No está mal, pero no usa su contexto (developer). Menos personalizada.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Option C - WRONG -->
+                <div class="option-card" onclick="selectOption('C')">
+                    <div class="option-header">
+                        <span class="option-emoji">🎨</span>
+                        <span class="option-text">"Es como pintar un cuadro perfecto"</span>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge wrong">✗ NO FUNCIONA</span>
+                        <p class="feedback-text">
+                            ❌ <strong>Principio 1:</strong> ✓ Funcionalmente relevante
+                            <br>
+                            ❌ <strong>Principio 2:</strong> ✗ NO resuena (¿ella pinta? No sabemos)
+                            <br>
+                            ❌ <strong>Principio 3:</strong> ✗ "Perfecto" puede REFORZAR el perfeccionismo
+                            <br><br>
+                            ⚠️ Esta metáfora podría ser contraproducente. No desafía su patrón.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Option D - WRONG -->
+                <div class="option-card" onclick="selectOption('D')">
+                    <div class="option-header">
+                        <span class="option-emoji">🚗</span>
+                        <span class="option-text">"Estás estacionada"</span>
+                    </div>
+                    <div class="option-feedback">
+                        <span class="feedback-badge wrong">✗ MAL ELEGIDA</span>
+                        <p class="feedback-text">
+                            ❌ <strong>Principio 1:</strong> ? No captura bien su problema (ella SÍ está activa)
+                            <br>
+                            ❌ <strong>Principio 2:</strong> ✗ No resuena con su experiencia
+                            <br>
+                            ❌ <strong>Principio 3:</strong> ✗ "Estacionada" = inactividad, pero ella está MUY activa
+                            <br><br>
+                            ⚠️ Esta metáfora funcionó con Barry, pero NO con Laura. 
+                            ¡Cada cliente es diferente!
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Summary -->
+        <div class="theory-card">
+            <p>
+                <strong>🎓 Lección clave:</strong> No hay metáforas "universales". 
+                Los 3 principios te ayudan a <strong>crear metáforas personalizadas</strong> 
+                para cada cliente específico.
+            </p>
+            <p>
+                ¡Completaste la Parte 2! En la siguiente parte verás cómo estas metáforas 
+                se conectan con el <strong>análisis funcional</strong> y la flexibilidad psicológica.
+            </p>
+        </div>
+
+        <!-- Progress Dots -->
+        <div class="progress-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <!-- CTA Button -->
+        <button class="cta-button" onclick="nextScreen()">
+            Parte 3: Análisis Funcional →
+        </button>
+    </div>
+
+    <script>
+        let revealedPrinciples = new Set();
+        let selectedOption = null;
+
+        function revealPrinciple(num) {
+            const box = event.currentTarget;
+            
+            if (box.classList.contains('revealed')) return;
+            
+            box.classList.add('revealed');
+            revealedPrinciples.add(num);
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate([30, 50, 30]);
+            }
+            
+            // Scroll suave
+            setTimeout(() => {
+                const content = box.querySelector('.principle-content');
+                if (content) {
+                    content.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'nearest' 
+                    });
+                }
+            }, 300);
+        }
+
+        function selectOption(option) {
+            if (selectedOption !== null) return; // Ya eligió
+            
+            selectedOption = option;
+            const card = event.currentTarget;
+            
+            // Mark all cards as revealed
+            document.querySelectorAll('.option-card').forEach(c => {
+                c.style.pointerEvents = 'none';
+                c.classList.add('revealed');
+            });
+            
+            // Color code based on option
+            const cards = document.querySelectorAll('.option-card');
+            cards[0].classList.add('correct');   // A
+            cards[1].classList.add('partial');   // B
+            cards[2].classList.add('wrong');     // C
+            cards[3].classList.add('wrong');     // D
+            
+            // Highlight selected
+            card.classList.add('selected');
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                if (option === 'A') {
+                    navigator.vibrate([50, 100, 50, 100, 50]); // Success pattern
+                } else {
+                    navigator.vibrate(100);
+                }
+            }
+            
+            // Scroll to feedback
+            setTimeout(() => {
+                card.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 400);
+        }
+
+        function nextScreen() {
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+            
+            alert('🎯 Próxima pantalla: Análisis Funcional\nParte 3: Aplicación Clínica\n\n(En desarrollo)');
+            // window.location.href = 'pantalla-3-1.html';
+        }
+    </script>
+</body>
+</html>
