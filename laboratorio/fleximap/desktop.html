@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexiMap 2.0 - Sistema de Conceptualización ACT-RFT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            background: transparent;
+            font-size: 1em;
+        }
+
+        .tab:hover {
+            background: #e0e0e0;
+        }
+
+        .tab.active {
+            background: white;
+            border-bottom: 3px solid #667eea;
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .result-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .pattern-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .priority-1 { background: #dc3545; color: white; }
+        .priority-2 { background: #ffc107; color: #333; }
+        .priority-3 { background: #28a745; color: white; }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s;
+        }
+
+        .upload-zone {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-zone:hover {
+            background: #f0f4ff;
+            border-color: #764ba2;
+        }
+
+        .upload-zone.dragover {
+            background: #e3e9ff;
+            border-color: #667eea;
+        }
+
+        .knowledge-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .knowledge-item .info {
+            flex: 1;
+        }
+
+        .knowledge-item .meta {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .status-active { background: #28a745; }
+        .status-processing { background: #ffc107; }
+        .status-inactive { background: #dc3545; }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .intervention-card {
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .intervention-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .exercise-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .exercise-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .exercise-list li:before {
+            content: "→ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 FlexiMap 2.0</h1>
+            <p>Sistema de Conceptualización de Casos ACT-RFT</p>
+            <span class="version-badge">v2.0 - Actualizable con IA</span>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showSection('intake')">1. Intake</button>
+            <button class="tab" onclick="showSection('functional')">2. Análisis Funcional</button>
+            <button class="tab" onclick="showSection('values')">3. Valores</button>
+            <button class="tab" onclick="showSection('results')">4. Resultados</button>
+            <button class="tab" onclick="showSection('knowledge')">📚 Base Conocimiento</button>
+        </div>
+
+        <div class="content">
+            <!-- SECCIÓN 1: INTAKE -->
+            <div id="intake" class="section active">
+                <h2>Información Inicial del Caso</h2>
+                
+                <div class="form-group">
+                    <label>Motivo de Consulta (en palabras del cliente)</label>
+                    <textarea id="motivoConsulta" placeholder="Ej: 'Mi esposo me fue infiel y no sé qué hacer con mi vida, no sé cómo continuar'"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>¿Cuándo ocurrió el evento desencadenante?</label>
+                    <select id="tiempoEvento">
+                        <option value="">Seleccionar...</option>
+                        <option value="reciente">Hace menos de 1 mes</option>
+                        <option value="1-3meses">Hace 1-3 meses</option>
+                        <option value="3-6meses">Hace 3-6 meses</option>
+                        <option value="6-12meses">Hace 6-12 meses</option>
+                        <option value="mas1año">Hace más de 1 año</option>
+                        <option value="cronico">Situación crónica/recurrente</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>¿Qué ha intentado hacer para resolver esto?</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="intento1" value="rumiar">
+                            <label for="intento1">Pensar constantemente en ello</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="intento2" value="confrontar">
+                            <label for="intento2">Confrontar a otros</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="intento3" value="buscarRazones">
+                            <label for="intento3">Buscar explicaciones/razones</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="intento4" value="evitar">
+                            <label for="intento4">Evitar pensar en ello</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="intento5" value="hablar">
+                            <label for="intento5">Hablar con amigos/familia</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="intento6" value="controlar">
+                            <label for="intento6">Intentar controlar la situación</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="intento7" value="distraerse">
+                            <label for="intento7">Mantenerse ocupado/distraído</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="intento8" value="sustancias">
+                            <label for="intento8">Alcohol/sustancias</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Screening Rápido - Selecciona si el cliente menciona:</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="trauma" value="trauma" onchange="toggleTraumaQuestions()">
+                            <label for="trauma">⚠️ Evento traumático (amenaza muerte/lesión/violencia)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="flashbacks" value="flashbacks">
+                            <label for="flashbacks">Recuerdos intrusivos/flashbacks/pesadillas</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="miedoEspecifico" value="fobia">
+                            <label for="miedoEspecifico">Miedo intenso a algo específico</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="panico" value="panico">
+                            <label for="panico">Ataques de pánico / miedo a tenerlos</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="social" value="social">
+                            <label for="social">Miedo a evaluación social</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="obsesiones" value="toc">
+                            <label for="obsesiones">Pensamientos intrusivos + rituales</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="anhedonia" value="depresion">
+                            <label for="anhedonia">No tiene ganas de nada / inactividad</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PREGUNTAS ADICIONALES TRAUMA (ocultas por defecto) -->
+                <div id="traumaQuestions" style="display:none;" class="result-box">
+                    <h3>🔍 Evaluación Específica TEPT</h3>
+                    
+                    <div class="form-group">
+                        <label>¿El cliente evita activamente recordatorios del trauma?</label>
+                        <select id="evitacionTrauma">
+                            <option value="">Seleccionar...</option>
+                            <option value="si">Sí, evita pensamientos/lugares/personas</option>
+                            <option value="parcial">Evita algunas cosas</option>
+                            <option value="no">No evita</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Presenta hiperactivación? (marcar todas las que apliquen)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hiper1" value="irritabilidad">
+                                <label for="hiper1">Irritabilidad/arrebatos de ira</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hiper2" value="hipervigilancia">
+                                <label for="hiper2">Hipervigilancia constante</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hiper3" value="sobresalto">
+                                <label for="hiper3">Respuesta de sobresalto exagerada</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hiper4" value="concentracion">
+                                <label for="hiper4">Problemas de concentración</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hiper5" value="sueno">
+                                <label for="hiper5">Problemas severos de sueño</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Presenta creencias negativas sobre sí mismo desde el trauma?</label>
+                        <textarea id="creenciasNegativas" placeholder="Ej: 'Estoy roto/a', 'Fue mi culpa', 'No puedo confiar en nadie', 'El mundo es peligroso'"></textarea>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="nextSection('functional')">Siguiente: Análisis Funcional →</button>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: ANÁLISIS FUNCIONAL -->
+            <div id="functional" class="section">
+                <h2>Exploración de Situaciones Específicas</h2>
+                
+                <div class="alert alert-info">
+                    <strong>💡 Instrucción:</strong> Vamos a explorar 2-3 situaciones CONCRETAS recientes donde el problema apareció.
+                </div>
+
+                <div id="situacionesContainer">
+                    <!-- Situación 1 -->
+                    <div class="pattern-card">
+                        <h3>Situación 1</h3>
+                        
+                        <div class="form-group">
+                            <label>Describe una situación CONCRETA de las últimas 2 semanas:</label>
+                            <textarea id="sit1_descripcion" placeholder="Ej: 'Ayer en la noche estaba en la cama y empecé a imaginar a mi esposo con la otra mujer. No podía dormir.'"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>¿Qué PENSAMIENTOS aparecieron?</label>
+                            <textarea id="sit1_pensamientos" placeholder="Ej: '¿Por qué lo hizo? ¿Qué tiene ella que yo no tengo? Soy un fracaso como esposa. No puedo seguir viviendo así.'"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>¿Qué EMOCIONES/SENSACIONES experimentó?</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="emo1_tristeza" value="tristeza">
+                                    <label for="emo1_tristeza">Tristeza intensa</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="emo1_rabia" value="rabia">
+                                    <label for="emo1_rabia">Rabia/ira</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="emo1_ansiedad" value="ansiedad">
+                                    <label for="emo1_ansiedad">Ansiedad/angustia</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="emo1_verguenza" value="verguenza">
+                                    <label for="emo1_verguenza">Vergüenza</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="emo1_vacio" value="vacio">
+                                    <label for="emo1_vacio">Vacío/desesperanza</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="emo1_miedo" value="miedo">
+                                    <label for="emo1_miedo">Miedo intenso</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>¿Dónde lo sintió en su cuerpo?</label>
+                            <textarea id="sit1_cuerpo" placeholder="Ej: 'Presión en el pecho, nudo en garganta, hueco en el estómago'"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>¿Qué HIZO cuando aparecieron esos pensamientos/emociones?</label>
+                            <textarea id="sit1_conducta" placeholder="Ej: 'Empecé a revisar su teléfono otra vez. Le mandé mensajes preguntándole dónde estaba. Me levanté y me puse a limpiar la casa a las 2am para no pensar.'"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>¿Qué consiguió INMEDIATAMENTE con eso?</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="cons1_alivio" value="alivio">
+                                    <label for="cons1_alivio">Alivio momentáneo</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="cons1_control" value="control">
+                                    <label for="cons1_control">Sentir que "hacía algo"</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="cons1_distraccion" value="distraccion">
+                                    <label for="cons1_distraccion">Distracción temporal</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>¿Cuánto duró ese alivio?</label>
+                            <select id="sit1_duracion">
+                                <option value="">Seleccionar...</option>
+                                <option value="minutos">Minutos</option>
+                                <option value="horas">Horas</option>
+                                <option value="dias">Días</option>
+                                <option value="nada">No hubo alivio real</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>¿Qué pasó DESPUÉS? (a las horas/días)</label>
+                            <textarea id="sit1_despues" placeholder="Ej: 'Volvieron los pensamientos, peor. Discutimos otra vez. Me sentí más desesperada. No dormí nada.'"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>¿Esto lo acercó o alejó de lo que es importante para él/ella?</label>
+                            <select id="sit1_valores">
+                                <option value="">Seleccionar...</option>
+                                <option value="alejo">Me alejó</option>
+                                <option value="neutral">Neutral</option>
+                                <option value="acerco">Me acercó</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary" onclick="addSituation()" style="margin: 20px 0;">+ Agregar Otra Situación</button>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="showSection('intake')">← Anterior</button>
+                    <button class="btn" onclick="nextSection('values')">Siguiente: Valores →</button>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: VALORES -->
+            <div id="values" class="section">
+                <h2>Exploración de Valores y Costos</h2>
+                
+                <div class="alert alert-info">
+                    <strong>💡 Objetivo:</strong> Identificar qué es importante para el cliente y qué ha dejado de hacer.
+                </div>
+
+                <div class="form-group">
+                    <label>Antes de este problema, ¿qué era IMPORTANTE para ti? (Selecciona áreas relevantes)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="val_pareja" value="pareja" onchange="toggleValueDetail('pareja')">
+                            <label for="val_pareja">Relación de pareja</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="val_familia" value="familia" onchange="toggleValueDetail('familia')">
+                            <label for="val_familia">Familia</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="val_amistad" value="amistad" onchange="toggleValueDetail('amistad')">
+                            <label for="val_amistad">Amistades</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="val_trabajo" value="trabajo" onchange="toggleValueDetail('trabajo')">
+                            <label for="val_trabajo">Trabajo/carrera</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="val_educacion" value="educacion" onchange="toggleValueDetail('educacion')">
+                            <label for="val_educacion">Educación/crecimiento</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="val_autocuidado" value="autocuidado" onchange="toggleValueDetail('autocuidado')">
+                            <label for="val_autocuidado">Autocuidado/bienestar</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="val_recreacion" value="recreacion" onchange="toggleValueDetail('recreacion')">
+                            <label for="val_recreacion">Recreación/hobbies</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="val_espiritual" value="espiritual" onchange="toggleValueDetail('espiritual')">
+                            <label for="val_espiritual">Espiritualidad</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="valuesDetails"></div>
+
+                <div class="form-group">
+                    <label>Desde que pasó esto, ¿qué has DEJADO de hacer?</label>
+                    <textarea id="actividadesPerdidas" placeholder="Lista las actividades específicas que ha abandonado..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>¿Qué HACES ahora en lugar de eso?</label>
+                    <textarea id="conductaActual" placeholder="Ej: 'Paso horas rumiando, revisando su teléfono, buscando evidencias, confrontándolo, llorando en la cama'"></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="showSection('functional')">← Anterior</button>
+                    <button class="btn" onclick="analyzeCase()">🔍 Analizar Caso</button>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 4: RESULTADOS -->
+            <div id="results" class="section">
+                <h2>📋 Análisis Completo y Recomendaciones</h2>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%">
+                        Análisis Completado
+                    </div>
+                </div>
+
+                <div id="analysisResults">
+                    <!-- Se llena dinámicamente con JavaScript -->
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="showSection('values')">← Anterior</button>
+                    <button class="btn" onclick="exportPDF()">📄 Exportar PDF</button>
+                    <button class="btn" onclick="resetCase()">🔄 Nuevo Caso</button>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 5: BASE DE CONOCIMIENTO -->
+            <div id="knowledge" class="section">
+                <h2>📚 Base de Conocimiento Actualizable</h2>
+                
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="number" id="statProtocols">6</div>
+                        <div class="label">Protocolos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number" id="statInterventions">47</div>
+                        <div class="label">Intervenciones</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number" id="statExercises">156</div>
+                        <div class="label">Ejercicios</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number" id="statMetaphors">82</div>
+                        <div class="label">Metáforas</div>
+                    </div>
+                </div>
+
+                <h3>📖 Documentos en la Base de Conocimiento</h3>
+                
+                <div id="knowledgeList">
+                    <div class="knowledge-item">
+                        <div class="info">
+                            <span class="status-indicator status-active"></span>
+                            <strong>ACT for PTSD & Trauma-Related Problems</strong>
+                            <div class="meta">Walser & Westrup, 2007 | 6 componentes ACT-TEPT | 23 ejercicios</div>
+                        </div>
+                        <button class="btn" style="padding: 8px 15px; font-size: 0.9em;">Ver Detalles</button>
+                    </div>
+
+                    <div class="knowledge-item">
+                        <div class="info">
+                            <span class="status-indicator status-active"></span>
+                            <strong>The Big Book of Exposures</strong>
+                            <div class="meta">Springer & Tolin, 2020 | 400+ exposiciones | 7 trastornos</div>
+                        </div>
+                        <button class="btn" style="padding: 8px 15px; font-size: 0.9em;">Ver Detalles</button>
+                    </div>
+
+                    <div class="knowledge-item">
+                        <div class="info">
+                            <span class="status-indicator status-active"></span>
+                            <strong>Manual Terapias Conductuales Contextuales</strong>
+                            <div class="meta">Ruiz Sánchez | Procesos conductuales | BA, Exposición, RE</div>
+                        </div>
+                        <button class="btn" style="padding: 8px 15px; font-size: 0.9em;">Ver Detalles</button>
+                    </div>
+
+                    <div class="knowledge-item">
+                        <div class="info">
+                            <span class="status-indicator status-active"></span>
+                            <strong>RFT for Clinical Practice: 3 Estrategias</strong>
+                            <div class="meta">Törneke et al. | Flexibilidad psicológica | Marco RFT</div>
+                        </div>
+                        <button class="btn" style="padding: 8px 15px; font-size: 0.9em;">Ver Detalles</button>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 40px;">➕ Agregar Nuevo Conocimiento</h3>
+                
+                <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+                    <h3>📁 Arrastra aquí tu PDF o haz clic para seleccionar</h3>
+                    <p>El sistema extraerá automáticamente:</p>
+                    <ul style="text-align: left; margin: 20px auto; max-width: 400px;">
+                        <li>Criterios diagnósticos</li>
+                        <li>Patrones funcionales</li>
+                        <li>Intervenciones y ejercicios</li>
+                        <li>Metáforas y diálogos</li>
+                        <li>Casos de ejemplo</li>
+                    </ul>
+                    <input type="file" id="fileInput" accept=".pdf" style="display: none;" onchange="handleFileUpload(event)">
+                </div>
+
+                <div id="uploadProgress" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="uploadProgressBar" style="width: 0%">0%</div>
+                    </div>
+                    <p id="uploadStatus">Procesando...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="fleximap.js"></script>
+</body>
+</html>
