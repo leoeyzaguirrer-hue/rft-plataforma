@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexiMap - Conceptualización ACT-RFT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #1d1d1f;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .version-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .version-btn {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #1d1d1f;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .version-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateY(-2px);
+        }
+
+        .version-btn .icon {
+            font-size: 2em;
+        }
+
+        .version-btn .info {
+            text-align: left;
+            flex: 1;
+        }
+
+        .version-btn .title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .version-btn .desc {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .recommended {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .auto-redirect {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            font-size: 0.9em;
+            color: #1976d2;
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: white;
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .subtitle {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo">🎯</div>
+            <h1>FlexiMap</h1>
+            <div class="subtitle">Conceptualización de Casos ACT-RFT</div>
+
+            <div class="version-selector">
+                <a href="mobile.html" class="version-btn recommended" id="mobileBtn">
+                    <div class="icon">📱</div>
+                    <div class="info">
+                        <div class="title">
+                            Versión Móvil
+                            <span class="badge">Recomendado</span>
+                        </div>
+                        <div class="desc">Optimizado para consulta, táctil, rápido (3-5 min)</div>
+                    </div>
+                </a>
+
+                <a href="desktop.html" class="version-btn" id="desktopBtn">
+                    <div class="icon">💻</div>
+                    <div class="info">
+                        <div class="title">Versión Escritorio</div>
+                        <div class="desc">Análisis detallado, reportes completos (7-10 min)</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="auto-redirect" id="autoMessage" style="display: none;">
+                <strong>⚡ Redirigiendo automáticamente...</strong><br>
+                <span id="countdown">3</span> segundos
+            </div>
+        </div>
+
+        <div class="footer">
+            v2.0 - Sistema Actualizable<br>
+            <a href="https://github.com/TU-USUARIO/fleximap" target="_blank">GitHub</a> | 
+            <a href="README.md">Documentación</a>
+        </div>
+    </div>
+
+    <script>
+        // Detección automática de dispositivo
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+                || window.innerWidth <= 768;
+        }
+
+        // Auto-redirigir después de 3 segundos
+        function autoRedirect() {
+            const targetPage = isMobile() ? 'mobile.html' : 'desktop.html';
+            const message = document.getElementById('autoMessage');
+            const countdownEl = document.getElementById('countdown');
+            
+            message.style.display = 'block';
+            
+            let seconds = 3;
+            const interval = setInterval(() => {
+                seconds--;
+                countdownEl.textContent = seconds;
+                
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    window.location.href = targetPage;
+                }
+            }, 1000);
+        }
+
+        // Resaltar botón recomendado según dispositivo
+        window.addEventListener('load', () => {
+            const mobileBtn = document.getElementById('mobileBtn');
+            const desktopBtn = document.getElementById('desktopBtn');
+            
+            if (isMobile()) {
+                mobileBtn.classList.add('recommended');
+                desktopBtn.classList.remove('recommended');
+            } else {
+                desktopBtn.classList.add('recommended');
+                mobileBtn.classList.remove('recommended');
+                
+                // Cambiar badge de posición
+                const badge = document.querySelector('.badge');
+                badge.remove();
+                desktopBtn.querySelector('.title').appendChild(badge);
+            }
+
+            // Descomentar la siguiente línea para auto-redirigir
+            // autoRedirect();
+        });
+    </script>
+</body>
+</html>
