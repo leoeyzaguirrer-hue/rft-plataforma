@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>FlexiMap Mobile 📱</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f7;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        /* HEADER STICKY */
+        .mobile-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-header h1 {
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .mobile-header .subtitle {
+            font-size: 0.75em;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        /* PROGRESS BAR */
+        .progress-container {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            z-index: 99;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            font-size: 0.7em;
+            color: #999;
+            font-weight: 500;
+        }
+
+        .step.active {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .step.completed {
+            color: #28a745;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        /* MAIN CONTENT */
+        .content {
+            margin-top: 140px;
+            padding: 0 20px 20px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* CARD CONTAINER */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            font-size: 1.3em;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        /* FORM ELEMENTS */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.95em;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* CHIP BUTTONS (para selección múltiple) */
+        .chip-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 16px;
+            background: #f5f5f7;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .chip.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .chip:active {
+            transform: scale(0.95);
+        }
+
+        /* RADIO CARDS (para selección única) */
+        .radio-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .radio-card.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .radio-card.selected::after {
+            content: "✓";
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .radio-card:active {
+            transform: scale(0.98);
+        }
+
+        .radio-card h4 {
+            font-size: 1em;
+            color: #1d1d1f;
+            margin-bottom: 4px;
+        }
+
+        .radio-card p {
+            font-size: 0.85em;
+            color: #666;
+            margin: 0;
+        }
+
+        /* ALERT BOX */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-left: 4px solid #1976d2;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+
+        .alert-trauma {
+            background: #ffe0e0;
+            color: #c62828;
+            border-left: 4px solid #e53935;
+        }
+
+        /* SITUATION CARD */
+        .situation-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .situation-card h3 {
+            font-size: 1.1em;
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+
+        .add-situation-btn {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            color: #667eea;
+            font-weight: 600;
+            font-size: 0.95em;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .add-situation-btn:active {
+            background: #f0f4ff;
+        }
+
+        /* BOTTOM NAVIGATION */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 12px 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-secondary {
+            background: #f5f5f7;
+            color: #666;
+        }
+
+        .btn-secondary:active {
+            background: #e0e0e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* RESULTS PAGE */
+        .result-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .result-header h2 {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+        }
+
+        .result-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .severity-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .severity-alta { background: #ff6b6b; color: white; }
+        .severity-moderada { background: #ffd93d; color: #333; }
+        .severity-leve { background: #6bcf7f; color: white; }
+
+        .process-bar {
+            margin-bottom: 12px;
+        }
+
+        .process-bar-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.9em;
+        }
+
+        .process-bar-fill {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .process-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+
+        .intervention-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .priority-1 { background: #ff6b6b; color: white; }
+        .priority-2 { background: #ffd93d; color: #333; }
+        .priority-3 { background: #6bcf7f; color: white; }
+
+        .intervention-card h4 {
+            font-size: 1.05em;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+
+        .intervention-card ul {
+            margin-left: 20px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .intervention-card li {
+            margin-bottom: 6px;
+        }
+
+        /* COLLAPSIBLE SECTIONS */
+        .collapsible {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        .collapsible-header {
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        .collapsible-header:active {
+            background: #f5f5f7;
+        }
+
+        .collapsible-icon {
+            transition: transform 0.3s;
+        }
+
+        .collapsible.open .collapsible-icon {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 16px;
+        }
+
+        .collapsible.open .collapsible-content {
+            max-height: 2000px;
+            padding: 0 16px 16px;
+        }
+
+        /* FLOATING ACTION BUTTON */
+        .fab {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            z-index: 90;
+        }
+
+        .fab:active {
+            transform: scale(0.9);
+        }
+
+        /* LOADING SPINNER */
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* QUICK SELECT GRID */
+        .quick-select-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .quick-select-item {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-select-item.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .quick-select-item .icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        .quick-select-item .label {
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .quick-select-item:active {
+            transform: scale(0.95);
+        }
+
+        /* EMOJI SCALE */
+        .emoji-scale {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+
+        .emoji-option {
+            flex: 1;
+            text-align: center;
+            padding: 12px 8px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .emoji-option.selected {
+            background: #f0f4ff;
+            transform: scale(1.1);
+        }
+
+        .emoji-option .emoji {
+            font-size: 2em;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .emoji-option .label {
+            font-size: 0.7em;
+            color: #666;
+        }
+
+        /* VOICE INPUT BUTTON */
+        .voice-btn {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .voice-btn.recording {
+            background: #e53935;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* SWIPE HINT */
+        .swipe-hint {
+            text-align: center;
+            color: #999;
+            font-size: 0.8em;
+            margin-top: 20px;
+            padding: 10px;
+        }
+
+        .swipe-hint::before {
+            content: "👆";
+            display: block;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="mobile-header">
+        <h1>🎯 FlexiMap Mobile</h1>
+        <div class="subtitle">Conceptualización ACT-RFT</div>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-container">
+        <div class="step-indicator">
+            <div class="step active" id="stepLabel1">Inicio</div>
+            <div class="step" id="stepLabel2">Análisis</div>
+            <div class="step" id="stepLabel3">Valores</div>
+            <div class="step" id="stepLabel4">Resultados</div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 25%"></div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+        <!-- SCREEN 1: INTAKE INICIAL -->
+        <div id="screen1" class="screen active">
+            <div class="card">
+                <h2>👋 Bienvenido</h2>
+                <p>Vamos a conceptualizar el caso paso a paso. Toma solo 5-7 minutos.</p>
+            </div>
+
+            <div class="card">
+                <div class="form-group">
+                    <label>Motivo de consulta (en palabras del cliente)</label>
+                    <textarea id="motivoConsulta" placeholder='Ej: "Mi esposo me fue infiel y no sé qué hacer con mi vida"' rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>¿Cuándo ocurrió?</label>
+                    <div class="radio-cards" id="tiempoEvento">
+                        <div class="radio-card" data-value="reciente">
+                            <h4>Menos de 1 mes</h4>
+                            <p>Evento muy reciente</p>
+                        </div>
+                        <div class="radio-card" data-value="1-3meses">
+                            <h4>1-3 meses</h4>
+                            <p>Relativamente reciente</p>
+                        </div>
+                        <div class="radio-card" data-value="3-6meses">
+                            <h4>3-6 meses</h4>
+                            <p>Hace algunos meses</p>
+                        </div>
+                        <div class="radio-card" data-value="cronico">
+                            <h4>Más de 6 meses / Crónico</h4>
+                            <p>Situación prolongada</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <label>¿Qué ha intentado para resolverlo?</label>
+                <div class="chip-container" id="intentosChips">
+                    <div class="chip" data-value="rumiar">Pensar mucho en ello</div>
+                    <div class="chip" data-value="evitar">Evitar pensar</div>
+                    <div class="chip" data-value="confrontar">Confrontar a otros</div>
+                    <div class="chip" data-value="buscarRazones">Buscar explicaciones</div>
+                    <div class="chip" data-value="distraerse">Distraerse</div>
+                    <div class="chip" data-value="controlar">Intentar controlarlo</div>
+                    <div class="chip" data-value="hablar">Hablar con amigos</div>
+                    <div class="chip" data-value="sustancias">Alcohol/sustancias</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <label>Screening rápido - ¿El cliente menciona?</label>
+                <div class="quick-select-grid" id="screeningGrid">
+                    <div class="quick-select-item" data-value="trauma">
+                        <div class="icon">⚠️</div>
+                        <div class="label">Trauma/evento grave</div>
+                    </div>
+                    <div class="quick-select-item" data-value="flashbacks">
+                        <div class="icon">💭</div>
+                        <div class="label">Flashbacks</div>
+                    </div>
+                    <div class="quick-select-item" data-value="fobia">
+                        <div class="icon">😰</div>
+                        <div class="label">Miedo específico</div>
+                    </div>
+                    <div class="quick-select-item" data-value="panico">
+                        <div class="icon">😱</div>
+                        <div class="label">Pánico</div>
+                    </div>
+                    <div class="quick-select-item" data-value="social">
+                        <div class="icon">👥</div>
+                        <div class="label">Miedo social</div>
+                    </div>
+                    <div class="quick-select-item" data-value="toc">
+                        <div class="icon">🔄</div>
+                        <div class="label">Obsesiones/rituales</div>
+                    </div>
+                    <div class="quick-select-item" data-value="depresion">
+                        <div class="icon">😔</div>
+                        <div class="label">Sin ganas/inactivo</div>
+                    </div>
+                    <div class="quick-select-item" data-value="desregulacion">
+                        <div class="icon">🌪️</div>
+                        <div class="label">Descontrol emocional</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="traumaAlert" class="alert alert-trauma" style="display: none;">
+                <strong>⚠️ Posible TEPT detectado</strong><br>
+                Se agregarán preguntas específicas en el análisis funcional.
+            </div>
+        </div>
+
+        <!-- SCREEN 2: ANÁLISIS FUNCIONAL -->
+        <div id="screen2" class="screen">
+            <div class="alert alert-info">
+                <strong>💡 Ahora</strong><br>
+                Vamos a explorar 1-2 situaciones concretas donde apareció el problema.
+            </div>
+
+            <div id="situationsContainer">
+                <!-- Se llena dinámicamente -->
+            </div>
+
+            <button class="add-situation-btn" onclick="addMobileSituation()">
+                ➕ Agregar otra situación
+            </button>
+        </div>
+
+        <!-- SCREEN 3: VALORES -->
+        <div id="screen3" class="screen">
+            <div class="card">
+                <h2>🎯 Lo que Importa</h2>
+                <p>Identifiquemos qué es importante para el cliente.</p>
+            </div>
+
+            <div class="card">
+                <label>¿Qué áreas de vida son importantes?</label>
+                <div class="chip-container" id="valoresChips">
+                    <div class="chip" data-value="pareja">💑 Pareja</div>
+                    <div class="chip" data-value="familia">👨‍👩‍👧 Familia</div>
+                    <div class="chip" data-value="amistad">👫 Amistades</div>
+                    <div class="chip" data-value="trabajo">💼 Trabajo</div>
+                    <div class="chip" data-value="educacion">📚 Educación</div>
+                    <div class="chip" data-value="autocuidado">🧘 Autocuidado</div>
+                    <div class="chip" data-value="recreacion">🎨 Hobbies</div>
+                    <div class="chip" data-value="espiritual">🙏 Espiritualidad</div>
+                </div>
+            </div>
+
+            <div id="valoresDetails"></div>
+
+            <div class="card">
+                <label>¿Qué ha DEJADO de hacer desde que empezó el problema?</label>
+                <textarea id="actividadesPerdidas" placeholder="Lista actividades específicas que ha abandonado..." rows="4"></textarea>
+            </div>
+
+            <div class="card">
+                <label>¿Qué HACE ahora en lugar de eso?</label>
+                <textarea id="conductaActual" placeholder='Ej: "Rumiar, revisar teléfono, llorar..."' rows="3"></textarea>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: RESULTADOS -->
+        <div id="screen4" class="screen">
+            <div class="loading" id="loadingResults">
+                <div class="spinner"></div>
+                <p>Analizando caso con IA...</p>
+            </div>
+
+            <div id="resultsContent" style="display: none;">
+                <!-- Se llena con JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav">
+        <button class="btn btn-secondary" id="btnBack" onclick="prevScreen()" style="display: none;">
+            ← Atrás
+        </button>
+        <button class="btn btn-primary" id="btnNext" onclick="nextScreen()">
+            Siguiente →
+        </button>
+    </div>
+
+    <!-- FLOATING ACTION BUTTON (para guardar/exportar) -->
+    <div class="fab" id="fabMenu" style="display: none;" onclick="showExportMenu()">
+        💾
+    </div>
+
+    <script src="fleximap-mobile.js"></script>
+</body>
+</html>
